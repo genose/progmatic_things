@@ -1,0 +1,699 @@
+unit scetlinkdb;
+
+{ Shows client and server character set/NLS info}
+{ PLEASE EDIT PASSWORDS ETC BELOW. }
+
+{$mode objfpc}{$H+}
+interface
+
+uses
+   {$IFDEF UNIX} {$IFDEF UseCThreads}
+  cthreads, {$ENDIF} {$ENDIF}
+  Classes,
+  SysUtils,
+  sqldb
+  ,oracleconnection
+  ,mysql40conn, mysql41conn, mysql50conn, mysql51conn, mysql55conn, mysql56conn, mysql57conn
+  ,pqconnection
+  ,mssqlconn;
+
+type
+
+    ORALink = class(TOracleConnection)
+    protected
+       FConnectorType : string;
+    private
+    { private declarations }
+
+   {  FConnected : Boolean;
+     FHostName : string;
+     FUserName : string;
+     FPassword : string;
+     FDatabaseName : string;
+    }
+    public
+    { public declarations }
+    //  constructor Create(AOwner: TComponent); override;
+     procedure oracharsettest;
+     function Connect() : boolean;
+  //    constructor Create(AOwner: TComponent); override;
+    published
+    {
+     property Password : string read FPassword write FPassword;
+     property UserName : string read FUserName write FUserName;
+     property HostName : string Read FHostName Write FHostName;
+     property Connected : Boolean read FConnected write FConnected;
+     property DatabaseName;
+     }
+     property ConnectorType : string read FConnectorType write FConnectorType;
+end;
+
+ 
+type
+
+    POSTGRELink = class(TPQConnection)
+    protected
+       FConnectorType : string;
+    private
+    { private declarations }
+
+   {  FConnected : Boolean;
+     FHostName : string;
+     FUserName : string;
+     FPassword : string;
+     FDatabaseName : string;
+    }
+    public
+    { public declarations }
+    //  constructor Create(AOwner: TComponent); override;
+     function Connect() : boolean;
+  //    constructor Create(AOwner: TComponent); override;
+    published
+    {
+     property Password : string read FPassword write FPassword;
+     property UserName : string read FUserName write FUserName;
+     property HostName : string Read FHostName Write FHostName;
+     property Connected : Boolean read FConnected write FConnected;
+     property DatabaseName;
+     }
+     property ConnectorType : string read FConnectorType write FConnectorType;
+end;
+
+type
+
+    SCETLINK = class(TSQLConnector)
+    protected
+       //FConnectorType : string;
+     procedure DoInternalConnect; override;
+    private
+    { private declarations }
+
+   {  FConnected : Boolean;
+     FHostName : string;
+     FUserName : string;
+     FPassword : string;
+     FDatabaseName : string;
+    }
+
+    public
+    { public declarations }
+      // constructor Create(AOwner : TComponent ); override;
+     function Connect() : boolean;
+  //    constructor Create(AOwner: TComponent); override;
+    published
+    {
+     property Password : string read FPassword write FPassword;
+     property UserName : string read FUserName write FUserName;
+     property HostName : string Read FHostName Write FHostName;
+     property Connected : Boolean read FConnected write FConnected;
+     property DatabaseName;
+
+     property ConnectorType : string read FConnectorType write FConnectorType; }
+end;
+
+    function SCETLINK_Create(AOwner : TComponent; connector : string ) : SCETLINK ;
+
+ var
+    Col: integer;
+    SQLORAConn: ORALink;
+    SQLPQConn: POSTGRELink;
+    SQLConn: SCETLINK;
+    Tran: TSQLTransaction;
+    SQLQuery: TSQLQuery;
+
+
+implementation
+
+
+{constructor TSQLConnector.Create(AOwner: TComponent); override;
+begin
+     inherited;
+
+end; }
+
+function ORALink.Connect() : boolean ;
+var aTlistDB  : TStrings;
+begin
+
+  SQLORAConn :=  Self;//  TSQLConnector.Create(self);
+  Tran := TSQLTransaction.Create(SQLORAConn);
+  SQLQuery := TSQLQuery.Create(SQLORAConn);
+
+  Connected := false;
+
+  Result := false;
+   aTlistDB := TStrings.Create;
+  try
+      // * EDIT IDENTIFYING INFO AS NEEDED*
+         writeln(' [Connect] Time .... '+FormatDateTime('hh:nn:ss',Time ));
+
+
+
+      SQLORAConn.ConnectorType :='oracle';
+     { SQLORAConn.HostName := 'FRKILPRO7002';
+      SQLORAConn.UserName := 'dev';
+      SQLORAConn.Password := 'dev';
+      SQLORAConn.DatabaseName := 'LOCD';
+      SQLORAConn.Transaction := Tran; }
+     // SQLORAConn.Params.Values['Port'] := '545';
+     // SQLORAConn.Proxy.SetPort( 544);
+     //SQLORAConn.Proxy;
+     // SQLORAConn.Port := 544;
+
+      // SetPort(2115);
+
+       writeLn(' Try to connect : (Type : '+SQLORAConn.ConnectorType+') '+SQLORAConn.Username+':'+SQLORAConn.Databasename+'@'+SQLORAConn.HostName+':'+SQLORAConn.Params.Values['Port']);
+      // *END IDENTIFIYING INFO*
+      if (trim(SQLORAConn.Username) ='') or  (trim(SQLORAConn.Hostname)='') or (trim(SQLORAConn.HostName) = '') or (trim(SQLORAConn.Databasename)='') then
+      begin
+           writeln('[connect] Error retrieving parameters connection ');
+           exit;
+      end;
+
+
+     if SQLORAConn.Connected then SQLORAConn.Close();
+
+
+      Tran.Database :=  SQLORAConn;
+
+      // SQLORAConn.Transaction := Tran;
+
+      // SQLORAConn.Connected := true;
+       SQLORAConn.Open;
+
+      if SQLORAConn.Connected then
+      begin
+          Connected := true;
+
+
+            SQLORAConn.StartTransaction;
+
+          if assigned(SQLORAConn.Transaction) and SQLORAConn.Transaction.Active then
+          BEGIN
+               Tran.Active := true;
+               writeln('[connect]  Active transac found');
+          end
+              ELSE
+          begin
+
+              writeln('[connect]  Error in transac');
+
+          end;
+
+
+
+         { GetSchemaNames(aTlistDB);
+
+           while not (SQLQuery.EOF) do
+              begin
+                writeln('[connect] *****************');
+                for Col := 0 to aTlistDB.Count - 1 do
+                begin
+                     writeln('[Dbname]  '+ aTlistDB[Col]);
+                end;
+
+              end;
+         }
+
+
+          SQLQuery.Database := SQLORAConn;
+          SQLQuery.Transaction := SQLORAConn.Transaction;
+
+           try
+             SQLQuery.SQL.Text := 'select sys_context(''userenv'',''current_schema'') SCHEMA_NAMESS, sys_context(''userenv'',''NLS_DATE_FORMAT'') DATEFORMAT from dual ';
+
+              // writeln('Params '+SQLQuery.Params); // Port := 455;
+              SQLQuery.Open;
+               { Test Connection }
+              while not (SQLQuery.EOF) do
+              begin
+                writeln('[connect] *****************');
+                for Col := 0 to SQLQuery.Fields.Count - 1 do
+                begin
+                  try
+                    writeln(SQLQuery.Fields[Col].DisplayLabel + ':');
+                    writeln(SQLQuery.Fields[Col].AsString);
+                  except
+                    writeln('[connect] Error retrieving field ', Col);
+                  end;
+                end;
+                SQLQuery.Next;
+              end;
+              SQLQuery.Close;
+
+
+              Result := true;
+           except
+                writeln('[connect] Error testing SQLQuery in connection ');
+           end;
+
+      end
+      else
+      begin
+           writeln('[connect]  Error in connection ');
+
+      end;
+
+    except
+          On E : Exception do
+     begin
+
+          writeln('[connect] Error retrieving connection  : '+ e.message);
+           SQLORAConn.Close;
+
+     end;
+    end;
+
+    SQLQuery.Close;
+
+end;
+
+procedure ORALink.oracharsettest;
+
+begin
+  SQLORAConn := Self ; // TSQLConnector.Create(self);
+  Tran := TSQLTransaction.Create(SQLORAConn);
+  SQLQuery := TSQLQuery.Create(SQLORAConn);
+  try
+    // * EDIT IDENTIFYING INFO AS NEEDED*
+
+    SQLORAConn.ConnectorType :='oracle';
+    SQLORAConn.HostName := 'FRKILPRO7002';
+    SQLORAConn.UserName := 'dev';
+    SQLORAConn.Password := 'dev';
+    SQLORAConn.DatabaseName := 'LOCD';
+    SQLORAConn.Transaction := Tran;
+
+    // *END IDENTIFIYING INFO*
+
+
+    if SQLORAConn.Connected then SQLORAConn.Close();
+
+
+    SQLQuery.Database := SQLORAConn;
+    //SQLQuery.Transaction := SQLORAConn.Transaction;
+    SQLORAConn.Open;
+
+    if SQLORAConn.Connected then
+    begin
+      writeln(' [oracletest]  Connected to : '+SQLORAConn.DatabaseName);
+
+   //  Tran.StartTransaction();
+
+    if assigned(SQLORAConn.Transaction) and SQLORAConn.Transaction.Active then
+    BEGIN
+         Tran.Active := true;
+         writeln(' [oracletest] Active transac found');
+    end
+        ELSE
+    begin
+        writeln(' [oracletest] Error in transac');
+
+    end;
+
+
+    writeln('Server character set info:');
+    // 'select 1 from dual'; //
+    // 'SELECT value FROM sys.props WHERE name like ''NLS_%'' ';
+    // SQLQuery.SQL.Text := 'select sys_context(''userenv'',''current_schema'') x from dual ';
+    SQLQuery.SQL.Text := 'select * from F090parc where rownum <30';
+    //writeln('execute : '+ SQLORAConn);
+     writeln('[oracletest] execute : '+ SQLQuery.SQL.Text);
+    SQLQuery.Open();
+   //  SQLQuery.First;
+    while not (SQLQuery.EOF) do
+    begin
+      writeln('[oracletest] *****************');
+      for Col := 0 to SQLQuery.Fields.Count - 1 do
+      begin
+        try
+          writeln(SQLQuery.Fields[Col].DisplayLabel + ':');
+          writeln(SQLQuery.Fields[Col].AsString);
+        except
+          writeln('[oracletest] Error retrieving field ', Col);
+        end;
+      end;
+      SQLQuery.Next;
+    end;
+    SQLQuery.Close;
+
+    writeln('');
+    writeln('[oracletest] Client character set info:');
+    SQLQuery.SQL.Text := 'SELECT * FROM NLS_SESSION_PARAMETERS ';
+    SQLQuery.Open;
+ //   SQLQuery.First;
+    while not (SQLQuery.EOF) do
+    begin
+      writeln('*****************');
+      for Col := 0 to SQLQuery.Fields.Count - 1 do
+      begin
+        try
+          writeln(SQLQuery.Fields[Col].DisplayLabel + ':');
+          writeln(SQLQuery.Fields[Col].AsString);
+        except
+          writeln('[oracletest] Error retrieving field ', Col);
+        end;
+      end;
+      SQLQuery.Next;
+    end;
+    SQLQuery.Close;
+    // *END EXAMPLE BUG TESTING CODE*
+    SQLORAConn.Close;
+
+      end
+    else
+     begin
+        writeln('[oracletest]  Error in connection');
+       end;
+
+  except
+
+        writeln('[oracletest] Error retrieving connection ');
+
+   end;
+    SQLQuery.Free;
+    Tran.Free;
+    SQLORAConn.Free;
+
+
+  writeln('Program complete. Press a key to continue.');
+  //readln;
+  end;
+
+
+
+
+{constructor TSQLConnector.Create(AOwner: TComponent); override;
+begin
+     inherited;
+
+end; }
+
+function POSTGRELink.Connect() : boolean ;
+var aTlistDB  : TStrings;
+begin
+
+  SQLPQConn :=  Self;//  TSQLConnector.Create(self);
+  Tran := TSQLTransaction.Create(SQLPQConn);
+  SQLQuery := TSQLQuery.Create(SQLPQConn);
+
+  Connected := false;
+
+  Result := false;
+   aTlistDB := TStrings.Create;
+  try
+      // * EDIT IDENTIFYING INFO AS NEEDED*
+         writeln(' [Connect] Time .... '+FormatDateTime('hh:nn:ss',Time ));
+
+
+
+      SQLPQConn.ConnectorType :='postgre';
+     { SQLPQConn.HostName := 'FRKILPRO7002';
+      SQLPQConn.UserName := 'dev';
+      SQLPQConn.Password := 'dev';
+      SQLPQConn.DatabaseName := 'LOCD';
+      SQLPQConn.Transaction := Tran; }
+     // SQLPQConn.Params.Values['Port'] := '545';
+     // SQLPQConn.Proxy.SetPort( 544);
+     //SQLPQConn.Proxy;
+     // SQLPQConn.Port := 544;
+
+      // SetPort(2115);
+
+       writeLn(' Try to connect : (Type : '+SQLPQConn.ConnectorType+') '+SQLPQConn.Username+':'+SQLPQConn.Databasename+'@'+SQLPQConn.HostName+':'+SQLPQConn.Params.Values['Port']);
+      // *END IDENTIFIYING INFO*
+      if (trim(SQLPQConn.Username) ='') or  (trim(SQLPQConn.Hostname)='') or (trim(SQLPQConn.HostName) = '') or (trim(SQLPQConn.Databasename)='') then
+      begin
+           writeln('[connect] Error retrieving parameters connection ');
+           exit;
+      end;
+
+
+     if SQLPQConn.Connected then SQLPQConn.Close();
+
+
+      Tran.Database :=  SQLPQConn;
+
+      // SQLPQConn.Transaction := Tran;
+
+      // SQLPQConn.Connected := true;
+       SQLPQConn.Open;
+
+      if SQLPQConn.Connected then
+      begin
+          Connected := true;
+
+
+            SQLPQConn.StartTransaction;
+
+          if assigned(SQLPQConn.Transaction) and SQLPQConn.Transaction.Active then
+          BEGIN
+               Tran.Active := true;
+               writeln('[connect]  Active transac found');
+          end
+              ELSE
+          begin
+
+              writeln('[connect]  Error in transac');
+
+          end;
+
+
+
+         { GetSchemaNames(aTlistDB);
+
+           while not (SQLQuery.EOF) do
+              begin
+                writeln('[connect] *****************');
+                for Col := 0 to aTlistDB.Count - 1 do
+                begin
+                     writeln('[Dbname]  '+ aTlistDB[Col]);
+                end;
+
+              end;
+         }
+
+
+          SQLQuery.Database := SQLPQConn;
+          SQLQuery.Transaction := SQLPQConn.Transaction;
+
+           try
+             SQLQuery.SQL.Text := 'select sys_context(''userenv'',''current_schema'') SCHEMA_NAMESS, sys_context(''userenv'',''NLS_DATE_FORMAT'') DATEFORMAT from dual ';
+
+              // writeln('Params '+SQLQuery.Params); // Port := 455;
+              SQLQuery.Open;
+               { Test Connection }
+              while not (SQLQuery.EOF) do
+              begin
+                writeln('[connect] *****************');
+                for Col := 0 to SQLQuery.Fields.Count - 1 do
+                begin
+                  try
+                    writeln(SQLQuery.Fields[Col].DisplayLabel + ':');
+                    writeln(SQLQuery.Fields[Col].AsString);
+                  except
+                    writeln('[connect] Error retrieving field ', Col);
+                  end;
+                end;
+                SQLQuery.Next;
+              end;
+              SQLQuery.Close;
+
+
+              Result := true;
+           except
+                writeln('[connect] Error testing SQLQuery in connection ');
+           end;
+
+      end
+      else
+      begin
+           writeln('[connect]  Error in connection ');
+
+      end;
+
+    except
+          On E : Exception do
+     begin
+
+          writeln('[connect] Error retrieving connection  : '+ e.message);
+           SQLPQConn.Close;
+
+     end;
+    end;
+
+    SQLQuery.Close;
+
+end;
+
+
+ //constructor SCETLINK.Create(AOwner : TComponent );
+ //begin
+ //   inherited Create(AOwner);
+ //     SQLORAConn := ORALink.Create(self);
+ //
+ //     SQLPQConn := POSTGRELink.Create(self);
+ //
+ //end;
+ procedure SCETLINK.DoInternalConnect;
+ begin
+    SQLConn :=  Self;//
+        writeLn(' SCETLINK :: DoInternalConnect :: Try to connect : (Type : '+SQLConn.ConnectorType+' :: '+Self.ConnectorType+') '+SQLConn.Username+':'+SQLConn.Databasename+'@'+SQLConn.HostName+':'+SQLConn.Params.Values['Port']);
+       inherited DoInternalConnect;
+ end;
+
+function SCETLINK.Connect() : boolean ;
+var aTlistDB  : TStrings;
+begin
+
+  SQLConn :=  Self;//  TSQLConnector.Create(self);
+  Tran := TSQLTransaction.Create(SQLConn);
+  SQLQuery := TSQLQuery.Create(SQLConn);
+
+  Connected := false;
+
+  Result := false;
+   aTlistDB := TStrings.Create;
+  try
+      // * EDIT IDENTIFYING INFO AS NEEDED*
+         writeln(' [Connect] Time .... '+FormatDateTime('hh:nn:ss',Time ));
+
+
+
+      // SQLConn.ConnectorType :='postgre';
+     { SQLConn.HostName := 'FRKILPRO7002';
+      SQLConn.UserName := 'dev';
+      SQLConn.Password := 'dev';
+      SQLConn.DatabaseName := 'LOCD';
+      SQLConn.Transaction := Tran; }
+     // SQLConn.Params.Values['Port'] := '545';
+     // SQLConn.Proxy.SetPort( 544);
+     //SQLConn.Proxy;
+     // SQLConn.Port := 544;
+
+      // SetPort(2115);
+
+       writeLn(' Try to connect : (Type : '+SQLConn.ConnectorType+' :: '+ConnectorType+') '+SQLConn.Username+':'+SQLConn.Databasename+'@'+SQLConn.HostName+':'+SQLConn.Params.Values['Port']);
+      // *END IDENTIFIYING INFO*
+      if (trim(SQLConn.Username) ='') or  (trim(SQLConn.Hostname)='') or (trim(SQLConn.HostName) = '') or (trim(SQLConn.Databasename)='') then
+      begin
+           writeln('[connect] Error retrieving parameters connection ');
+           exit;
+      end;
+
+
+     if SQLConn.Connected then
+     begin
+      writeln('[connect] Close Previous connection ');
+        SQLConn.Close();
+        end;
+
+
+      Tran.Database :=  SQLConn;
+
+      // SQLConn.Transaction := Tran;
+
+      // SQLConn.Connected := true;
+         writeLn(' Try to Open connection : (Type : '+SQLConn.ConnectorType+') '+SQLConn.Username+':'+SQLConn.Databasename+'@'+SQLConn.HostName+':'+SQLConn.Params.Values['Port']);
+
+       //SQLConn.Connected := true;
+      SQLConn.open;
+        writeLn(' passed Open connection ');
+      if SQLConn.Connected then
+      begin
+          Connected := true;
+
+
+            SQLConn.StartTransaction;
+
+          if assigned(SQLConn.Transaction) and SQLConn.Transaction.Active then
+          BEGIN
+               Tran.Active := true;
+               writeln('[connect]  Active transac found');
+          end
+              ELSE
+          begin
+
+              writeln('[connect]  Error in transac');
+
+          end;
+
+
+
+         { GetSchemaNames(aTlistDB);
+
+           while not (SQLQuery.EOF) do
+              begin
+                writeln('[connect] *****************');
+                for Col := 0 to aTlistDB.Count - 1 do
+                begin
+                     writeln('[Dbname]  '+ aTlistDB[Col]);
+                end;
+
+              end;
+         }
+
+
+          SQLQuery.Database := SQLConn;
+          SQLQuery.Transaction := SQLConn.Transaction;
+
+           try
+             SQLQuery.SQL.Text := 'select sys_context(''userenv'',''current_schema'') SCHEMA_NAMESS, sys_context(''userenv'',''NLS_DATE_FORMAT'') DATEFORMAT from dual ';
+
+              // writeln('Params '+SQLQuery.Params); // Port := 455;
+              SQLQuery.Open;
+               { Test Connection }
+              while not (SQLQuery.EOF) do
+              begin
+                writeln('[connect] *****************');
+                for Col := 0 to SQLQuery.Fields.Count - 1 do
+                begin
+                  try
+                    writeln(SQLQuery.Fields[Col].DisplayLabel + ':');
+                    writeln(SQLQuery.Fields[Col].AsString);
+                  except
+                    writeln('[connect] Error retrieving field ', Col);
+                  end;
+                end;
+                SQLQuery.Next;
+              end;
+              SQLQuery.Close;
+
+
+              Result := true;
+           except
+                writeln('[connect] Error testing SQLQuery in connection ');
+           end;
+
+      end
+      else
+      begin
+           writeln('[connect]  Error in connection ');
+
+      end;
+
+    except
+          On E : Exception do
+     begin
+
+          writeln('[connect] Error retrieving connection  : '+ e.message);
+           SQLConn.Close;
+
+     end;
+    end;
+
+    SQLQuery.Close;
+
+ end;
+ function SCETLINK_Create(AOwner : TComponent; connector : string ) : SCETLINK;
+Begin
+      // SQLConn := ORALink.Create(Aowner);
+      SQLConn :=   SCETLINK.Create(Aowner) ;
+      SQLConn.ConnectorType :=  connector;
+      // SQLConn := SCETLINK(ORALink); // TSQLConnection.create(self);
+
+     // result :=  ORALink.Connect;
+    result := SQLConn;
+ end;
+
+end.

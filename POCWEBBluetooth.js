@@ -35,7 +35,18 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
        
        /* *********************************************** */
        /* *********************************************** */
-		var BLEGattConnectDevice = function(){ alert('ERROR::BLEGattConnectDevice(Not initilised Web Bluetooth support or Unsupported configuration ...)');};
+       function BLEGATTAPIVersionImplementationWarning(aExplainTextImplementation, aObjectPathImplementation, aImplementationValue, outputConsoleImplementation ){
+              var aLigneSeparator = '*******************************************************************';
+              var aExplainedImplementationError = '\r\n'+aLigneSeparator+'\r\n'+aLigneSeparator+'\r\n'+' !!!! .... Cant do that on this object with this API Version (October 2018) ... !!!! \r\n'+aLigneSeparator+'\r\n >>>> TODO :: Implementation Version when stable for '+aExplainTextImplementation+' thru ['+aObjectPathImplementation+'=['+aImplementationValue+']])\r\n'+aLigneSeparator+'\r\n'+aLigneSeparator+'\r\n'+'\r\n';
+              if(outputConsoleImplementation)
+              {
+                     console.log(Error(''+aExplainedImplementationError+''));
+              }
+              
+              return aExplainedImplementationError;
+       }
+       
+	var BLEGattConnectDevice = function(){ alert('ERROR::BLEGattConnectDevice(Not initilised Web Bluetooth support or Unsupported configuration ...)');};
         try{
             
             
@@ -124,6 +135,7 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
        var BLEGATTServerHandle = null;
        const BLEGATTServerHandleRetryReconnectMax = 3;
        var BLEGATTServerHandleRetryReconnect = 0;
+       var BLEGATTDiscoverTimeOutHandle = null;
        var BLEGATTDeviceSelected = null;
        var BLEGATTDevice_userHadSelectedDevice = false;
         
@@ -179,14 +191,20 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
                                             'running_speed_and_cadence',
                                             
                                             
-                                            0x8A81,
-                                            '14839ac4-7d7e-415c-9a42-167340cf2339', // Thomson CheckMe
+                                           
+                                            // LabPad INR
+                                           '2c1b2460-4a5f-11e5-9595-0002a5d5c51b',
+                                           
+                                            // Thomson CheckMe
+                                           '14839ac4-7d7e-415c-9a42-167340cf2339',
+                                           '00008a81-7d7e-415c-9a42-167340cf2339',
                                             
+                                           // Generic GATT Services .... 
                                             '00001810-0000-1000-8000-00805f9b34fb', //  ... :: GenericAccess ;; DeviceInformation ;; [...], DeviceName 
                                             '0000181a-0000-1000-8000-00805f9b34fb', // ...  :: DeviceInformation ;; Misc
                                             '0000181c-0000-1000-8000-00805f9b34fb', // ... :: USERData
                                             '0000181f-0000-1000-8000-00805f9b34fb', // ... :: Battery
-                                            '2c1b2460-4a5f-11e5-9595-0002a5d5c51b', // LabPad INR
+                                            
                                             
                                             
                                             
@@ -306,6 +324,8 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
        /* *********************************************** */
        /* *********************************************** */
               let BLEGATTServicesValidAssociated_DevicesCharacteristics = {
+                                          'generic_attribute':[],
+                                          'generic_access':[],
                                           'device_information' : BLEGATTCharacteristicsValid.misc,
                                           'battery_service':BLEGATTCharacteristicsValid.misc.battery,
                                           'object_transfer':BLEGATTCharacteristicsValid.misc.misc_object,
@@ -318,14 +338,23 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
                                           'glucose':BLEGATTCharacteristicsValid.blood.blood_misc_glucose,
                                           'weight_scale':[],
                                           '14839ac4-7d7e-415c-9a42-167340cf2339':    [ // Thomson CheckMe
-                                                                                           'ba04c4b2-892b-43be-b69c-5d13f2195392',
+                                                                                           
+                                                                                           '0734594a-a8e7-4b1a-a6b1-cd5243059a57',
                                                                                            'ba04c4b2-892b-43be-b69c-5d13f2195392',
                                                                                            '8b00ace7-eb0b-49b0-bbe9-9aee0a26e1a3',
-                                                                                           '0734594a-a8e7-4b1a-a6b1-cd5243059a57',
-                                                                                           'PeripheralPreferredConnectionParameters',
-                                                                                           'e06d5efb-4f4a-45c0-9eb1-371ae5a14ad4'
+                                                                                           'e06d5efb-4f4a-45c0-9eb1-371ae5a14ad4',
+                                                                                           'PeripheralPreferredConnectionParameters'
+                                                                                    ],
+                                          '2c1b2460-4a5f-11e5-9595-0002a5d5c51b' : [ // LabPad
+                                                                                       '2c1b2462-4a5f-11e5-9595-0002a5d5c51b',
+                                                                                       '2c1b2463-4a5f-11e5-9595-0002a5d5c51b',
+                                                                                       '2c1b2464-4a5f-11e5-9595-0002a5d5c51b',
+                                                                                       '2c1b2466-4a5f-11e5-9595-0002a5d5c51b'
                                                                                     ]
                                           };
+       /* *********************************************** */
+       /* *********************************************** */
+       let BLEGATTServicesValidAssociated_DevicesCharacteristics_ReadedValue = {};
        /* *********************************************** */
        /* *********************************************** */
        /* *********************************************** */
@@ -339,7 +368,7 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
 					aDocNodeElement_bluetooth_progressbar .setAttribute('aria-valuenow',( parseInt(progress_value) || 0) );
 				}else if(aDocNodeElement_bluetooth_progressbar .style){
 					// console.log('BLEGATTSetUIProgress (style) :: '+aDocNodeElement_bluetooth_progressbar.style+' :: '+aDocNodeElement_bluetooth_progressbar.style.width+' ::elm '+aDocNodeElement_bluetooth_progressbar.style.maxwidth+' ::parent '+aDocNodeElement_bluetooth_progressbar.parentNode.style.width);
-					var aElement_maxwidth  = (aDocNodeElement_bluetooth_progressbar.style.maxwidth || aDocNodeElement_bluetooth_progressbar.parentNode.style.maxwidth || aDocNodeElement_bluetooth_progressbar.parentNode.style.width || aDocNodeElement_bluetooth_progressbar.parentNode.parentNode.style.width || aDocNodeElement_bluetooth_progressbar.parentNode.parentNode.style.maxwidth || 450);
+					var aElement_maxwidth  = (aDocNodeElement_bluetooth_progressbar.style.maxwidth || aDocNodeElement_bluetooth_progressbar.parentNode.style.maxwidth || aDocNodeElement_bluetooth_progressbar.parentNode.style.width || aDocNodeElement_bluetooth_progressbar.parentNode.parentNode.style.width || aDocNodeElement_bluetooth_progressbar.parentNode.parentNode.style.maxwidth || 490);
 					
 					var aElement_maxwidth_portion  =(parseInt(aElement_maxwidth) / 100);
 					
@@ -371,15 +400,101 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-       function asyncResolvingService(BLEServerPTR, serviceIterator){
+       /* *********************************************** */
+       /* *********************************************** */
+       /* *********************************************** */
+       /* *********************************************** */
+       
+       async function asyncResolvingService(BLEServerPTR, serviceIterator){
                         
             // var aServiceGatt = null;
-            try{
-                 console.log('Try discover ... ('+BLEServerPTR+'::'+serviceIterator+')');
-                   
-                return Promise.all([ BLEGATTServerHandle.getPrimaryServices(serviceIterator)]).catch(ev_err_discovering=>{
-                    // ::
-                    console.log('Disvecorying Error ... '+serviceIterator+'>>'+ev_err_discovering);
+              try{
+                     console.log('Try discover ... ('+BLEServerPTR+'::'+serviceIterator+')');
+                 
+                     BLEGATTDiscoverTimeOutHandle = setTimeout(10000, function(){
+                            console.log('Exception : TimeOut BLEGattServer is unavaible ...');
+                            throw Error('Exception : TimeOut BLEGattServer is unavaible ...');
+                     });
+                               
+              return   Promise.all([ BLEGATTServerHandle.getPrimaryServices(serviceIterator)]).then(service=>{
+                     try {
+                            
+                            console.log('>>>> Try getting Service ['+service+']'); 
+                            if(!service) {
+                                console.log('>>> Service is Null ');    
+                                return null;
+                            }
+                           
+                            // **************************************************
+                            // **************************************************
+                            
+                            // ***********************************************
+                            // :: Different implementation
+                            // ******* To List some services Characteristics
+                            // ***********************************************
+                            if(!service.getCharacteristic)
+                            {
+                                   // TODO :: Implementation Stable Version ...    
+                               BLEGATTAPIVersionImplementationWarning('Gathering some Service Values','(BluetoothRemoteGATTService).getCharacteristic', (service).getCharacteristic, true );
+                               
+                               return Promise.all([ service ]);
+                            }
+                            // ***********************************************
+                            // :: Different implementation
+                            // ******* To List all services Characteristics
+                            // ***********************************************
+                            if(!aGAttserviceDescriptor.getCharacteristics)
+                            {
+                                   BLEGATTAPIVersionImplementationWarning('Gathering Multiple Services Values','(BluetoothRemoteGATTService).getCharacteristicS', (service).getCharacteristics, true );
+                            }
+                            
+                            // **************************************************
+                            // **************************************************
+                            // Getting [Some] Characteristics ...
+                            
+                            // **************************************************
+                            // **************************************************
+                            console.log('>>>> Gattering Service Characteristic... ['+(service||[]).uuid+'::'+(service||[]).getCharacteristic+'::'+(service||[]).getCharacteristics+'::'+(service||[]).getIncludedServices+']');
+                          
+                            // **************************************************
+                            // **************************************************
+                            if(!BLEGATTServicesValidAssociated_DevicesCharacteristics[serviceIterator] || (BLEGATTServicesValidAssociated_DevicesCharacteristics[serviceIterator].length = 0))
+                            {
+                                 console.log(' >>>>>> info :: fetcheable definition is Empty for  ['+serviceIterator+']');
+                                 return null;
+                            }
+                            console.log(' >>>>>> Service Read for  ['+serviceIterator+'] shall get characteristics : ['+service.getCharacteristic(BLEGATTServicesValidAssociated_DevicesCharacteristics[serviceIterator][0])+']');
+                            //:: BLEGATTCharacteristicsValid
+                            
+                            BLEGATTServicesValidAssociated_DevicesCharacteristics_ReadedValue[serviceIterator] = {};
+                            
+                             for( var charateristicIterator in BLEGATTServicesValidAssociated_DevicesCharacteristics[serviceIterator])
+                             {
+                                   try{
+                                          BLEGATTServicesValidAssociated_DevicesCharacteristics_ReadedValue[serviceIterator][charateristicIterator] =  service.getCharacteristic(BLEGATTServicesValidAssociated_DevicesCharacteristics[serviceIterator][ charateristicIterator ]).then(characteristic => {
+                                   
+                                                 if(!characteristic){
+                                                     console.log('>>>> characteristic is Null ');    
+                                                     return null;
+                                                 }
+                                                 
+                                                 // Reading Battery Level...
+                                                 console.log('>>>> Getting Characteristic Value ... ['+serviceIterator+'@'+charateristicIterator+']');
+                                                 return Promise.all([characteristic.readValue()]);
+                                          });
+                                    }catch(ev_err_getservice_char_iterator){
+                                          console.log(Error(' ev_err_getservice_char_iterator :: '+ev_err_getservice_char_iterator));
+                                   }
+                            };
+                            return Promise.all([ BLEGATTServicesValidAssociated_DevicesCharacteristics_ReadedValue ]);
+                          /* 
+                        */
+                     }catch(ev_err_getservice_char){
+                            console.log(Error(' ev_err_getservice_char :: '+ev_err_getservice_char));
+                     }
+                     return null;
+                }).catch(ev_err_discovering=>{
+                    // ::  console.log('Disvecorying Error ... '+serviceIterator+'>>'+ev_err_discovering);
                 });
                 // return BLEServerPTRT;
                 
@@ -395,21 +510,37 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
        /* *********************************************** */
        /* *********************************************** */
        /* *********************************************** */
+       var serviceResult = null;
+       
         async function DiscoverCompatServices(BLEServerPTR)
         {
             
 			
               var aDiscoverCursorValue = (100/(BLEGATTServicesValid.length));
 		BLEGATT_resolvedServicesCount = 0;	
-		BLEGATT_resolvedServicesArray = [];	
+		BLEGATT_resolvedServicesArray = [];
+              serviceResult = null;
+              
+              // ****************************************************************
+              // :: Standard API Equiv ::
+              // :: https://developer.mozilla.org/en-US/docs/Web/API/BluetoothRemoteGATTService/getIncludedService
+              // ****************************************************************
+              
+              BLEGATTAPIVersionImplementationWarning( 'GATT Discover Included Device Services', '(BluetoothGATTService).getIncludedService', ([]).getIncludedService+'::'+ ([]).getIncludedServices, true);
+              
+              
               for( var BLEServicecheck in BLEGATTServicesValid)
               {
                      try{
+                            
+                            console.log('***************************************************************************');
+                            
                             // :: console.log(' BLEGATTDeviceSelected : '+BLEGATTDeviceSelected);
                             BLEGATTSetUIProgress('Recherche sur ('+BLEGATTDeviceName()+') ...<br />Check Compatible Bluetooth Services : ('+BLEServicecheck+'/'+BLEGATTServicesValid.length+') ['+BLEGATTServicesValid[ BLEServicecheck ]+'] <br />Valid ('+BLEGATT_resolvedServicesCount+')',(aDiscoverCursorValue*BLEServicecheck));
                             var serviceFound = false;
+                           
                             BLEServerPTR = ( BLEServerPTR ||  BLEGATTServerHandle);
-                            var serviceResult = await asyncResolvingService(BLEServerPTR, BLEGATTServicesValid[ BLEServicecheck ])
+                            serviceResult = await asyncResolvingService(BLEServerPTR, BLEGATTServicesValid[ BLEServicecheck ])
                             .then(aServiceGatt=>{
                                 // console.log('Discover Received Services '+aServiceGatt);
                                 
@@ -428,17 +559,25 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
                                 }
                                 console.log(' .... Got aServiceGatt('+BLEServicecheck+') :: ['+aServiceGatt+']');
                                 return Promise.resolve([aServiceGatt]);
-                            }).then(aCharcatericsReceived=>{
+                            })/*.then(aCharcatericsReceived=>{
                                    
-                                   console.log('Received Characteritics .... ['+aCharcatericsReceived+']');
+                                   //console.log('Received Characteritics .... ['+aCharcatericsReceived+'::'+aCharcatericsReceived.getCharacteristics+']');
                                     
                                  // BLEDevicesCharacteristics  
-                                   // return BLEGATTGetSpec(aCharcatericsReceived);
-                            });
-                                          
+                                   return BLEGATTGetSpec(Promise.resolve([aCharcatericsReceived]));
+                            })*/;
+                            
+                            
+                            clearTimeout(BLEGATTDiscoverTimeOutHandle);
+                            
                             if(serviceFound){
                             //console.log('Take a Nap ...');
                                    await takeanap_sleep(500);
+                                   
+                                   
+                                                
+                               console.log('###### serviceResult ... '+serviceResult+'::'+Promise.all([serviceResult.getCharacteristic])+'::'+Promise.all([serviceResult.getCharacteristics]));              
+                          
                             //console.log('Clear to Nap ...');
                             }
                             //console.log('Take a Nap ...');
@@ -450,7 +589,16 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
                          console.log('Error ev_err_each_service_disvcovery : '+ev_err_each_service_disvcovery);
                      }
               }
-             console.log('Discover Services complete : '+BLEGATT_resolvedServicesArray.slice(0, ((BLEGATT_resolvedServicesArray.length  > 0)?BLEGATT_resolvedServicesArray.length:0)) );
+              console.log('Discover Services complete : '+BLEGATT_resolvedServicesArray.slice(0, ((BLEGATT_resolvedServicesArray.length  > 0)?BLEGATT_resolvedServicesArray.length:0)) );
+              if(BLEGATT_resolvedServicesCount <= 2) 
+              {
+                     alert('Warning : Not Enough Valid Service \r\n Maybe BLEGATTServer is Crashed \r\n OR \r\n Device is OFF or is Not in Bluetooth Communication Mode \r\n OR \r\n This Device does not Validate Medical GATT Service .... \r\n  \r\n Please Check your Device, Retry or Reboot Your Computer !!');
+              }else if(BLEGATT_resolvedServicesCount == 0)
+              {
+                     alert('Warning : No Valid Service \r\n Maybe BLEGATTServer is Crashed .... \r\n Retry or Please Reboot Your Computer !!');
+              }
+             
+             
         }
         async function DiscoverCompatServicesWrapper(){
             var result = await DiscoverCompatServices();
@@ -482,6 +630,7 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
                 if(BLEGATTServerHandle){
                     BLEGATTServerHandle = BLEGATTDeviceSelected.gatt;
                     console.log('Return server Handle ');
+                    BLEGATTServerHandleRetryReconnect = 0;
                    return BLEGATTServerHandle; 
                 }else{
                     BLEGATTServerHandle = BLEGATTDeviceSelected.gatt;
@@ -507,13 +656,13 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
        // **********************************
        // **********************************
        function BLEGATTDeviceName(){
-			return ( ((BLEGATTDeviceSelected && BLEGATTDeviceSelected.name)?BLEGATTDeviceSelected:null) || {name:'Unkown'} ).name;
+			return ( ((BLEGATTDeviceSelected && BLEGATTDeviceSelected.name)?BLEGATTDeviceSelected:null) || {name:'Unknow Device Name'} ).name;
 	   }
        // **********************************
        // **********************************
        // **********************************
        // **********************************
-       function BLEGATTCheckSupportAndConnectDevice(){
+       function BLEGATTCheckSupportAndConnectDevice(aDeviceName){
             BLEGATTServerHandle =  null;
             BLEGATTDevice_userHadSelectedDevice = false;
             BLEGATTDeviceSelected = null;
@@ -555,7 +704,7 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
                                 // filters:[ {services: BLEGATTServicesValid} ],
                                 optionalServices: BLEGATTServicesValid
                               };
-                BLEGATTSetUIProgress('Recherche bluetooth ...',10);              
+                BLEGATTSetUIProgress('Recherche bluetooth ...',30);              
                 var BLEGatDevice = navigator.bluetooth.requestDevice(options)
                 .then( bluetoothDevice => {
                         
@@ -569,7 +718,7 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
                      
                     BLEGATTDevice_userHadSelectedDevice = true;
                     // BLEGATTServerHandle = BLEGATTDeviceSelected.gatt.connect();
-                    BLEGATTSetUIProgress('Connection bluetooth sur ('+BLEGATTDeviceName()+') ...',20);  
+                    BLEGATTSetUIProgress('Connection bluetooth sur ('+BLEGATTDeviceName()+') ...',50);  
                     return BLEGATTDeviceSelected.gatt.connect();
 
                 }) .catch(ev_err_discovery_services=>{
@@ -589,11 +738,12 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
                     try{
                         console.log('Promise::Try to Discovering Services ...');
                         if(! serverGatt.getPrimaryService ){
-                         console.log('This BlootoothLE API is OutDated ... '+serverGatt.getPrimaryService);
+                            alert(''+BLEGATTAPIVersionImplementationWarning( ' (This BlootoothLE API is OutDated ...) ', '(BluetoothRemoteGATTService).getPrimaryService', serverGatt.getPrimaryService, true ));
+                            return null;
                         }     
                     }catch(ev_err_implementation_oudated){
                         console.log('server :: '+serverGatt);
-                             throw new Error('Exception::This BlootoothLE API seems OutDated ... '+ev_err_implementation_oudated);
+                            throw new Error('Exception::This BlootoothLE API seems OutDated ... '+ev_err_implementation_oudated);
                     }
                     
                     
@@ -615,118 +765,25 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
                         // return BLEGATTServerHandle;
                      }
                     
-                    // return Promise.all([serverGatt.getPrimaryServices('00001800-0000-1000-8000-00805f9b34fb'), serverGatt.getPrimaryServices('14839ac4-7d7e-415c-9a42-167340cf2339')]);// :: 
-                  //return serverGatt.getIncludedServices('14839ac4-7d7e-415c-9a42-167340cf2339');// :: '00001800-0000-1000-8000-00805f9b34fb'
-                 //                 return Promise.all([BLEGATTServerHandle.getPrimaryServices('00001800-0000-1000-8000-00805f9b34fb')]);// :: 
                      
-                     // console.log('Resolved services :: '+ resolvedServices.shift());
-                    /*  if(!BLEGATTServerHandle.connected){
-                        console.log('*** not Connected for Resolving services :: ');
-                        var  devAwaited = BLEGATTDeviceSelected.gatt.connect();
-                        console.log('*** Shall be Connected to Resolve services :: '+resolvedServices);
-                        return devAwaited;
-                     }else{
-                        console.log('*** Resolved services :: '+resolvedServices);
-                        return resolvedServices;
-                     }*/
-                   /*  var primServices = serverGatt.getPrimaryService('14839ac4-7d7e-415c-9a42-167340cf2339').then(aservice=>{
-                       console.log(' aservice '+aservice);
-                        return aservice.getCharacteristic('battery_level');
-                    }).then(acharacteristic=>{
-                        console.log('acharacteristic '+acharacteristic);
-                            return acharacteristic.readValue();
-                    });
-                     console.log('Resolved primServices services :: '+primServices);
-                     */
-                    
-                   // var resolvedServicesPromise = Promise.all([]);
-                    // console.log('resolvPromises '+resolvedServicesPromise);
-                    
-                    /*for (let o of resolvedServicesPromise.iterator) {
-                        console.log('::'+o);
-                        // expected output: 1
-                      
-                        break; // closes iterator, triggers return
-                    }*/
                     // ********************************************************
                     // http://bluebirdjs.com/docs/api/promise.each.html
                     // ********************************************************
-                   console.log('Send Dicovering .... '+BLEGATTServerHandle+'::'+serverGatt);
-                    var resultDiscoveredServices =  await DiscoverCompatServicesWrapper((serverGatt || 'nulll'));
-                    console.log('return discovered ... ');
-                   return resultDiscoveredServices;
-                   
-                   /*.then(serviceIteratorReturn=>{
+                     await takeanap_sleep(500);
+                     BLEGATTSetUIProgress('Connectee sur ('+BLEGATTDeviceName()+') ...',100);
+                      await takeanap_sleep(500);
+                     console.log('Send Dicovering .... '+BLEGATTServerHandle+'::'+serverGatt);
+                     var resultDiscoveredServices =  await DiscoverCompatServicesWrapper((serverGatt || 'nulll'));
+                     console.log('return discovered ... ');
+                     return resultDiscoveredServices;
                     
-                        console.log('return Server   Primary Service');
-                        console.log(':: >> '+serviceIteratorReturn );
-                        var primServices = serverGatt.getPrimaryService('14839ac4-7d7e-415c-9a42-167340cf2339');
-                        // alert('primServices :: '+primServices);
-                        return primServices;
-                    
-                    }).catch(ev_err_each_service_enemration=>{
-                        console.log('Error ev_err_each_service_enemration : '+ev_err_each_service_enemration);
-                    }) .then(service => {
-                        console.log(' get Service '); 
-                        if(!service) {
-                            console.log(' Service is Null ');    
-                            return null;
-                        }
-                        
-                        // Getting Battery Level Characteristic...
-                        console.log('Gattering Service Characteristic...');
-                        
-                        //:: BLEGATTCharacteristicsValid
-                        return service.getCharacteristic('battery_level');
-                   });
-                    
-                    console.log('passing  to Resolved services count :: '+resolvedServicesCount );
-                    
-                  */ 
                 }) .then(services=>{
                     
                     
                     console.log('Received Services '+services);
                     
                     })
-                
-                /*.then(service => {
-                        
-                        if(!service){
-                            console.log(' No Service associated with this descriptor ... ');
-                            return service;
-                        }else{
-                            console.log(' Trying to retrive some Service associated Information with this descriptor ... ');
-                            
-                        }
-                        
-                        console.log('Retrieved service ... ');
-                        console.log('Retrieved service UUID ... ('+(service.toString())+'::'+service.uuid+')');
-                    return Promise.all([
-                      //service.getCharacteristic('body_sensor_location'),
-                      service.getCharacteristic( 0x2A00 )
-                    ]);
-                }) .then(characteristic => {
-                     console.log('get characteristic  ('+(characteristic.toString())+'::'+characteristic.uuid+' )'); 
-                    if(!characteristic){
-                        console.log(' characteristic is Null ');    
-                        return this;
-                    }
-                  // Reading Battery Level...
-                  console.log('Getting Characteristic... ');
-                  return  characteristic.readValue ;
-                })
-                .then(value => {
-                    if(!value) {
-                        console.log(' Value is Null ');    
-                        return this;
-                    }else{
-                        console.log(' Get Value ('+value+'::'+(value.toString())+'::'+value.uuid+' )');
-                    }
-                  console.log('Battery percentage is ' + value.getUint8(0));
-                })
-                
-                */
+                 
                  .catch(ev_err_discovery_services=>{
                     
                      if( !BLEGATTDevice_userHadSelectedDevice ){
@@ -754,57 +811,10 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
     /* *********************************************** */
     /* *********************************************** */
     
-     async function BLEGATTGetSpec(aGAttserviceDescriptor){
-        
-        
-        
-                console.log('...............');
-              var ParomiseReturn = await Promise.all([ aGAttserviceDescriptor]).then(service => {
-                     console.log(' get Service '); 
-                    if(!service) {
-                        console.log(' Service is Null ');    
-                        return null;
-                    }
-                    
-                  // Getting Battery Level Characteristic...
-                  console.log('Gattering Service Characteristic... ['+service+'::'+aGAttserviceDescriptor+']');
-                  if(!service.getCharacteristic)
-                    {
-                     console.log(' .... Cant do that with this object ...')
-                     return null;
-                    }
-                  //:: BLEGATTCharacteristicsValid
-                  return service.getCharacteristic('battery_level');
-                })
+       async function BLEGATTGetSpec(aGAttserviceDescriptor, serviceCharacteristicsName){
+                   
+       }
                 
-                .then(characteristic => {
-                     console.log('get characteristic  '); 
-                    if(!characteristic){
-                        console.log(' characteristic is Null ');    
-                        return null;
-                    }
-                  // Reading Battery Level...
-                  console.log('Getting Characteristic... ');
-                  return characteristic.readValue();
-                })
-                .then(value => {
-                    if(!value) {
-                        console.log(' Value is Null ');    
-                        return null;
-                    }
-                  console.log('Battery percentage is ' + value.getUint8(0));
-                })
-                .catch(promiseBluetoothError => {
-                    console.log(promiseBluetoothError);
-                    if( !BLEGATTDevice_userHadSelectedDevice ){
-                        alert('Vous avez annulee la recherche Bluetooth ... ');
-                    } else {
-                        throw new Error(promiseBluetoothError);
-                    }
-                });
-        
-        return  Promise.all([ParomiseReturn]);
-      }
         /* *********************************************** */
         /* *********************************************** */
         /* *********************************************** */
@@ -844,7 +854,7 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
 				
 				if(!navigator.bluetooth.getAvailability)
 				{
-					console.log('Error :: BLEGattCheckNoRadioSupport ... (TODO :: Implementation Version when stable for Radio Avaibility thru [navigator.bluetooth.getAvailability=['+navigator.bluetooth.getAvailability+']])');
+					BLEGATTAPIVersionImplementationWarning( 'Radio Avaibility', 'navigator.bluetooth.getAvailability', navigator.bluetooth.getAvailability, true);
 					return true;
 				}
 				
@@ -875,7 +885,7 @@ alert('doc '+document.getElementById('show')+'::'+browser.downloads);
 				
 				aDocNodeElement_bluetooth_progressbar		=  (document.getElementById('bluetooth_progressbar')||[]);
 				aDocNodeElement_bluetooth_message			=  (document.getElementById('bluetooth_message')||[]);
-				aDocNodeElement_bluetooth_btn_findDevices	=  (document.getElementById('bluetooth_btn_findDevices')||[]);
+				aDocNodeElement_bluetooth_btn_findDevices	       =  (document.getElementById('bluetooth_btn_findDevices')||[]);
 				
 				aDocNodeElement_BLEGATTCheckSupportMessage 	=  (document.getElementById('bluetooth_message')||document.getElementById('BLEGATTCheckSupportMessage')||[]) ;
 				// alert('UIelement : '+aDocNodeElement_BLEGATTCheckSupportMessage);

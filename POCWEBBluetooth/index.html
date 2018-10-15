@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Poc Web Bluetooth</title>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/bluebird/latest/bluebird.js"></script>
+    <script type="text/javascript" src="https://pocwebbluetooth.myeureka.eu/BLEWEBBluettoth_ESante.js">
+        
+    </script>
+    <style type="text/css">
+        .show 
+        {
+            height: 30px;
+            background-color: #cf3;
+        }
+        
+        #BLEGATTCheckSupportMessage
+        {
+            display : none;
+            min-height: 30px;
+            padding: 5px;
+            background-color: #66C9FF;
+        }
+        
+        #bluetooth_dialogUI
+        {
+            margin: 0px auto;
+          border-color: #aaa;  
+          border-radius: 10px 10px 0px 0px;
+          box-shadow: 0px 0px 6px #222;
+          max-width: 600px;
+        }
+        #bluetooth_dialogUI>div#bluetooth_dialogUI_Title 
+        {
+            height: 20px;
+            padding: 10px 15px;
+            border-radius: 10px 10px 0px 0px;
+            font-size: 14px;
+            color: #F2F1DE;
+            font-weight: bold;
+            text-shadow: 0 0 0.1em #2B292D, 0 0 0.2em #BADB41, 0 0 0.2em #1EAA79;
+            background: linear-gradient(to bottom, rgba(234, 194, 252, 0.8), rgba(0, 0, 128, 0.6), rgba(51, 73, 73, 0.8) );
+            
+        }
+        #bluetooth_dialogUI>div#bluetooth_message
+        {
+            min-height:  80px;
+            margin: 10px 20px 5px 20px;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        #bluetooth_dialogUI>div#bluetooth_progressbar_box
+        {
+            display:none; 
+            min-width: 200px;
+            width: auto;
+            height: 40px;
+            border: #aaa 2px solid; 
+            background-color: #eee ;
+            font-weight: bold;
+            color: #ccc;
+            text-align: center;
+        }
+        
+        #bluetooth_dialogUI>div#bluetooth_progressbar_box>div#bluetooth_progressbar
+        {
+            display:none; 
+            width: auto;
+            min-width: 20px;
+            height:  inherit;
+            transition: background 0.25s linear;
+            background: linear-gradient(to bottom, rgba(255, 128, 0, 0.8), rgba(0, 0, 128, 0.6), rgba(128, 0, 128, 0.8) );
+           
+        }
+        
+        #bluetooth_dialogUI>#bluetooth_btn_findDevices
+        {
+           display:none; 
+            margin: 10px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<p><h1>Poc Web Bluetooth</h1></p>
+
+<p>Usage : <br />
+Demonstrate usage of the Native API ( Navigator.bluetooth ... ) for communication between <br />Web Browser and Bluetooth 4LE (GATT Compliant) Devices<br />
+<b>Without any external nodeJS ... !!!</b>
+</p>
+<br />
+<br />
+<div style="" id="BLEGATTCheckSupportMessage">
+    
+</div>
+
+
+
+
+<br />
+<br />
+<div id="bluetooth_dialogUI">
+    <div style="" id="bluetooth_dialogUI_Title">WEB Bluetooth UI Status ...</div>
+    <div id="bluetooth_message" style="">
+        &nbsp;[Not Initialised Web Bluetooth Script ...]
+    </div>
+    <br />
+    <div style="margin: 5px 50px;"  id="bluetooth_progressbar_box">
+        <div id="bluetooth_progressbar">
+            &nbsp;
+        </div>
+    </div> 
+    <br />
+    <button id="bluetooth_btn_findDevices">[Not Initialised Web Bluetooth Script ...]</button>
+    <br />
+</div>
+
+
+</body> 
+</html>
+

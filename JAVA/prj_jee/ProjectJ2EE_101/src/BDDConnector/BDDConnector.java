@@ -121,7 +121,7 @@ public class BDDConnector {
 		try {
 			
 			if(SGBDConnectionLink == null) { 
-				consoleLog.println(getClass().getEnclosingMethod() +" : WARNING :: can t checking Status on closed connection ... ");
+				consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : WARNING :: can t checking Status on closed connection ... ");
 				
 				return false;
 			}
@@ -129,12 +129,12 @@ public class BDDConnector {
 			SGBDconnected = !SGBDConnectionLink.isClosed();
 			
 		}catch(Exception EV_EXCEPTION_CHECKING_CONNECTION){
-			consoleLog.println(getClass().getEnclosingMethod() +" : FATAL ::  can t checking Status : ERROR : "+EV_EXCEPTION_CHECKING_CONNECTION.getMessage()+" ... ");
+			consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : FATAL ::  can t checking Status : ERROR : "+EV_EXCEPTION_CHECKING_CONNECTION.getMessage()+" ... ");
 			
 			throw EV_EXCEPTION_CHECKING_CONNECTION;
 			// :: ;; return false ;;
 		}
-		consoleLog.println(getClass().getEnclosingMethod() +" : Checked Status : connection is "+((SGBDconnected)?"Currently Open":"Currently Closed")+" ... ");
+		consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Checked Status : connection is "+((SGBDconnected)?"Currently Open":"Currently Closed")+" ... ");
 		return SGBDconnected;
 	}
 	
@@ -189,49 +189,49 @@ public class BDDConnector {
 	public int Open() throws Exception {
 
 		try {
-			consoleLog.println(getClass().getEnclosingMethod() +" : Start proceeding to open connection ... ");
+			consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Start proceeding to open connection ... ");
 			
 			if(SGBDConnectionLink != null ) {
 				SGBDconnected = SGBDConnectionLink.isClosed();
 			}
 			
-			consoleLog.println(getClass().getEnclosingMethod() +" : Previous Status : connection is "+((getSGBDconnected())?"Still Open":"Still Closed")+" ... ");
+			consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Previous Status : connection is "+((getSGBDconnected())?"Still Open":"Still Closed")+" ... ");
 			
 			if(getSGBDconnected() ){
 				this.Close();
 			}
-			consoleLog.println(getClass().getEnclosingMethod() +" : Lookup for driver : "+SGBDDriverName);
+			consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Lookup for driver : "+SGBDDriverName);
 			
 			// Loading / find driver in user namespace
 			try{
 				Class.forName(""+SGBDDriverName);
 			}catch(Exception EV_ERR_NOTFOUND_DRIVER) {
-				consoleLog.println(getClass().getEnclosingMethod() +" : NO driver : "+SGBDDriverName +" : "+EV_ERR_NOTFOUND_DRIVER.getMessage());
+				consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : NO driver : "+SGBDDriverName +" : "+EV_ERR_NOTFOUND_DRIVER.getMessage());
 				
 				EV_ERR_NOTFOUND_DRIVER.printStackTrace();
 				throw EV_ERR_NOTFOUND_DRIVER;
 				// :: ;; return 0 ;;
 			}
-			consoleLog.println(getClass().getEnclosingMethod() +" : Opening connection with driver : "+SGBDDriverName+" : "+getSGBDConnectionString());
+			consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Opening connection with driver : "+SGBDDriverName+" : "+getSGBDConnectionString());
 			try {
 				SGBDConnectionLink = DriverManager.getConnection(getSGBDConnectionString(), SGBDUsername, SGBDUserPassword);
 			}catch(Exception EV_ERR_GETCONNECTION) {
-				consoleLog.println(getClass().getEnclosingMethod() +" : Error in proceed connection with : "+SGBDDriverName+" : "+getSGBDConnectionString());
+				consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Error in proceed connection with : "+SGBDDriverName+" : "+getSGBDConnectionString());
 				throw EV_ERR_GETCONNECTION;
 				// :: ;; return 0 ;; 
 			}
 			
 			if(SGBDConnectionLink == null  ) {
-				consoleLog.println(getClass().getEnclosingMethod() +" : ERROR : "+SGBDDriverName +" : NULL PTR");
-				throw new Exception(getClass().getEnclosingMethod() +" : ERROR : "+SGBDDriverName +" : NULL PTR");
+				consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : ERROR : "+SGBDDriverName +" : NULL PTR");
+				throw new Exception(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : ERROR : "+SGBDDriverName +" : NULL PTR");
 				// :: ;; return 0 ;; 
 			}
 			
-			consoleLog.println(getClass().getEnclosingMethod() +" : Connected with driver : "+SGBDDriverName+" : "+getSGBDConnectionString());
+			consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Connected with driver : "+SGBDDriverName+" : "+getSGBDConnectionString());
 			
 			SGBDConnectionLinkStatement = SGBDConnectionLink.createStatement();
 			
-			// consoleLog.println(getClass().getEnclosingMethod() +" : Connection Status :  "+((!SGBDConnectionLink.isClosed())?"Now Open":"Still Closed")+" ... ");
+			// consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Connection Status :  "+((!SGBDConnectionLink.isClosed())?"Now Open":"Still Closed")+" ... ");
 			
 			/*if(SGBDConnectionLinkResultSet != null) {
 				SGBDConnectionLinkResultSet.clearWarnings();
@@ -241,14 +241,14 @@ public class BDDConnector {
 			
 			// check if we get connected ...	
 			if(!getSGBDconnected()){
-				consoleLog.println(getClass().getEnclosingMethod() +" : Fatal : Can t proceed to open connection ... ");
+				consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Fatal : Can t proceed to open connection ... ");
 				// FATAL ERROR 
 				this.Close();
 				throw new Exception("Impossible de se connecter ... "+getSGBDConnectionString());
 			}else{
 				
 				SGBDConnectionLinkResultSetCount = SGBDConnectionLinkStatement.getFetchSize();
-				consoleLog.println(getClass().getEnclosingMethod() +" : NOW Status : connection is "+((getSGBDconnected())?"Still Open":"Still Closed")+" ... ");
+				consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : NOW Status : connection is "+((getSGBDconnected())?"Still Open":"Still Closed")+" ... ");
 				return  (SGBDConnectionLinkResultSetCount | (getSGBDconnected()?1:0));
 			}
 			
@@ -267,7 +267,7 @@ public class BDDConnector {
 	public int Close() throws  Exception {
 		try{
 			
-			consoleLog.println(getClass().getEnclosingMethod() +" : Previous Status : connection is "+((getSGBDconnected() )?"Still Open":"Still Closed")+" ... ");
+			consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Previous Status : connection is "+((getSGBDconnected() )?"Still Open":"Still Closed")+" ... ");
 			
 			SGBDConnectionLinkResultSetCountPTR = 0;
 			SGBDConnectionLinkResultSetCount = 0;
@@ -284,7 +284,7 @@ public class BDDConnector {
 			
 			SGBDconnected = SGBDConnectionLink.isClosed();
 			
-			consoleLog.println(getClass().getEnclosingMethod() +" : connection is NOW "+(( getSGBDconnected() )?"Still Open":"Still Closed")+" ... ");
+			consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : connection is NOW "+(( getSGBDconnected() )?"Still Open":"Still Closed")+" ... ");
 			
 			return 1;
 		} catch (SQLException EV_CONNEXION_CLOSE_ERROR){
@@ -339,7 +339,7 @@ public class BDDConnector {
 		}
 		
 		if(!getSGBDconnected()){
-			consoleLog.println(getClass().getEnclosingMethod() +" : Query : Fetch : DO Open Connection for : "+sArgSql);
+			consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Query : Fetch : DO Open Connection for : "+sArgSql);
 			Open();
 			
 		}
@@ -349,7 +349,7 @@ public class BDDConnector {
 
 			try {
 				int iArgSqlPosSelect = sArgSql.toLowerCase().indexOf("select");
-				consoleLog.println(getClass().getEnclosingMethod() +" : Query : Fetch : "+sArgSql);
+				consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Query : Fetch : "+sArgSql);
 				SGBDConnectionLinkResultSet = SGBDConnectionLinkStatement.executeQuery(sArgSql);
 				
 				// point to to first record in resultset
@@ -366,7 +366,7 @@ public class BDDConnector {
 					sArgSqlWithForceCounting +=  sArgSql;
 					sArgSqlWithForceCounting += " ) as AATable";
 					
-					consoleLog.println(getClass().getEnclosingMethod() +" : Query : Fetch : ForceCounted "+String.format("%d", iArgSqlPosSelect)+": "+sArgSqlWithForceCounting);
+					consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Query : Fetch : ForceCounted "+String.format("%d", iArgSqlPosSelect)+": "+sArgSqlWithForceCounting);
 					
 					SGBDConnectionLinkResultSet = SGBDConnectionLinkStatement.executeQuery( sArgSqlWithForceCounting );
 					
@@ -381,7 +381,7 @@ public class BDDConnector {
 						ResultSetMetaData rsmd = SGBDConnectionLinkResultSet.getMetaData();
 						int columnCount = rsmd.getColumnCount();
 						
-						// consoleLog.println(getClass().getEnclosingMethod() +" : Query : generate resultset of ("+(String.format("%d Columns for %d row(s) ", columnCount, SGBDConnectionLinkResultSetCount) )+") ... ");
+						// consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Query : generate resultset of ("+(String.format("%d Columns for %d row(s) ", columnCount, SGBDConnectionLinkResultSetCount) )+") ... ");
 						
 						// The column count starts from 1
 						int iOffset = 0;
@@ -414,7 +414,7 @@ public class BDDConnector {
 						}
 						
 						
-						consoleLog.println(getClass().getEnclosingMethod() +" : Query : generate resultset of ("+
+						consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Query : generate resultset of ("+
 						
 											(String.format("%d Columns for %d row(s) ", 
 												SGBDConnectionLinkResultSetColumnMapDescriptor.size(),
@@ -423,13 +423,13 @@ public class BDDConnector {
 											)+ ") ... ("+ SGBDConnectionLinkResultSetColumnMapDescriptorINTEGERPOS.toString()+")");
 						
 					}catch(Exception EV_ERROR_PROCESSING_COLUMNNAMES) {
-						consoleLog.println(getClass().getEnclosingMethod() +" : Something wen wront in query processing :: fetching resultset  ... "+EV_ERROR_PROCESSING_COLUMNNAMES.getMessage());
+						consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Something wen wront in query processing :: fetching resultset  ... "+EV_ERROR_PROCESSING_COLUMNNAMES.getMessage());
 						throw EV_ERROR_PROCESSING_COLUMNNAMES;
 						// :: ;; return 0 ;; 
 					}
 					
 				}else {
-					consoleLog.println(getClass().getEnclosingMethod() +" : empty : resultset  ... ");
+					consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : empty : resultset  ... ");
 						
 				}
 				// return potential row number / results number
@@ -437,7 +437,7 @@ public class BDDConnector {
 			
 			} catch (Exception EV_ERR_QUERY_PROCESSING) {
 				// can t let connection / session open ... so we prevent this by requesting a Close handling ...
-				consoleLog.println(getClass().getEnclosingMethod() +" : Something went wrong in query processing :: fetching resultset  ... "+EV_ERR_QUERY_PROCESSING.getMessage());
+				consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Something went wrong in query processing :: fetching resultset  ... "+EV_ERR_QUERY_PROCESSING.getMessage());
 				
 				this.Close(); 
 				// TODO Auto-generated catch block
@@ -449,7 +449,7 @@ public class BDDConnector {
 		}else{
 			
 			try {
-				consoleLog.println(getClass().getEnclosingMethod() +" : Query : Execute : "+sArgSql);
+				consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Query : Execute : "+sArgSql);
 				SGBDConnectionLinkResultSetCount = SGBDConnectionLinkStatement.executeUpdate(sArgSql);
 				SGBDConnectionLinkResultSet = SGBDConnectionLinkStatement.getResultSet();
 				// return non Zero if Row in Database was touched 

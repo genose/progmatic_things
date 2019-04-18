@@ -77,10 +77,11 @@ public class USERAuth {
 		}
 		
 		Map<Object, Object> sArgFoundUserInfo = BDDUserLink.Current();
-		Object sArgFoundUserInfoFound =	sArgFoundUserInfo.get(sArgInfo);
+	
 		if(sArgFoundUserInfo == null) {
 			return null;
 		}
+		Object sArgFoundUserInfoFound =	sArgFoundUserInfo.get(sArgInfo);
 		return sArgFoundUserInfoFound.toString() ;
 	}
 

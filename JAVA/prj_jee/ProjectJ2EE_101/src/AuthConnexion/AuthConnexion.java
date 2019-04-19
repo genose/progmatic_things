@@ -32,7 +32,7 @@ import userAuth.*;
 @WebServlet(
 		name = "AuthConnexion",
 		description = "Authentification process thru jsp page",
-		urlPatterns = {"/AuthConnexion","/*"}
+		urlPatterns = {"/AuthConnexion"}
 		)
  
 public class AuthConnexion extends HttpServlet {
@@ -174,11 +174,11 @@ public class AuthConnexion extends HttpServlet {
 				
 				// Lookup and collecting info about origin of the request
 				
-				String applicationPageHub_Referer 								= request.getPathInfo();
+				String applicationPageHub_Referer 								= request.getPathInfo(); // a JSP page request in URI / Execution context
 				String applicationPageHub_Referer_Header 						= request.getHeader("referer");
 				String applicationPageHub_Referer_Servlet 						= request.getServletPath();
 				
-				String applicationPageHub_Request 								= String.valueOf( request.getRequestURL());
+				String applicationPageHub_Request_HTTP_URI 						= String.valueOf( request.getRequestURL());
 				String applicationPageHub_Request_URI 							= request.getRequestURI();
 				String applicationPageHub_Request_QueryString 					= request.getQueryString();				
 				
@@ -207,11 +207,13 @@ public class AuthConnexion extends HttpServlet {
 						// message for the user			
 						request.setAttribute("loginMessage", "" );
 						
-						if( (applicationPageHub_Referer.indexOf( DEFAULT_PAGE_INDEX) >0 )  && (applicationPageHub_Request.indexOf(DEFAULT_PAGE_INDEX) >= 0))
+						if(userToken != null)
+						{
+							consoleLog.println(getClass().getName()+" : AUTH : Following user to TOKENIZED auth page ... "+applicationPageHub_Request_HTTP_URI);
+						}else if( (applicationPageHub_Referer.indexOf( DEFAULT_PAGE_INDEX) >0 )  && (applicationPageHub_Request_HTTP_URI.indexOf(DEFAULT_PAGE_INDEX) >= 0))
 						{
 							
-						}else
-						if( (applicationPageHub_Request.indexOf(DEFAULT_PAGE_INDEX) >= 0) && (applicationPageHub_Request_URI.indexOf(DEFAULT_PAGE_INDEX) <= 0)) {
+				} else if ((applicationPageHub_Request_HTTP_URI.indexOf(DEFAULT_PAGE_INDEX) >= 0) && (applicationPageHub_Request_URI.indexOf(DEFAULT_PAGE_INDEX) <= 0)) {
 							// response.getWriter().append(" Hello : ").append( userLogin );
 							RequestDispatcher view = request.getRequestDispatcher(DEFAULT_PAGE_AUTH_PASSED_VIEW_MYACCOUNT);
 							view.forward(request, response);
@@ -230,13 +232,29 @@ public class AuthConnexion extends HttpServlet {
 						
 						// response.getWriter().append("Access denied ").append( userLogin ).append( userPassword );
 						// request.setAttribute("loginMessage", loginMessage .append("Access denied ").append( userLogin ).append( userPassword ); );
-						consoleLog.println(getClass().getName()+" : AUTH : Redirecting user to default auth page ... "+DEFAULT_PAGE_INDEX);
-						request.setAttribute("loginMessage", loginMessage );
-						if( (applicationPageHub_Referer == null) ||  (applicationPageHub_Referer.indexOf( DEFAULT_PAGE_INDEX) >0 )  && (applicationPageHub_Request.indexOf(DEFAULT_PAGE_INDEX) >= 0))
+					
+						request.setAttribute("loginMessage", loginMessage ); 
+						consoleLog.println(getClass().getName()+"::Header referer:"+String.valueOf(applicationPageHub_Referer_Header)+"::"+String.valueOf(applicationPageHub_Referer)+"::"+String.valueOf(applicationPageHub_Request_HTTP_URI));
+						
+				 /*
+						if( (applicationPageHub_Referer != null) && (applicationPageHub_Referer_Header == null)) {
+							consoleLog.println(getClass().getName()+" : AUTH : Following user to NULL Referer page ... "+applicationPageHub_Request_HTTP_URI);
+							response.getWriter().append("Followed  :: "+applicationPageHub_Request_HTTP_URI);
+							//RequestDispatcher view = request.getRequestDispatcher(applicationPageHub_Referer);
+							//view.include(request, response);
+						}else*/
+							if(
+								   ( (applicationPageHub_Referer != null) && (applicationPageHub_Referer.indexOf( DEFAULT_PAGE_INDEX) >0 ) )  
+								&& (  (applicationPageHub_Referer_Header == null) )
+							)
 						{
+							consoleLog.println(getClass().getName()+" : AUTH : Redirecting user to ENDPOINT page ... (null)");
 							response.getWriter().append(" <a href=\""+request.getContextPath()+"\">Veuillez vous authentifier ...</a> : ").append( userToken );
 						}else {
-							RequestDispatcher view = request.getRequestDispatcher(DEFAULT_PAGE_INDEX);
+							consoleLog.println(getClass().getName()+" : AUTH : Redirecting user to default auth page ... "+DEFAULT_PAGE_INDEX);
+							// 
+							RequestDispatcher view = request.getRequestDispatcher("/"+DEFAULT_PAGE_INDEX);
+							// view.notifyAll();
 							view.forward(request, response);
 						}
 					}
@@ -244,10 +262,11 @@ public class AuthConnexion extends HttpServlet {
 					
 				 
 					
-				} catch (Exception EV_ERR_DOPOST) {
+				} catch (Exception EV_ERR_DOHANDLE_REQUEST) {
 					// TODO Auto-generated catch block
-					EV_ERR_DOPOST.printStackTrace();
-					response.sendError(500, EV_ERR_DOPOST.toString());
+					consoleLog.println("EV_ERR_DOHANDLE_REQUEST::"+EV_ERR_DOHANDLE_REQUEST.getMessage());
+					EV_ERR_DOHANDLE_REQUEST.printStackTrace();
+					response.sendError(500, EV_ERR_DOHANDLE_REQUEST.toString());
 //					view.forward(request, response);
 				}
 				

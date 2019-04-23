@@ -134,7 +134,7 @@ public class BDDConnector {
 			throw EV_EXCEPTION_CHECKING_CONNECTION;
 			// :: ;; return false ;;
 		}
-		consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Checked Status : connection is "+((SGBDconnected)?"Currently Open":"Currently Closed")+" ... ");
+		// consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Checked Status : connection is "+((SGBDconnected)?"Currently Open":"Currently Closed")+" ... ");
 		return SGBDconnected;
 	}
 	
@@ -393,7 +393,7 @@ public class BDDConnector {
 						  if( ( name.toLowerCase().compareTo("rows_in_resultset") == 0) ) {
 							 
 							  // name = rsmd.getColumnName(i+1);
-							  consoleLog.println(String.format("Pass to %s %s : %d", " Name : ", name, iPosColumn));
+							  // consoleLog.println(String.format("Pass to %s %s : %d", " Name : ", name, iPosColumn));
 							  // SGBDConnectionLinkResultSetColumnMapDescriptor.put(i, name) ;
 							  // SGBDConnectionLinkResultSetColumnMapDescriptorINTEGERPOS.put(name, i);
 							  
@@ -409,7 +409,7 @@ public class BDDConnector {
 						  SGBDConnectionLinkResultSetColumnMapDescriptor.put(iPosColumn, name) ;
 						  SGBDConnectionLinkResultSetColumnMapDescriptorINTEGERPOS.put(name, iPosColumn );
 						  SGBDConnectionLinkResultSetColumnMapDescriptorCONST.put(name.toUpperCase(), name);
-						  consoleLog.println(String.format("%s %s : %d : %d", " Name : ", name, i, iPosColumn ) +" :: "+SGBDConnectionLinkResultSetColumnMapDescriptorINTEGERPOS.toString());
+						  // consoleLog.println(String.format("%s %s : %d : %d", " Name : ", name, i, iPosColumn ) +" :: "+SGBDConnectionLinkResultSetColumnMapDescriptorINTEGERPOS.toString());
 						  
 						}
 						

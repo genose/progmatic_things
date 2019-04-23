@@ -11,5 +11,6 @@
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/servlet-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="mysql-connector-java-5.1.47.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/urlrewritefilter-4.0.3.jar"/>
+	<classpathentry kind="lib" path="src/tags/jsp-api-2.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

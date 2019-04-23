@@ -20,7 +20,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpSession;
+
+import java.io.IOException;
+import java.util.logging.Logger;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+
 
 import org.omg.CORBA.portable.InputStream;
 
@@ -32,10 +43,10 @@ import userAuth.*;
 @WebServlet(
 		name = "AuthConnexion",
 		description = "Authentification process thru jsp page",
-		urlPatterns = {"/AuthConnexion"}
+		urlPatterns = {"/AuthConnexion","/*"}
 		)
  
-public class AuthConnexion extends HttpServlet {
+public class AuthConnexion extends HttpServlet implements Filter {
 	private static final long serialVersionUID = 1L;
     
 	/* ************************************************** */
@@ -75,6 +86,7 @@ public class AuthConnexion extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at: ").append(request.getRequestURI());
@@ -139,13 +151,26 @@ public class AuthConnexion extends HttpServlet {
 			return;
 			
 		}
-		handleRequest(request, response, 1);
+		
+		HttpServletResponse aAltResponse = new HttpServletResponseWrapper(response);
+		
+		
+		
+		handleRequest(request, aAltResponse, 1);
+		
+		String outpuResponse = String.valueOf(response.getBufferSize());
+		String outpuResponseAlt = String.valueOf(aAltResponse.getBufferSize());
+		
+		//aAltResponse.getOutputStream().flush();
+		aAltResponse.flushBuffer();
+		//aAltResponse.getOutputStream().close();
 		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		consoleLog.println(this.getServletContext().getServletContextName()+"  :: POST :: Served at: "+request.getRequestURI() );
 		handleRequest(request, response, 2);
@@ -180,7 +205,8 @@ public class AuthConnexion extends HttpServlet {
 				
 				String applicationPageHub_Request_HTTP_URI 						= String.valueOf( request.getRequestURL());
 				String applicationPageHub_Request_URI 							= request.getRequestURI();
-				String applicationPageHub_Request_QueryString 					= request.getQueryString();				
+				String applicationPageHub_Request_QueryString 					= request.getQueryString();
+				String applicationPageHub_Request_ContextPath 					= request.getContextPath();
 				
 				// assigning some values ... 
 				tbHandledValue = ((applicationPageHub_Referer_Header !=null) 		? (( !String.valueOf( applicationPageHub_Referer_Header ).isEmpty() && (String.valueOf( applicationPageHub_Referer_Header ).length() >= 5) )? (boolean) (oUserAuthInfo.put(APP_CURRENT_FRONT_ORIGIN, applicationPageHub_Referer_Header ) == null) : false) : false);
@@ -210,10 +236,14 @@ public class AuthConnexion extends HttpServlet {
 						if(userToken != null)
 						{
 							consoleLog.println(getClass().getName()+" : AUTH : Following user to TOKENIZED auth page ... "+applicationPageHub_Request_HTTP_URI);
+							
+							response.sendRedirect(applicationPageHub_Request_ContextPath+"/"+DEFAULT_PAGE_AUTH_PASSED_VIEW_MYACCOUNT);
+							
+							
 						}else if( (applicationPageHub_Referer.indexOf( DEFAULT_PAGE_INDEX) >0 )  && (applicationPageHub_Request_HTTP_URI.indexOf(DEFAULT_PAGE_INDEX) >= 0))
 						{
 							
-				} else if ((applicationPageHub_Request_HTTP_URI.indexOf(DEFAULT_PAGE_INDEX) >= 0) && (applicationPageHub_Request_URI.indexOf(DEFAULT_PAGE_INDEX) <= 0)) {
+						} else if ((applicationPageHub_Request_HTTP_URI.indexOf(DEFAULT_PAGE_INDEX) >= 0) && (applicationPageHub_Request_URI.indexOf(DEFAULT_PAGE_INDEX) <= 0)) {
 							// response.getWriter().append(" Hello : ").append( userLogin );
 							RequestDispatcher view = request.getRequestDispatcher(DEFAULT_PAGE_AUTH_PASSED_VIEW_MYACCOUNT);
 							view.forward(request, response);
@@ -234,7 +264,7 @@ public class AuthConnexion extends HttpServlet {
 						// request.setAttribute("loginMessage", loginMessage .append("Access denied ").append( userLogin ).append( userPassword ); );
 					
 						request.setAttribute("loginMessage", loginMessage ); 
-						consoleLog.println(getClass().getName()+"::Header referer:"+String.valueOf(applicationPageHub_Referer_Header)+"::"+String.valueOf(applicationPageHub_Referer)+"::"+String.valueOf(applicationPageHub_Request_HTTP_URI));
+						consoleLog.println(getClass().getName()+"::Header referer(applicationPageHub_Referer_Header):"+String.valueOf(applicationPageHub_Referer_Header)+"::(applicationPageHub_Referer):"+String.valueOf(applicationPageHub_Referer)+"::(applicationPageHub_Request_HTTP_URI):"+String.valueOf(applicationPageHub_Request_HTTP_URI));
 						
 				 /*
 						if( (applicationPageHub_Referer != null) && (applicationPageHub_Referer_Header == null)) {
@@ -243,19 +273,42 @@ public class AuthConnexion extends HttpServlet {
 							//RequestDispatcher view = request.getRequestDispatcher(applicationPageHub_Referer);
 							//view.include(request, response);
 						}else*/
-							if(
+						
+						if( (String.valueOf(applicationPageHub_Referer).compareTo("/") == 0 ) && (applicationPageHub_Referer_Header == null) ) { //  && (applicationPageHub_Referer.length() >=3)
+							consoleLog.println(getClass().getName()+" : AUTH : Redirecting user to ENDPOINT DEEFAULT page ... ("+String.valueOf(applicationPageHub_Referer)+")");
+							RequestDispatcher view = request.getRequestDispatcher(DEFAULT_PAGE_INDEX);
+							request.getInputStream();
+							view.forward(request, response);
+							
+							String outpuResponse = String.valueOf(response.getBufferSize());
+							
+							//response.sendRedirect(applicationPageHub_Request_ContextPath+"/"+DEFAULT_PAGE_INDEX);
+							
+						}else
+							
+							/*if(
 								   ( (applicationPageHub_Referer != null) && (applicationPageHub_Referer.indexOf( DEFAULT_PAGE_INDEX) >0 ) )  
 								&& (  (applicationPageHub_Referer_Header == null) )
 							)
 						{
 							consoleLog.println(getClass().getName()+" : AUTH : Redirecting user to ENDPOINT page ... (null)");
 							response.getWriter().append(" <a href=\""+request.getContextPath()+"\">Veuillez vous authentifier ...</a> : ").append( userToken );
-						}else {
-							consoleLog.println(getClass().getName()+" : AUTH : Redirecting user to default auth page ... "+DEFAULT_PAGE_INDEX);
-							// 
-							RequestDispatcher view = request.getRequestDispatcher("/"+DEFAULT_PAGE_INDEX);
+						}else */{
+							consoleLog.println(getClass().getName()+" : AUTH : Redirecting user to default auth page output ... ");
+							// RequestDispatcher view = request.getRequestDispatcher("/"+DEFAULT_PAGE_INDEX);
 							// view.notifyAll();
-							view.forward(request, response);
+							// view.forward(request, response);
+							// response.sendRedirect(applicationPageHub_Request_ContextPath+"/" );
+							// throw new Exception("Error interne prevu");
+							String outpuResponse = String.valueOf(request.getContentLength());
+							ServletResponse responseHandled  = ((request.isAsyncStarted())? request.getAsyncContext().getResponse(): null);
+							
+							// response.getOutputStream().flush();
+							// response.flushBuffer();
+							response.getOutputStream().print("Response :: ");
+							response.getOutputStream().println(outpuResponse+" :: "+response.toString());
+							// response.getOutputStream().flush();
+							
 						}
 					}
 					
@@ -321,6 +374,8 @@ public class AuthConnexion extends HttpServlet {
 				}
 				// assigning token
 				String sUserTokenValidationFound = oAuthenticatedUser.getUserInfo(oAuthenticatedUser.getmSchemaKeyInfo("USERTOKEN"));
+				
+				
 				userSession.setAttribute(AUTH_TOKEN_KEY, sUserTokenValidationFound );
 				return true;
 			}else {
@@ -340,6 +395,21 @@ public class AuthConnexion extends HttpServlet {
 		}
 		
 		return false;
+		
+	}
+
+	@Override
+	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
+			throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		consoleLog.println("doFilter : "+arg0.getParameterNames().toString());
+		
+	}
+
+	@Override
+	public void init(FilterConfig arg0) throws ServletException {
+		// TODO Auto-generated method stub
+		consoleLog.println("Init Filter : "+arg0.getInitParameterNames().toString());
 		
 	}
 

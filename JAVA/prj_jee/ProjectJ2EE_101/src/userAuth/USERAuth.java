@@ -42,6 +42,9 @@ public class USERAuth {
 		}
 
 	}
+	public void destroy() throws Exception {
+		BDDUserLink.Close();
+	}
 	
 	public Map<Object, Object> getmSchemaKeyInfo() {
 		return mSchemaKeyInfo;

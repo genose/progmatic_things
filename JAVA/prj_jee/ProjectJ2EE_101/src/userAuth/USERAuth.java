@@ -40,10 +40,7 @@ public class USERAuth {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-	}
-	public void destroy() throws Exception {
-		BDDUserLink.Close();
+	 
 	}
 	
 	public Map<Object, Object> getmSchemaKeyInfo() {
@@ -65,7 +62,10 @@ public class USERAuth {
 	}
 
 	public Map<Object, Object> getUserInfo() throws Exception {
-		return BDDUserLink.Current();
+
+		Map<Object, Object> aMapUserInfo = BDDUserLink.Current();
+		// :: BDDUserLink.Close();
+		return aMapUserInfo;
 	}
 
 	public String getUserInfo(String sArgInfo) throws Exception {
@@ -80,7 +80,7 @@ public class USERAuth {
 		}
 		
 		Map<Object, Object> sArgFoundUserInfo = BDDUserLink.Current();
-	
+		// :: BDDUserLink.Close();
 		if(sArgFoundUserInfo == null) {
 			return null;
 		}

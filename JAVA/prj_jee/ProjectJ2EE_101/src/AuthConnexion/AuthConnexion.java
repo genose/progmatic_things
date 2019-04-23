@@ -138,7 +138,8 @@ public class AuthConnexion extends HttpServlet implements Filter {
 	            byte[] buffer = new byte[ARBITARY_SIZE];
 	        
 	            int numBytesRead;
-	            
+	            consoleLog.println(this.getServletContext().getServletContextName()+" :: GET :: Providing forward IOStream for : "+request.getRequestURI() );
+	    		
 	            while ((numBytesRead = dis.read(buffer) ) > 0)
 	            	  out.write(buffer, 0, numBytesRead);
 	          
@@ -147,7 +148,7 @@ public class AuthConnexion extends HttpServlet implements Filter {
 	        }
 	  
 			
-			
+	        consoleLog.println(this.getServletContext().getServletContextName()+" :: GET :: END :: forward IOStream for : "+request.getRequestURI() );
 			return;
 			
 		}
@@ -207,7 +208,14 @@ public class AuthConnexion extends HttpServlet implements Filter {
 				String applicationPageHub_Request_URI 							= request.getRequestURI();
 				String applicationPageHub_Request_QueryString 					= request.getQueryString();
 				String applicationPageHub_Request_ContextPath 					= request.getContextPath();
-				
+				consoleLog.println("************************** \n HTTP ENV Received  ....");
+				consoleLog.println("\n   ;; applicationPageHub_Referer = "+String.valueOf( applicationPageHub_Referer ));
+				consoleLog.println("\n   ;; applicationPageHub_Referer_Header = "+String.valueOf(applicationPageHub_Referer_Header ));
+				consoleLog.println("\n   ;; applicationPageHub_Referer_Servlet = "+String.valueOf(applicationPageHub_Referer_Servlet ));
+				consoleLog.println("\n   ;; applicationPageHub_Request_URI = "+String.valueOf( applicationPageHub_Request_URI ));
+				consoleLog.println("\n   ;; applicationPageHub_Request_QueryString = "+String.valueOf( applicationPageHub_Request_QueryString ));
+				consoleLog.println("************************** \n ");
+
 				// assigning some values ... 
 				tbHandledValue = ((applicationPageHub_Referer_Header !=null) 		? (( !String.valueOf( applicationPageHub_Referer_Header ).isEmpty() && (String.valueOf( applicationPageHub_Referer_Header ).length() >= 5) )? (boolean) (oUserAuthInfo.put(APP_CURRENT_FRONT_ORIGIN, applicationPageHub_Referer_Header ) == null) : false) : false);
 				
@@ -253,18 +261,36 @@ public class AuthConnexion extends HttpServlet implements Filter {
 							view.forward(request, response);
 						}else {
 							// do some stuff that progam doesn t really care nor know 
-							response.getWriter().append(" Hello : ").append( userLogin );
-							//RequestDispatcher view = request.getRequestDispatcher(DEFAULT_PAGE_AUTH_PASSED_WELCOME);
-							//view.forward(request, response);
+							// response.getWriter().append(" Hello : ").append( userLogin );
+							response.setContentType("text/html");
+							response.sendRedirect( DEFAULT_PAGE_AUTH_PASSED_WELCOME );
 							
+							//RequestDispatcher view = request.getRequestDispatcher(DEFAULT_PAGE_AUTH_PASSED_WELCOME);
+							//view.forward(request, response); 
 						} 
 					}else {
 						
 						// response.getWriter().append("Access denied ").append( userLogin ).append( userPassword );
 						// request.setAttribute("loginMessage", loginMessage .append("Access denied ").append( userLogin ).append( userPassword ); );
-					
-						request.setAttribute("loginMessage", loginMessage ); 
-						consoleLog.println(getClass().getName()+"::Header referer(applicationPageHub_Referer_Header):"+String.valueOf(applicationPageHub_Referer_Header)+"::(applicationPageHub_Referer):"+String.valueOf(applicationPageHub_Referer)+"::(applicationPageHub_Request_HTTP_URI):"+String.valueOf(applicationPageHub_Request_HTTP_URI));
+						consoleLog.println(getClass().getName()+" : AUTH ("+String.format("%d::%s", response.getContentType(), request.getDispatcherType().toString())+"): Redirecting user to default auth page ... "+DEFAULT_PAGE_INDEX);
+						request.setAttribute("loginMessage", loginMessage );
+						// response.getWriter().append(" <a href=\""+request.getContextPath()+"\">Veuillez vous authentifier ...</a> : ").append( userToken ); 
+						RequestDispatcher view = request.getRequestDispatcher(DEFAULT_PAGE_INDEX);
+						// 
+						consoleLog.println(" Actual context ... :: "+String.format("%s", view.hashCode()) );
+						if( String.valueOf(applicationPageHub_Referer_Servlet).length() <= 2 )
+						{
+						    // REQUEST
+						    // INCLUDE
+						    if(request.getDispatcherType().toString().indexOf("INCLUDE") == (-1) ){
+							consoleLog.println(" Enter context ... :: "+String.format("%s", view.hashCode()) );
+							view.include(request, response);
+							consoleLog.println(" Back to context ... :: "+String.format("%s", view.hashCode()) );
+						    }else {
+							// Action action = ActionFactory.getAction(request);
+							//        String view = action.execute(request, response);
+						    }
+						}
 						
 				 /*
 						if( (applicationPageHub_Referer != null) && (applicationPageHub_Referer_Header == null)) {
@@ -302,7 +328,9 @@ public class AuthConnexion extends HttpServlet implements Filter {
 							// throw new Exception("Error interne prevu");
 							String outpuResponse = String.valueOf(request.getContentLength());
 							ServletResponse responseHandled  = ((request.isAsyncStarted())? request.getAsyncContext().getResponse(): null);
-							
+							//view.notify();
+						    consoleLog.println(" Flush ... :: "+String.format("%d::%s", request.getContentLength(), String.format("%s", view.hashCode()) ) );
+							response.getOutputStream().flush();
 							// response.getOutputStream().flush();
 							// response.flushBuffer();
 							response.getOutputStream().print("Response :: ");
@@ -326,6 +354,10 @@ public class AuthConnexion extends HttpServlet implements Filter {
 		
 		
 	}
+	/* ** 
+	 * @Args
+	 * 
+	 */
 	
 	
 	

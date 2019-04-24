@@ -1,4 +1,4 @@
-package AuthConnexion;
+package AuthConnexionHUB;
  
 import java.io.DataInputStream;
 import java.io.FileInputStream;
@@ -38,15 +38,25 @@ import org.omg.CORBA.portable.InputStream;
 import userAuth.*;
 
 /**
- * Servlet implementation class AuthConnexion
+ * Servlet implementation class AuthConnexionHUB
  */
 @WebServlet(
-		name = "AuthConnexion",
+		name = "AuthConnexionHUB",
 		description = "Authentification process thru jsp page",
-		urlPatterns = {"/AuthConnexion","/*"}
+		urlPatterns = {"/AuthConnexionHUB","/AuthConnexionHUB/*"}
 		)
  
-public class AuthConnexion extends HttpServlet implements Filter {
+/* ************
+ * 
+<filter-mapping>
+    <filter-name>UrlRewriteFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>FORWARD</dispatcher>
+</filter-mapping>
+
+************ */
+
+public class AuthConnexionHUB extends HttpServlet implements Filter {
 	private static final long serialVersionUID = 1L;
     
 	/* ************************************************** */
@@ -67,7 +77,7 @@ public class AuthConnexion extends HttpServlet implements Filter {
 	final String DEFAULT_PAGE_INDEX 							= "_index.jsp";
 	final String DEFAULT_PAGE_AUTH_PASSED_VIEW_MYACCOUNT 		= "compte.jsp";
 	/* ************************************************** */
-	final String DEFAULT_PAGE_AUTH_CONNEXION 					= "/AuthConnexion";
+	final String DEFAULT_PAGE_AUTH_CONNEXION 					= "/AuthConnexionHUB";
 	/* ************************************************** */
 	
 	final String DEFAULT_PAGE_AUTH_PASSED_WELCOME 	= "connexionReussie.jsp";
@@ -78,10 +88,34 @@ public class AuthConnexion extends HttpServlet implements Filter {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AuthConnexion() {
+    public AuthConnexionHUB() {
         super();
         // TODO Auto-generated constructor stub
     }
+    /*
+    protected void service(HttpServletRequest request,
+            HttpServletResponse response)
+     throws ServletException,
+            java.io.IOException {
+    	consoleLog.println("Service HttpServletRequest called ... "+request.getQueryString());
+    }*/
+    
+    /*public void service(ServletRequest request,
+            ServletResponse response)
+     throws ServletException,
+            java.io.IOException {
+    	
+    	consoleLog.println("Service ServletRequest called ... "+request.getServletContext().getContextPath()+"::"+request.getServletContext().getServletContextName());
+    	//if(DEFAULT_PAGE_AUTH_PASSED_VIEW_MYACCOUNT))
+    	{
+    		// RequestDispatcher view = request.getRequestDispatcher("/"+DEFAULT_PAGE_AUTH_PASSED_VIEW_MYACCOUNT);
+    		//view.include(request, response);
+    	}
+		//consoleLog.println("Buffer size : "+String.valueOf(request.getContentLength())+"::"+String.valueOf(request.getInputStream().available())+" :: OUTPUT :: "+String.valueOf(response.getBufferSize())+"::"+String.valueOf(response.getContentType()) );
+		consoleLog.println("Buffer Reader size : "+String.valueOf(request.getReader().lines().count()));
+		response.flushBuffer();
+    }
+    */
     
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -119,7 +153,8 @@ public class AuthConnexion extends HttpServlet implements Filter {
 	        Charset cs = Charset.forName("8859_1");
 	        CharsetDecoder cd = cs.newDecoder();
 	        CharBuffer cb = cd.decode(bb);  
-	        response.setContentType("text/css");
+	        // response.setContentType("text/css");
+	        
 			// response.getWriter().append(bb.());
 			
 			
@@ -128,7 +163,7 @@ public class AuthConnexion extends HttpServlet implements Filter {
 	 
 	        try{
 	        	ServletContext curcontext = request.getServletContext();
-	        	
+	        	response.setContentType(curcontext.getMimeType("text/css"));
 	        	if(curcontext  == null )
 	        		consoleLog.println(" NULL context");
  
@@ -153,17 +188,17 @@ public class AuthConnexion extends HttpServlet implements Filter {
 			
 		}
 		
-		HttpServletResponse aAltResponse = new HttpServletResponseWrapper(response);
+		//HttpServletResponse aAltResponse = new HttpServletResponseWrapper(response);
 		
 		
 		
-		handleRequest(request, aAltResponse, 1);
+		handleRequest(request, response, 1);
 		
 		String outpuResponse = String.valueOf(response.getBufferSize());
-		String outpuResponseAlt = String.valueOf(aAltResponse.getBufferSize());
+		// String outpuResponseAlt = String.valueOf(aAltResponse.getBufferSize());
 		
 		//aAltResponse.getOutputStream().flush();
-		aAltResponse.flushBuffer();
+		// aAltResponse.flushBuffer();
 		//aAltResponse.getOutputStream().close();
 		
 	}
@@ -245,7 +280,7 @@ public class AuthConnexion extends HttpServlet implements Filter {
 						{
 							consoleLog.println(getClass().getName()+" : AUTH : Following user to TOKENIZED auth page ... "+applicationPageHub_Request_HTTP_URI);
 							
-							response.sendRedirect(applicationPageHub_Request_ContextPath+"/"+DEFAULT_PAGE_AUTH_PASSED_VIEW_MYACCOUNT);
+							// :: TODO :: response.sendRedirect(applicationPageHub_Request_ContextPath+"/"+DEFAULT_PAGE_AUTH_PASSED_VIEW_MYACCOUNT);
 							
 							
 						}else if( (applicationPageHub_Referer.indexOf( DEFAULT_PAGE_INDEX) >0 )  && (applicationPageHub_Request_HTTP_URI.indexOf(DEFAULT_PAGE_INDEX) >= 0))
@@ -263,7 +298,8 @@ public class AuthConnexion extends HttpServlet implements Filter {
 							// do some stuff that progam doesn t really care nor know 
 							// response.getWriter().append(" Hello : ").append( userLogin );
 							response.setContentType("text/html");
-							response.sendRedirect( DEFAULT_PAGE_AUTH_PASSED_WELCOME );
+							RequestDispatcher view = request.getRequestDispatcher(DEFAULT_PAGE_AUTH_PASSED_WELCOME);
+							// view.forward( request, response );
 							
 							//RequestDispatcher view = request.getRequestDispatcher(DEFAULT_PAGE_AUTH_PASSED_WELCOME);
 							//view.forward(request, response); 
@@ -275,21 +311,65 @@ public class AuthConnexion extends HttpServlet implements Filter {
 						consoleLog.println(getClass().getName()+" : AUTH ("+String.format("%d::%s", response.getContentType(), request.getDispatcherType().toString())+"): Redirecting user to default auth page ... "+DEFAULT_PAGE_INDEX);
 						request.setAttribute("loginMessage", loginMessage );
 						// response.getWriter().append(" <a href=\""+request.getContextPath()+"\">Veuillez vous authentifier ...</a> : ").append( userToken ); 
-						RequestDispatcher view = request.getRequestDispatcher(DEFAULT_PAGE_INDEX);
+						
 						// 
-						consoleLog.println(" Actual context ... :: "+String.format("%s", view.hashCode()) );
-						if( String.valueOf(applicationPageHub_Referer_Servlet).length() <= 2 )
+						consoleLog.println(" Actual "+request.getDispatcherType().toString()+" context ... :: "+String.format("%s", request.hashCode())+"::"+applicationPageHub_Referer );
+						// if( String.valueOf(applicationPageHub_Referer).length() <= 2 )
+						String referepageservlet = String.valueOf(DEFAULT_PAGE_INDEX).toLowerCase().replaceAll(".jsp", "");
+						
+						if(String.valueOf(applicationPageHub_Referer).length() >1 && (String.valueOf(applicationPageHub_Referer).indexOf(referepageservlet) != (-1) ) ) {
+							consoleLog.println(" Enter NOTE "+request.getDispatcherType().toString()+"  context ... :: MAYBE get "+DEFAULT_PAGE_INDEX );
+							
+						}else
+						if(String.valueOf(applicationPageHub_Referer).indexOf(referepageservlet) == (-1) )
 						{
+							
+							
+						
+							
 						    // REQUEST
 						    // INCLUDE
-						    if(request.getDispatcherType().toString().indexOf("INCLUDE") == (-1) ){
-							consoleLog.println(" Enter context ... :: "+String.format("%s", view.hashCode()) );
-							view.include(request, response);
-							consoleLog.println(" Back to context ... :: "+String.format("%s", view.hashCode()) );
-						    }else {
+							//  
+						     if( applicationPageHub_Referer == null 
+						    		 && request.getDispatcherType().toString().indexOf("REQUEST") == (-1)  
+						    		 &&  (request.getDispatcherType().toString().indexOf("FORWARD") == (-1))
+						     ){
 							// Action action = ActionFactory.getAction(request);
 							//        String view = action.execute(request, response);
+						    	consoleLog.println(" OUTPUT "+request.getDispatcherType().toString()+"  context ... :: "+String.format("%s", request.hashCode())+"::"+applicationPageHub_Referer );
+						    	
+						    }else if(applicationPageHub_Referer != null 
+						    		 && request.getDispatcherType().toString().indexOf("FORWARD") != (-1) ){
+						    	RequestDispatcher view = request.getRequestDispatcher("/"+DEFAULT_PAGE_INDEX);
+								consoleLog.println(" CC Enter "+request.getDispatcherType().toString()+"  context ... :: "+String.format("%s", view.hashCode())+" :: "+DEFAULT_PAGE_INDEX );
+								view.include(request, response);
+								consoleLog.println(" CC Back to  "+request.getDispatcherType().toString()+" context ... :: "+String.format("%s", view.hashCode())+" :: "+DEFAULT_PAGE_INDEX  );
+								
+								
+								
+						    }else if(applicationPageHub_Referer != null 
+						    		 && request.getDispatcherType().toString().indexOf("INCLUDE") == (-1) ){
+						    	RequestDispatcher view = request.getRequestDispatcher("/"+DEFAULT_PAGE_INDEX);
+								consoleLog.println(" Enter "+request.getDispatcherType().toString()+"  context ... :: "+String.format("%s", view.hashCode())+" :: "+DEFAULT_PAGE_INDEX );
+								//view.forward(request, response);
+								consoleLog.println(" DD Back to  "+request.getDispatcherType().toString()+" context ... :: "+String.format("%s", view.hashCode())+" :: "+DEFAULT_PAGE_INDEX  );
+						    }else if(applicationPageHub_Referer == null 
+						    		 && request.getDispatcherType().toString().indexOf("REQUEST") != (-1) ){
+						    	
+						    	RequestDispatcher view = request.getRequestDispatcher("/"+DEFAULT_PAGE_INDEX);
+								consoleLog.println(" CC Enter "+request.getDispatcherType().toString()+"  context ... :: "+String.format("%s", view.hashCode())+" :: "+DEFAULT_PAGE_INDEX );
+								view.include(request, response);
+								consoleLog.println(" CC Back to  "+request.getDispatcherType().toString()+" context ... :: "+String.format("%s", view.hashCode())+" :: "+DEFAULT_PAGE_INDEX  );
+								
+								
+								
+						    }else  {
+						    	consoleLog.println(" DD OUTPUT something for "+request.getDispatcherType().toString()+" context ... :: "+String.format("%s", request.hashCode()) );
 						    }
+						}else if(applicationPageHub_Referer == null) {
+							
+							
+							
 						}
 						
 				 /*
@@ -300,9 +380,9 @@ public class AuthConnexion extends HttpServlet implements Filter {
 							//view.include(request, response);
 						}else*/
 						
-						if( (String.valueOf(applicationPageHub_Referer).compareTo("/") == 0 ) && (applicationPageHub_Referer_Header == null) ) { //  && (applicationPageHub_Referer.length() >=3)
+						/* if( (String.valueOf(applicationPageHub_Referer).compareTo("/") == 0 ) && (applicationPageHub_Referer_Header == null) ) { //  && (applicationPageHub_Referer.length() >=3)
 							consoleLog.println(getClass().getName()+" : AUTH : Redirecting user to ENDPOINT DEEFAULT page ... ("+String.valueOf(applicationPageHub_Referer)+")");
-							RequestDispatcher view = request.getRequestDispatcher(DEFAULT_PAGE_INDEX);
+							// RequestDispatcher view = request.getRequestDispatcher(DEFAULT_PAGE_INDEX);
 							request.getInputStream();
 							view.forward(request, response);
 							
@@ -319,7 +399,7 @@ public class AuthConnexion extends HttpServlet implements Filter {
 						{
 							consoleLog.println(getClass().getName()+" : AUTH : Redirecting user to ENDPOINT page ... (null)");
 							response.getWriter().append(" <a href=\""+request.getContextPath()+"\">Veuillez vous authentifier ...</a> : ").append( userToken );
-						}else */{
+						}else {
 							consoleLog.println(getClass().getName()+" : AUTH : Redirecting user to default auth page output ... ");
 							// RequestDispatcher view = request.getRequestDispatcher("/"+DEFAULT_PAGE_INDEX);
 							// view.notifyAll();
@@ -337,7 +417,7 @@ public class AuthConnexion extends HttpServlet implements Filter {
 							response.getOutputStream().println(outpuResponse+" :: "+response.toString());
 							// response.getOutputStream().flush();
 							
-						}
+						}*/
 					}
 					
 					

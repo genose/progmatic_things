@@ -17,7 +17,7 @@
 		<div>
 			<fieldset>
 			<label>Veuillez vous identifier </label>
-			<form action="<%= request.getContextPath() %>/AuthConnexion" method="POST">
+			<form action="<%= request.getContextPath() %>/AuthConnexionHUB" method="POST">
 			
 				<label>Utilisateur :</label>
 				<input type="text" value="Nom utilisateur" id="username"  name="username"  />

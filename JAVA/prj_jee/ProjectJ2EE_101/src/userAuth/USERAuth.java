@@ -6,8 +6,8 @@ package userAuth;
 import java.util.HashMap;
 import java.util.Map;
 
-import BDDConnector.*;
-
+import BDDConnectorHUB.*;
+ 
 /**
  * @author 59013-03-13
  *
@@ -16,7 +16,7 @@ public class USERAuth {
 
 	final private String BDDSCHEMA_TABLE_NAME_USERS = "user";
 	
-	private BDDConnector BDDUserLink = null;
+	private BDDConnectorHUB BDDUserLink = null;
 	private Map<Object, Object> mSchemaKeyInfo;
  
 	
@@ -25,7 +25,7 @@ public class USERAuth {
 	 */
 	public USERAuth() {
 		// TODO Auto-generated constructor stub
-		BDDUserLink = new BDDConnector();
+		BDDUserLink = new BDDConnectorHUB();
 		
 		mSchemaKeyInfo = new HashMap<Object, Object>();
 		

@@ -217,7 +217,7 @@ public class BDDConnectorHUB {
 				SGBDConnectionLink = DriverManager.getConnection(getSGBDConnectionString(), SGBDUsername, SGBDUserPassword);
 			}catch(Exception EV_ERR_GETCONNECTION) {
 				consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +" : Error in proceed connection with : "+SGBDDriverName+" : "+getSGBDConnectionString());
-				throw EV_ERR_GETCONNECTION;
+				throw new Exception(EV_ERR_GETCONNECTION);
 				// :: ;; return 0 ;; 
 			}
 			
@@ -255,9 +255,10 @@ public class BDDConnectorHUB {
 		} catch (SQLException EV_CONNEXION_OPEN_ERROR){
 			consoleLog.println("Fatal : Something goes wrong when proceed to load package / open connection ... ");
 			EV_CONNEXION_OPEN_ERROR.printStackTrace();
+			throw new Exception(EV_CONNEXION_OPEN_ERROR);
 		}
 		// error
-		return 0;
+		// :: ;; return 0 ;;
 	}
 	
 	/**
@@ -289,10 +290,11 @@ public class BDDConnectorHUB {
 			return 1;
 		} catch (SQLException EV_CONNEXION_CLOSE_ERROR){
 			EV_CONNEXION_CLOSE_ERROR.printStackTrace();
+			throw EV_CONNEXION_CLOSE_ERROR;
 		}
 		
 		
-		return 0;
+		// :: ;; return 0 ;;
 	}
 
 	/**
@@ -305,9 +307,9 @@ public class BDDConnectorHUB {
 			if(SGBDConnectionLink.isValid(30) && !SGBDConnectionLink.isClosed() ) {
 				return true;
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (SQLException EV_CONNEXION_PING_ERROR) {
+		    EV_CONNEXION_PING_ERROR.printStackTrace();
+		    throw EV_CONNEXION_PING_ERROR;
 		}
 		
 		return false;
@@ -327,7 +329,8 @@ public class BDDConnectorHUB {
 			SGBDConnectionLinkResultSetCountPTR = 0;
 			SGBDConnectionLinkResultSetCount = 0;
 		}catch(Exception EV_ERR_RESET_VALUES) {
-			
+		    EV_ERR_RESET_VALUES.printStackTrace();
+		    throw EV_ERR_RESET_VALUES;
 		}
 		
 		try {
@@ -461,12 +464,13 @@ public class BDDConnectorHUB {
 								((SGBDConnectionLinkResultSetCount >=1)? (SGBDConnectionLinkResultSetCount | SGBDConnectionLinkStatement.getUpdateCount())  : 1)
 								// else no row was touched by last operation ... returning Zero value  
 								: 0 ) ;
-			} catch (SQLException e) {
+			} catch (SQLException EV_ERR_EXECUTESQL) {
 				// can t let connection / session open ... so we prevent this by requesting a Close handling ...
 				this.Close(); 
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return 0;
+				EV_ERR_EXECUTESQL.printStackTrace();
+				throw EV_ERR_EXECUTESQL;
+				
 			}
 		}
 		 // :: ;; return 0 ;; 
@@ -544,7 +548,8 @@ public class BDDConnectorHUB {
 		
 		}catch(Exception EV_ERR_FETCHROW_INRESULTSET){
 			EV_ERR_FETCHROW_INRESULTSET.printStackTrace();
-			return false;
+			throw EV_ERR_FETCHROW_INRESULTSET;
+			// :: return false;
 		}
 		return true;
 		

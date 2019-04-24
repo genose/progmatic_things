@@ -68,16 +68,16 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 	final String AUTH_INFO_USERNAME_KEY = "userNameToken";
 	final String AUTH_INFO_PASSWORD_KEY = "userPasswordToken";
 	/* ************************************************** */
-	final String APP_CURRENT_FRONT_ORIGIN 						= "httpHeaderReferer";
+	final String APP_CURRENT_FRONT_ORIGIN 					= "httpHeaderReferer";
 	final String APP_CURRENT_FRONT_ORIGIN_REQUEST_URI 			= "httpHeaderRefererRequestURI";
 	final String APP_CURRENT_FRONT_ORIGIN_SERVLET 				= "httpHeaderRefererServletOrigin";
 	
 	
 	
-	final String DEFAULT_PAGE_INDEX 							= "_index.jsp";
-	final String DEFAULT_PAGE_AUTH_PASSED_VIEW_MYACCOUNT 		= "compte.jsp";
+	final String DEFAULT_PAGE_INDEX 					= "_index.jsp";
+	final String DEFAULT_PAGE_AUTH_PASSED_VIEW_MYACCOUNT 			= "compte.jsp";
 	/* ************************************************** */
-	final String DEFAULT_PAGE_AUTH_CONNEXION 					= "/AuthConnexionHUB";
+	final String DEFAULT_PAGE_AUTH_CONNEXION 				= "/AuthConnexionHUB";
 	/* ************************************************** */
 	
 	final String DEFAULT_PAGE_AUTH_PASSED_WELCOME 	= "connexionReussie.jsp";
@@ -428,6 +428,7 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 					consoleLog.println("EV_ERR_DOHANDLE_REQUEST::"+EV_ERR_DOHANDLE_REQUEST.getMessage());
 					EV_ERR_DOHANDLE_REQUEST.printStackTrace();
 					response.sendError(500, EV_ERR_DOHANDLE_REQUEST.toString());
+					consoleLog.println("EV_ERR_DOHANDLE_REQUEST::FATAL :: EXIT ... ("+applicationPageHub_Request_URI+")");
 //					view.forward(request, response);
 				}
 				
@@ -496,8 +497,9 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 			
 		} catch (Exception EV_ERR_AUTH_EXCEPTION) {
 			// TODO Auto-generated catch block
+		    	consoleLog.println(getClass().getName() +"::"+getClass().getEnclosingMethod() +":: Error :: "+EV_ERR_AUTH_EXCEPTION.getMessage());
 			EV_ERR_AUTH_EXCEPTION.printStackTrace();
-			throw EV_ERR_AUTH_EXCEPTION;
+			throw new Exception(EV_ERR_AUTH_EXCEPTION);
 			// return false;
 		} 
 		

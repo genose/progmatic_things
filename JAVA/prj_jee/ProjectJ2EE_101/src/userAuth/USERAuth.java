@@ -23,7 +23,7 @@ public class USERAuth {
 	/**
 	 * 
 	 */
-	public USERAuth() {
+	public USERAuth()  throws Exception {
 		// TODO Auto-generated constructor stub
 		BDDUserLink = new BDDConnectorHUB();
 		
@@ -36,9 +36,9 @@ public class USERAuth {
 			
 			mSchemaKeyInfo.putAll( BDDUserLink.getSGBDConnectionLinkResultSetColumnMapDescriptorCONST());
 			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception EV_ERR_CLASSINIT_EXCEPTION) {
+		    EV_ERR_CLASSINIT_EXCEPTION.printStackTrace();
+		    throw new Exception(EV_ERR_CLASSINIT_EXCEPTION);
 		}
 	 
 	}

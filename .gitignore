@@ -1,5 +1,3 @@
-
 *.log
 *cache*
 *.meta*
-*.class

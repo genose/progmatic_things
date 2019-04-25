@@ -32,16 +32,40 @@
         <from>/rewrite-status</from>
         <to>/test/status/</to>
     </outbound-rule>
-
+		<rule>
+            <from>/AuthConnexionHUB/([a-z|A-Z|\-|\_|0-9]+)/AuthConnexionHUB/([a-z|A-Z|\-|\_|0-9]+)/AuthConnexionHUB/([a-z|A-Z|\-|\_|0-9]+).(css|js|gif|tiff|png|jpeg|jpg)</from>
+            <to>/AuthConnexionHUB/$1/$2/$3.$4</to>
+        </rule>
         <rule>
-            <from>/([a-z|A-Z|\-|\_|0-9]+).jsp</from>
-            <to>/AuthConnexionHUB/$1/</to>
+            <from>/AuthConnexionHUB/([a-z|A-Z|\-|\_|0-9]+)/AuthConnexionHUB/([a-z|A-Z|\-|\_|0-9]+).(css|js|gif|tiff|png|jpeg|jpg)</from>
+            <to>/AuthConnexionHUB/$1/$2.$3</to>
+        </rule>
+        <rule>
+            <from>/src/([a-z|A-Z|\-|\_|\/|0-9]+).(css|js|gif|tiff|png|jpeg|jpg)</from>
+            <to>/AuthConnexionHUB/xxsrc/$1.$2</to>
         </rule>
         <rule>
         	<condition type="request-uri" operator="notequal">/AuthConnexionHUB(.*)</condition>
-            <from>/([a-z|A-Z|\-|\_|0-9]+).jsp?(.*)</from>
-            <to>/AuthConnexionHUB/$1?$2</to>
+            <from>/</from>
+            <to>/AuthConnexionHUB/</to>
         </rule>
+        
+        <rule>
+        	<condition type="request-uri" operator="notequal">/AuthConnexionHUB/([a-z|A-Z|\-|\_|0-9]+).jsp</condition>
+            <from>/([a-z|A-Z|\-|\_|0-9]+).jsp</from>
+            <to>/AuthConnexionHUB/$1.jsp</to>
+        </rule>
+        <rule>
+        	<condition type="request-uri" operator="notequal">/AuthConnexionHUB/([a-z|A-Z|\-|\_|0-9]+).jsp?(.*)</condition>
+        	<condition type="request-uri" operator="notequal">/AuthConnexionHUB(.*)</condition>
+            <from>/([a-z|A-Z|\-|\_|0-9]+).jsp?(.*)</from>
+            <to>/AuthConnexionHUB/$1.jsp?$2</to>
+        </rule>
+        <rule>
+            <from>/AuthConnexionHUB/AuthConnexionHUB/(.*)</from>
+            <to>/AuthConnexionHUB/$1</to>
+        </rule>
+        
     <!--
 
     INSTALLATION

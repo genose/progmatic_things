@@ -2732,3 +2732,17 @@ Binding(ALT+COMMAND+T,
 
 !ENTRY org.eclipse.jface.text 2 0 2019-04-24 18:26:24.320
 !MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.boolean'
+
+!ENTRY org.eclipse.jface.text 2 0 2019-04-26 09:29:14.441
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.boolean'
+
+!ENTRY net.sf.eclipse.tomcat 4 4 2019-04-26 09:57:46.316
+!MESSAGE Runtime classpath after adding projects: []
+
+
+!ENTRY net.sf.eclipse.tomcat 4 4 2019-04-26 10:06:03.114
+!MESSAGE Runtime classpath after adding projects: []
+
+
+!ENTRY org.eclipse.jface.text 2 0 2019-04-26 10:08:47.018
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.boolean'

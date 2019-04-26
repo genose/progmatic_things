@@ -62,8 +62,8 @@
             <to>/AuthConnexionHUB/$1.jsp?$2</to>
         </rule>
         <rule>
-            <from>/AuthConnexionHUB/AuthConnexionHUB/(.*)</from>
-            <to>/AuthConnexionHUB/$1</to>
+            <from>/AuthConnexionHUB/AuthConnexionHUB(.*)</from>
+            <to>/AuthConnexionHUB$1</to>
         </rule>
         
     <!--

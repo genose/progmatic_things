@@ -162,12 +162,12 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 	consoleLog.println("************************** \n ");
 
 
-
-	String requestURIServlet = request.getRequestURI();
-	String ressourceNameLower = String.valueOf(applicationPageHub_Request_URI.toLowerCase()).replaceFirst("xxsrc", "src").replaceFirst(classIndentedName, "").replaceFirst(classIndentedName.toLowerCase(), "").replaceAll("//", "/");
 	String contextppathURI = this.getServletContext().getContextPath();
 	String documentroots = this.getServletContext().getRealPath("/");
 
+
+	String requestURIServlet = request.getRequestURI();
+	String ressourceNameLower = String.valueOf(applicationPageHub_Request_URI.toLowerCase()).replaceFirst("xxsrc", "src").replaceAll(classIndentedName.toLowerCase(), "").replaceFirst(contextppathURI.toLowerCase(), "").replaceAll("//", "/");
 
 	boolean bForwardTypeIOStream_CSS 	= (ressourceNameLower.indexOf(".css") >=1);
 	boolean bForwardTypeIOStream_JS 	= (ressourceNameLower.indexOf(".js") >=1) && (ressourceNameLower.indexOf(".jsp") == (-1)) ;
@@ -215,7 +215,7 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 		// resp.setHeader("Content-disposition", "attachment; filename=sample.txt");
 
 		ServletContext curcontext = request.getServletContext();
-		response.setContentType(curcontext.getMimeType("text/css"));
+		
 		if(curcontext  == null )
 		    consoleLog.println(" NULL context");
 
@@ -225,17 +225,21 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 		byte[] buffer = new byte[ARBITARY_SIZE];
 
 		int numBytesRead;
-		consoleLog.println(getServletContext().getServletContextName()+" :: GET :: Providing forward IOStream for : "+request.getRequestURI() );
+		response.setStatus(HttpServletResponse.SC_ACCEPTED);
+		response.setContentType(curcontext.getMimeType("text/css"));
+		consoleLog.println(getServletContext().getServletContextName()+"::"+getClass().getName()+" :: GET :: Providing forward IOStream for : "+ressourceNameLower+" \n:: Served AT :"+request.getRequestURI() );
 
 		while ((numBytesRead = dis.read(buffer) ) > 0)
 		    out.write(buffer, 0, numBytesRead);
 
 	    }catch(Exception EV_ERR_FILEREAD){
-		consoleLog.println(" :: Error "+EV_ERR_FILEREAD.getMessage());
+	    	consoleLog.println(getServletContext().getServletContextName()+"::"+getClass().getName()+" :: Error Providing Forward IOStream : "+ressourceNameLower+" : "+EV_ERR_FILEREAD.getMessage());
+	    	response.sendError(404);
+	    	return;
 	    }
 
 
-	    consoleLog.println(getServletContext().getServletContextName()+" :: GET :: END :: forward IOStream for : "+request.getRequestURI() );
+	    consoleLog.println(getServletContext().getServletContextName()+"::"+getClass().getName()+" :: GET :: END :: forward IOStream for : "+ressourceNameLower+" \n:: Served AT :"+request.getRequestURI() );
 	    return;
 
 	}
@@ -329,8 +333,11 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 		request.setAttribute("loginToken", userLogin );
 		request.setAttribute("loginUsername", userLogin );			
 		// message for the user			
-		request.setAttribute("loginMessage", "" );
-
+ 
+		if (userSession != null ){
+			userSession.setAttribute("loginMessage", "" ); 
+		};
+		
 		if(userToken != null)
 		{
 
@@ -444,7 +451,9 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 		// response.getWriter().append("Access denied ").append( userLogin ).append( userPassword );
 		// request.setAttribute("loginMessage", loginMessage .append("Access denied ").append( userLogin ).append( userPassword ); );
 		consoleLog.println(getClass().getName()+" : AUTH ("+String.format("%d::%s", response.getContentType(), request.getDispatcherType().toString())+"): Redirecting user to default auth page ... "+DEFAULT_PAGE_INDEX);
-		request.setAttribute("loginMessage", loginMessage );
+		if (userSession != null ){
+			userSession.setAttribute("loginMessage", loginMessage ); 
+		};
 		// response.getWriter().append(" <a href=\""+request.getContextPath()+"\">Veuillez vous authentifier ...</a> : ").append( userToken ); 
 
 		// 
@@ -568,7 +577,7 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 	    //					view.forward(request, response);
 	}catch (Exception EV_ERR_DOHANDLE_REQUEST) {
 	    consoleLog.println("EV_ERR_DOHANDLE_REQUEST::"+EV_ERR_DOHANDLE_REQUEST.getMessage());
-
+	    response.sendError(500, EV_ERR_DOHANDLE_REQUEST.getCause() +" :: "+EV_ERR_DOHANDLE_REQUEST.getMessage());
 	} 
 
 

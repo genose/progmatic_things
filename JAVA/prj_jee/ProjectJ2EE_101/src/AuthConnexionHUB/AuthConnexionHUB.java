@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.channels.FileChannel;
@@ -85,16 +86,16 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
     private PrintStream		consoleLog 										= System.out;
     private HttpSession		userSession 									= null;
     /* ************************************************** */
-    	String classIndentedName 							= "";
-	String applicationPageHub_Referer						= "";
-	String applicationPageHub_Referer_Header					= "";
-	String applicationPageHub_Referer_Servlet					= "";
+    String classIndentedName 							= "";
+    String applicationPageHub_Referer						= "";
+    String applicationPageHub_Referer_Header					= "";
+    String applicationPageHub_Referer_Servlet					= "";
 
-	String applicationPageHub_Request_HTTP_URI					= "";
-	String applicationPageHub_Request_URI						= "";
-	String applicationPageHub_Request_QueryString 					= "";
-	String applicationPageHub_Request_ContextPath 					= "";
-    
+    String applicationPageHub_Request_HTTP_URI					= "";
+    String applicationPageHub_Request_URI						= "";
+    String applicationPageHub_Request_QueryString 					= "";
+    String applicationPageHub_Request_ContextPath 					= "";
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -102,10 +103,10 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 	super();
 	// TODO Auto-generated constructor stub
 
-	    classIndentedName = getClass().getName();
-	    classIndentedName = classIndentedName .substring(
-		    classIndentedName.lastIndexOf(".")+1,
-		    String.valueOf(classIndentedName).length() );
+	classIndentedName = getClass().getName();
+	classIndentedName = classIndentedName .substring(
+		classIndentedName.lastIndexOf(".")+1,
+		String.valueOf(classIndentedName).length() );
     }
     /*
     protected void service(HttpServletRequest request,
@@ -139,18 +140,18 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	// TODO Auto-generated method stub
 	// response.getWriter().append("Served at: ").append(request.getRequestURI());
-	
+
 	// checking for non Servlet ressource ...
-	
 
-	 applicationPageHub_Referer						= request.getPathInfo(); // a JSP page request in URI / Execution context
-	 applicationPageHub_Referer_Header					= request.getHeader("referer");
-	 applicationPageHub_Referer_Servlet					= request.getServletPath();
 
-	 applicationPageHub_Request_HTTP_URI					= String.valueOf( request.getRequestURL());
-	 applicationPageHub_Request_URI						= request.getRequestURI();
-	 applicationPageHub_Request_QueryString 					= request.getQueryString();
-	 applicationPageHub_Request_ContextPath 					= request.getContextPath();
+	applicationPageHub_Referer						= request.getPathInfo(); // a JSP page request in URI / Execution context
+	applicationPageHub_Referer_Header					= request.getHeader("referer");
+	applicationPageHub_Referer_Servlet					= request.getServletPath();
+
+	applicationPageHub_Request_HTTP_URI					= String.valueOf( request.getRequestURL());
+	applicationPageHub_Request_URI						= request.getRequestURI();
+	applicationPageHub_Request_QueryString 					= request.getQueryString();
+	applicationPageHub_Request_ContextPath 					= request.getContextPath();
 	consoleLog.println("************************** \n HTTP ENV Received  ....");
 	consoleLog.println(getServletContext().getServletContextName()+" :: GET :: Served at: "+request.getRequestURI() );
 	consoleLog.println("\n   ;; applicationPageHub_Referer = "+String.valueOf( applicationPageHub_Referer ));
@@ -166,8 +167,8 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 	String ressourceNameLower = String.valueOf(applicationPageHub_Request_URI.toLowerCase()).replaceFirst("xxsrc", "src").replaceFirst(classIndentedName, "").replaceFirst(classIndentedName.toLowerCase(), "").replaceAll("//", "/");
 	String contextppathURI = this.getServletContext().getContextPath();
 	String documentroots = this.getServletContext().getRealPath("/");
-	
-	
+
+
 	boolean bForwardTypeIOStream_CSS 	= (ressourceNameLower.indexOf(".css") >=1);
 	boolean bForwardTypeIOStream_JS 	= (ressourceNameLower.indexOf(".js") >=1) && (ressourceNameLower.indexOf(".jsp") == (-1)) ;
 	boolean bForwardTypeIOStream_PNG 	= (ressourceNameLower.indexOf(".png") >=1);
@@ -178,7 +179,7 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 	boolean bForwardTypeIOStream_JPG 	= (ressourceNameLower.indexOf(".jpg") >=1);
 	boolean bForwardTypeIOStream_JPEG 	= (ressourceNameLower.indexOf(".jpeg") >=1); 
 
-	
+
 	boolean bForwardTypeIOStream = bForwardTypeIOStream_CSS  
 		|| bForwardTypeIOStream_JS 
 		|| bForwardTypeIOStream_PNG
@@ -186,11 +187,11 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 		|| bForwardTypeIOStream_TIFF
 		|| bForwardTypeIOStream_JPG
 		|| bForwardTypeIOStream_JPEG;
-	
-	
+
+
 	boolean bRequestTypeValidate = (ressourceNameLower.indexOf(".jsp") >=1); 
-	
-	
+
+
 	if( bForwardTypeIOStream )
 	{
 
@@ -260,13 +261,13 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	applicationPageHub_Referer						= request.getPathInfo(); // a JSP page request in URI / Execution context
-	 applicationPageHub_Referer_Header					= request.getHeader("referer");
-	 applicationPageHub_Referer_Servlet					= request.getServletPath();
+	applicationPageHub_Referer_Header					= request.getHeader("referer");
+	applicationPageHub_Referer_Servlet					= request.getServletPath();
 
-	 applicationPageHub_Request_HTTP_URI					= String.valueOf( request.getRequestURL());
-	 applicationPageHub_Request_URI						= request.getRequestURI();
-	 applicationPageHub_Request_QueryString 					= request.getQueryString();
-	 applicationPageHub_Request_ContextPath 					= request.getContextPath();
+	applicationPageHub_Request_HTTP_URI					= String.valueOf( request.getRequestURL());
+	applicationPageHub_Request_URI						= request.getRequestURI();
+	applicationPageHub_Request_QueryString 					= request.getQueryString();
+	applicationPageHub_Request_ContextPath 					= request.getContextPath();
 	consoleLog.println("************************** \n HTTP ENV Received  ....");
 	consoleLog.println(this.getServletContext().getServletContextName()+"  :: POST :: Served at: "+request.getRequestURI() );
 	consoleLog.println("\n   ;; applicationPageHub_Referer = "+String.valueOf( applicationPageHub_Referer ));
@@ -277,8 +278,8 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 	consoleLog.println("************************** \n ");
 
 
-	
-	
+
+
 	handleRequest(request, response, 2);
     }
 
@@ -360,7 +361,14 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 		    }
 
 		    consoleLog.println("B requestedThruForwardAuthUri = "+requestedThruForwardAuthUri);
+		    
+		    if(String.valueOf(requestedThruForwardAuthUri).indexOf(applicationPageHub_Request_ContextPath) != (-1) ) {
+			requestedThruForwardAuthUri = String.valueOf(requestedThruForwardAuthUri).substring(
+				String.valueOf(requestedThruForwardAuthUri).indexOf(applicationPageHub_Request_ContextPath)+applicationPageHub_Request_ContextPath.length(),
+				String.valueOf(requestedThruForwardAuthUri).length() );
+			// + String.valueOf(applicationPageHub_Request_ContextPath)
 
+		    }
 
 		    if(String.valueOf(requestedThruForwardAuthUri).length() <= 2) {
 
@@ -370,13 +378,20 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 			    requestedThruForwardAuthUri = applicationPageHub_Referer;
 			}else {
 			    consoleLog.println("C Got NOPE in Request :: let welcome User :: requestedThruForwardAuthUri = "+requestedThruForwardAuthUri);
-			    requestedThruForwardAuthUri = DEFAULT_PAGE_AUTH_PASSED_VIEW_MYACCOUNT;
+			    requestedThruForwardAuthUri = (applicationPageHub_Referer == null || String.valueOf(applicationPageHub_Referer).length() <=2 )? null : applicationPageHub_Referer;
+			    
+			    // :: DEFAULT_PAGE_AUTH_PASSED_VIEW_MYACCOUNT;
 			}
 
 			consoleLog.println("base path redirect requestedThruForwardAuthUri = "+requestedThruForwardAuthUri);
 
 		    }
-
+		    
+		    if(requestedThruForwardAuthUri == null ) {
+			consoleLog.println(getClass().getName()+" : AUTH : Following user to TOKENIZED auth page 404 ... "+applicationPageHub_Request_ContextPath+"/"+requestedThruForwardAuthUri+"::"+requestedThruForwardAuthUri);
+			response.sendError(404, "Impossible de determiner l URI demandee : ");
+			return;
+		    }else
 		    if( (request.getDispatcherType().toString().indexOf("FORWARD") == (-1))
 			    && (request.getDispatcherType().toString().indexOf("INCLUDE") == (-1)) 
 			    ) {
@@ -386,8 +401,17 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 			if(request.getDispatcherType().toString().indexOf("INCLUDE") == (-1) ) {
 			    consoleLog.println(getClass().getName()+" : AUTH : Following user to TOKENIZED auth page INCLUDE ... "+applicationPageHub_Request_ContextPath+"/"+requestedThruForwardAuthUri+"::"+requestedThruForwardAuthUri);							    
 			    response.setContentType("text/html");
-			    RequestDispatcher view = request.getRequestDispatcher(requestedThruForwardAuthUri);
-			    view.include(request, response);
+			    try {
+				RequestDispatcher view = request.getRequestDispatcher(requestedThruForwardAuthUri);
+				view.include(request, response);
+			    }catch(Exception EV_ERR_PROCESS_INCLUDE) {
+				consoleLog.println("EV_ERR_PROCESS_INCLUDE::"+EV_ERR_PROCESS_INCLUDE.getMessage());
+				response.sendError(404, URLDecoder.decode(EV_ERR_PROCESS_INCLUDE.getMessage(),"UTF-8"));
+				return;
+			    }
+			}else if(request.getDispatcherType().toString().indexOf("INCLUDE") != (-1) ) {
+			    consoleLog.println(getClass().getName()+" : AUTH : NOT sure what to do INCLUDE ... "+applicationPageHub_Request_ContextPath+"/"+requestedThruForwardAuthUri+"::"+requestedThruForwardAuthUri);							    
+ 
 			}else {
 			    consoleLog.println(getClass().getName()+" : Followed Auth PATh :: Unsure what to do ... "+request.hashCode());
 			}
@@ -531,15 +555,21 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 
 
 
+	} catch (IOException EV_ERR_DOHANDLE_IOREQUEST) {
+	    consoleLog.println("EV_ERR_DOHANDLE_IOREQUEST::"+EV_ERR_DOHANDLE_IOREQUEST.getMessage());
 
-	} catch (Exception EV_ERR_DOHANDLE_REQUEST) {
+	} catch (ServletException EV_ERR_DOHANDLE_ServletException_REQUEST) {
 	    // TODO Auto-generated catch block
-	    consoleLog.println("EV_ERR_DOHANDLE_REQUEST::"+EV_ERR_DOHANDLE_REQUEST.getMessage());
-	    EV_ERR_DOHANDLE_REQUEST.printStackTrace();
-	    response.sendError(500, EV_ERR_DOHANDLE_REQUEST.toString());
-	    consoleLog.println("EV_ERR_DOHANDLE_REQUEST::FATAL :: EXIT ... ("+applicationPageHub_Request_URI+")");
+	    // consoleLog.println("EV_ERR_DOHANDLE_REQUEST::"+EV_ERR_DOHANDLE_ServletException_REQUEST.getMessage());
+	    // EV_ERR_DOHANDLE_ServletException_REQUEST.printStackTrace();
+
+	    response.sendError(500, EV_ERR_DOHANDLE_ServletException_REQUEST.getCause() +" :: "+EV_ERR_DOHANDLE_ServletException_REQUEST.getMessage());
+	    consoleLog.println("EV_ERR_DOHANDLE_REQUEST::FATAL:: "+EV_ERR_DOHANDLE_ServletException_REQUEST.getCause() +" :: "+EV_ERR_DOHANDLE_ServletException_REQUEST.getMessage() +"\n:: EXIT ... ("+applicationPageHub_Request_URI+")");
 	    //					view.forward(request, response);
-	}
+	}catch (Exception EV_ERR_DOHANDLE_REQUEST) {
+	    consoleLog.println("EV_ERR_DOHANDLE_REQUEST::"+EV_ERR_DOHANDLE_REQUEST.getMessage());
+
+	} 
 
 
 

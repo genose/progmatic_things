@@ -201,7 +201,7 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 		final int ARBITARY_SIZE = 1048;
 		// RequestDispatcher view = request.getRequestDispatcher(request.getServletPath());
 		// view.forward(request, response);
-		ressourceNameLower = String.valueOf(documentroots+""+ressourceNameLower).replaceAll(contextppathURI, "").replaceAll("//", "/");
+		ressourceNameLower = String.valueOf(documentroots+""+ressourceNameLower).replaceAll("//", "/");
 		FileInputStream fstream = new FileInputStream(ressourceNameLower);
 
 		DataInputStream dis = new DataInputStream(fstream);
@@ -227,7 +227,7 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 		int numBytesRead;
 		response.setStatus(HttpServletResponse.SC_ACCEPTED);
 		response.setContentType(curcontext.getMimeType("text/css"));
-		consoleLog.println(getServletContext().getServletContextName()+"::"+getClass().getName()+" :: GET :: Providing forward IOStream for : "+ressourceNameLower+" \n:: Served AT :"+request.getRequestURI() );
+		consoleLog.println(getServletContext().getServletContextName()+"::"+getClass().getName()+" :: GET :: Providing forward IOStream for : \n"+ressourceNameLower+" \n:: Served AT :"+request.getRequestURI() );
 
 		while ((numBytesRead = dis.read(buffer) ) > 0)
 		    out.write(buffer, 0, numBytesRead);
@@ -239,7 +239,7 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 	    }
 
 
-	    consoleLog.println(getServletContext().getServletContextName()+"::"+getClass().getName()+" :: GET :: END :: forward IOStream for : "+ressourceNameLower+" \n:: Served AT :"+request.getRequestURI() );
+	    consoleLog.println(getServletContext().getServletContextName()+"::"+getClass().getName()+" :: GET :: END :: forward IOStream for : \n"+ressourceNameLower+" \n:: Served AT :"+request.getRequestURI() );
 	    return;
 
 	}
@@ -390,6 +390,10 @@ public class AuthConnexionHUB extends HttpServlet implements Filter {
 			    // :: DEFAULT_PAGE_AUTH_PASSED_VIEW_MYACCOUNT;
 			}
 
+			if(String.valueOf(requestedThruForwardAuthUri).length() <=2) {
+			    requestedThruForwardAuthUri = DEFAULT_PAGE_INDEX;
+			    consoleLog.println("base path redirect merge to index requestedThruForwardAuthUri = "+requestedThruForwardAuthUri);
+			}
 			consoleLog.println("base path redirect requestedThruForwardAuthUri = "+requestedThruForwardAuthUri);
 
 		    }

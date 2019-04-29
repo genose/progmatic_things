@@ -26,7 +26,7 @@ public class BDDConnectorHUB {
 
 
 	private String 		SGBDUsername 								= "root";
-	private String 		SGBDUserPassword 							= "rootroot";
+	private String 		SGBDUserPassword 							= "root";
 	private String 		SGBDConnectionString 						= "";
 	private String 		SGBDConnectionStringDriver 					= "jdbc:mysql://localhost";
 	private String 		SGBDConnectionStringSeletedDatabase 		= "bdgestionformation";

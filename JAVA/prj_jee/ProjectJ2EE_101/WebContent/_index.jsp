@@ -16,8 +16,8 @@
 		<div id="connexion">
 		<div>
 			<fieldset>
-			<label>Veuillez vous identifier<%= session.getAttribute("loginMessage") %> </label>
-			<form action="<%= request.getContextPath() %>/?AuthConnexionHUB" method="POST">
+			<label><%= session.getAttribute("loginMessage") %> </label>
+			<form action="<%= request.getContextPath() %>/moncompte" method="POST">
 			
 				<label>Utilisateur :</label>
 				<input type="text" value="Nom utilisateur" id="username"  name="username"  />

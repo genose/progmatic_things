@@ -2,3 +2,17 @@
 http://courses.coreservlets.com/Course-Materials/pdf/struts/MVC.pdf
 https://documentation.bloomreach.com/library/concepts/error-pages-and-error-handling/2.-add-a-catch-all-sitemap-item-that-creates-a-dynamic-404-page.html
 https://books.google.fr/books?id=HWInCgAAQBAJ&lpg=PA60&ots=sRo8tc6sAQ&dq=jsp%20view%20does%20not%20output&hl=fr&pg=PP1#v=onepage&q&f=false
+https://stackoverflow.com/questions/4931323/whats-the-difference-between-getrequesturi-and-getpathinfo-methods-in-httpservl
+Directive pour creer en interne les getter et setter avec  @Getter @Setter : https://projectlombok.org/features/GetterSetter
+https://dev.to/scottshipp/avoid-getters-and-setters-whenever-possible-c8m
+https://www.theserverside.com/discussions/thread/29287.html
+https://openclassrooms.com/forum/sujet/erreur-404-en-j2ee-en-utilisant-listener
+https://www.journaldev.com/1973/servlet-exception-and-error-handling-example-tutorial
+https://www.programcreek.com/java-api-examples/javax.ws.rs.ext.MessageBodyWriter
+https://www.journaldev.com/16813/dao-design-pattern
+https://www.graphql-java-kickstart.com/tools/directives/
+https://java.developpez.com/tutoriels/servlets-java/?page=page_5
+// RESTFull API JAVA 
+https://docs.oracle.com/cd/E19776-01/820-4867/ggqnr/index.html
+// SWIG AWT  Desktop Application programming
+https://www.jmdoudoux.fr/java/dej/chap-swing.htm

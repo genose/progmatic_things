@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration 
+    xmlns="http://logging.apache.org/log4j/2.0/config" 
+    status="ERROR">
+
+    <Appenders>
+    
+        <!-- <Socket name="socket" host="localhost" port="8889">
+            <SerializedLayout />
+        </Socket>  -->
+    
+        <!--  <File name="file" fileName="entreprise.log">
+            <PatternLayout>
+                <Pattern>%p %t %c - %m%n</Pattern>
+            </PatternLayout>
+        </File> -->
+        
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%t] %-5p | %-60c | %m (%F:%L)%n"/>
+        </Console>
+        
+    </Appenders>
+
+    <Loggers>
+        
+        <Logger name="org.hibernate.SQL" level="error" />
+        <Logger name="org.hibernate.type" level="info" />
+    
+        <Root level="error">
+            <!-- AppenderRef ref="file" / -->
+            <AppenderRef ref="stdout" />
+        </Root>
+        
+    </Loggers>
+
+</Configuration>

@@ -1,4 +1,8 @@
 
+// XSD
+http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/index.html
+
+// some References
 http://courses.coreservlets.com/Course-Materials/pdf/struts/MVC.pdf
 https://documentation.bloomreach.com/library/concepts/error-pages-and-error-handling/2.-add-a-catch-all-sitemap-item-that-creates-a-dynamic-404-page.html
 https://books.google.fr/books?id=HWInCgAAQBAJ&lpg=PA60&ots=sRo8tc6sAQ&dq=jsp%20view%20does%20not%20output&hl=fr&pg=PP1#v=onepage&q&f=false
@@ -9,10 +13,30 @@ https://www.theserverside.com/discussions/thread/29287.html
 https://openclassrooms.com/forum/sujet/erreur-404-en-j2ee-en-utilisant-listener
 https://www.journaldev.com/1973/servlet-exception-and-error-handling-example-tutorial
 https://www.programcreek.com/java-api-examples/javax.ws.rs.ext.MessageBodyWriter
-https://www.journaldev.com/16813/dao-design-pattern
+https://www.journaldev.com/16813/dao-design-pathibernate annontation
+https://www.uml-diagrams.org/package-diagrams-overview.html
+
+// hibernate / JPA Data Persistence references 
+https://docs.jboss.org/hibernate/orm/3.6/quickstart/en-US/html/hibernate-gsg-tutorial-basic.html#hibernate-gsg-tutorial-basic-test-saving
+https://www.objectdb.com/java/jpa/persistence/store
+https://www.objectdb.com/java/jpa/persistence/retrieve
+https://www.uml-diagrams.org/spring-hibernate-uml-package-diagram-example.html
+https://docs.jboss.org/hibernate/annotations/3.4/reference/fr/html_single/
+
 https://www.graphql-java-kickstart.com/tools/directives/
 https://java.developpez.com/tutoriels/servlets-java/?page=page_5
+
 // RESTFull API JAVA 
 https://docs.oracle.com/cd/E19776-01/820-4867/ggqnr/index.html
+
 // SWIG AWT  Desktop Application programming
 https://www.jmdoudoux.fr/java/dej/chap-swing.htm
+
+// About Custom Annontaion
+https://coderanch.com/t/484499/java/Interceptor-decorated-custom-annotation
+https://stackoverflow.com/questions/12130653/custom-annotation-as-interceptor-for-a-method-logging
+
+// AOP Magic Semantics
+https://en.wikipedia.org/wiki/Aspect-oriented_programming
+https://en.wikipedia.org/wiki/Decorator_pattern
+https://dzone.com/articles/cdi-aop

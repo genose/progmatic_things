@@ -131,7 +131,7 @@ public class Adresse {
 			relationMapping.put( "id", "> 1" );
 			
 			mappingFields.put(Personne.class.getSimpleName(), "id>1" );
-			listPersonnes = (Map<String, Object>) entManager.find(Personne.class,  mappingFields , listPersonnes);
+			listPersonnes = (Map<String, Object>) entManager.find(Personne.class,  0 , listPersonnes);
 			// pers = ((pers == null ) ? new Personne(): pers);
 			System.out.println(String.valueOf(Personne.class.getClass())+" :: "+String.valueOf(mappingFields.toString()));
 			System.out.println( ((listPersonnes != null)?listPersonnes: String.valueOf("null entity")) .toString());
@@ -141,7 +141,7 @@ public class Adresse {
 			
 			
 			
-			System.out.println( ((pers != null)?pers: String.valueOf("null entity")) .toString());
+			System.out.println( ((pers != null)?pers: String.valueOf("null entity")) .toString()+" :: "+entManager.getMetamodel().getManagedTypes().toString());
 			
 			
 		}catch(Exception EV_ERR_ORM) {

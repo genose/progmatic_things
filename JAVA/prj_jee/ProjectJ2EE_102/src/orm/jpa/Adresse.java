@@ -4,6 +4,7 @@
 package orm.jpa;
 
 import java.util.HashMap;
+
 import java.util.Map;
 
 import javax.persistence.Entity;
@@ -18,7 +19,7 @@ import javax.persistence.Table;
  * @author 59013-03-13
  *
  */
-@Entity @Table(name="adresse")
+@Entity @Table(name="adresses")
 public class Adresse {
 
 	/**

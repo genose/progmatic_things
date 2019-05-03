@@ -5,13 +5,26 @@ import java.io.Serializable;
 import java.lang.Integer;
 import java.lang.String;
 import javax.persistence.*;
+import DBProjectJ2EE_103.*;
 
 /**
  * Entity implementation class for Entity: Personne
  *
  */
 @IdClass(PersonnePK.class)
-@Entity @Table(name="personne")
+@Entity 
+@NamedQueries({
+	@NamedQuery(
+		name="findByNomPrenom",
+		query="Select p FROM Personne p WHERE p.nom = :nom "
+				+ "and p.prenom = :prenom"
+),
+@NamedQuery(
+		name="findByNom",
+		query="Select p FROM Personne p WHERE p.nom = :nom "
+)
+})
+@Table(name="personne")
 public class Personne implements Serializable {
 
 	   
@@ -34,7 +47,7 @@ public class Personne implements Serializable {
 	}
 	public Personne(String name, String firstname, int age) {
 		super();
-		this.id =0;
+		this.id = null;
 		this.age = age;
 		this.nom = name;
 		this.prenom = firstname;

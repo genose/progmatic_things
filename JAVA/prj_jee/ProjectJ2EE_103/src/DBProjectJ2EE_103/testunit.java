@@ -34,8 +34,8 @@ public class testunit {
 	public static void main(String[] args) throws TransactionRequiredException {
 		// TODO Auto-generated method stub
 		
-		System.out.println("*****************************");
-		PersonnePK pers = null;
+		System.out.println("Begin *****************************");
+		
 		EntityManagerFactory entManFactory = Persistence.createEntityManagerFactory("ProjectJ2EE_103");
 		EntityManager entManager = entManFactory.createEntityManager();
 		EntityTransaction entTransac = entManager.getTransaction();
@@ -44,26 +44,44 @@ public class testunit {
 		entTransac.begin();
 		
 		if(entTransac.isActive()) {
-			 
-			pers = entManager.find(PersonnePK.class,1);
-			pers = ((pers == null)? new Personne() : pers);
+			PersonnePK pk = new PersonnePK("Bourne", "Jason");
+			Personne pers =  null;
+			pers = entManager.find(Personne.class,pk);
+			pers = ((pers == null)? new Personne("**", "**", 0) : pers);
 			System.out.println(" result : "+pers);
-			entManager.persist(pers);
+			if(pers.getId() == 0) 
+			{
+				entManager.persist(pers);
+			}
 			
-			String sql = "Select * from personne";
-			Query queryResult = entManager.createNativeQuery(sql, Personne.class);
+//			String sql = "Select * from personne";
+//			Query queryResult = entManager.createNativeQuery(sql, Personne.class);
+//			List<Personne> listPersonnes = queryResult.getResultList();
+//			System.out.println("Found Results : "+String.valueOf(listPersonnes.size()) );
+//			for ( Personne persIdent : listPersonnes) {
+//				System.out.println("PersonneIdent : "+persIdent.toString());
+//			}
+			
+			Query queryResult = entManager.createNamedQuery("findByNomPrenom");
+			queryResult.setParameter("nom", "Bourne");
+			queryResult.setParameter("prenom", "Jason");
+			
 			List<Personne> listPersonnes = queryResult.getResultList();
+			System.out.println("Found Results : "+String.valueOf(listPersonnes.size()) );
 			for ( Personne persIdent : listPersonnes) {
 				System.out.println("PersonneIdent : "+persIdent.toString());
 			}
-			
 			
 		}else {
 			throw new TransactionRequiredException("Transaction is not avail ...");
 		}
 		
-		entTransac.commit();
 		
+		
+		//Personne p = new Personne("Lee","Jet",14);
+		// entManager.persist(p);
+		entTransac.commit();
+		System.out.println("Finish **************************");
 		
 
 	}

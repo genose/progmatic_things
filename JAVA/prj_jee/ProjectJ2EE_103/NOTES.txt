@@ -1,0 +1,2 @@
+// Enum to integer((as Object))
+https://codingexplained.com/coding/java/enum-to-integer-and-integer-to-enum

@@ -5,6 +5,7 @@ package DBProjectJ2EE_103;
 
 import java.io.Serializable;
 
+
 import javax.persistence.Id;
 import DBProjectJ2EE_103.*;
 
@@ -17,6 +18,7 @@ public class PersonnePK implements Serializable {
 	/**
 	 * 
 	 */
+	private Integer id;
 	@Id
 	private String nom;
 	@Id
@@ -31,6 +33,10 @@ public class PersonnePK implements Serializable {
 		return result;
 	}
 
+	public PersonnePK() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public PersonnePK(String nom, String prenom) {
 		super();
 		this.nom = nom;
@@ -87,9 +93,6 @@ public class PersonnePK implements Serializable {
 		this.prenom = prenom;
 	}
 
-	public PersonnePK() {
-		// TODO Auto-generated constructor stub
-	}
  
  
 

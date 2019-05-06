@@ -40,47 +40,142 @@ public class testunit {
 		EntityManager entManager = entManFactory.createEntityManager();
 		EntityTransaction entTransac = entManager.getTransaction();
 		
+		int testCase = 3;
 		
-		entTransac.begin();
-		
-		if(entTransac.isActive()) {
-			PersonnePK pk = new PersonnePK("Bourne", "Jason");
-			Personne pers =  null;
-			pers = entManager.find(Personne.class,pk);
-			pers = ((pers == null)? new Personne("**", "**", 0) : pers);
-			System.out.println(" result : "+pers);
-			if(pers.getId() == 0) 
-			{
-				entManager.persist(pers);
+		if(testCase == 0) {		
+				entTransac.begin();
+				
+				if(entTransac.isActive()) {
+					PersonnePK pk = new PersonnePK("Bourne", "Jason");
+					Personne pers =  null;
+					pers = entManager.find(Personne.class,pk);
+					pers = ((pers == null)? new Personne("**", "**", 0) : pers);
+					System.out.println(" result : "+pers);
+					if(pers.getId() == 0) 
+					{
+						entManager.persist(pers);
+					}
+					
+		//			String sql = "Select * from personne";
+		//			Query queryResult = entManager.createNativeQuery(sql, Personne.class);
+		//			List<Personne> listPersonnes = queryResult.getResultList();
+		//			System.out.println("Found Results : "+String.valueOf(listPersonnes.size()) );
+		//			for ( Personne persIdent : listPersonnes) {
+		//				System.out.println("PersonneIdent : "+persIdent.toString());
+		//			}
+					
+					Query queryResult = entManager.createNamedQuery("findByNomPrenom");
+					queryResult.setParameter("nom", "Bourne");
+					queryResult.setParameter("prenom", "Jason");
+					
+					List<Personne> listPersonnes = queryResult.getResultList();
+					System.out.println("Found Results : "+String.valueOf(listPersonnes.size()) );
+					for ( Personne persIdent : listPersonnes) {
+						System.out.println("PersonneIdent : "+persIdent.toString());
+					}
+					entTransac.commit();
+				}else {
+					throw new TransactionRequiredException("Transaction is not avail ...");
+				}
+			}else if(testCase == 1) {
+				// *******************************
+				PersonnePK pk = new PersonnePK("Bourne", "Jason");
+				Personne pers =  null;
+				// *******************************
+				pers = entManager.find(Personne.class,pk);
+				pers = ((pers == null)? new Personne("**", "**", 0) : pers);
+				// *******************************
+				System.out.println("*******************\n  result : "+pers);
+				System.out.println("*******************\n");  
+				// *******************************
+				pers.setAge(39);
+				// *******************************			
+				System.out.println("*******************\n 1. personne  :: "+ pers.toString());
+				System.out.println("*******************\n");
+				
+				// *******************************
+				System.out.println("*******************\n  Refresh from Database");
+				entManager.refresh(pers);
+				
+				System.out.println("*******************\n");
+				pers = entManager.find(Personne.class,pk);
+				// *******************************				
+				System.out.println("*******************\n 3. personne  :: "+ pers.toString());
+				System.out.println("*******************\n");
+				// *******************************
+				entManager.close();
+				entManFactory.close();
+			}else if(testCase == 2) {
+				// *******************************
+				PersonnePK pk = new PersonnePK("Bourne", "Jason");
+				Personne pers =  null;
+				// *******************************
+				pers = entManager.find(Personne.class,pk);
+				pers = ((pers == null)? new Personne("**", "**", 0) : pers);
+				// *******************************
+				System.out.println("*******************\n  result : "+pers);
+				System.out.println("*******************\n");  
+				// *******************************
+				pers.setNom("BourneShell");
+				// *******************************
+				entManager.detach(pers);
+				// *******************************
+				entManager.getTransaction().begin();
+				// *******************************
+				entManager.flush();
+				entManager.getTransaction().commit();
+				// *******************************				
+				System.out.println("*******************\n 1. personne  :: "+ pers.toString());
+				System.out.println("*******************\n");
+				// *******************************		
+				pers = entManager.find(Personne.class,pk);
+				// *******************************				
+				System.out.println("*******************\n 2. personne  :: "+ pers.toString());
+				System.out.println("*******************\n");
+				// *******************************
+				System.out.println("*******************\n  Refresh from Database");
+				entManager.refresh(pers);
+				
+				System.out.println("*******************\n");
+				pers = entManager.find(Personne.class,pk);
+				// *******************************				
+				System.out.println("*******************\n 3. personne  :: "+ pers.toString());
+				System.out.println("*******************\n");
+				// *******************************
+				entManager.close();
+				entManFactory.close();
+				// *******************************
+			}else if(testCase == 3){
+
+				// *******************************
+				PersonnePK pk = new PersonnePK("Bourne", "Jason");
+				Personne pers =  null;
+				// *******************************
+				pers = entManager.find(Personne.class,pk);
+				pers = ((pers == null)? new Personne("**", "**", 0) : pers);
+				// *******************************
+				System.out.println("*******************\n  result : "+pers);
+				System.out.println("*******************\n");
+				if(pers.getId() == 0) {
+					pers.setNom("Bourne");
+					pers.setPrenom("Jason");
+					pers.setAge(38);
+					Adresse addr = new Adresse("Los Angeles Avenue", "AU", "Melbourne");
+					pers.addAdresse(addr);
+					entManager.persist(pers);
+					entManager.flush();
+					
+					
+				}
+				pers = entManager.find(Personne.class,pk);
+				// *******************************				
+				System.out.println("*******************\n 2. personne  :: "+ pers.toString());
+				System.out.println("*******************\n");
+				// *******************************
 			}
 			
-//			String sql = "Select * from personne";
-//			Query queryResult = entManager.createNativeQuery(sql, Personne.class);
-//			List<Personne> listPersonnes = queryResult.getResultList();
-//			System.out.println("Found Results : "+String.valueOf(listPersonnes.size()) );
-//			for ( Personne persIdent : listPersonnes) {
-//				System.out.println("PersonneIdent : "+persIdent.toString());
-//			}
-			
-			Query queryResult = entManager.createNamedQuery("findByNomPrenom");
-			queryResult.setParameter("nom", "Bourne");
-			queryResult.setParameter("prenom", "Jason");
-			
-			List<Personne> listPersonnes = queryResult.getResultList();
-			System.out.println("Found Results : "+String.valueOf(listPersonnes.size()) );
-			for ( Personne persIdent : listPersonnes) {
-				System.out.println("PersonneIdent : "+persIdent.toString());
-			}
-			
-		}else {
-			throw new TransactionRequiredException("Transaction is not avail ...");
-		}
 		
 		
-		
-		//Personne p = new Personne("Lee","Jet",14);
-		// entManager.persist(p);
-		entTransac.commit();
 		System.out.println("Finish **************************");
 		
 

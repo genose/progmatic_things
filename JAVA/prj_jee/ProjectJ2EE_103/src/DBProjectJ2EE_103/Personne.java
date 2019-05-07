@@ -17,8 +17,9 @@ import DBProjectJ2EE_103.*;
  * Entity implementation class for Entity: Personne
  *
  */
+
+@Entity
 @IdClass(PersonnePK.class)
-@Entity 
 @NamedQueries({
 	@NamedQuery( 
 		name="findByNomPrenom",
@@ -29,14 +30,14 @@ import DBProjectJ2EE_103.*;
 		name="findByNom",
 		query="Select p FROM Personne p WHERE p.nom = :nom "
 )
-})
+}) 
 @Table(name="personne")
 
 public class Personne implements Serializable {
 
 	   
-	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO )
+	 
+	@GeneratedValue (strategy = GenerationType.IDENTITY )
 	private Integer id;
 	@Id
 	private String nom;
@@ -44,20 +45,20 @@ public class Personne implements Serializable {
 	private String prenom;
 	private Integer age;
 	private static final long serialVersionUID = 1L;
-	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
 	// JoinColumn( name="idAdresse", referencedColumnName="idAdresse", nullable=false )
-	private List<Adresse> adresses;
+	private List<Adresse> adresses = new ArrayList<Adresse>();
 	
 	public Personne() {
 		super();
-		this.id =null;
+		this.id = 0;
 		this.age = 22;
 		this.nom = "Bourne";
 		this.prenom = "Jason";
 	}
 	public Personne(String name, String firstname, int age) {
 		super();
-		this.id = null;
+		this.id = 0;
 		this.age = age;
 		this.nom = name;
 		this.prenom = firstname;
@@ -70,28 +71,28 @@ public class Personne implements Serializable {
 	}
 
 	public Integer getId() {
-		return this.id;
+		return this.id ;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
 	}   
 	public String getNom() {
-		return this.nom;
+		return String.valueOf(this.nom);
 	}
 
 	public void setNom(String nom) {
 		this.nom = nom;
 	}   
 	public String getPrenom() {
-		return this.prenom;
+		return String.valueOf(this.prenom);
 	}
 
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}   
 	public Integer getAge() {
-		return this.age;
+		return Integer.valueOf(this.age) | 0;
 	}
 
 	public void setAge(Integer age) {
@@ -103,21 +104,7 @@ public class Personne implements Serializable {
 	public List<Adresse> getAdresses() {
 		return adresses;
 	}
-	/**
-	 * @param adresses the adresses to set
-	 */
-	public void setAdresses(List<Adresse> adresses) {
-		this.adresses = adresses;
-	}
-	
-	public void addAdresse(Adresse adresses) {
-		if(this.adresses == null) {
-			this.adresses = extracted(adresses);
-		}else {
-			this.adresses.add(adresses);
-		}
-	}
-	
+ 
 	public void removeAdresse(Adresse adresses) {
 		if(this.adresses == null) {
 			return;
@@ -125,12 +112,17 @@ public class Personne implements Serializable {
 			this.adresses.remove(adresses);
 		}
 	}
-	
-	private List<Adresse> extracted(Adresse adresses) {
-		 
-		return (List<Adresse>)adresses;
+	public boolean addAdresse(Adresse e) {
+		return adresses.add(e);
 	}
-
+	public boolean contains(Object o) {
+		return adresses.contains(o);
+	}
+	public boolean remove(Object o) {
+		return adresses.remove(o);
+	}
+	
+	 
  
 	
    

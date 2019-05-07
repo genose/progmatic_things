@@ -157,19 +157,29 @@ public class testunit {
 				System.out.println("*******************\n  result : "+pers);
 				System.out.println("*******************\n");
 				if(pers.getId() == 0) {
+					
 					pers.setNom("Bourne");
 					pers.setPrenom("Jason");
 					pers.setAge(38);
 					Adresse addr = new Adresse("Los Angeles Avenue", "AU", "Melbourne");
+					Adresse addr2 = new Adresse("Los Spentos Avenue", "AU", "Melbourne");
 					pers.addAdresse(addr);
+					pers.addAdresse(addr2);
+					
+					entTransac.begin();
+					
+					System.out.println("*******************\n 2. Create personne  :: "+ pers.toString());
+					System.out.println("*******************\n");
 					entManager.persist(pers);
 					entManager.flush();
+					entTransac.commit();
 					
 					
 				}
 				pers = entManager.find(Personne.class,pk);
-				// *******************************				
-				System.out.println("*******************\n 2. personne  :: "+ pers.toString());
+				// *******************************			
+				pers = ((pers == null)? new Personne("**NOPE**", "**NOPE**", 0) : pers);
+				System.out.println("*******************\n 3. personne  :: "+ pers.toString());
 				System.out.println("*******************\n");
 				// *******************************
 			}

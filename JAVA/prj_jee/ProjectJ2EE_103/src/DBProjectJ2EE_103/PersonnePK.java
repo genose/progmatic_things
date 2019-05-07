@@ -5,7 +5,8 @@ package DBProjectJ2EE_103;
 
 import java.io.Serializable;
 
-
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import DBProjectJ2EE_103.*;
 
@@ -18,7 +19,12 @@ public class PersonnePK implements Serializable {
 	/**
 	 * 
 	 */
-	private Integer id;
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+ 
+ 
 	@Id
 	private String nom;
 	@Id
@@ -35,6 +41,7 @@ public class PersonnePK implements Serializable {
 
 	public PersonnePK() {
 		// TODO Auto-generated constructor stub
+		super(); 
 	}
 	
 	public PersonnePK(String nom, String prenom) {
@@ -42,6 +49,9 @@ public class PersonnePK implements Serializable {
 		this.nom = nom;
 		this.prenom = prenom;
 	}
+
+	 
+ 
 
 	@Override
 	public boolean equals(Object obj) {

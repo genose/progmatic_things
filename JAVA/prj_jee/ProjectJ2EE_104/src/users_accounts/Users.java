@@ -3,8 +3,12 @@ package users_accounts;
 import java.io.Serializable;
 
 
+
 import java.lang.Integer;
 import java.lang.String;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +21,12 @@ import java.util.List;
  */
 
  
-@Embeddable 
+@Entity
+@Table("USERS")
 public class Users implements Serializable {
 
 	/* ***************************** */
- 
+	@Id
 	private Integer userId;
 	/* ***************************** */
 	private String userName;
@@ -29,10 +34,10 @@ public class Users implements Serializable {
 	private String userLogin;
 	private String userPassword;
 	/* ***************************** */
-	@ManyToOne
-	@MapsId("userId")
-	@JoinColumn(name = "user_iduser")
-	private List<UsersHistory> connectionHistory = new ArrayList<UsersHistory>();
+	@GeneratedValue (strategy = GenerationType.TABLE )
+	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
+	@MapsId("historyUserId")
+	private ArrayList<UsersHistory> connectionHistory;
 	
 	/* ***************************** */
 	private static final long serialVersionUID = 1L;

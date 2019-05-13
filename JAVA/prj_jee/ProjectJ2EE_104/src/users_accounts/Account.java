@@ -19,7 +19,7 @@ public class Account {
 	
 	/* ***************************** */
 	@Id
-	@TableGenerator(name = "account_gen", table = "id_gen", pkColumnName = "gen_name", valueColumnName = "gen_val", allocationSize = 1)
+	@TableGenerator(name = "account_gen", table = "id_account_gen", pkColumnName = "gen_account_name", valueColumnName = "gen_account_val", allocationSize = 1)
 	@GeneratedValue (generator="account_gen", strategy = GenerationType.IDENTITY )
 	private Integer 	idAccount;
 	/* ***************************** */
@@ -28,7 +28,6 @@ public class Account {
 	/* ***************************** */   
 	@OneToOne
 	@MapsId("userId")
-	@JoinColumn(name = "user_iduser")
 	private Users 		user;
 	/* ***************************** */
 	

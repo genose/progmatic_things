@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class default_servlet
  */
-@WebServlet("/")
+@WebServlet("/index.jsp")
 public class default_servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

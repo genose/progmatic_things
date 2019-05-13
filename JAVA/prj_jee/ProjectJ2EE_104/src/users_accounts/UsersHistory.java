@@ -21,6 +21,8 @@ public class UsersHistory implements Serializable {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY )
 	private Integer historyId;
+	// @PrimaryKeyJoinColumn("userId")
+	private Integer historyUserId;
 	/* ***************************** */   
 	private String historyEvent;
 	/* ***************************** */ 

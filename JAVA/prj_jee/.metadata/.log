@@ -960,3 +960,26 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.eclipse.jst.server.tomcat.core 4 0 2019-05-13 15:09:29.660
 !MESSAGE Several ports (8005, 8080, 8009) required by Tomcat v8.5 Server at localhost are already in use. The server may already be running in another process, or a system process may be using the port. To start this server you will need to stop the other process or change the port number(s).
+
+!ENTRY net.sf.eclipse.tomcat 4 4 2019-05-13 16:06:37.117
+!MESSAGE Runtime classpath after adding projects: []
+
+
+!ENTRY org.eclipse.datatools.connectivity 4 10001 2019-05-13 16:16:37.455
+!MESSAGE Internal Error - org.eclipse.datatools.connectivity
+!STACK 0
+java.util.ConcurrentModificationException
+	at java.util.HashMap$HashIterator.nextNode(HashMap.java:1445)
+	at java.util.HashMap$KeyIterator.next(HashMap.java:1469)
+	at org.eclipse.datatools.sqltools.internal.core.ControlConnectionManager.getControlConnections(ControlConnectionManager.java:305)
+	at org.eclipse.datatools.sqltools.core.profile.SQLToolsProfileProxyListener.closed(SQLToolsProfileProxyListener.java:298)
+	at org.eclipse.datatools.connectivity.internal.ManagedConnection.close(ManagedConnection.java:326)
+	at org.eclipse.datatools.connectivity.internal.CloseManagedConnectionJob.run(CloseManagedConnectionJob.java:42)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.jface.text 2 0 2019-05-13 16:20:15.027
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.boolean'
+
+!ENTRY net.sf.eclipse.tomcat 4 4 2019-05-13 16:57:40.314
+!MESSAGE Runtime classpath after adding projects: []
+

@@ -3,8 +3,11 @@
 	<persistence-unit name="ProjectJ2EE_104"> 
 		<class>users_accounts.Account</class>
 		<class>users_accounts.Adresses</class>
+		<class>users_accounts.Personnes</class>
 		<class>users_accounts.Users</class>
 		<class>users_accounts.UsersHistory</class>
+		<class>warehouse.Articles</class>
+		<class>warehouse.WarehousesArticlePositions</class>
 	
 	</persistence-unit>
 </persistence>

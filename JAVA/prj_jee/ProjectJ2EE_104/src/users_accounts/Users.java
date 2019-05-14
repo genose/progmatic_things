@@ -1,6 +1,7 @@
 package users_accounts;
-
+import users_accounts.*;
 import java.io.Serializable;
+
 import java.lang.Integer;
 import java.lang.String;
 import java.lang.annotation.ElementType;
@@ -37,10 +38,12 @@ public class Users implements Serializable {
 	/* ***************************** */
     @OneToOne  // référence la relation dans la classe Account
     private Account accountInfo ;
-    	/* ***************************** */
+	/* ***************************** */
 	@OneToMany(mappedBy = "userHistoryInfo")
-	private Collection< UsersHistory> connectionHistory;
-	
+	private Collection<UsersHistory> connectionHistory;
+	/* ***************************** */
+	@OneToOne
+	private Personnes userIdentity;
 	/* ***************************** */
 	private static final long serialVersionUID = 1L;
 	/* ***************************** */
@@ -119,8 +122,9 @@ public class Users implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return String.format("Users [userId=%s, userName=%s, userEmail=%s, userLogin=%s, userPassword=%s]", userId,
-				userName, userEmail, userLogin, userPassword);
+		return String.format(
+				"Users [userId=%s, userName=%s, userEmail=%s, userLogin=%s, userPassword=%s, accountInfo=%s, connectionHistory=%s, userIdentity=%s]",
+				userId, userName, userEmail, userLogin, userPassword, accountInfo, connectionHistory, userIdentity);
 	}
 	@Override
 	public int hashCode() {

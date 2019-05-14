@@ -28,6 +28,11 @@ public class UsersHistory implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date historydate;
 	
+	@Override
+	public String toString() {
+		return String.format("UsersHistory [historyId=%s, historyEvent=%s, historydate=%s, userHistoryInfo=%s]",
+				historyId, historyEvent, historydate, userHistoryInfo);
+	}
 	/* ***************************** */
 	/* ****   Foreign Keys  ***** */
 	/* ***************************** */
@@ -92,8 +97,10 @@ public class UsersHistory implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((historyEvent == null) ? 0 : historyEvent.hashCode());
 		result = prime * result + ((historyId == null) ? 0 : historyId.hashCode());
 		result = prime * result + ((historydate == null) ? 0 : historydate.hashCode());
+		result = prime * result + ((userHistoryInfo == null) ? 0 : userHistoryInfo.hashCode());
 		return result;
 	}
 	@Override
@@ -105,6 +112,11 @@ public class UsersHistory implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		UsersHistory other = (UsersHistory) obj;
+		if (historyEvent == null) {
+			if (other.historyEvent != null)
+				return false;
+		} else if (!historyEvent.equals(other.historyEvent))
+			return false;
 		if (historyId == null) {
 			if (other.historyId != null)
 				return false;
@@ -114,6 +126,11 @@ public class UsersHistory implements Serializable {
 			if (other.historydate != null)
 				return false;
 		} else if (!historydate.equals(other.historydate))
+			return false;
+		if (userHistoryInfo == null) {
+			if (other.userHistoryInfo != null)
+				return false;
+		} else if (!userHistoryInfo.equals(other.userHistoryInfo))
 			return false;
 		return true;
 	}

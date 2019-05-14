@@ -12,6 +12,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.transaction.TransactionRequiredException;
 
+import users_accounts.Personne;
+
 /**
  * @author 59013-03-13
  *

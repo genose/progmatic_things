@@ -29,6 +29,7 @@ public class Account {
 	private Date 	creationDate;
 
 	/* ***************************** */
+	@Column(name = "account_type")
 	private Integer accountType;
 	
 	/* ***************************** */
@@ -40,8 +41,8 @@ public class Account {
 	@OneToMany(mappedBy = "accountInfo")
 	private Collection<Adresses> accountAdresses;
 	/* ***************************** */
-	@OneToMany(mappedBy = "commadesInfo")
-	private Collection<commandes> accountCommandes;
+	@OneToMany(mappedBy = "accountInfo")
+	private Collection<Commandes> accountCommandes;
 	/* ***************************** */
 	
 	private static final long serialVersionUID = 1L;

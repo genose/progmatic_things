@@ -1,6 +1,7 @@
 package warehouse;
 
 import warehouse.*;
+
 import java.io.Serializable;
 import java.lang.Integer;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import users_accounts.Account;
 import users_accounts.Adresses;
 
 
@@ -17,23 +19,20 @@ import users_accounts.Adresses;
  *
  */
 @Entity
-@Table(name="Commandes")
+@Table(name="COMMANDES")
 public class Commandes implements Serializable {
 
 	   
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY )
 	private Integer idCommande;   
-
+	@Column(name = "commandestatus") 
 	private Integer etatCommande;
-	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO )
+	
 	private Adresses adresseLivraison;
-	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO )
+	
 	private Adresses adresseFacturation;
-	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO )
+	
 	private Adresses adresseWarehouseReturn; // origin storage
 	
 	
@@ -44,7 +43,9 @@ public class Commandes implements Serializable {
 	@OneToMany(mappedBy = "articlesCommande", cascade={CascadeType.PERSIST, CascadeType.REFRESH}, fetch=FetchType.EAGER)
 	private Collection<Articles> listeArticles;
 	/* ***************************** */
-	
+	@ManyToOne
+	private Account accountInfo;
+		/* ***************************** */
 	private static final long serialVersionUID = 1L;
 
 	public Commandes() {

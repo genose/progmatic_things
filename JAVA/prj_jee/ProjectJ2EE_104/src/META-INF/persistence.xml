@@ -7,6 +7,7 @@
 		<class>users_accounts.Users</class>
 		<class>users_accounts.UsersHistory</class>
 		<class>warehouse.Articles</class>
+		<class>warehouse.Commandes</class>
 		<class>warehouse.WarehousesArticlePositions</class>
 	
 	</persistence-unit>

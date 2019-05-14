@@ -21,19 +21,18 @@ import com.sun.jndi.cosnaming.IiopUrl.Address;
  */
 
 @Entity
-
+ /* ****
 @NamedQueries({
 	@NamedQuery( 
 		name="findByNomPrenom",
-		query="Select p FROM Personne p WHERE p.nom = :nom "
-				+ "and p.prenom = :prenom"
+		query="Select p FROM Personnes p WHERE p.nom = :nom and p.prenom = :prenom"
 ),
 @NamedQuery(
 		name="findByNom",
-		query="Select p FROM Personne p WHERE p.nom = :nom "
+		query="Select p FROM Personnes p WHERE p.nom = :nom "
 )
-}) 
-@Table(name="personnes")
+}) ****** */
+@Table(name="PERSONNES")
 
 public class Personnes implements Serializable {
 
@@ -42,24 +41,24 @@ public class Personnes implements Serializable {
 	@GeneratedValue (strategy = GenerationType.IDENTITY )
 	private Integer id;
 	/* ***************************** */
-	 
-	@GeneratedValue (strategy = GenerationType.AUTO )
+	@Column(name = "named") 
+	
 	private String nom;
 	/* ***************************** */
-	 
-	@GeneratedValue (strategy = GenerationType.AUTO )
+	@Column(name = "lastname") 
+	
 	private String prenom;
 	/* ***************************** */
 	private Integer age;
 	/* ***************************** */
-	 
-	@GeneratedValue (strategy = GenerationType.AUTO )
+	@Column(name = "emailidentity") 
+	
 	private String email;
 	
 	/* ***************************** */
 	/* ****   Foreign Keys  ***** */
 	/* ***************************** */  
-	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "identityInfo", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
 	// JoinColumn( name="idAdresse", referencedColumnName="idAdresse", nullable=false )
 	private Collection<Adresses> adresses;
 	/* ***************************** */
@@ -205,7 +204,7 @@ public class Personnes implements Serializable {
 	/**
 	 * @return the adresses
 	 */
-	public List<Adresses> getAdresses() {
+	public Collection<Adresses> getAdresses() {
 		return adresses;
 	}
  

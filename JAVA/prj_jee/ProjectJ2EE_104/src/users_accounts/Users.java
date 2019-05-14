@@ -1,19 +1,15 @@
 package users_accounts;
 
 import java.io.Serializable;
-
-
-
 import java.lang.Integer;
 import java.lang.String;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
-
-import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-
+import javax.persistence.*;
+import javax.persistence.criteria.CollectionJoin;
 
 /**
  * Entity implementation class for Entity: Users
@@ -22,11 +18,12 @@ import java.util.List;
 
  
 @Entity
-@Table("USERS")
+@Table(name = "USERS")
 public class Users implements Serializable {
 
 	/* ***************************** */
 	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY )
 	private Integer userId;
 	/* ***************************** */
 	private String userName;
@@ -34,10 +31,15 @@ public class Users implements Serializable {
 	private String userLogin;
 	private String userPassword;
 	/* ***************************** */
-	@GeneratedValue (strategy = GenerationType.TABLE )
-	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
-	@MapsId("historyUserId")
-	private ArrayList<UsersHistory> connectionHistory;
+	
+	/* ***************************** */
+	/* ****   Foreign Keys  ***** */
+	/* ***************************** */
+    @OneToOne  // référence la relation dans la classe Account
+    private Account accountInfo ;
+    	/* ***************************** */
+	@OneToMany(mappedBy = "userHistoryInfo")
+	private Collection< UsersHistory> connectionHistory;
 	
 	/* ***************************** */
 	private static final long serialVersionUID = 1L;

@@ -21,15 +21,24 @@ public class UsersHistory implements Serializable {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY )
 	private Integer historyId;
-	// @PrimaryKeyJoinColumn("userId")
-	private Integer historyUserId;
+
 	/* ***************************** */   
 	private String historyEvent;
 	/* ***************************** */ 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date historydate;
+	
+	/* ***************************** */
+	/* ****   Foreign Keys  ***** */
+	/* ***************************** */
+	@ManyToOne
+	private Users userHistoryInfo;
+	/* ***************************** */
+	/* ***************************** */
+	
 	/* ***************************** */ 
 	private static final long serialVersionUID = 1L;
+	/* ***************************** */ 
 	public UsersHistory() {
 		super();
 		this.historyEvent = "NULL EVENT";

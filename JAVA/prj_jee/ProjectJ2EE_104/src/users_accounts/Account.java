@@ -19,26 +19,21 @@ public class Account {
 	
 	/* ***************************** */
 	@Id
-	@TableGenerator(name = "account_gen", table = "id_account_gen", pkColumnName = "gen_account_name", valueColumnName = "gen_account_val", allocationSize = 1)
-	@GeneratedValue (generator="account_gen", strategy = GenerationType.IDENTITY )
+	@GeneratedValue (strategy = GenerationType.IDENTITY )
 	private Integer 	idAccount;
 	/* ***************************** */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date 	creationDate;
-	/* ***************************** */   
-	@OneToOne
-	@MapsId("userId")
-	private Users 		user;
-	/* ***************************** */
-	
-	
-	
-	
-	private Integer accountType;
-	/* ***************************** */
 
+	/* ***************************** */
+	private Integer accountType;
 	
-	
+	/* ***************************** */
+	/* ****   Foreign Keys  ***** */
+	/* ***************************** */  
+	@OneToOne(mappedBy = "accountInfo", targetEntity = Users.class)
+	private Users 		userInfo;
+	/* ***************************** */  
 	private static final long serialVersionUID = 1L;
 
 	public Account() {

@@ -19,9 +19,7 @@ import javax.persistence.*;
  *
  */
 
-@Entity
-@Table(name="ARTICLES")
-@Embeddable
+@Entity (name="ARTICLES")
 public class Articles implements Serializable {
 
 	@Id

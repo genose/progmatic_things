@@ -5,6 +5,7 @@ package application_controleur;
 
 
 import javax.enterprise.context.ApplicationScoped;
+
 import javax.faces.annotation.FacesConfig;
 import javax.faces.annotation.FacesConfig.Version;
 
@@ -18,4 +19,9 @@ import javax.faces.annotation.FacesConfig.Version;
 @FacesConfig( version = FacesConfig.Version.JSF_2_3 )         
 public class ApplicationConfig {
     
+	
+	public Enum<String> applicationHUBResponse = {
+			applicationHUBResponse("ss")
+		
+	};
 }

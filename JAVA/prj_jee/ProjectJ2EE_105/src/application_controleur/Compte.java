@@ -37,7 +37,7 @@ public class Compte implements Serializable {
     
     public String retourAction() {
         
-        return password.equals( "admin" ) ? "success" : "failure";
+        return login.equals( "admin" ) && password.equals( "admin" ) ? "success" : "failure";
     }
     
 }

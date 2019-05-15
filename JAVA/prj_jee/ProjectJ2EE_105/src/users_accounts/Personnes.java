@@ -1,6 +1,7 @@
 package users_accounts;
 import users_accounts.*;
 
+
 import java.io.Serializable;
 
 import java.lang.Integer;
@@ -20,7 +21,7 @@ import com.sun.jndi.cosnaming.IiopUrl.Address;
  *
  */
 
-@Entity
+@Entity(name="PERSONNES")
  /* ****
 @NamedQueries({
 	@NamedQuery( 
@@ -32,7 +33,7 @@ import com.sun.jndi.cosnaming.IiopUrl.Address;
 		query="Select p FROM Personnes p WHERE p.nom = :nom "
 )
 }) ****** */
-@Table(name="PERSONNES")
+
 
 public class Personnes implements Serializable {
 

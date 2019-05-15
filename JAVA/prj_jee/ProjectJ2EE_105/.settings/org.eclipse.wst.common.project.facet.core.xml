@@ -9,4 +9,5 @@
   <installed facet="glassfish.web" version="5"/>
   <installed facet="jst.jsf" version="2.3"/>
   <installed facet="wst.jsdt.web" version="1.0"/>
+  <installed facet="jpt.jpa" version="2.1"/>
 </faceted-project>

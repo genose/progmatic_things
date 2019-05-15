@@ -4,8 +4,6 @@
 package warehouse;
 import warehouse.*;
 
-
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,8 +13,7 @@ import javax.persistence.*;
  * @author 59013-03-13
  *
  */
-@Entity
-@Table(name = "WAREHOUSES_ARTICLE_POSITIONS")
+@Entity (name = "WAREHOUSES_ARTICLE_POSITIONS")
 public class WarehousesArticlePositions implements Serializable {
 
 	/**
@@ -24,6 +21,7 @@ public class WarehousesArticlePositions implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY )
 	private Integer positionId;
 	private String  positionDescrition;
 	private Integer positionQty;

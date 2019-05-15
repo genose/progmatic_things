@@ -2,6 +2,7 @@ package warehouse;
 
 import warehouse.*;
 
+
 import java.io.Serializable;
 
 import java.lang.Double;
@@ -18,8 +19,7 @@ import javax.persistence.*;
  *
  */
 
-@Entity
-@Table(name="ARTICLES")
+@Entity (name="ARTICLES")
 public class Articles implements Serializable {
 
 	@Id

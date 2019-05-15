@@ -1,5 +1,7 @@
 package users_accounts;
 import users_accounts.*;
+
+
 import java.io.Serializable;
 
 import java.lang.Integer;
@@ -18,8 +20,7 @@ import javax.persistence.criteria.CollectionJoin;
  */
 
  
-@Entity
-@Table(name = "USERS")
+@Entity (name = "USERS")
 public class Users implements Serializable {
 
 	/* ***************************** */

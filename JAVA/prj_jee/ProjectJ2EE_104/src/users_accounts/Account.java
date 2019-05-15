@@ -17,9 +17,7 @@ import org.eclipse.persistence.jpa.jpql.parser.DateTime;
  * Entity implementation class for Entity: account
  *
  */
-@Entity
-@Table(name="ACCOUNTS")
-@Embeddable
+@Entity (name="ACCOUNTS")
 public class Account {
 	
 	/* ***************************** */
@@ -109,13 +107,13 @@ public class Account {
 	 * @return the user
 	 */
 	public Users getUser() {
-		return user;
+		return userInfo;
 	}
 	/**
 	 * @param user the user to set
 	 */
 	public void setUser(Users user) {
-		this.user = user;
+		this.userInfo = user;
 	}
    
 	public Integer getIdAccount() {

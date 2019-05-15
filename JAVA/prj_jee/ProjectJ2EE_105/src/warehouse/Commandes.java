@@ -2,6 +2,7 @@ package warehouse;
 
 import warehouse.*;
 
+
 import java.io.Serializable;
 import java.lang.Integer;
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ import users_accounts.Adresses;
  * Entity implementation class for Entity: Commande
  *
  */
-@Entity
-@Table(name="COMMANDES")
+@Entity(name = "COMMANDES")
+
 public class Commandes implements Serializable {
 
 	   

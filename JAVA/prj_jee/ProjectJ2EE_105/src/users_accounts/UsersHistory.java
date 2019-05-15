@@ -2,6 +2,7 @@ package users_accounts;
 
 import java.io.Serializable;
 
+
 import java.lang.Integer;
 import java.util.Date;
 
@@ -12,8 +13,7 @@ import javax.persistence.*;
  * Entity implementation class for Entity: UsersHistory
  *
  */
-@Entity
-@Table(name="USERSHISTORY")
+@Entity(name="USERSHISTORY")
 public class UsersHistory implements Serializable {
 
 

@@ -19,9 +19,8 @@ import users_accounts.Adresses;
  * Entity implementation class for Entity: Commande
  *
  */
-@Entity
-@Table(name="COMMANDES")
-@Embeddable
+@Entity(name = "COMMANDES")
+
 public class Commandes implements Serializable {
 
 	   

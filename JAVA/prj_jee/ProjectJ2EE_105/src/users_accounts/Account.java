@@ -1,7 +1,6 @@
 package users_accounts;
 
 import warehouse.*;
-
 import java.io.Serializable;
 
 
@@ -19,7 +18,6 @@ import org.eclipse.persistence.jpa.jpql.parser.DateTime;
  */
 @Entity
 @Table(name="ACCOUNTS")
-@Embeddable
 public class Account {
 	
 	/* ***************************** */

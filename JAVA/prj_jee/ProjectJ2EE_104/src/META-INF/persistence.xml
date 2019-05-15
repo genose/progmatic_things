@@ -9,6 +9,7 @@
 		<class>warehouse.Articles</class>
 		<class>warehouse.Commandes</class>
 		<class>warehouse.WarehousesArticlePositions</class>
+		<class>warehouse.OrderHistory</class>
 	
 	</persistence-unit>
 </persistence>

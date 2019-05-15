@@ -2,7 +2,6 @@ package users_accounts;
 
 import java.io.Serializable;
 
-
 import java.lang.Integer;
 import java.lang.String;
 import java.util.HashMap;
@@ -18,7 +17,6 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="ADRESSES")
-@Embeddable
 public class Adresses implements Serializable {
 
 	/* ***************************** */

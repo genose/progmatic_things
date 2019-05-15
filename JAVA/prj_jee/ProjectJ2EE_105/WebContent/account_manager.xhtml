@@ -14,14 +14,17 @@
                     
             <h:form>
             
-                <h:inputText id="login" value="" label="" />
+                <h:inputText id="login" value="#{sessionScope['login'] }" label="your login" />
                 <br/>
-               
-            	<h:outputText></h:outputText>
-                
+               <h:outputText value="#{sessionScope['login'] }">
+               ************
+               </h:outputText> 
+                  <br/>
+                   <h:outputText value="#{applicationScope['login'] }">
+               ========
+               </h:outputText>
                 <h:commandButton action="#{account_manager_handler.actionHandler_createUser}" value="Connect" >
-	                <f:setPropertyActionListener target="#{account_manager_handler.btnProperty_1}" value="propertyValue1" />
-	        		<f:setPropertyActionListener target="#{account_manager_handler.btnProperty_2}" value="propertyValue2" />
+	            +++++
 		        </h:commandButton>
                 
            </h:form>

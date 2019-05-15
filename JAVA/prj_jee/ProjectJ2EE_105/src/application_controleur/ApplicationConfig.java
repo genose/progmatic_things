@@ -6,6 +6,7 @@ package application_controleur;
 
 import javax.enterprise.context.ApplicationScoped;
 
+
 import javax.faces.annotation.FacesConfig;
 import javax.faces.annotation.FacesConfig.Version;
 
@@ -20,8 +21,5 @@ import javax.faces.annotation.FacesConfig.Version;
 public class ApplicationConfig {
     
 	
-	public Enum<String> applicationHUBResponse = {
-			applicationHUBResponse("ss")
-		
-	};
+	//public Enum<String> applicationHUBResponse  ;
 }

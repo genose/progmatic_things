@@ -7,15 +7,15 @@
     <navigation-rule>
         <from-view-id>/connecter.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>success</from-outcome>
+            <from-outcome>AUTH_SUCCESS</from-outcome>
             <to-view-id>/account_manager.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
-        <from-view-id>/account_manager.xhtml</from-view-id>
+        <from-view-id>/*</from-view-id>
         <navigation-case>
-            <from-outcome>failure</from-outcome>
-            <to-view-id>/account_manager.xhtml</to-view-id>
+            <from-outcome>AUTH_REQUIRED</from-outcome>
+            <to-view-id>/connecter.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

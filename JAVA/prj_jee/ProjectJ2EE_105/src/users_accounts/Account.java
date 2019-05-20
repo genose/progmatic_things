@@ -2,10 +2,7 @@ package users_accounts;
 
 import warehouse.*;
 
-
-
 import java.io.Serializable;
-
 
 import java.lang.Integer;
 import java.util.Collection;
@@ -19,45 +16,52 @@ import org.eclipse.persistence.jpa.jpql.parser.DateTime;
  * Entity implementation class for Entity: account
  *
  */
-@Entity (name="ACCOUNTS")
-public class Account {
-	
+@Entity(name = "ACCOUNTS")
+public class Account implements FetchableClassSerializableEntity {
+
 	/* ***************************** */
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY )
-	private Integer 	idAccount;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer idAccount;
 	/* ***************************** */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date 	creationDate;
+	private Date creationDate;
 
 	/* ***************************** */
 	@Column(name = "account_type")
 	private Integer accountType;
-	
+
 	/* ***************************** */
-	/* ****   Foreign Keys  ***** */
-	/* ***************************** */  
-	@OneToOne(mappedBy = "accountInfo", targetEntity = Users.class)
-	private Users 		userInfo;
+	/* **** Foreign Keys ***** */
 	/* ***************************** */
-	@OneToMany(mappedBy = "accountInfo")
+	@OneToOne(mappedBy = "accountInfo", targetEntity = Users.class, fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, optional = false)
+	private Users userInfo;
+	/* ***************************** */
+	@OneToMany(mappedBy = "accountInfo", fetch = FetchType.EAGER, cascade = {CascadeType.ALL} )
 	private Collection<Adresses> accountAdresses;
 	/* ***************************** */
-	@OneToMany(mappedBy = "accountInfo")
+	@OneToMany(mappedBy = "accountInfo" , fetch = FetchType.LAZY, cascade = {CascadeType.DETACH} )
 	private Collection<Commandes> accountCommandes;
 	/* ***************************** */
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public Account() {
 		super();
 		this.creationDate = new Date();
 	}
+
+	public Account(String loginAccount, String passwordAccount) {
+		// TODO Auto-generated constructor stub
+		userInfo = new Users(loginAccount, passwordAccount);
+	}
+
 	@Override
 	public String toString() {
 		return String.format("Account [idAccount=%s, creationDate=%s, accountType=%s, userInfo=%s, accountAdresses=%s]",
 				idAccount, creationDate, accountType, userInfo, accountAdresses);
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -69,6 +73,7 @@ public class Account {
 		result = prime * result + ((userInfo == null) ? 0 : userInfo.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -105,26 +110,29 @@ public class Account {
 			return false;
 		return true;
 	}
+
 	/**
 	 * @return the user
 	 */
 	public Users getUser() {
 		return userInfo;
 	}
+
 	/**
 	 * @param user the user to set
 	 */
 	public void setUser(Users user) {
 		this.userInfo = user;
 	}
-   
+
 	public Integer getIdAccount() {
 		return this.idAccount;
 	}
 
 	public void setIdAccount(Integer idAccount) {
 		this.idAccount = idAccount;
-	}   
+	}
+
 	public Date getCreationDate() {
 		return this.creationDate;
 	}
@@ -132,5 +140,57 @@ public class Account {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-   
+	/**
+	 * 
+	 * @param findLogin
+	 * @param findPassword
+	 * @return
+	 * @throws Exception
+	 */
+	public static final Account findAccount(String findLogin, String findPassword) throws Exception {
+		Account entFind = new Account(findLogin, findPassword);
+		
+		return (Account) entFind.findAccount();
+	}
+	/**
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public Account findAccount() throws Exception {
+		/* ****************************************** */
+		EntityManagerFactory entManFactory = Persistence.createEntityManagerFactory("ProjectJ2EE_105");
+		EntityManager entManager = entManFactory.createEntityManager();
+		EntityTransaction entTransac = entManager.getTransaction();
+		/* ****************************************** */
+		entTransac.begin();
+		/* ****************************************** */
+		Account entFind = null;
+		/* ****************************************** */
+		if(entTransac.isActive()) {
+			try {
+				// *******************************
+				entFind = entManager.find(this.getClass(), this);
+				// this = ((entFind == null)? null : entFind);
+				// *******************************
+				System.out.println("*******************\n  result : "+entFind);
+				System.out.println("*******************\n");
+			} catch (Exception EV_ERR_FINDENT) {
+				System.out.println("******* ERROR ******\n"+EV_ERR_FINDENT);
+				throw new Exception("ERROR While retrieve entity ... ");
+			} finally { 
+				entManager.close();
+				entManFactory.close(); 
+			}
+		}else {
+			/* ****************************************** */
+			entManager.close();
+			entManFactory.close();
+			/* ****************************************** */
+			throw new Exception("Unable to obtain sustainble transaction ... ");
+		}
+		/* ****************************************** */
+		return (Account) entFind;
+	}
+
 }

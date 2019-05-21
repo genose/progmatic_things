@@ -51,7 +51,7 @@ public class Compte implements Serializable {
 		try {
 			
 			System.out.println("*********Find account for ("+login+"::"+password+")**********\n");
-			aLoginAccount = Account.findAccount(login, password);
+			aLoginAccount = Account.find(login, password);
 			System.out.println("*******************\n  result : "+aLoginAccount);
 			System.out.println("*******************\n");
 			

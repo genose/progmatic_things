@@ -24,7 +24,7 @@ import users_accounts.Adresses.typeAdresse;
  */
 
 
-final String applicationPersistanceDefaultUnit = "ProjectJ2EE_105";
+// final String applicationPersistanceDefaultUnit = "ProjectJ2EE_105";
 
 @ApplicationScoped
 @FacesConfig( version = FacesConfig.Version.JSF_2_3 )         

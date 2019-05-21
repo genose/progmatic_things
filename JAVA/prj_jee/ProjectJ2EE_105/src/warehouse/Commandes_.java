@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import users_accounts.Account;
 import users_accounts.Adresses;
 
-@Generated(value="Dali", date="2019-05-20T16:17:45.374+0200")
+@Generated(value="Dali", date="2019-05-21T14:48:49.429+0200")
 @StaticMetamodel(Commandes.class)
 public class Commandes_ {
 	public static volatile SingularAttribute<Commandes, Integer> idCommande;

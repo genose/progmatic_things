@@ -1,6 +1,7 @@
 package users_accounts;
 
 import warehouse.*;
+import FetchableEntity.*;
 
 import java.io.Serializable;
 
@@ -8,7 +9,9 @@ import java.lang.Integer;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.annotation.ManagedBean;
 import javax.persistence.*;
+import javax.persistence.EntityManager;
 
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
@@ -17,18 +20,20 @@ import org.eclipse.persistence.jpa.jpql.parser.DateTime;
  *
  */
 @Entity(name = "ACCOUNTS")
-public class Account implements FetchableClassSerializableEntity {
+@ManagedBean
+public class Account extends FetchableClassSerializableEntity implements Serializable {
 
 	/* ***************************** */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idAccount", insertable = true, nullable = true, unique = true, updatable = false)
 	private Integer idAccount;
 	/* ***************************** */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 
 	/* ***************************** */
-	@Column(name = "account_type")
+	@Column(name = "account_type", nullable = false, updatable = true)
 	private Integer accountType;
 
 	/* ***************************** */
@@ -37,10 +42,10 @@ public class Account implements FetchableClassSerializableEntity {
 	@OneToOne(mappedBy = "accountInfo", targetEntity = Users.class, fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, optional = false)
 	private Users userInfo;
 	/* ***************************** */
-	@OneToMany(mappedBy = "accountInfo", fetch = FetchType.EAGER, cascade = {CascadeType.ALL} )
+	@OneToMany(mappedBy = "accountInfo", targetEntity = Adresses.class, fetch = FetchType.EAGER, cascade = {CascadeType.ALL} )
 	private Collection<Adresses> accountAdresses;
 	/* ***************************** */
-	@OneToMany(mappedBy = "accountInfo" , fetch = FetchType.LAZY, cascade = {CascadeType.DETACH} )
+	@OneToMany(mappedBy = "accountInfo" ,targetEntity = Commandes.class, fetch = FetchType.LAZY, cascade = {CascadeType.DETACH} )
 	private Collection<Commandes> accountCommandes;
 	/* ***************************** */
 
@@ -147,45 +152,43 @@ public class Account implements FetchableClassSerializableEntity {
 	 * @return
 	 * @throws Exception
 	 */
-	public static final Account findAccount(String findLogin, String findPassword) throws Exception {
+	public static final Account find(String findLogin, String findPassword) throws Exception {
 		Account entFind = new Account(findLogin, findPassword);
 		
-		return (Account) entFind.findAccount();
+		return (Account) entFind.find();
 	}
 	/**
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public Account findAccount() throws Exception {
+	public Account find() throws Exception {
 		/* ****************************************** */
-		EntityManagerFactory entManFactory = Persistence.createEntityManagerFactory("ProjectJ2EE_105");
-		EntityManager entManager = entManFactory.createEntityManager();
-		EntityTransaction entTransac = entManager.getTransaction();
+		super.entManagerFactoryInit("ProjectJ2EE_105" );
 		/* ****************************************** */
-		entTransac.begin();
+		getEntTransaction().begin();
 		/* ****************************************** */
 		Account entFind = null;
 		/* ****************************************** */
-		if(entTransac.isActive()) {
+		if(getEntTransaction().isActive()) {
 			try {
 				// *******************************
-				entFind = entManager.find(this.getClass(), this);
+				entFind = this.find(this);
 				// this = ((entFind == null)? null : entFind);
 				// *******************************
 				System.out.println("*******************\n  result : "+entFind);
 				System.out.println("*******************\n");
 			} catch (Exception EV_ERR_FINDENT) {
 				System.out.println("******* ERROR ******\n"+EV_ERR_FINDENT);
-				throw new Exception("ERROR While retrieve entity ... ");
+				throw new Exception("ERROR While retrieve entity ... "+EV_ERR_FINDENT);
 			} finally { 
-				entManager.close();
-				entManFactory.close(); 
+				getEntManager().close();
+				getEntManagerFactory().close(); 
 			}
 		}else {
 			/* ****************************************** */
-			entManager.close();
-			entManFactory.close();
+			getEntManager().close();
+			getEntManagerFactory().close();
 			/* ****************************************** */
 			throw new Exception("Unable to obtain sustainble transaction ... ");
 		}

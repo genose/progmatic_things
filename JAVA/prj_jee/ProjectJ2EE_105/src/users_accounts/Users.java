@@ -16,6 +16,8 @@ import java.util.List;
 import javax.persistence.*;
 import javax.persistence.criteria.CollectionJoin;
 
+import FetchableEntity.FetchableClassSerializableEntity;
+
 /**
  * Entity implementation class for Entity: Users
  *
@@ -23,7 +25,7 @@ import javax.persistence.criteria.CollectionJoin;
 
  
 @Entity (name = "USERS")
-public class Users implements Serializable {
+public class Users extends FetchableClassSerializableEntity implements Serializable {
 
 	/* ***************************** */
 	@Id
@@ -63,6 +65,42 @@ public class Users implements Serializable {
 		this.userPassword = password;
 	}
 	 
+	/**
+	 * @return the accountInfo
+	 */
+	public Account getAccountInfo() {
+		return accountInfo;
+	}
+	/**
+	 * @param accountInfo the accountInfo to set
+	 */
+	public void setAccountInfo(Account accountInfo) {
+		this.accountInfo = accountInfo;
+	}
+	/**
+	 * @return the connectionHistory
+	 */
+	public Collection<UsersHistory> getConnectionHistory() {
+		return connectionHistory;
+	}
+	/**
+	 * @param connectionHistory the connectionHistory to set
+	 */
+	public void setConnectionHistory(Collection<UsersHistory> connectionHistory) {
+		this.connectionHistory = connectionHistory;
+	}
+	/**
+	 * @return the userIdentity
+	 */
+	public Personnes getUserIdentity() {
+		return userIdentity;
+	}
+	/**
+	 * @param userIdentity the userIdentity to set
+	 */
+	public void setUserIdentity(Personnes userIdentity) {
+		this.userIdentity = userIdentity;
+	}
 	/**
 	 * @return the userId
 	 */

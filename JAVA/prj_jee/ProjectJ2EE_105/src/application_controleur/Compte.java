@@ -58,8 +58,8 @@ public class Compte implements Serializable {
 			
 		} catch (Exception EV_ERR_FINDENT) {
 			// TODO Auto-generated catch block
-			System.out.println("******* action ERROR ******\n"+EV_ERR_FINDENT);
-			throw new Exception("ERROR While retrieve entity ... "+EV_ERR_FINDENT);
+			// System.out.println("******* action ERROR ******\n"+EV_ERR_FINDENT);
+			throw new Exception("ERROR : "+EV_ERR_FINDENT);
 			// EV_ERR_FINDENT.printStackTrace();
 		}
 		

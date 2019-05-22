@@ -1,6 +1,7 @@
 package users_accounts;
 
 import warehouse.*;
+
 import FetchableEntity.*;
 
 import java.io.Serializable;
@@ -153,16 +154,39 @@ public class Account extends FetchableClassSerializableEntity implements Seriali
 	 * @throws Exception
 	 */
 	public static final Account find(String findLogin, String findPassword) throws Exception {
-		Account entFind = new Account(findLogin, findPassword);
+		Users entUserFind = new Users(findLogin, findPassword);
+		Account entAccountFind = null;
 		
-		return (Account) entFind.find();
+		/* ****************************************** */
+		entUserFind.entManagerFactoryInit("ProjectJ2EE_105" );
+		/* ****************************************** */
+		entUserFind.getEntTransaction().begin();
+		
+		entUserFind = entUserFind.find();
+		
+		if(entUserFind != null) {
+			entAccountFind =  entUserFind.getAccountInfo();
+			if(entAccountFind != null) {
+				entAccountFind = entAccountFind.find();
+			}
+			
+		}else {
+			System.out.println(":: Cannot find User Account ... ");
+		}
+		
+		
+		entUserFind.getEntManager().close();
+		entUserFind.getEntityManagerFactory().close();
+		
+		return entAccountFind;
 	}
 	/**
 	 * 
+	 * @param <T>
 	 * @return
 	 * @throws Exception
 	 */
-	public Account find() throws Exception {
+	public <T> T find() throws Exception {
 		/* ****************************************** */
 		super.entManagerFactoryInit("ProjectJ2EE_105" );
 		/* ****************************************** */
@@ -173,13 +197,13 @@ public class Account extends FetchableClassSerializableEntity implements Seriali
 		if(getEntTransaction().isActive()) {
 			try {
 				// *******************************
-				entFind = this.find(this);
+				entFind =  this.find(this);
 				// this = ((entFind == null)? null : entFind);
 				// *******************************
 				System.out.println("*******************\n  result : "+entFind);
 				System.out.println("*******************\n");
 			} catch (Exception EV_ERR_FINDENT) {
-				System.out.println("******* ERROR ******\n"+EV_ERR_FINDENT);
+				// System.out.println("******* ERROR ******\n"+EV_ERR_FINDENT);
 				throw new Exception("ERROR While retrieve entity ... "+EV_ERR_FINDENT);
 			} finally { 
 				getEntManager().close();
@@ -193,7 +217,7 @@ public class Account extends FetchableClassSerializableEntity implements Seriali
 			throw new Exception("Unable to obtain sustainble transaction ... ");
 		}
 		/* ****************************************** */
-		return (Account) entFind;
+		return  (T) entFind;
 	}
 
 }

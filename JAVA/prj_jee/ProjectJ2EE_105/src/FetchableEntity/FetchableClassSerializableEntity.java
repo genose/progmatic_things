@@ -6,6 +6,10 @@ package FetchableEntity;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.FlushModeType;
+import javax.persistence.Id;
 import javax.persistence.LockModeType;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
@@ -89,9 +94,14 @@ public class FetchableClassSerializableEntity implements EntityManager, Serializ
 		this.entTransaction = entTransaction;
 	}
 
-	public void entManagerFactoryInit(String argFactoryName) {
+	public void entManagerFactoryInit(String argFactoryName) throws Exception {
 		// TODO Auto-generated method stub
-
+		entManagerString = argFactoryName;
+		
+		if(this.entManagerString == null ) {
+			throw new Exception("entManager:: You should initialize entityManager with non-null Factory name (String) ... ");
+		}
+		
 		/* ****************************************** */
 		try {
 			// if(this.entTransaction != null) this.entTransaction.rollback();
@@ -105,7 +115,7 @@ public class FetchableClassSerializableEntity implements EntityManager, Serializ
 		/* ****************************************** */
 		try {
 			if(this.entManagerFactory == null)
-				this.entManagerFactory = Persistence.createEntityManagerFactory(argFactoryName);
+				this.entManagerFactory = Persistence.createEntityManagerFactory(this.entManagerString);
 			
 		} catch (Exception EV_ERR_INIT_PERSISTMANAGER) {
 
@@ -262,8 +272,73 @@ public class FetchableClassSerializableEntity implements EntityManager, Serializ
 		// http://www.java2s.com/Code/Java/Reflection/Usesreflectiontodisplaytheannotationassociatedwithamethod.htm
 		// http://www.java2s.com/Code/Java/Reflection/FindAnnotatedFields.htm
 		// http://www.java2s.com/Code/Java/Reflection/GetAnnotatedDeclaredFields.htm
-		Field[] afield = arg0.getClass().getFields();
-		Annotation[] aAnnontionsInfos = afield.getAnnotations();
+		
+		Class aClassID = null;
+		Object aObjectIDClass = new Object();
+		
+	
+		
+		Class aObjectClass = arg0.getClass();
+		Method[] aClassMethodDeclared = aObjectClass.getDeclaredMethods();
+		Map<String,String> aClassMethodDeclaredMapping = new HashMap<String, String>();
+		Field[] afield = aObjectClass.getDeclaredFields();
+		
+		
+		for(Method aMethodDeclared : aClassMethodDeclared) {
+			System.out.println(" Object class : adding method "+aMethodDeclared.getName());
+			aClassMethodDeclaredMapping.put(aMethodDeclared.getName().toLowerCase(), aMethodDeclared.getName());
+			
+		}
+		
+		
+		System.out.println(" Object class : "+String.valueOf( aObjectClass.toString())+" ::  fields Length : "+String.valueOf( afield.length));	
+		
+		List<Field> annotatedFields = new ArrayList<Field>(afield.length);
+		
+		for (Field field : afield) {
+			Annotation[] aAnnontionsInfos = field.getAnnotations();
+				
+		  if( field.isAnnotationPresent(Id.class) ) {
+		  // if (aAnnontionsInfos.length >0) {
+			  
+			  Object aObjectFieldValue = null; 
+			  
+			  String aFieldName = field.getName();
+			  Method aMethodAccessor = null;
+			  Class aReturnType = null;
+			  try {
+				  
+				  String aMethodName = aClassMethodDeclaredMapping.get( "get"+aFieldName.toLowerCase() );
+				  if(aMethodName == null) {
+					  System.out.println("FetchableClassSerializableEntity.find() :: No method named ("+aMethodName+":["+aFieldName+"])");
+					  continue;
+				  }
+				  aMethodAccessor = aObjectClass.getMethod(aMethodName);
+				  if(aMethodAccessor != null) {
+					  aObjectFieldValue = aMethodAccessor.invoke(arg0, null);
+				  }else {
+					  System.out.println("FetchableClassSerializableEntity.find() :: No method named ("+"get"+aFieldName+")");
+					  continue;
+				  }
+				  aReturnType = aMethodAccessor.getReturnType();
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("FetchableClassSerializableEntity.find() :: ERROR No method named ("+"get"+aFieldName+") :: "+e);
+				
+				continue;
+			}
+		
+			  System.out.println(aFieldName+" :: "+((aObjectFieldValue != null)?aObjectFieldValue.getClass():"NULL CLASS")+" Annoted Length : "+String.valueOf( aAnnontionsInfos.length));
+		    
+			for (Annotation annoted : aAnnontionsInfos) {
+				System.out.println("Annotation :: "+field.getName()+" :: "+(annoted).annotationType());
+			}
+			
+			annotatedFields.add(field);
+		    
+		  }
+	    }
+		
 		this.entManagerFactoryInit(this.entManagerString);
 		
 		System.out.println("EntManager should Find with :: "+arg0.getClass()+"::"+arg0.toString());

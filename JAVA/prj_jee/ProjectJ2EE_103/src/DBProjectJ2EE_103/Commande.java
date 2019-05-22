@@ -21,7 +21,7 @@ public class Commande implements Serializable {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY )
 	private Integer idCommande;   
-	@Id
+	
 	private Integer etatCommande;
 	@ManyToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
 	private List<Article> listeArticle = new ArrayList<Article>();

@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public interface LotoInterface {
 
-	public void shuffle() throws Exception;
+	public void shuffle(Boolean bDoNotify) throws Exception;
 
-	public Map<String, Object> shuffle(List<Integer> usableNumber) throws Exception;
+	public Map<String, Object> shuffle(List<Integer> userUsableNumber, Boolean bDoNotify)  throws Exception;
 }

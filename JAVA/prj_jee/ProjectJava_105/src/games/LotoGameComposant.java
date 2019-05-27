@@ -30,7 +30,7 @@ public class LotoGameComposant implements LotoInterface {
 
 	public LotoGameComposant(String composantName, Integer numberToUse, Integer complementNumberToUse) {
 		super();
-		this.numberToUse = numberToUse;
+		this.numberToUse = numberToUse + complementNumberToUse;
 		this.complementNumberToUse = complementNumberToUse;
 		this.composantName = composantName;
 	}

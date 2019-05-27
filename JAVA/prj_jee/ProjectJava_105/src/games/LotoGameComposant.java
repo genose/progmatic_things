@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.IntStream;
 
+import javax.management.RuntimeErrorException;
+
 /**
  * @author 59013-36-18
  *
@@ -28,7 +30,7 @@ public class LotoGameComposant implements LotoInterface {
 	List<Integer> shuffledNumbers = new ArrayList<Integer>();
 	List<Integer> shuffledNumbersComplementary = new ArrayList<Integer>();
 
-	public LotoGameComposant(String composantName, Integer numberToUse, Integer complementNumberToUse) {
+	public LotoGameComposant(String composantName, Integer numberToUse, Integer complementNumberToUse) throws RuntimeErrorException {
 		super();
 		this.numberToUse = numberToUse + complementNumberToUse;
 		this.complementNumberToUse = complementNumberToUse;
@@ -36,7 +38,7 @@ public class LotoGameComposant implements LotoInterface {
 	}
 
 	public LotoGameComposant(String composantName, Integer nbNumberToUse, Integer nbComplementNumberToUse,
-			Integer nbOfUseable) {
+			Integer nbOfUseable) throws RuntimeErrorException {
 		super();
 
 		this.numberOfUseable = Math.min(nbOfUseable, nbNumberToUse + nbComplementNumberToUse);

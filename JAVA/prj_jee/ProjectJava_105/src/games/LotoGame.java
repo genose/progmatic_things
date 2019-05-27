@@ -1,5 +1,7 @@
 package games;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 import java.util.Collections;
@@ -30,16 +32,21 @@ public class LotoGame extends Observable implements LotoInterface {
 		
 		for (LotoGameComposant objComposantTirage : oComposantTirage) {
 
+			if(objComposantTirage == null )
+				throw new NullPointerException(" "+this.getClass().getEnclosingMethod()+":: one of referenced Observer is null ptr ...");
+			
 			if (!(objComposantTirage instanceof LotoGameComposant))
-				continue;
-
+				throw new InvalidAlgorithmParameterException(" "+this.getClass().getEnclosingMethod()+" :: one of referenced Observer is not compliant to ["+(LotoGameComposant.class)+"] ...");
+			/* *************************************************** */
+			// get shaked numbers, with or without predefined number list ...
 			objComposantTirage.shuffle((((userUsableNumber != null) && (userUsableNumber.size() > 0)) ? userUsableNumber
 					: (((iListOfUsableNumbers != null) && (iListOfUsableNumbers.size() > 0)) ? iListOfUsableNumbers
 							: null)),
-					false
+					false // Ignore notifChange, this will be done by the current method LotoGame.Shuffle(...)
 
 			);
-
+			/* *************************************************** */
+			// put current [LotoGameComposant.class] results in next resultset object ...
 			oListTirageCurrent.put(objComposantTirage.getComposantName(), objComposantTirage.getShuffledNumbers());
 
 		}
@@ -47,8 +54,10 @@ public class LotoGame extends Observable implements LotoInterface {
 		Date dateShuffle = new Date();
 		String dateStr = dateShuffle.toString();
 		/* *************************************************** */
+		// Archive resultset ...
 		oListTirage.put(dateStr, oListTirageCurrent);
 		/* *************************************************** */
+		// Notify View / Observers of changes ...
 		if (bDoNotify) {
 			try {
 				notifyChange(this);
@@ -70,7 +79,16 @@ public class LotoGame extends Observable implements LotoInterface {
 	public Map<String, Map<String, Object>> getListTirage() {
 		return oListTirage;
 	}
-
-
+	
+	public Boolean addGameComposant(LotoGameComposant aComposantGame) throws InvalidParameterException, Exception{
+		
+		
+		if((aComposantGame != null ) && (aComposantGame instanceof LotoGameComposant) ) {
+			return oComposantTirage.add(aComposantGame);
+		}else{
+			throw new InvalidParameterException("***** ERROR ***** Argument invalid type ");
+		}
+		
+	}
 
 }

@@ -1,6 +1,7 @@
-package games;
+package org.genose.java.implementation.lotogames;
 
 import java.security.InvalidAlgorithmParameterException;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-import org.genose.implementation.observable.Observable;
+import org.genose.java.implementation.observable.Observable;
 
 public class LotoGame extends Observable implements LotoInterface {
 

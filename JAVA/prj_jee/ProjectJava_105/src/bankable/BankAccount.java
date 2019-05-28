@@ -3,7 +3,7 @@
  */
 package bankable;
 
-import org.genose.implementation.observable.Observable;
+import org.genose.java.implementation.observable.Observable;
 
 /**
  * @author 59013-36-18

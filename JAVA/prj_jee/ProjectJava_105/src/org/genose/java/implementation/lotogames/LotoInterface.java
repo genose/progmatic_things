@@ -1,7 +1,7 @@
 /**
  * 
  */
-package games;
+package org.genose.java.implementation.lotogames;
 
 import java.util.ArrayList;
 import java.util.List;

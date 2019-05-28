@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.genose.implementation.observable;
+package org.genose.java.implementation.observable;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.management.RuntimeErrorException;
 
-import org.genose.implementation.observable.*;
+import org.genose.java.implementation.observable.*;
 
 /**
  * @author 59013-36-18

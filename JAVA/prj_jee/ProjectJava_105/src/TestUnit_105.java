@@ -1,7 +1,7 @@
-import org.genose.implementation.*;
-import org.genose.implementation.observable.Observable;
+import org.genose.java.implementation.*;
 
-import games.*;
+import org.genose.java.implementation.lotogames.*;
+
 public class TestUnit_105 {
 
 	

@@ -52,8 +52,8 @@ public class DicoMots {
 			e.printStackTrace();
 			
 			this.mots = new ArrayList<String>();
-			this.mots.add( "Exception"); 
-			this.mots.add( "LolliDolls");
+			this.mots.add( "Exception" ); 
+			this.mots.add( "LolliDolls" );
 			
 			return ;
 		}

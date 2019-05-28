@@ -28,7 +28,7 @@ public class account_manager_handler {
 
 		 //System.out.println(" .... "+String.valueOf(req.getParameter("password"))); 
 		 
-		 return ApplicationConfig_HUBResponse.APPLICATIONCONFIG_HUBRESPONSE_SUCCESS.getCodeNameValue();
+		 return DictionnaireDefini.APPLICATIONCONFIG_HUBRESPONSE_SUCCESS.getCodeNameValue();
 	 }
 	
 	/**

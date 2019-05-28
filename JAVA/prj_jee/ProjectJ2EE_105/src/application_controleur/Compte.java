@@ -64,8 +64,8 @@ public class Compte implements Serializable {
 		}
 		
         return ( (aLoginAccount != null) && (aLoginAccount.getIdAccount() != 0) ) ? 
-        		ApplicationConfig_HUBResponse.APPLICATIONCONFIG_HUBRESPONSE_AUTH_SUCCESS.getCodeNameValue() :
-        		ApplicationConfig_HUBResponse.APPLICATIONCONFIG_HUBRESPONSE_AUTH_FAILURE.getCodeNameValue();
+        		DictionnaireDefini.APPLICATIONCONFIG_HUBRESPONSE_AUTH_SUCCESS.getCodeNameValue() :
+        		DictionnaireDefini.APPLICATIONCONFIG_HUBRESPONSE_AUTH_FAILURE.getCodeNameValue();
     }
     
 }

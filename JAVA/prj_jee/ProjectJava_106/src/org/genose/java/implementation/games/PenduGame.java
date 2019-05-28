@@ -21,7 +21,7 @@ public class PenduGame extends Observable {
 	static int nbRetry = NBRETRY_DEFAULT;
 	
 	private ArrayList<String> lsUsableChars = new ArrayList<String>();
-	private  ArrayList<String> lsMatchedChars = new ArrayList<String>();
+	private ArrayList<String> lsMatchedChars = new ArrayList<String>();
 	private String sAskedWord = "LOlidoll";
 	private String sAskedWordMasked = ""; // new StringBuffer(); 
 	private int ciStartChar = 64;
@@ -30,7 +30,52 @@ public class PenduGame extends Observable {
 	private String sCurrentCharInput = "";
 	
 	private DicoMots dictionnaryWordGame;
+
+	public enum GAMESTATUS { 
+			GAMESTATUS_QUIT(2),
+			GAMESTATUS_GAMEOVER(-1), 
+			GAMESTATUS_RETRYCONTINUE(1),
+			GAMESTATUS_SUCCESS(0);
+			
+
+		    private int value;
+		    private static java.util.HashMap<Object, Object> map = new java.util.HashMap<>();
+
+		    private GAMESTATUS(int value) {
+		        this.value = value;
+		    }
+
+		    static {
+		        for (GAMESTATUS addrType : GAMESTATUS.values()) {
+		            map.put(addrType.value, addrType);
+		        }
+		    }
+
+		    public static GAMESTATUS valueOf(int pageType) {
+		        return (GAMESTATUS) map.get(pageType);
+		    }
+
+		    public int getValue() {
+		        return value;
+		    }
+		    
+		    public String getEnumByString(String code){
+		        for(GAMESTATUS e : GAMESTATUS.values()){
+		            if(code == String.valueOf(value) ) return e.name();
+		        }
+		        return null;
+		    }
+		    
+		    public String toString() {
+		    	 for(GAMESTATUS e : GAMESTATUS.values()){
+		             if(value == e.value) return e.name();
+		         }
+		    	 return "";
+		    }
+			
+	};
 	
+	private Integer iGameStatusOrQuitReason  = GAMESTATUS.GAMESTATUS_RETRYCONTINUE.getValue();
 
 	/**
 	 * 
@@ -40,14 +85,17 @@ public class PenduGame extends Observable {
 		dictionnaryWordGame = new DicoMots(DicoMots.DEFAULT_DICO_LANG);
 	}
 
-	public void initGame() {
+	public void initNewGameParty() {
 		
+		iGameStatusOrQuitReason  = GAMESTATUS.GAMESTATUS_RETRYCONTINUE.getValue();
+		nbRetry = NBRETRY_DEFAULT;
 		
 		sCurrentCharInput = "";
 		
 		bCharFound = true;
 		
 		sAskedWordMasked = "";
+		sAskedWord = nextWord();
 		
 		lsMatchedChars.clear();
 		
@@ -68,10 +116,10 @@ public class PenduGame extends Observable {
 		
 	}
 	
-	public boolean jouer()  {
+	public Integer jouer()  {
 		
 		Boolean gameBeenStriked = false;
-		bCharFound = false;
+		
 		
 		
 		sAskedWordMasked = sAskedWord;
@@ -138,12 +186,24 @@ public class PenduGame extends Observable {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		bCharFound = false;
+
+		//
+		if(sCurrentCharInput.compareToIgnoreCase("0") == (0))
+			iGameStatusOrQuitReason = GAMESTATUS.GAMESTATUS_QUIT.getValue();
+		else
+		if(nbRetry == 0 )
+			iGameStatusOrQuitReason = GAMESTATUS.GAMESTATUS_GAMEOVER.getValue();
+		else
+			iGameStatusOrQuitReason = ((!gameBeenStriked )? GAMESTATUS.GAMESTATUS_RETRYCONTINUE : GAMESTATUS.GAMESTATUS_SUCCESS).getValue();
 		
-		return (!gameBeenStriked) && (sCurrentCharInput.compareToIgnoreCase("0") != (0)) && ((nbRetry >= 0));	
+		// game been stroked ;; GG ;;
+		return iGameStatusOrQuitReason;	
 	}
 	
 	public void getGamerInput() {
-		consoleLog.print(" Entrer votre joker N" + (nbRetry) + " : "+sAskedWord.toUpperCase().replaceAll("[ ]", "").indexOf(sAskedWordMasked.toUpperCase().replaceAll("[ ]", "")));
+		consoleLog.print(" Entrer votre joker N" + (nbRetry) + " : ");
+		// +sAskedWord.toUpperCase().replaceAll("[ ]", "").indexOf(sAskedWordMasked.toUpperCase().replaceAll("[ ]", "")));
 		try {
 			sCurrentCharInput = String.format("%s", (consoleInput.readLine())).toUpperCase(Locale.getDefault());
 			// :: consoleLog.println(" readed : " + sCurrentCharInput);
@@ -193,7 +253,7 @@ public class PenduGame extends Observable {
 		consoleLog.println(((nbRetry < 10) ? "!!            " : ""));
 		consoleLog.println(" ");
 		/* ************************************* */
-		consoleLog.println(" " + lsUsableChars);
+		consoleLog.println(" " + String.join(" | ",  lsUsableChars));
 		consoleLog.println(" ");
 		/* ************************************* */
 		consoleLog.println(String.format(" Essai restant : %d", nbRetry));

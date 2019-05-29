@@ -1,6 +1,7 @@
 package org.genose.java.implementation.games;
 
 import org.genose.java.implementation.observable.*;
+import org.genose.java.implementation.streams.ConsoleStream;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +14,8 @@ import org.genose.java.implementation.dicomots.DicoMots;
 
 public class PenduGame extends Observable {
 
-	static PrintStream consoleLog = System.out;
+	// static PrintStream consoleLog = System.out;
+	static ConsoleStream consoleLog;
 	static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
 	
 	final  static int NBRETRY_DEFAULT = 10;
@@ -83,7 +85,10 @@ public class PenduGame extends Observable {
 	public PenduGame() {
 		super();
 		dictionnaryWordGame = new DicoMots(DicoMots.DEFAULT_DICO_LANG);
+		consoleLog = new ConsoleStream(System.out);
 	}
+	
+	
 
 	public void initNewGameParty() {
 		
@@ -263,6 +268,11 @@ public class PenduGame extends Observable {
 				String.format("%1$" + sAskedWord.length() + "s", ((nbRetry == 0) ? sAskedWord : sAskedWordMasked)));
 
 		getGamerInput();
+	}
+
+	public void setConsoleLog(Object fieldConsoleLog) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

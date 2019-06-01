@@ -46,7 +46,11 @@ public class DicoMots {
 				}
 				
 			}
-			
+			/* **************************************************************** */
+			String cheminFichier = this.documentPath.toAbsolutePath().toString();
+			/* **************************************************************** */
+			this.mots = (new LectureFichier(cheminFichier)) .lire();
+			/* **************************************************************** */
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -55,13 +59,9 @@ public class DicoMots {
 			this.mots.add( "Exception" ); 
 			this.mots.add( "LolliDolls" );
 			
-			return ;
+			
 		}
-		/* **************************************************************** */
-		String cheminFichier = this.documentPath.toAbsolutePath().toString();
-		/* **************************************************************** */
-		this.mots = (new LectureFichier(cheminFichier)) .lire();
-		/* **************************************************************** */
+		
 	}
 /**
  * 
@@ -80,6 +80,10 @@ public class DicoMots {
 	{
 		Random alea = new Random();
 		return mots.get(alea.nextInt(mots.size()));
+	}
+	public int count() {
+		// TODO Auto-generated method stub
+		return ((mots != null ) ? mots .size():0);
 	}
 	
 }

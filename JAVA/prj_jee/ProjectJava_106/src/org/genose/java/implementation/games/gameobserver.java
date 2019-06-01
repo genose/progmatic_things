@@ -1,3 +1,4 @@
+package org.genose.java.implementation.games;
 import org.genose.java.implementation.observable.Observable;
 import org.genose.java.implementation.observable.Observer;
 

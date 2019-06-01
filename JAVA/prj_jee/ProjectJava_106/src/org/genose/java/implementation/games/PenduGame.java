@@ -1,7 +1,9 @@
 package org.genose.java.implementation.games;
 
 import org.genose.java.implementation.observable.*;
+
 import org.genose.java.implementation.streams.ConsoleStream;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +18,7 @@ public class PenduGame extends Observable {
 
 	// static PrintStream consoleLog = System.out;
 	static ConsoleStream consoleLog;
-	static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
+	static ConsoleStream consoleInput; // = new BufferedReader(new InputStreamReader(System.in));
 	
 	final  static int NBRETRY_DEFAULT = 10;
 	
@@ -85,7 +87,14 @@ public class PenduGame extends Observable {
 	public PenduGame() {
 		super();
 		dictionnaryWordGame = new DicoMots(DicoMots.DEFAULT_DICO_LANG);
-		consoleLog = new ConsoleStream(System.out);
+		
+		consoleLog = new ConsoleStream(System.out );
+		consoleInput = new ConsoleStream( (new BufferedReader(new InputStreamReader(System.in))) );
+		if(dictionnaryWordGame.count() == 0) {
+			throw new Error("Empty game definition .... ");
+		}else if(dictionnaryWordGame.count() == 2) {
+			consoleLog.println(" :: "+dictionnaryWordGame.toString());
+		}
 	}
 	
 	
@@ -207,17 +216,19 @@ public class PenduGame extends Observable {
 	}
 	
 	public void getGamerInput() {
-		consoleLog.print(" Entrer votre joker N" + (nbRetry) + " : ");
-		// +sAskedWord.toUpperCase().replaceAll("[ ]", "").indexOf(sAskedWordMasked.toUpperCase().replaceAll("[ ]", "")));
 		try {
+			consoleLog.print(" Entrer votre joker N" + String.valueOf(nbRetry) + " : "+consoleInput);
+			// +sAskedWord.toUpperCase().replaceAll("[ ]", "").indexOf(sAskedWordMasked.toUpperCase().replaceAll("[ ]", "")));
+			// System.out.println(" Reading Fields .... "+(consoleInput.readLine()));
 			sCurrentCharInput = String.format("%s", (consoleInput.readLine())).toUpperCase(Locale.getDefault());
-			// :: consoleLog.println(" readed : " + sCurrentCharInput);
-		} catch (IOException e) {
+			// :: consoleLog.println(" readed : " + sCurrentCharInput); 
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		/* ************************************* */
 		consoleLog.println(" ");
+		// System.out.println(" Quit readline ");
 		/* ************************************* */
 		//if (sCurrentCharInput.length() == 0)
 		//	continue;
@@ -267,12 +278,28 @@ public class PenduGame extends Observable {
 		consoleLog.println(
 				String.format("%1$" + sAskedWord.length() + "s", ((nbRetry == 0) ? sAskedWord : sAskedWordMasked)));
 
-		getGamerInput();
+
 	}
 
-	public void setConsoleLog(Object fieldConsoleLog) {
+	public void setConsoleLog(ConsoleStream fieldConsoleLog) {
 		// TODO Auto-generated method stub
+		consoleLog = fieldConsoleLog;
 		
+	}
+
+
+
+	public void setConsoleLogInput(ConsoleStream fieldConsoleLogInput) {
+		// TODO Auto-generated method stub
+		consoleInput = fieldConsoleLogInput;
+		
+	}
+
+
+
+	public int getGameReasonQuit() {
+		// TODO Auto-generated method stub
+		return iGameStatusOrQuitReason;
 	}
 	
 	

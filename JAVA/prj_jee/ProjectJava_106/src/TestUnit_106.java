@@ -1,21 +1,9 @@
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.IntStream;
 
-import org.genose.java.implementation.dicomots.DicoMots;
 import org.genose.java.implementation.games.PenduGame;
+import org.genose.java.implementation.games.gameobserver;
 
 
 

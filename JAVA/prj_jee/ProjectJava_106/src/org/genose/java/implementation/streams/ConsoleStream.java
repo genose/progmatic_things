@@ -1,31 +1,71 @@
 package org.genose.java.implementation.streams;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintStream;
 
 public class ConsoleStream {
 
 
-	static PrintStream consoleLogStream = System.out;
-	static Object consoleLogObject = null;
+	protected PrintStream consoleLogStream = System.out;
+	private BufferedReader consoleLogInputStream;
+	
+	protected Object consoleLogObject = null;
+	protected Object consoleLogInputObject = null;
 	
 	
+	public ConsoleStream() {
+		super();
+	} 
 	
-	public ConsoleStream(PrintStream out) {
-		// TODO Auto-generated constructor stub
-		consoleLogStream = out;
+	public ConsoleStream(BufferedReader abufferedReader) {
+
+			consoleLogInputStream = abufferedReader;
+			
 	}
-	
-	
-	public ConsoleStream(Object out) {
+
+	public ConsoleStream(PrintStream apPrintStream) {
 		// TODO Auto-generated constructor stub
-		consoleLogObject = out;
-	}
+			consoleLogStream = apPrintStream;		
+	}	
 	
+	/**
+	 * @return the consoleLogStream
+	 */
+	public ConsoleStream getConsoleLog() {
+		return this;
+	}
+
+
+	/**
+	 * @param consoleLogStream the consoleLogStream to set
+	 */
+	public void setConsoleLogStream(PrintStream aconsoleLogStream) {
+		consoleLogStream = aconsoleLogStream;
+	}
+
+
+	/**
+	 * @return the consoleLogObject
+	 */
+	public Object getConsoleLogObject() {
+		return consoleLogObject;
+	}
+
+
+	/**
+	 * @param consoleLogObject the consoleLogObject to set
+	 */
+	public void setConsoleLogObject(Object aconsoleLogObject) {
+		consoleLogObject = aconsoleLogObject;
+	}
+
+
 	public void println(String arg0) {
 		if(consoleLogObject != null)
 		{
 			((ConsoleStream)consoleLogObject).println(arg0);	
-		}else {
+		}else if(consoleLogStream  != null  ) {
 			consoleLogStream.println(arg0);
 		}
 	}
@@ -33,9 +73,25 @@ public class ConsoleStream {
 	public void print(String arg0) {
 		if(consoleLogObject != null)
 		{
-			((ConsoleStream)consoleLogObject).print(arg0);	
+			consoleLogStream.println( arg0);
+			//((ConsoleStream)consoleLogObject).print(arg0);	
 		}else {
 			consoleLogStream.print(arg0);
 		}
+	}
+
+	public String readLine() throws IOException {
+		// TODO Auto-generated method stub
+		return consoleLogInputStream.readLine();
+	}
+
+	public void clear() {
+		if(consoleLogObject != null)
+		{
+			//((ConsoleStream)consoleLogObject).println("");	
+		}else {
+			consoleLogStream.println("");
+		}
+		
 	}
 }

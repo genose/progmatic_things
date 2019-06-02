@@ -73,6 +73,7 @@ public class ConsoleStream {
 	public void print(String arg0) {
 		if(consoleLogObject != null)
 		{
+			System.out.println("Implemantation TODO :: ConsoleStream.print() wrapped object ... ");
 			consoleLogStream.println( arg0);
 			//((ConsoleStream)consoleLogObject).print(arg0);	
 		}else {
@@ -81,7 +82,7 @@ public class ConsoleStream {
 	}
 
 	public String readLine() throws IOException {
-		// TODO Auto-generated method stub
+	
 		return consoleLogInputStream.readLine();
 	}
 

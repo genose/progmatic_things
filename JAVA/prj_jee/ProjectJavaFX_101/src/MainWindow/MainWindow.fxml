@@ -23,9 +23,9 @@
                       <CheckBox text="Click Me" />
                     </content>
                   </CustomMenuItem>
-              <MenuItem mnemonicParsing="false" onAction="#newGameInit" text="New Game ..." />
+              <MenuItem mnemonicParsing="false" onAction="#windowInitNewGame" text="New Game ..." />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Quit" />
+                  <MenuItem mnemonicParsing="false" onAction="#quitApp" text="Quit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
@@ -43,9 +43,10 @@
             <Point3D />
          </rotationAxis>
       </MenuBar>
-      <TextArea fx:id="consoleLogTextField" editable="false" layoutX="21.0" layoutY="50.0" minHeight="400.0" minWidth="600.0" prefHeight="480.0" prefWidth="625.0" wrapText="true" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="50.0" />
-      <TextField fx:id="consoleInputField" layoutX="25.0" layoutY="552.0" onKeyTyped="#jouer" prefHeight="27.0" prefWidth="369.0" promptText="Reponse" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="278.0" />
-      <Button fx:id="boutonEnvoyerResponse" layoutX="416.0" layoutY="552.0" mnemonicParsing="false" onKeyTyped="#jouer" text="Valider" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="197.0" />
+      <TextArea fx:id="consoleLogTextField" editable="false" layoutX="26.0" layoutY="50.0" minHeight="400.0" minWidth="589.0" prefHeight="659.0" prefWidth="589.0" wrapText="true" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="50.0" />
+      <TextField fx:id="consoleInputField" layoutX="25.0" layoutY="552.0" onKeyReleased="#validerReponseKeyPressed" prefHeight="27.0" prefWidth="369.0" promptText="Reponse" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="278.0" />
+      <Button fx:id="boutonEnvoyerResponse" layoutX="416.0" layoutY="552.0" mnemonicParsing="false" onAction="#jouer" onKeyTyped="#validerReponsePressed" text="Valider" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="197.0" />
+      <CheckBox fx:id="checkBoxToggleUniqueCharMode" layoutX="25.0" layoutY="723.0" mnemonicParsing="false" onMouseReleased="#togglePlayWithOneCharInput" selected="true" text="Repondre à l'appuie d'une touche caractere" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="25.0" />
    </children>
    <rotationAxis>
       <Point3D />

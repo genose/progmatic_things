@@ -13,19 +13,22 @@ import org.genose.java.implementation.observable.Observer;
 public class gameobserver implements Observer {
 
 	@Override
-	public boolean notifyChange(Object objNotifiedFrom) throws Exception {
-		// TODO Auto-generated method stub
+	public Boolean notifyChange(Object objNotifiedFrom) throws Exception {
 		
-		((Observable)objNotifiedFrom).notifyShow();
-		
-		
+		try {
+			((Observable)objNotifiedFrom).notifyShow();
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 		return false;
 	}
 
 	@Override
-	public void notifyShow() {
+	public Boolean notifyShow() {
 		// TODO Auto-generated method stub
-		
+		return true;
 	}
 
 }

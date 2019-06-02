@@ -39,10 +39,10 @@ public class Observable implements Observer {
 	}
 	/* **
 	 * 
-	 * 
+	 * notify one/chaining observer/observable
 	 */
-	@Override
-	public boolean notifyChange(Object objNotifiedFrom) throws Exception {
+ 
+	public Boolean notifyChange(Object objNotifiedFrom) throws Exception {
 		
 		if(objNotifiedFrom instanceof Observer) {
 			return ((Observable)objNotifiedFrom).notifyChange();
@@ -55,15 +55,16 @@ public class Observable implements Observer {
 		}
 	}
 	/* **
-	 * 
+	 * notify all observers ...
 	 * 
 	 */
 	public boolean notifyChange() throws Exception {
 		boolean bObserverNotified = false;
-		// TODO Auto-generated method stub
+		
 		if(observerObjectsToNotify.size() >0) {
 			for (Observer objObserver : observerObjectsToNotify) {
-				if(! objObserver.notifyChange(this) ) {
+				Boolean bobjToNotify = objObserver.notifyChange(this); 
+				if(! bobjToNotify ) {
 					throw new Exception(String.format(" Something went wrong when notify ... (%s)", objObserver) );
 				}else{
 					bObserverNotified =	true;
@@ -75,10 +76,10 @@ public class Observable implements Observer {
 		
 		return bObserverNotified;
 	}
-	@Override
-	public void notifyShow() {
-		// TODO Auto-generated method stub
-		
+	
+	public Boolean notifyShow() {
+		System.err.println(getClass()+":Base notifyShow return false ...");
+		return false;
 	}
 
 	  

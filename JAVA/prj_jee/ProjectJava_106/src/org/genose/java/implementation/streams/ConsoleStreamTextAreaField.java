@@ -6,6 +6,7 @@ package org.genose.java.implementation.streams;
 
 import java.io.IOException;
 
+
 import org.genose.java.implementation.streams.ConsoleStream;
 
 import javafx.scene.control.TextArea;

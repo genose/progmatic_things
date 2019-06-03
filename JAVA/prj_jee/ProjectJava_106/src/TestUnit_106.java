@@ -12,7 +12,7 @@ public class TestUnit_106 {
 	static PrintStream consoleLog = System.out;
 	static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
 
-	static PenduGame jeudupenduGame = new PenduGame();
+	static PenduGame aJeuDuPenduGame = new PenduGame();
 	
 	public static void main(String[] args) {
 
@@ -44,21 +44,39 @@ public class TestUnit_106 {
 		gameobserver mygameviewer = new gameobserver();
 		/* ****************************************************** */
 		try {
-			jeudupenduGame.addObserver(mygameviewer);
-			jeudupenduGame.initNewGameParty();
+			aJeuDuPenduGame.addObserver(mygameviewer);
+			aJeuDuPenduGame.initNewGameParty();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		/* ****************************************************** */
+		try {
+			Boolean bnotified = aJeuDuPenduGame.notifyChange();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		do {
-
+			aJeuDuPenduGame.getGamerInput();
+			aJeuDuPenduGame.jouer();
 			
 			
-		consoleLog.println(" .... ");
+			consoleLog.println(" .... ");
 
-		} while ( jeudupenduGame.jouer() == PenduGame.GAMESTATUS.GAMESTATUS_RETRYCONTINUE.getValue() );
-
+		} while ( aJeuDuPenduGame.getGameReasonQuit() == PenduGame.GAMESTATUS.GAMESTATUS_RETRYCONTINUE.getValue() );
+		
+		Integer gameQuitStatus =  aJeuDuPenduGame.getGameReasonQuit() ; 
+		// do adapted action
+		if( gameQuitStatus == ((int)PenduGame.GAMESTATUS.GAMESTATUS_GAMEOVER.getValue())) {
+			consoleLog.println("Partie Perdu ...");
+		}else if( gameQuitStatus == ((int)PenduGame.GAMESTATUS.GAMESTATUS_SUCCESS.getValue())) {
+				consoleLog.println("Partie Gagnee ...");
+		}else if( gameQuitStatus == ((int)PenduGame.GAMESTATUS.GAMESTATUS_QUIT.getValue())) {
+			consoleLog.println("Partie quit ...");
+		} 
+		
 		consoleLog.println(" .... finish ");
 	}
 

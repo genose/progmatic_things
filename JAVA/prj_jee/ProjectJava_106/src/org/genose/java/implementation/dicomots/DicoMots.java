@@ -1,11 +1,14 @@
 package org.genose.java.implementation.dicomots;
 
 import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
+
+import org.genose.java.implementation.streams.LectureFichier;
 
 /**
  * 

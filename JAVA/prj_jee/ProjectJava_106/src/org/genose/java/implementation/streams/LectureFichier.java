@@ -1,9 +1,8 @@
 /**
  * 
  */
-package org.genose.java.implementation.dicomots;
+package org.genose.java.implementation.streams;
 
-import java.awt.List;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

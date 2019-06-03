@@ -3,6 +3,7 @@ package MainWindow;
 
 
 import org.genose.java.implementation.games.*;
+
 import org.genose.java.implementation.streams.ConsoleStreamTextAreaField;
 
 import javafx.application.Application;

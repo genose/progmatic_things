@@ -9,8 +9,6 @@ import java.io.IOException;
 
 import org.genose.java.implementation.streams.ConsoleStream;
 
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 
 /**
  * @author 59013-36-18
@@ -18,12 +16,12 @@ import javafx.scene.control.TextField;
  */
 public class ConsoleStreamTextAreaField extends org.genose.java.implementation.streams.ConsoleStream {
 	
-	public ConsoleStreamTextAreaField(TextField aTextFieldObject) {
+	public ConsoleStreamTextAreaField(javafx.scene.control.TextField aTextFieldObject) {
 		consoleLogObject = aTextFieldObject;
 	}
 	
 	
-	public ConsoleStreamTextAreaField(TextArea consoleLogTextField) {
+	public ConsoleStreamTextAreaField(javafx.scene.control.TextArea consoleLogTextField) {
 		// TODO Auto-generated constructor stub
 		consoleLogObject = consoleLogTextField; 
 	}
@@ -31,19 +29,19 @@ public class ConsoleStreamTextAreaField extends org.genose.java.implementation.s
 	@Override
 	public String readLine() throws IOException {
 		System.out.println(" type :: " + consoleLogObject  );
-		if(consoleLogObject != null && (consoleLogObject instanceof TextArea))
-			return ((TextArea)consoleLogObject).getText();
-		else if(consoleLogObject != null && (consoleLogObject instanceof TextField))
-			return ((TextField)consoleLogObject).getText();
+		if(consoleLogObject != null && (consoleLogObject instanceof javafx.scene.control.TextArea))
+			return ((javafx.scene.control.TextArea)consoleLogObject).getText();
+		else if(consoleLogObject != null && (consoleLogObject instanceof javafx.scene.control.TextField))
+			return ((javafx.scene.control.TextField)consoleLogObject).getText();
 		else
 			return super.readLine();
 	}
 	@Override
 	public void clear() {
-		if(consoleLogObject != null && (consoleLogObject instanceof TextArea))
-			((TextArea)consoleLogObject).setText("");
-		else if(consoleLogObject != null && (consoleLogObject instanceof TextField))
-			((TextField)consoleLogObject).setText("");
+		if(consoleLogObject != null && (consoleLogObject instanceof javafx.scene.control.TextArea))
+			((javafx.scene.control.TextArea)consoleLogObject).setText("");
+		else if(consoleLogObject != null && (consoleLogObject instanceof javafx.scene.control.TextField))
+			((javafx.scene.control.TextField)consoleLogObject).setText("");
 		else
 			super.clear();
 	}
@@ -51,12 +49,12 @@ public class ConsoleStreamTextAreaField extends org.genose.java.implementation.s
 	
 	@Override
 	public void println(String arg0) {
-		if(consoleLogObject != null && (consoleLogObject instanceof TextArea)) 
+		if(consoleLogObject != null && (consoleLogObject instanceof javafx.scene.control.TextArea)) 
 		{
-			((TextArea)consoleLogObject).appendText( "\n"+arg0 );
-		}else if(consoleLogObject != null && (consoleLogObject instanceof TextField)) 
+			((javafx.scene.control.TextArea)consoleLogObject).appendText( "\n"+arg0 );
+		}else if(consoleLogObject != null && (consoleLogObject instanceof javafx.scene.control.TextField)) 
 		{
-			((TextField)consoleLogObject).appendText("\n"+arg0);
+			((javafx.scene.control.TextField)consoleLogObject).appendText("\n"+arg0);
 		}else
 		if (consoleLogObject != null) {
 		 super.println(arg0);

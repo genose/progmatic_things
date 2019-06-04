@@ -1,9 +1,10 @@
 /**
  * 
  */
-package MainWindow.Assets.Controller;
+package MainWindow.Assets.Controllers;
 
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.stage.Window;
 
 /**

@@ -19,16 +19,16 @@ import javafx.stage.Window;
 public class MainWindow extends Window {
 
 	@FXML
-	private TextArea consoleLogTextField;
+	private javafx.scene.control.TextArea consoleLogTextField;
 	
 	@FXML
-	private TextField consoleInputField;
+	private javafx.scene.control.TextField consoleInputField;
 	
 	@FXML
-	private Button boutonEnvoyerResponse;
+	private javafx.scene.control.Button boutonEnvoyerResponse;
 	
 	@FXML
-	private CheckBox checkBoxToggleUniqueCharMode;
+	private javafx.scene.control.CheckBox checkBoxToggleUniqueCharMode;
 	
 	
 	// this will be usable as System.out and System.in for interaction purposes

@@ -3,9 +3,7 @@ package org.genose.java.implementation.javafx.applicationtools;
 
 import java.io.File;
 import java.nio.file.Path;
-
-import org.genose.java.implementation.games.PenduGame.GAMESTATUS;
-
+ 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -15,7 +13,7 @@ public class ApplicationJFX extends Application {
 
 	
     public enum APPLICATION_MVC_DIRS  {
-    		DIR_ASSETS("Assets"), DIR_VIEWS("Views"), DIR_CONTROLLERS("Controllers"), DIR_RESSOURCES("Ressources");
+    		DIR_ASSETS("Assets"), DIR_VIEWS("Views"), DIR_CONTROLLERS("Controllers"), DIR_RESSOURCES("Ressources"), DIR_APPSRC("src");
     	
 		private String value;
 		private static java.util.HashMap<Object, Object> map = new java.util.HashMap<>();
@@ -109,9 +107,22 @@ public class ApplicationJFX extends Application {
 		return documentPath;
 	}
 
-	public static boolean applicationPathExist(String string) {
+	public static boolean applicationPathExist(String aPath) {
 		// TODO Auto-generated method stub
+		try {
+			File localClassPath = new java.io.File(String.valueOf(aPath).replace("/./", "/"));
+			
+			String documentPath = localClassPath.getAbsolutePath();
+			System.out.println(" exixts :: "+documentPath+" :: "+String.valueOf(((localClassPath != null)? localClassPath.exists() : false)));
+			
+			return ((localClassPath != null)? localClassPath.exists() : false) ;
+			
+		} catch (Exception EV_ERR_FILEEXISTS) {
+			// TODO: handle exception
+			EV_ERR_FILEEXISTS.printStackTrace();
+		}
 		return false;
+		
 	}
 
 }

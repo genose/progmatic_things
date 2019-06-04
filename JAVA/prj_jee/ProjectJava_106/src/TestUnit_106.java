@@ -52,7 +52,7 @@ public class TestUnit_106 {
 		}
 		/* ****************************************************** */
 		try {
-			Boolean bnotified = aJeuDuPenduGame.notifyChange();
+			Boolean bnotified = aJeuDuPenduGame.notifyChange(aJeuDuPenduGame);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

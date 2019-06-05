@@ -141,49 +141,58 @@ public class ApplicationJFX extends Application {
 	 * 
 	 * @return bundle application path
 	 */
+	public static String getApplicationRunnablePath() {
+	
+		return "";
+	}
+	
+	
+	/* ****************************************************** */
+	/**
+	 * 
+	 * @return bundle application path
+	 */
 	public static String getApplicationPath() {
 				
 		Class localClass = ApplicationJFX.getApplicationJFXSingleton().getClass();
 		
 		String packageNamed = localClass.getPackageName();
 		String localPackagePath = ""+packageNamed.replaceAll("[.]", "/");
- 		File localClassPath = new java.io.File( localPackagePath );
-		String localAbsolutePath = localClassPath.getAbsolutePath();
-		String localpath = localClassPath.getPath()+"n";
+		/* ************************************************* */
+		// :: path wil be resolved as-is : (.) inherited root path, package path of (Extends ApplicationJFX)
+		// :: path wil be resolved as-is : (/) root runnable directory ;;
+		/* ************************************************* */
+		// :: absolutepath will fail with (.)
+		// :: absolutepath will provide Application BasePath
+		/* ************************************************* */
+		// :: getpath(.) will provide  inherited root path, package path of (Extends ApplicationJFX)
+		// :: getpath(/) will provide  root runnable directory ;;
+		/* ************************************************* */
+ 		File localClassPath = new java.io.File( "/" );
+		String localAbsolutePath = localClassPath.getAbsolutePath().replace(".", "");
+		//localAbsolutePath = localAbsolutePath.substring(0, localAbsolutePath.length()-1);
+		String localpath = localClassPath.getPath()+"";
 		String localpathname = localClassPath.getName();
-		
-		System.out.println(localClass+" 1 ;; class package path  \n >> "+localPackagePath);
+		System.out.println("");
+		System.out.println(localClass+" 1 ;; class package path  \n ll >> "+localPackagePath);
+		System.out.println("");
 		System.out.println(localClass+" 1 ;; class abs \n >> "+localAbsolutePath);
+		System.out.println("");
 		System.out.println(localClass+" 1 ;; class localpath \n >> "+localpath);
+		System.out.println("");
 		System.out.println(localClass+" 1 ;; class pathname \n >> "+localpathname);
 
 		
 		System.out.println("");
 		System.out.println("");
 		URL aUrlClass = localClass.getResource(localAbsolutePath);
-		System.out.println(localClass+" 3 ;; class getressource abspath doc \n >> "+aUrlClass);
+		System.out.println(localClass+" 2 ;; class getressource abspath doc \n >> "+aUrlClass+" \n >> "+localAbsolutePath);
 		
 		System.out.println("");
 		URL aUrlClassPath = localClass.getResource(localpath);
-		System.out.println(localClass+" 2 ;; class getressource local \n >> "+aUrlClassPath+" \n >> "+localpath );
+		System.out.println(localClass+" 3 ;; class getressource local \n >> "+aUrlClassPath+" \n >> "+localpath );
 		
-		System.out.println("");
-		String testuri = null;
-		
-		URL testurl = null;
-		try {
-			testuri = aUrlClassPath.getPath();
-			System.out.println(" ;;;; "+testuri);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		aUrlClass = localClass.getResource(testuri);
-		System.out.println(localClass+" 3 ;; class getressource abspath doc \n"+aUrlClass);
-		
-		// URL aUrlClass = ApplicationJFX.class.getClass().getProtectionDomain().getCodeSource().getLocation();
-		// System.out.println(" ;; "+aUrlClass);
+		 
 		return localpath;
 	}
 

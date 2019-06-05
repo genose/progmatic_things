@@ -214,7 +214,29 @@ public class ApplicationJFXScene extends Scene {
 		}  
 
 	}
-
+	/*
+	 * *****************************************************************************
+	 * *
+	 */
+	/**
+	 * 
+	 * @return
+	 */
+	public Boolean detachTo(Object aSuperview) {
+		return false;
+	}
+	/*
+	 * *****************************************************************************
+	 * *
+	 */
+	/**
+	 * 
+	 * @return
+	 */
+	public Boolean removeFromSuperview() {
+		this.getRoot();
+		return false;
+	}
 	/*
 	 * *****************************************************************************
 	 * *

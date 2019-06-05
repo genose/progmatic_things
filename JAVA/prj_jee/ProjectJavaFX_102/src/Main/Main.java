@@ -1,8 +1,7 @@
 package Main;
 
-import java.net.URL;
-import java.util.ArrayList;
 
+import java.net.URL;
 
 import org.genose.java.implementation.javafx.applicationtools.ApplicationJFX;
 import org.genose.java.implementation.javafx.applicationtools.ApplicationJFXScene;
@@ -23,8 +22,8 @@ public class Main extends Application {
     	
     	try {
     		ApplicationJFX app = new ApplicationJFX();
-    		URL aUrlClassPath = getClass().getResource(".");
-    		System.out.println(getClass()+" ;; "+aUrlClassPath);
+    		//URL aUrlClassPath = getClass().getResource(".");
+    		//System.out.println(getClass()+" ;; "+aUrlClassPath);
     		System.out.println(getClass()+" :: "+ApplicationJFX.getApplicationPath());
     		
     		

@@ -3,7 +3,7 @@ package Main;
 
 import java.net.URL;
 
-import org.genose.java.implementation.javafx.applicationtools.ApplicationJFX;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationScene;
 
 import javafx.application.Application;
@@ -15,16 +15,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class Main extends Application { 
+public class Main extends JFXApplication { 
 
     @Override
     public void start(Stage primaryStage) throws Exception{
     	
     	try {
-    		ApplicationJFX app = new ApplicationJFX();
+    		// JFXApplication app = new JFXApplication();
     		//URL aUrlClassPath = getClass().getResource(".");
     		//System.out.println(getClass()+" ;; "+aUrlClassPath);
-    		System.out.println(getClass()+" :: "+ApplicationJFX.getApplicationBundlePath());
+    		System.out.println(getClass()+" :: "+this.getApplicationBundlePath());
     		//System.out.println(getClass()+" :: "+ApplicationJFX.getApplicationBundlePath());
     		
     		

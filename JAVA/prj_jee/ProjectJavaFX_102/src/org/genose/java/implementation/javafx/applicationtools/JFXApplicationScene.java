@@ -1,8 +1,11 @@
 package org.genose.java.implementation.javafx.applicationtools;
 
+
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationException;
+
+import java.io.IOException;
 import java.net.URL;
 import java.security.InvalidAlgorithmParameterException;
-import java.util.Observable;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +15,7 @@ import javafx.scene.SceneAntialiasing;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class JFXApplicationScene extends Scene {
 
@@ -97,6 +101,9 @@ public class JFXApplicationScene extends Scene {
 	 * *
 	 */
 	/**
+	 * Replace someting like this : 
+	 *  Parent root = FXMLLoader.load(getClass().getResource("/MainWindow/MainWindow.fxml"));
+        primaryStage.setScene(new Scene(root, primaryStage.getHeight(), primaryStage.getWidth()));
 	 * 
 	 * @param argModuleName
 	 * @throws Exception
@@ -107,95 +114,103 @@ public class JFXApplicationScene extends Scene {
 		super((new Parent() {
 
 		}));
-		String sApplicationPath = (ApplicationJFX.getApplicationBundlePath() + "/").replace("/./", "/");
+		String sApplicationPath = (JFXApplication.getApplicationBundlePath() + "/").replace("/./", "/");
 		Boolean bModuleAsMVC = false;
 
 		// formatting path as [APP_ROOT]/src/[ARGUMENT]/[MVC
 		// STYLE(Controller;View;Ressources)]/[ARGUMENT].[FILEEXT]
 
-		String sBasePath = ((ApplicationJFX.applicationPathExist(sApplicationPath + "" + argModuleName + "/"))
+		String sBasePath = ((JFXApplication.applicationPathExist(sApplicationPath + "" + argModuleName + "/"))
 				? sApplicationPath + "" + argModuleName + "/"
 				: "");
 
-		sBasePath = ((sBasePath.length() <= 1) ? ((ApplicationJFX.applicationPathExist(
-				sApplicationPath + "/" + ApplicationJFX.APPLICATION_MVC_DIRS.DIR_APPSRC.getValue() + "/"))
-						? sApplicationPath + "/" + ApplicationJFX.APPLICATION_MVC_DIRS.DIR_APPSRC.getValue()
+		sBasePath = ((sBasePath.length() <= 1) ? ((JFXApplication.applicationPathExist(
+				sApplicationPath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_APPSRC.getValue() + "/"))
+						? sApplicationPath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_APPSRC.getValue()
 						: sBasePath)
 				: sBasePath).replace("/./", "/");
 
-		sBasePath = ((ApplicationJFX.applicationPathExist(sBasePath + "/" + argModuleName))
+		sBasePath = ((JFXApplication.applicationPathExist(sBasePath + "/" + argModuleName))
 				? sBasePath + "/" + argModuleName
 				: sBasePath).replace("/./", "/");
 
-		sBasePath = ((ApplicationJFX
-				.applicationPathExist(sBasePath + "/" + ApplicationJFX.APPLICATION_MVC_DIRS.DIR_ASSETS.getValue()))
-						? sBasePath + "/" + ApplicationJFX.APPLICATION_MVC_DIRS.DIR_ASSETS.getValue()
+		sBasePath = ((JFXApplication
+				.applicationPathExist(sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_ASSETS.getValue()))
+						? sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_ASSETS.getValue()
 						: sBasePath).replace("/./", "/").replace("//", "/");
 
  
-		if (!ApplicationJFX.applicationPathExist(sBasePath)) {
-			throw new JFXApplicationException(getClass() + " can t determine path :: " + sBasePath);
+		if (!JFXApplication.applicationPathExist(sBasePath)) {
+			throw new JFXApplicationException( String.valueOf(getClass() + " can t determine path :: " + sBasePath));
 		}
 
-		String sRequestedScene = ((ApplicationJFX
-				.applicationPathExist(sBasePath + "/" + ApplicationJFX.APPLICATION_MVC_DIRS.DIR_VIEWS.getValue()))
-						? sBasePath + "/" + ApplicationJFX.APPLICATION_MVC_DIRS.DIR_VIEWS.getValue()
+		String sRequestedScene = ((JFXApplication
+				.applicationPathExist(sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_VIEWS.getValue()))
+						? sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_VIEWS.getValue()
 						: sBasePath);
-
-		sRequestedScene = (((sRequestedScene != null) && ((argModuleNameFile != null) && argModuleNameFile.length() > 1)
-				&& ApplicationJFX.applicationPathExist(sRequestedScene + "/" + argModuleNameFile + ".fxml"))
-						? sRequestedScene + "/" + argModuleNameFile + ".fxml"
-						: (((sRequestedScene != null)
-								&& ApplicationJFX.applicationPathExist(sRequestedScene + "/" + argModuleName + ".fxml"))
+		
+		
+		String sRequestedSceneAlt = (((sRequestedScene != null) && JFXApplication.applicationPathExist(sRequestedScene + "/" + argModuleName + ".fxml"))
 										? sRequestedScene + "/" + argModuleName + ".fxml"
-										: null));
+										: null);
+		
+		sRequestedScene = (((sRequestedScene != null) && ((argModuleNameFile != null) && argModuleNameFile.length() > 1)
+				&& JFXApplication.applicationPathExist(sRequestedScene + "/" + argModuleNameFile + ".fxml"))
+						? sRequestedScene + "/" + argModuleNameFile + ".fxml"
+						: sRequestedSceneAlt);
 
-		String sRequestedSceneCSS = ((ApplicationJFX
-				.applicationPathExist(sBasePath + "/" + ApplicationJFX.APPLICATION_MVC_DIRS.DIR_RESSOURCES.getValue()))
-						? sBasePath + "/" + ApplicationJFX.APPLICATION_MVC_DIRS.DIR_RESSOURCES.getValue()
+		String sRequestedSceneCSS = ((JFXApplication
+				.applicationPathExist(sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_RESSOURCES.getValue()))
+						? sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_RESSOURCES.getValue()
 						: sBasePath);
-		sRequestedSceneCSS = (((sRequestedSceneCSS != null)
-				&& ((argModuleNameFile != null) && argModuleNameFile.length() > 1)
-				&& ApplicationJFX.applicationPathExist(sRequestedSceneCSS + "/" + argModuleNameFile + ".css"))
-						? sRequestedSceneCSS + "/" + argModuleNameFile + ".css"
-						: (((sRequestedSceneCSS != null) && ApplicationJFX
+		
+		String sRequestedSceneCSSAlt = (((sRequestedSceneCSS != null) && JFXApplication
 								.applicationPathExist(sRequestedSceneCSS + "/" + argModuleName + ".css"))
 										? sRequestedSceneCSS + "/" + argModuleName + ".css"
-										: null));
-
-		String sRequestedSceneIcon = ((ApplicationJFX
-				.applicationPathExist(sBasePath + "/" + ApplicationJFX.APPLICATION_MVC_DIRS.DIR_RESSOURCES.getValue()))
-						? sBasePath + "/" + ApplicationJFX.APPLICATION_MVC_DIRS.DIR_RESSOURCES.getValue()
-						: sBasePath);
-		sRequestedSceneIcon = (((sRequestedSceneIcon != null)
+										: null);
+		
+		sRequestedSceneCSS = (((sRequestedSceneCSS != null)
 				&& ((argModuleNameFile != null) && argModuleNameFile.length() > 1)
-				&& ApplicationJFX.applicationPathExist(sRequestedSceneIcon + "/" + argModuleNameFile + ".png"))
-						? sRequestedSceneIcon + "/" + argModuleNameFile + ".png"
-						: (((sRequestedSceneIcon != null) && ApplicationJFX
+				&& JFXApplication.applicationPathExist(sRequestedSceneCSS + "/" + argModuleNameFile + ".css"))
+						? sRequestedSceneCSS + "/" + argModuleNameFile + ".css"
+						: sRequestedSceneCSSAlt);
+
+		String sRequestedSceneIcon = ((JFXApplication
+				.applicationPathExist(sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_RESSOURCES.getValue()))
+						? sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_RESSOURCES.getValue()
+						: null);
+		
+		String sRequestedSceneIconAlt = (((sRequestedSceneIcon != null) && JFXApplication
 								.applicationPathExist(sRequestedSceneIcon + "/" + argModuleName + ".fxml"))
 										? sRequestedSceneIcon + "/" + argModuleName + ".png"
-										: null));
+										: null);
+		
+		sRequestedSceneIcon = (((sRequestedSceneIcon != null)
+				&& ((argModuleNameFile != null) && argModuleNameFile.length() > 1)
+				&& JFXApplication.applicationPathExist(sRequestedSceneIcon + "/" + argModuleNameFile + ".png"))
+						? sRequestedSceneIcon + "/" + argModuleNameFile + ".png"
+						: sRequestedSceneIconAlt);
 
 		if (sRequestedScene == null) {
-			throw new Exception(getClass() + " can t find interface GUI componement :: " + argModuleName);
+			throw new JFXApplicationException(getClass() + " can t find interface GUI componement :: " + argModuleName);
 		}
 
 		// :: https://stackoverflow.com/questions/10121991/javafx-application-icon
-		// :: primaryStage.getIcons().add(new
-		// Image(getClass().getProtectionDomain().getCodeSource().getLocation()+"/stackoverflow.jpg"));
-		if (ApplicationJFX.getPrimaryStage() != null) {
+	 
+		if (JFXApplication.getPrimaryStage() != null) {
 
-			ApplicationJFX.getPrimaryStage();
-
-			if (ApplicationJFX.applicationPathExist(sRequestedScene)) {
-				String surlrequested = ( sRequestedScene).replace("src/", "bin/").replace("//", "/");
-				String aUrlClassPath = new URL("file:/"+surlrequested).getPath();// getClass().getResource("/");
+			if (JFXApplication.applicationPathExist(sRequestedScene)) {
 		 
-				URL aUrlPath = getClass().getResource(aUrlClassPath);
+				URL aUrlPath = getClass().getResource(sRequestedScene);
 				
-				
-				if(aUrlClassPath != null) {
-					Parent root = FXMLLoader.load(new URL("file:/"+surlrequested));
+				if(aUrlPath != null) {
+					Parent root;
+					try {
+						root = FXMLLoader.load(aUrlPath);
+					} catch (IOException EV_ERR_LOAD_FXML ) {
+						EV_ERR_LOAD_FXML.printStackTrace();
+						throw new JFXApplicationException( EV_ERR_LOAD_FXML );
+					}
 					if (root != null) {
 						this.setRoot(root);
 					} else {
@@ -205,11 +220,11 @@ public class JFXApplicationScene extends Scene {
 					throw new Error(" can't load " + sRequestedScene);
 				}
 
-				// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-				// primaryStage.setScene(scene);
+				// this.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				
 			}
 		} else {
-			throw new InvalidAlgorithmParameterException(" No Primary Stae for this Application ... ");
+			throw new JFXApplicationInvalidParameterException(" No Primary Stae for this Application ... ");
 		}  
 
 	}
@@ -248,19 +263,13 @@ public class JFXApplicationScene extends Scene {
 	 */
 	public Boolean setIcon(String aIconPath) {
 
-		Parent aparentNode = this.getRoot();
-		Parent arootNode = aparentNode.getParent();
-		
-		// .add(new Image(aIconPath));
-		String newpath = aIconPath.strip();
-		
-		ObservableList<Image> aStageIcons = ((Stage)arootNode).getIcons();
-		if(aStageIcons.size() >0)
-			aStageIcons.set( aStageIcons.size() -1 , new Image(aIconPath));
-		else
-			((Stage)arootNode).add( new Image(aIconPath));
-		
-		return false;
+		Window arootNode = this.getWindow(); 
+		ObservableList<Image> aStageIcons = ((Stage) arootNode).getIcons();
+		if(aStageIcons.size() >0) {
+			return (aStageIcons.set( aStageIcons.size() -1 , new Image(aIconPath)) == null);
+		}else {
+			return aStageIcons.add( new Image(aIconPath));
+		}
 	}
 
 	/*

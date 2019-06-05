@@ -7,7 +7,7 @@ package org.genose.java.implementation.javafx.applicationtools;
  * @author 59013-36-18
  *
  */
-public abstract class JFXApplicationException extends Exception {
+public class JFXApplicationException extends Exception {
 
 	/**
 	 * 
@@ -26,7 +26,6 @@ public abstract class JFXApplicationException extends Exception {
 	 */
 	public JFXApplicationException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -34,7 +33,6 @@ public abstract class JFXApplicationException extends Exception {
 	 */
 	public JFXApplicationException(Throwable cause) {
 		super(cause);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -43,7 +41,6 @@ public abstract class JFXApplicationException extends Exception {
 	 */
 	public JFXApplicationException(String message, Throwable cause) {
 		super(message, cause);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -55,7 +52,6 @@ public abstract class JFXApplicationException extends Exception {
 	public JFXApplicationException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
-		// TODO Auto-generated constructor stub
 	}
 
 }

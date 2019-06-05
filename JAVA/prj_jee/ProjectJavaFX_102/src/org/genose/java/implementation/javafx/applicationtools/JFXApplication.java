@@ -4,10 +4,11 @@ import java.io.File;
 import java.net.URL;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public class ApplicationJFX extends Application {
+public class JFXApplication extends Application {
 	private static Application instance;
 	
     public enum APPLICATION_MVC_DIRS  {
@@ -59,9 +60,9 @@ public class ApplicationJFX extends Application {
 	 * 
 	 * 
 	 */
-	public ApplicationJFX() {
+	public JFXApplication() {
 		super();
-	    synchronized(ApplicationJFX.class){
+	    synchronized(JFXApplication.class){
 	        if(instance != null) throw new UnsupportedOperationException(
 	                getClass()+" is singleton but constructor called more than once");
 	        instance = this;
@@ -74,7 +75,7 @@ public class ApplicationJFX extends Application {
 	 * @param stage
 	 */
     private void setPrimaryStage(Stage stage) {
-        ApplicationJFX.aPrimaryStage = stage;
+        JFXApplication.aPrimaryStage = stage;
     }
 
 	/* ****************************************************** */
@@ -83,7 +84,7 @@ public class ApplicationJFX extends Application {
      * @return javafx.Stage
      */
     static public Stage getPrimaryStage() {
-        return ApplicationJFX.aPrimaryStage;
+        return JFXApplication.aPrimaryStage;
     }
 	
 	/* ****************************************************** */
@@ -93,7 +94,7 @@ public class ApplicationJFX extends Application {
      */
 	@Override
 	public void start(Stage arg0) throws Exception {
-		synchronized(ApplicationJFX.class){
+		synchronized(JFXApplication.class){
 	        if(instance == null) instance = this;
 		}
 		setPrimaryStage(arg0);
@@ -107,14 +108,19 @@ public class ApplicationJFX extends Application {
 	 */
 	public static boolean setIcon(String aIconPath) {
 		
-		// :: https://stackoverflow.com/questions/10121991/javafx-application-icon
-		// ::  primaryStage.getIcons().add(new Image(getClass().getProtectionDomain().getCodeSource().getLocation()+"/stackoverflow.jpg"));
-		
-		Stage aPrimStage = ApplicationJFX.getActiveStage();
+		/* ******************************************************* 
+		 * https://stackoverflow.com/questions/10121991/javafx-application-icon
+		 *  :: see : primaryStage.getIcons().add(new Image(getClass().getProtectionDomain().getCodeSource().getLocation()+"/stackoverflow.jpg"));
+		 */
+		Stage aPrimStage = JFXApplication.getActiveStage();
 		if(aPrimStage != null) {
 			JFXApplicationScene aScene = (JFXApplicationScene) ((aPrimStage).getScene());
-			((JFXApplicationScene) aScene).setIcon( new Image(aIconPath) );
-	        
+						
+			ObservableList<Image> aStageIcons = aPrimStage.getIcons();
+			if(aStageIcons.size() >0)
+				aStageIcons.set( aStageIcons.size() -1 , new Image(aIconPath));
+			else
+				aStageIcons.add( new Image(aIconPath));
 		}
 		
 		
@@ -135,9 +141,18 @@ public class ApplicationJFX extends Application {
 	 * 
 	 * @return bundle application path
 	 */
-	public static String getApplicationRunnablePath() {
-	
-		return "";
+	public static String getApplicationRunnablePathAbsolute() {
+		Class localClass = JFXApplication.getApplicationJFXSingleton().getClass();
+		
+		String packageNamed = localClass.getPackageName();
+		String localPackagePath = ""+packageNamed.replaceAll("[.]", "/");
+		String localRunnablePathRelative = String.valueOf("/"+localPackagePath.replaceAll("[^/]", "")).replaceAll("/", "../");
+		URL aUrlClass = localClass.getResource(localRunnablePathRelative);
+		if(aUrlClass != null) {
+			return aUrlClass.getPath();
+		}else {
+			return "/";
+		}
 	}
 	
 	
@@ -148,7 +163,7 @@ public class ApplicationJFX extends Application {
 	 */
 	public static String getApplicationBundlePath() {
 				
-		Class localClass = ApplicationJFX.getApplicationJFXSingleton().getClass();
+		Class localClass = JFXApplication.getApplicationJFXSingleton().getClass();
 		
 		String packageNamed = localClass.getPackageName();
 		String localPackagePath = ""+packageNamed.replaceAll("[.]", "/");
@@ -187,11 +202,14 @@ public class ApplicationJFX extends Application {
 		
 		 
 		System.out.println("");
+		// get runnable dir
 		// URL aUrlClass = ((localClass.getResource(localAbsolutePath) == null )? localClass.getResource(localRunnablePathRelative) : localClass.getResource(localAbsolutePath));
-		 URL aUrlClass = localClass.getResource("C:\\Users\\59013-36-18\\Documents\\GitHub\\progmatic_things\\JAVA\\prj_jee\\ProjectJavaFX_102\\bin");
+		URL aUrlClass = localClass.getResource(localRunnablePathRelative);
+		URL aUrlClassPAth = localClass.getResource(aUrlClass.getPath());
+		// URL aUrlClass = localClass.getResource("..\\C:\\Users\\59013-36-18\\Documents\\GitHub\\progmatic_things\\JAVA\\prj_jee\\ProjectJavaFX_102\\bin");
 		System.out.println(localClass+" 3 ;; \n class getressource abspath \n >> "+aUrlClass+"\n"+aUrlClass.getPath()+" \n origin >> "+localAbsolutePath);
-		boolean bPathExists = ApplicationJFX.applicationPathExist(localAbsolutePath);
-		bPathExists = ApplicationJFX.applicationPathExist(aUrlClass.getPath());
+		boolean bPathExists = JFXApplication.applicationPathExist(localAbsolutePath);
+		bPathExists = JFXApplication.applicationPathExist(aUrlClass.getPath());
 		return localpath;
 	}
 

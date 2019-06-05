@@ -4,7 +4,7 @@ package Main;
 import java.net.URL;
 
 import org.genose.java.implementation.javafx.applicationtools.ApplicationJFX;
-import org.genose.java.implementation.javafx.applicationtools.ApplicationJFXScene;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationScene;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -24,7 +24,8 @@ public class Main extends Application {
     		ApplicationJFX app = new ApplicationJFX();
     		//URL aUrlClassPath = getClass().getResource(".");
     		//System.out.println(getClass()+" ;; "+aUrlClassPath);
-    		System.out.println(getClass()+" :: "+ApplicationJFX.getApplicationPath());
+    		System.out.println(getClass()+" :: "+ApplicationJFX.getApplicationBundlePath());
+    		//System.out.println(getClass()+" :: "+ApplicationJFX.getApplicationBundlePath());
     		
     		
         	// super.start(primaryStage);

@@ -1,15 +1,9 @@
 package org.genose.java.implementation.javafx.applicationtools;
 
-
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Path;
- 
+
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -118,8 +112,8 @@ public class ApplicationJFX extends Application {
 		
 		Stage aPrimStage = ApplicationJFX.getActiveStage();
 		if(aPrimStage != null) {
-			ApplicationJFXScene aScene = (ApplicationJFXScene) ((aPrimStage).getScene());
-			((ApplicationJFXScene) aScene).setIcon( new Image(aIconPath) );
+			JFXApplicationScene aScene = (JFXApplicationScene) ((aPrimStage).getScene());
+			((JFXApplicationScene) aScene).setIcon( new Image(aIconPath) );
 	        
 		}
 		
@@ -150,25 +144,28 @@ public class ApplicationJFX extends Application {
 	/* ****************************************************** */
 	/**
 	 * 
-	 * @return bundle application path
+	 * @return bundle application path /
 	 */
-	public static String getApplicationPath() {
+	public static String getApplicationBundlePath() {
 				
 		Class localClass = ApplicationJFX.getApplicationJFXSingleton().getClass();
 		
 		String packageNamed = localClass.getPackageName();
 		String localPackagePath = ""+packageNamed.replaceAll("[.]", "/");
+		String localRunnablePathRelative = String.valueOf("/"+localPackagePath.replaceAll("[^/]", "")).replaceAll("/", "../");
 		/* ************************************************* */
 		// :: path wil be resolved as-is : (.) inherited root path, package path of (Extends ApplicationJFX)
 		// :: path wil be resolved as-is : (/) root runnable directory ;;
 		/* ************************************************* */
 		// :: absolutepath will fail with (.)
-		// :: absolutepath will provide Application BasePath
+		// :: absolutepath will provide Application BasePath with (.) on windows
+		// :: absolutepath will provide Application BasePath with (/) on MacOS
 		/* ************************************************* */
-		// :: getpath(.) will provide  inherited root path, package path of (Extends ApplicationJFX)
-		// :: getpath(/) will provide  root runnable directory ;;
+		// :: localpath :: getpath() will provide  inherited root path, package path of (Extends ApplicationJFX) on windows
+		// :: localpath :: getpath(.) will provide  inherited root path, package path of (Extends ApplicationJFX)
+		// :: localpath :: getpath(/) will provide  root runnable directory ;; on MacOS
 		/* ************************************************* */
- 		File localClassPath = new java.io.File( "/" );
+ 		File localClassPath = new java.io.File( "." );
 		String localAbsolutePath = localClassPath.getAbsolutePath().replace(".", "");
 		//localAbsolutePath = localAbsolutePath.substring(0, localAbsolutePath.length()-1);
 		String localpath = localClassPath.getPath()+"";
@@ -176,7 +173,7 @@ public class ApplicationJFX extends Application {
 		System.out.println("");
 		System.out.println(localClass+" 1 ;; class package path  \n ll >> "+localPackagePath);
 		System.out.println("");
-		System.out.println(localClass+" 1 ;; class abs \n >> "+localAbsolutePath);
+		System.out.println(localClass+" 1 ;; class abspath \n >> "+localAbsolutePath);
 		System.out.println("");
 		System.out.println(localClass+" 1 ;; class localpath \n >> "+localpath);
 		System.out.println("");
@@ -185,14 +182,16 @@ public class ApplicationJFX extends Application {
 		
 		System.out.println("");
 		System.out.println("");
-		URL aUrlClass = localClass.getResource(localAbsolutePath);
-		System.out.println(localClass+" 2 ;; class getressource abspath doc \n >> "+aUrlClass+" \n >> "+localAbsolutePath);
-		
-		System.out.println("");
 		URL aUrlClassPath = localClass.getResource(localpath);
-		System.out.println(localClass+" 3 ;; class getressource local \n >> "+aUrlClassPath+" \n >> "+localpath );
+		System.out.println(localClass+" 2 ;; \n class getressource localpath \n >> "+aUrlClassPath+" \n origin  >> "+localpath );
 		
 		 
+		System.out.println("");
+		// URL aUrlClass = ((localClass.getResource(localAbsolutePath) == null )? localClass.getResource(localRunnablePathRelative) : localClass.getResource(localAbsolutePath));
+		 URL aUrlClass = localClass.getResource("C:\\Users\\59013-36-18\\Documents\\GitHub\\progmatic_things\\JAVA\\prj_jee\\ProjectJavaFX_102\\bin");
+		System.out.println(localClass+" 3 ;; \n class getressource abspath \n >> "+aUrlClass+"\n"+aUrlClass.getPath()+" \n origin >> "+localAbsolutePath);
+		boolean bPathExists = ApplicationJFX.applicationPathExist(localAbsolutePath);
+		bPathExists = ApplicationJFX.applicationPathExist(aUrlClass.getPath());
 		return localpath;
 	}
 

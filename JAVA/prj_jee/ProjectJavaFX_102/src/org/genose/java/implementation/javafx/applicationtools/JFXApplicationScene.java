@@ -1,10 +1,10 @@
 package org.genose.java.implementation.javafx.applicationtools;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.security.InvalidAlgorithmParameterException;
+import java.util.Observable;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,9 +12,8 @@ import javafx.scene.SceneAntialiasing;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-public class ApplicationJFXScene extends Scene {
+public class JFXApplicationScene extends Scene {
 
 	/**
 	 * @param arg0
@@ -23,7 +22,7 @@ public class ApplicationJFXScene extends Scene {
 	 * @param arg3
 	 * @param arg4
 	 */
-	public ApplicationJFXScene(Parent arg0, double arg1, double arg2, boolean arg3, SceneAntialiasing arg4) {
+	public JFXApplicationScene(Parent arg0, double arg1, double arg2, boolean arg3, SceneAntialiasing arg4) {
 		super(arg0, arg1, arg2, arg3, arg4);
 		// TODO Auto-generated constructor stub
 	}
@@ -34,7 +33,7 @@ public class ApplicationJFXScene extends Scene {
 	 * @param arg2
 	 * @param arg3
 	 */
-	public ApplicationJFXScene(Parent arg0, double arg1, double arg2, boolean arg3) {
+	public JFXApplicationScene(Parent arg0, double arg1, double arg2, boolean arg3) {
 		super(arg0, arg1, arg2, arg3);
 		// TODO Auto-generated constructor stub
 	}
@@ -45,7 +44,7 @@ public class ApplicationJFXScene extends Scene {
 	 * @param arg2
 	 * @param arg3
 	 */
-	public ApplicationJFXScene(Parent arg0, double arg1, double arg2, Paint arg3) {
+	public JFXApplicationScene(Parent arg0, double arg1, double arg2, Paint arg3) {
 		super(arg0, arg1, arg2, arg3);
 		// TODO Auto-generated constructor stub
 	}
@@ -55,7 +54,7 @@ public class ApplicationJFXScene extends Scene {
 	 * @param arg1
 	 * @param arg2
 	 */
-	public ApplicationJFXScene(Parent arg0, double arg1, double arg2) {
+	public JFXApplicationScene(Parent arg0, double arg1, double arg2) {
 		super(arg0, arg1, arg2);
 		// TODO Auto-generated constructor stub
 	}
@@ -64,7 +63,7 @@ public class ApplicationJFXScene extends Scene {
 	 * @param arg0
 	 * @param arg1
 	 */
-	public ApplicationJFXScene(Parent arg0, Paint arg1) {
+	public JFXApplicationScene(Parent arg0, Paint arg1) {
 		super(arg0, arg1);
 		// TODO Auto-generated constructor stub
 	}
@@ -76,7 +75,7 @@ public class ApplicationJFXScene extends Scene {
 	/**
 	 * @param arg0
 	 */
-	public ApplicationJFXScene(Parent arg0) {
+	public JFXApplicationScene(Parent arg0) {
 		super(arg0);
 		// TODO Auto-generated constructor stub
 	}
@@ -89,7 +88,7 @@ public class ApplicationJFXScene extends Scene {
 	 * 
 	 * 
 	 */
-	public ApplicationJFXScene() {
+	public JFXApplicationScene() {
 		super(null);
 	}
 
@@ -103,12 +102,12 @@ public class ApplicationJFXScene extends Scene {
 	 * @throws Exception
 	 */
 	 
-	public ApplicationJFXScene(String argModuleName, String argModuleNameFile) throws Exception {
+	public JFXApplicationScene(String argModuleName, String argModuleNameFile) throws JFXApplicationException {
 
 		super((new Parent() {
 
 		}));
-		String sApplicationPath = (ApplicationJFX.getApplicationPath() + "/").replace("/./", "/");
+		String sApplicationPath = (ApplicationJFX.getApplicationBundlePath() + "/").replace("/./", "/");
 		Boolean bModuleAsMVC = false;
 
 		// formatting path as [APP_ROOT]/src/[ARGUMENT]/[MVC
@@ -135,7 +134,7 @@ public class ApplicationJFXScene extends Scene {
 
  
 		if (!ApplicationJFX.applicationPathExist(sBasePath)) {
-			throw new Exception(getClass() + " can t determine path :: " + sBasePath);
+			throw new JFXApplicationException(getClass() + " can t determine path :: " + sBasePath);
 		}
 
 		String sRequestedScene = ((ApplicationJFX
@@ -223,6 +222,7 @@ public class ApplicationJFXScene extends Scene {
 	 * @return
 	 */
 	public Boolean detachTo(Object aSuperview) {
+		aSuperview.getClass();
 		return false;
 	}
 	/*
@@ -248,9 +248,18 @@ public class ApplicationJFXScene extends Scene {
 	 */
 	public Boolean setIcon(String aIconPath) {
 
-		Parent rootStage = this.getRoot();
+		Parent aparentNode = this.getRoot();
+		Parent arootNode = aparentNode.getParent();
+		
 		// .add(new Image(aIconPath));
-
+		String newpath = aIconPath.strip();
+		
+		ObservableList<Image> aStageIcons = ((Stage)arootNode).getIcons();
+		if(aStageIcons.size() >0)
+			aStageIcons.set( aStageIcons.size() -1 , new Image(aIconPath));
+		else
+			((Stage)arootNode).add( new Image(aIconPath));
+		
 		return false;
 	}
 
@@ -262,8 +271,9 @@ public class ApplicationJFXScene extends Scene {
 	 * 
 	 * @param image
 	 */
-	public Boolean setIcon(Image image) {
+	public Boolean setIcon(Image aImage) {
 		Parent rootStage = this.getRoot();
+		aImage.getClass();
 		return false;
 	}
 

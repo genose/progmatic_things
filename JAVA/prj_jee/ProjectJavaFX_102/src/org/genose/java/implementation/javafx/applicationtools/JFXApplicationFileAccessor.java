@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -55,61 +56,80 @@ public class JFXApplicationFileAccessor {
 		
 		aLogger = new JFXApplicationLogger(""+aFileDescriptor.toString() );
 		
+		Map<String,String> aFileContentDescriptor = new HashMap<String, String>();
+		
+		BufferedReader aBufferedReader = null;
+		BufferedWriter aBufferedWriter = null;
+		
+		FileReader aFileReader = null;
+		FileWriter aFileWriter = null;
+		
+		String aBufferedReaderLine = null;
+		Integer aBufferedReaderChar = null;
+		
 		
 	}
 	
-
-	public void append(String aStringToAppend) throws IOException {
-		aBufferedWriter.append(aStringToAppend);
-		aBufferedWriter.newLine();
-	}
-
-	public void put(String aStringToAppend) throws IOException { 
-		aBufferedWriter.append(aStringToAppend);
+	public Boolean append(String aStringToAppend) throws IOException {
+		return aBufferedWriter.append(aStringToAppend) != null;
 	}
 	
-	public void newLine() throws IOException {	
-		aBufferedWriter.newLine();
+	public Boolean appendWithNewLine(String aStringToAppend) throws IOException {
+		return aBufferedWriter.append(aStringToAppend) != null;
+
+	}
+
+	public Boolean put(String aStringToAppend) throws IOException { 
+		return aBufferedWriter.append(aStringToAppend) != null;
 	}
 	
-	private boolean appendValues(Map<String, Object> aParentNodeElement) {
+	public Boolean appendNewLine() throws IOException {	
+		aBufferedWriter.newLine();
+		return true;
+	}
+	
+	private Boolean appendValues(Map<String, Object> aParentNodeElement) {
 		
 		return false;
 	}
 	
-	public void appendObjectToSerializedJSON(Object aNodeChildElement) {
+	public Boolean appendObjectToSerializedJSON(Object aNodeChildElement) {
 		
 		
-		
+		return false;
 	}
 
-	public boolean save() throws IOException {
+	public Boolean save() throws IOException {
+		if(aBufferedWriter == null) throw new IOException(" Invalid BufferWriter");
 	
-	
-		return false;
+		aBufferedWriter.flush();
+		aBufferedWriter.close();
+		return true;
 	}
 
 	public void clearReader() throws IOException {
 
+		aFileContentDescriptor.clear();
 		if(aBufferedReader != null) {
 			aBufferedReader.reset();
 		}
 	}
 	
-	public void clearWriter() throws IOException {
+	public Boolean clearWriter() throws IOException {
 		
 		if(aBufferedWriter != null) {
-			aBufferedWriter.nullWriter();
+			 aBufferedWriter = new BufferedWriter( new FileWriter( aFileDescriptor ) );
 		}
-		
+		return true;
 	}
 
-	public void rewind() throws IOException {
+	public Boolean rewind() throws IOException {
 		aBufferedReader.reset();
+		return true;
 	}
 
-	public void forward() {
-		
+	public Boolean forward() {
+		return false;
 	}
 
 	public Integer size() {
@@ -123,6 +143,7 @@ public class JFXApplicationFileAccessor {
 	
 	public String readln() throws IOException {
 		 aBufferedReaderLine = aBufferedReader.readLine();
+		 aBufferedReaderChar = 0; 
 		return aBufferedReaderLine;
 	}
 	
@@ -139,13 +160,34 @@ public class JFXApplicationFileAccessor {
 		
 		return aBufferedReaderChar;
 	}
-
-	protected void initReader() {
+	
+	public boolean readFile() throws IOException {
+	
+		try {
+			int i = 0;
+			initReader();
+			while(!isEOF()) {
+				if( aFileContentDescriptor.put( String.valueOf(i++) , readln() ) == null)
+					return false;
+			}
+			return true;	
+		} catch (IOException evERRFILEIO) {
+			getLogger().logError(getClass().getName(), evERRFILEIO.getMessage());
+			throw evERRFILEIO;
+		}finally {
+			aBufferedReader.close();
+		}
+		
+	}
+	
+	protected void initReader() throws IOException {
 		try {
 			aFileReader = new FileReader(aFileDescriptor);
 			aBufferedReader = new BufferedReader(aFileReader);
+			aFileContentDescriptor.clear();
 		} catch (IOException evERRFILEIO) {
 			aLogger.logError(getClass().getName(), evERRFILEIO.getMessage());
+			throw evERRFILEIO;
 		}
 		
 	}
@@ -155,9 +197,9 @@ public class JFXApplicationFileAccessor {
 		
 		try {
 			aBufferedWriter = new BufferedWriter(new FileWriter(aFileDescriptor));
-		} catch (IOException EVERRFILE) {
-			EVERRFILE.getMessage();
-			throw EVERRFILE;
+		} catch (IOException evERRFILE) {
+			aLogger.logError(getClass().getName(), evERRFILE.getMessage());
+			throw evERRFILE;
 		}
 		
 		

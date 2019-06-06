@@ -43,36 +43,36 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor implem
 	 * @see 
 	 */
 	@Override
-	public boolean save() throws IOException
+	public Boolean save() throws IOException
 	{
-		
+		Boolean bSaveStatus = false;
+		try {
 			super.clearWriter();
 		
 			super.initReader();
-		
-		// *************************************************************************
-		for (Entry<String, Map<String, Object>> aParentNodeElement : aFileContentDescriptor.entrySet()) {
 			
-			String aNodeElementName = aParentNodeElement.getKey();
-			Map<String, Object> aNodeElement = aParentNodeElement.getValue();
-			
-			String sIniFileSectionName = "["+aNodeElementName+"]";
-			
-			try {
-				super.put(sIniFileSectionName);
-			} catch (IOException evERRFILEIO) {
-				getLogger().logError(this.getClass().getName(), evERRFILEIO.getMessage());
+			// *************************************************************************
+			for (Entry<String, Map<String, Object>> aParentNodeElement : aFileContentDescriptor.entrySet()) {
+				
+				String aNodeElementName = aParentNodeElement.getKey();
+				Map<String, Object> aNodeElement = aParentNodeElement.getValue();
+				
+				String sIniFileSectionName = "["+aNodeElementName+"]";
+				
+				bSaveStatus = super.append(sIniFileSectionName);
+				if(!bSaveStatus) { break; }
+				 
+				bSaveStatus = appendChildValues(aNodeElement);
+				if(!bSaveStatus) { break; }
+			 
+				bSaveStatus = super.appendNewLine();
+				if(!bSaveStatus) { break; }
 			}
-			appendChildValues(aNodeElement);
-			try {
-				super.newLine();
-			} catch (IOException evERRFILE) {
-				getLogger().logError(this.getClass().getName(), evERRFILE.getMessage());
-			}
+		} catch (IOException evERRFILE) {
+			getLogger().logError(this.getClass().getName(), evERRFILE.getMessage());
 		}
-		
-		// flush to the file all your modifications
-		return super.save();
+		// flush to the file all your modifications, if no error occured
+		return ((bSaveStatus) ? super.save() : bSaveStatus);
 	}
 	// *************************************************************************
 	/**
@@ -81,9 +81,9 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor implem
 	 * @return
 	 * @throws IOException 
 	 */
-	private boolean appendChildValues(Map<String, Object> aParentNodeElement) throws IOException {
+	private Boolean appendChildValues(Map<String, Object> aParentNodeElement) throws IOException {
 
-		
+		Boolean bAppendStatus = true;
 		for (Entry<String, Object> aNodeChildElementEntry : aParentNodeElement.entrySet()) {
 			
 			String aNodeChildElementName = aNodeChildElementEntry.getKey();
@@ -91,25 +91,23 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor implem
 			
 		    // put to the buffer 
 			try {
+				// key of element
 				super.append(aNodeChildElementName+"=");
+				// value(s) contained 
+				if(aNodeChildElement instanceof String) {
+					bAppendStatus = super.append(aNodeChildElement.toString());
+					super.appendNewLine();
+				}else {
+					bAppendStatus = super.appendObjectToSerializedJSON(aNodeChildElement);
+				}
 			} catch (IOException evERRFILEIO) {
 				getLogger().logError(this.getClass().getName(), evERRFILEIO.getMessage());
-			}
-			
-			// *************************************************************************
-			if(aNodeChildElement instanceof String) {
-				try {
-					super.append(aNodeChildElement.toString());
-				} catch (IOException evERRFILEIO) {
-					getLogger().logError(this.getClass().getName(), evERRFILEIO.getMessage());
-				}
-			}else {
-				super.appendObjectToSerializedJSON(aNodeChildElement);
-				super.newLine();
+				bAppendStatus = false;
+				break;
 			}
 			
 		}
-		return false;
+		return bAppendStatus;
 	}
 	// *************************************************************************
 	/**

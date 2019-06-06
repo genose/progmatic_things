@@ -22,6 +22,8 @@ public class JFXApplication extends Application {
 	  */
 	private static Boolean  		bJFXApplicationIsStarted = false;
 	
+	
+	
     public enum APPLICATION_MVC_DIRS  {
     		DIR_ASSETS("Assets"), DIR_VIEWS("Views"), DIR_CONTROLLERS("Controllers"), DIR_RESSOURCES("Ressources"), DIR_APPSRC("src");
     	
@@ -229,7 +231,7 @@ public class JFXApplication extends Application {
 		System.out.println(localClass+" 3 ;; \n class getressource abspath \n >> "+aUrlClass+"\n"+aUrlClass.getPath()+" \n origin >> "+localAbsolutePath);
 		boolean bPathExists = JFXApplication.applicationPathExist(localAbsolutePath);
 		bPathExists = JFXApplication.applicationPathExist(aUrlClass.getPath()+"cc");
-		return localpath;
+		return aUrlClassPath.getPath().replace("/", "");
 	}
 
 	private static JFXApplication getJFXApplicationSingleton() {
@@ -253,7 +255,6 @@ public class JFXApplication extends Application {
 			return ((localClassPath != null)? localClassPath.exists() : false) ;
 			
 		} catch (Exception EV_ERR_FILEEXISTS) {
-			// TODO: handle exception
 			EV_ERR_FILEEXISTS.printStackTrace();
 		}
 		return false;

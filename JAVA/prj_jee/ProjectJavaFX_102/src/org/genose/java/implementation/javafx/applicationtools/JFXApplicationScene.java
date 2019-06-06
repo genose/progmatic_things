@@ -1,11 +1,9 @@
 package org.genose.java.implementation.javafx.applicationtools;
 
 
-import org.genose.java.implementation.javafx.applicationtools.JFXApplicationException;
 
 import java.io.IOException;
 import java.net.URL;
-import java.security.InvalidAlgorithmParameterException;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +26,6 @@ public class JFXApplicationScene extends Scene {
 	 */
 	public JFXApplicationScene(Parent arg0, double arg1, double arg2, boolean arg3, SceneAntialiasing arg4) {
 		super(arg0, arg1, arg2, arg3, arg4);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -39,7 +36,6 @@ public class JFXApplicationScene extends Scene {
 	 */
 	public JFXApplicationScene(Parent arg0, double arg1, double arg2, boolean arg3) {
 		super(arg0, arg1, arg2, arg3);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -50,7 +46,6 @@ public class JFXApplicationScene extends Scene {
 	 */
 	public JFXApplicationScene(Parent arg0, double arg1, double arg2, Paint arg3) {
 		super(arg0, arg1, arg2, arg3);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -60,7 +55,6 @@ public class JFXApplicationScene extends Scene {
 	 */
 	public JFXApplicationScene(Parent arg0, double arg1, double arg2) {
 		super(arg0, arg1, arg2);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -69,7 +63,6 @@ public class JFXApplicationScene extends Scene {
 	 */
 	public JFXApplicationScene(Parent arg0, Paint arg1) {
 		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
 	}
 
 	/*
@@ -81,7 +74,6 @@ public class JFXApplicationScene extends Scene {
 	 */
 	public JFXApplicationScene(Parent arg0) {
 		super(arg0);
-		// TODO Auto-generated constructor stub
 	}
 
 	/*

@@ -9,7 +9,18 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class JFXApplication extends Application {
-	private static Application instance;
+	 /**
+	  * ** Declare a singleton pattern thru a static reference to Application instance **
+	  */
+	private static JFXApplication 			JFXApplication_singleton = null;
+	 /**
+	  *  ** Declare static Stage **
+	  */
+	private static Stage 		aPrimaryStage;
+	 /**
+	  *  ** Declare a flag for if (class).start() was already called ... ** 
+	  */
+	private static Boolean  		bJFXApplicationIsStarted = false;
 	
     public enum APPLICATION_MVC_DIRS  {
     		DIR_ASSETS("Assets"), DIR_VIEWS("Views"), DIR_CONTROLLERS("Controllers"), DIR_RESSOURCES("Ressources"), DIR_APPSRC("src");
@@ -54,7 +65,7 @@ public class JFXApplication extends Application {
     	
     		
     };
-	private static Stage aPrimaryStage; // **Declare static Stage**
+
 
 	/**
 	 * 
@@ -63,9 +74,9 @@ public class JFXApplication extends Application {
 	public JFXApplication() {
 		super();
 	    synchronized(JFXApplication.class){
-	        if(instance != null) throw new UnsupportedOperationException(
+	        if(JFXApplication_singleton != null) throw new UnsupportedOperationException(
 	                getClass()+" is singleton but constructor called more than once");
-	        instance = this;
+	        JFXApplication_singleton = this;
 	    }
 	    System.out.println(getClass()+" : was instiated");
 	}
@@ -74,14 +85,14 @@ public class JFXApplication extends Application {
 	 * 
 	 * @param stage
 	 */
-    private void setPrimaryStage(Stage stage) {
-        JFXApplication.aPrimaryStage = stage;
+    public void setPrimaryStage(Stage stage) {
+        JFXApplication.aPrimaryStage =  stage;
     }
 
 	/* ****************************************************** */
     /**
      * 
-     * @return javafx.Stage
+     * @return javafx.Stage (JFXApplicationStage)
      */
     static public Stage getPrimaryStage() {
         return JFXApplication.aPrimaryStage;
@@ -93,11 +104,19 @@ public class JFXApplication extends Application {
      * 
      */
 	@Override
-	public void start(Stage arg0) throws Exception {
+	public void start(Stage primaryStage) throws Exception {
 		synchronized(JFXApplication.class){
-	        if(instance == null) instance = this;
+	        if(JFXApplication_singleton == null) JFXApplication_singleton = this;
 		}
-		setPrimaryStage(arg0);
+		setPrimaryStage(primaryStage);
+	}
+
+	public void start(JFXApplicationStage primaryStage) throws Exception {
+		synchronized(JFXApplication.class){
+	        if(JFXApplication_singleton == null) JFXApplication_singleton = this;
+		}
+		setPrimaryStage(primaryStage);
+		
 	}
 	
 	/* ****************************************************** */
@@ -142,7 +161,7 @@ public class JFXApplication extends Application {
 	 * @return bundle application path
 	 */
 	public static String getApplicationRunnablePathAbsolute() {
-		Class localClass = JFXApplication.getApplicationJFXSingleton().getClass();
+		Class localClass = JFXApplication.getJFXApplicationSingleton().getClass();
 		
 		String packageNamed = localClass.getPackageName();
 		String localPackagePath = ""+packageNamed.replaceAll("[.]", "/");
@@ -163,7 +182,7 @@ public class JFXApplication extends Application {
 	 */
 	public static String getApplicationBundlePath() {
 				
-		Class localClass = JFXApplication.getApplicationJFXSingleton().getClass();
+		Class localClass = JFXApplication.getJFXApplicationSingleton().getClass();
 		
 		String packageNamed = localClass.getPackageName();
 		String localPackagePath = ""+packageNamed.replaceAll("[.]", "/");
@@ -209,13 +228,13 @@ public class JFXApplication extends Application {
 		// URL aUrlClass = localClass.getResource("..\\C:\\Users\\59013-36-18\\Documents\\GitHub\\progmatic_things\\JAVA\\prj_jee\\ProjectJavaFX_102\\bin");
 		System.out.println(localClass+" 3 ;; \n class getressource abspath \n >> "+aUrlClass+"\n"+aUrlClass.getPath()+" \n origin >> "+localAbsolutePath);
 		boolean bPathExists = JFXApplication.applicationPathExist(localAbsolutePath);
-		bPathExists = JFXApplication.applicationPathExist(aUrlClass.getPath());
+		bPathExists = JFXApplication.applicationPathExist(aUrlClass.getPath()+"cc");
 		return localpath;
 	}
 
-	private static Object getApplicationJFXSingleton() {
+	private static JFXApplication getJFXApplicationSingleton() {
 		// TODO Auto-generated method stub
-		return instance;
+		return JFXApplication_singleton;
 	}
 	/* ****************************************************** */
 	/**
@@ -240,5 +259,6 @@ public class JFXApplication extends Application {
 		return false;
 		
 	}
+	
 
 }

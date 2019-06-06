@@ -1,19 +1,16 @@
 package Main;
 
 
-import java.net.URL;
+import java.lang.System.Logger;
+
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationScene;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationStage;
+import org.genose.java.implementation.streams.ConsoleStream;
 
-import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+
 
 public class Main extends JFXApplication { 
 
@@ -21,33 +18,29 @@ public class Main extends JFXApplication {
     public void start(Stage primaryStage) throws Exception{
     	
     	try {
-    		// JFXApplication app = new JFXApplication();
-    		//URL aUrlClassPath = getClass().getResource(".");
-    		//System.out.println(getClass()+" ;; "+aUrlClassPath);
-    		System.out.println(getClass()+" :: "+this.getApplicationBundlePath());
-    		//System.out.println(getClass()+" :: "+ApplicationJFX.getApplicationBundlePath());
-    		
-    		
-        	// super.start(primaryStage);
-        	 
 
+    		// setPrimaryStage ...
+        	super.start(primaryStage);
         	
-            // Parent root = FXMLLoader.load(getClass().getResource("../MainWindow/MainWindow.fxml"));
+        	(System.getLogger(getClass().toString())).log(System.Logger.Level.OFF, "{string}", getClass()+" :: "+JFXApplication.getApplicationBundlePath());
+    		
+          /*  
+Parent root = FXMLLoader.load(getClass().getResource("../MainWindow/MainWindow.fxml"));
+    
+primaryStage.initStyle(StageStyle.UNDECORATED);
+primaryStage.setOpacity(0.8);
+// primaryStage.setScene(new Scene(root, primaryStage.getHeight(), primaryStage.getWidth()));
+
+primaryStage.setScene( new ApplicationJFXScene( "StartupScreens",null ) );
             
-          /*  primaryStage.initStyle(StageStyle.UNDECORATED);
-            primaryStage.setOpacity(0.8);
-            // primaryStage.setScene(new Scene(root, primaryStage.getHeight(), primaryStage.getWidth()));
-        	
-            primaryStage.setScene( new ApplicationJFXScene( "StartupScreens",null ) );
-        	            
-            primaryStage.show();
-            primaryStage.setIconified(false);
-            primaryStage.centerOnScreen();*/
-        	
-	
-		} catch (Exception EV_ERR_INSTANTIATE) {
-			// TODO: handle exception
-			EV_ERR_INSTANTIATE.printStackTrace();
+primaryStage.show();
+primaryStage.setIconified(false);
+primaryStage.centerOnScreen();
+    */
+
+
+		} catch (Exception EV_ERR_INSTANTIATE) { 
+			(System.getLogger(getClass().toString())).log(System.Logger.Level.ERROR, EV_ERR_INSTANTIATE.getMessage());
 			throw EV_ERR_INSTANTIATE;
 		}    	
     }

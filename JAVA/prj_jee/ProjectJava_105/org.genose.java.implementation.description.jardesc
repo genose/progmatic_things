@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="/private/tmp/volatile_hd/org.genose.java.implementation.jar"/>
+    <options buildIfNeeded="true" compress="false" descriptionLocation="/ProjectJava_105/org.genose.java.implementation.description.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+        <javaElement handleIdentifier="=ProjectJava_106/src&lt;org.genose.java.implementation.observable"/>
+        <javaElement handleIdentifier="=ProjectJava_106/src&lt;org.genose.java.implementation.streams"/>
+    </selectedElements>
+</jardesc>

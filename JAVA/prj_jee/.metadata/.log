@@ -4433,3 +4433,465 @@ java.lang.NoClassDefFoundError: javax/annotation/PostConstruct
 	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:661)
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1476)
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.793
+!MESSAGE Invalid ZIP archive: HTTP.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.797
+!MESSAGE Invalid ZIP archive: HTTPTokener.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.801
+!MESSAGE Invalid ZIP archive: JSONArray.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.804
+!MESSAGE Invalid ZIP archive: JSONException.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.809
+!MESSAGE Invalid ZIP archive: JSONML.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.812
+!MESSAGE Invalid ZIP archive: JSONObject.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.816
+!MESSAGE Invalid ZIP archive: JSONPointer.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.820
+!MESSAGE Invalid ZIP archive: JSONPointerException.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.824
+!MESSAGE Invalid ZIP archive: JSONPropertyIgnore.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.828
+!MESSAGE Invalid ZIP archive: JSONPropertyName.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.832
+!MESSAGE Invalid ZIP archive: JSONString.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.836
+!MESSAGE Invalid ZIP archive: JSONStringer.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.840
+!MESSAGE Invalid ZIP archive: JSONTokener.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:07.844
+!MESSAGE Invalid ZIP archive: JSONWriter.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:09.925
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/JSONML.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:09.933
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/JSONPropertyIgnore.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:09.937
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/JSONPointer.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:09.941
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/JSONPointerException.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:09.945
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/HTTP.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:09.950
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/JSONArray.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:09.953
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/JSONPropertyName.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:10.005
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/JSONTokener.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:10.009
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/JSONException.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:10.013
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/JSONString.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:10.018
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/JSONObject.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:10.022
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/HTTPTokener.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:10.026
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/JSONStringer.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:10.030
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/JSONWriter.java zip END header not found
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.602
+!MESSAGE Invalid ZIP archive: CDL.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.606
+!MESSAGE Invalid ZIP archive: Cookie.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.610
+!MESSAGE Invalid ZIP archive: CookieList.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.842
+!MESSAGE Invalid ZIP archive: HTTP.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.849
+!MESSAGE Invalid ZIP archive: HTTPTokener.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.855
+!MESSAGE Invalid ZIP archive: JSONArray.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.860
+!MESSAGE Invalid ZIP archive: JSONException.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.867
+!MESSAGE Invalid ZIP archive: JSONML.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.872
+!MESSAGE Invalid ZIP archive: JSONObject.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.878
+!MESSAGE Invalid ZIP archive: JSONPointer.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.884
+!MESSAGE Invalid ZIP archive: JSONPointerException.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.890
+!MESSAGE Invalid ZIP archive: JSONPropertyIgnore.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.896
+!MESSAGE Invalid ZIP archive: JSONPropertyName.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.900
+!MESSAGE Invalid ZIP archive: JSONString.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.903
+!MESSAGE Invalid ZIP archive: JSONStringer.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.909
+!MESSAGE Invalid ZIP archive: JSONTokener.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.913
+!MESSAGE Invalid ZIP archive: JSONWriter.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.944
+!MESSAGE Invalid ZIP archive: HTTP.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.948
+!MESSAGE Invalid ZIP archive: HTTPTokener.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.951
+!MESSAGE Invalid ZIP archive: JSONArray.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.955
+!MESSAGE Invalid ZIP archive: JSONException.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.958
+!MESSAGE Invalid ZIP archive: JSONML.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.961
+!MESSAGE Invalid ZIP archive: JSONObject.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.965
+!MESSAGE Invalid ZIP archive: JSONPointer.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.969
+!MESSAGE Invalid ZIP archive: JSONPointerException.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.972
+!MESSAGE Invalid ZIP archive: JSONPropertyIgnore.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.976
+!MESSAGE Invalid ZIP archive: JSONPropertyName.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.979
+!MESSAGE Invalid ZIP archive: JSONString.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.983
+!MESSAGE Invalid ZIP archive: JSONStringer.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.986
+!MESSAGE Invalid ZIP archive: JSONTokener.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jdt.core 4 0 2019-06-06 13:25:16.990
+!MESSAGE Invalid ZIP archive: JSONWriter.java [in ProjectJavaFX_102]
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:18.731
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/CDL.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:18.739
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/CookieList.java zip END header not found
+
+!ENTRY org.eclipse.jst.jsp.core 2 2 2019-06-06 13:25:18.742
+!MESSAGE Taglib Index ZipException: C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/ProjectJavaFX_102/Cookie.java zip END header not found
+
+!ENTRY org.eclipse.jdt.ui 2 0 2019-06-06 13:49:37.726
+!MESSAGE The 'org.eclipse.mylyn.java.ui.javaAllCompletionProposalComputer' proposal computer from the 'org.eclipse.mylyn.java.ui' plug-in did not complete normally. The extension has thrown a runtime exception.
+!STACK 0
+java.lang.IllegalArgumentException: FileNotFoundException | IOException
+	at org.eclipse.jdt.core.Signature.createCharArrayTypeSignature(Signature.java:1100)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.createTypeSignature(CompletionEngine.java:558)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.findVariablesAndMethods(CompletionEngine.java:12569)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.completionOnSingleNameReference(CompletionEngine.java:3771)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.complete(CompletionEngine.java:1945)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.complete(CompletionEngine.java:2271)
+	at org.eclipse.jdt.internal.core.Openable.codeComplete(Openable.java:136)
+	at org.eclipse.jdt.internal.core.CompilationUnit.codeComplete(CompilationUnit.java:368)
+	at org.eclipse.jdt.internal.core.CompilationUnit.codeComplete(CompilationUnit.java:358)
+	at org.eclipse.jdt.internal.ui.text.java.JavaCompletionProposalComputer.internalComputeCompletionProposals(JavaCompletionProposalComputer.java:253)
+	at org.eclipse.jdt.internal.ui.text.java.JavaCompletionProposalComputer.computeCompletionProposals(JavaCompletionProposalComputer.java:215)
+	at org.eclipse.jdt.internal.ui.text.java.JavaTypeCompletionProposalComputer.computeCompletionProposals(JavaTypeCompletionProposalComputer.java:66)
+	at org.eclipse.mylyn.internal.java.ui.editor.FocusedJavaAllProposalComputer.computeCompletionProposals(FocusedJavaAllProposalComputer.java:41)
+	at org.eclipse.jdt.internal.ui.text.java.CompletionProposalComputerDescriptor.computeCompletionProposals(CompletionProposalComputerDescriptor.java:336)
+	at org.eclipse.jdt.internal.ui.text.java.CompletionProposalCategory.computeCompletionProposals(CompletionProposalCategory.java:340)
+	at org.eclipse.jdt.internal.ui.text.java.ContentAssistProcessor.collectProposals(ContentAssistProcessor.java:334)
+	at org.eclipse.jdt.internal.ui.text.java.ContentAssistProcessor.computeCompletionProposals(ContentAssistProcessor.java:291)
+	at org.eclipse.jface.text.contentassist.ContentAssistant$2.lambda$0(ContentAssistant.java:2014)
+	at java.base/java.util.Collections$SingletonSet.forEach(Collections.java:4795)
+	at org.eclipse.jface.text.contentassist.ContentAssistant$2.run(ContentAssistant.java:2013)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jface.text.contentassist.ContentAssistant.computeCompletionProposals(ContentAssistant.java:2010)
+	at org.eclipse.jface.text.contentassist.CompletionProposalPopup.computeProposals(CompletionProposalPopup.java:575)
+	at org.eclipse.jface.text.contentassist.CompletionProposalPopup.lambda$0(CompletionProposalPopup.java:505)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:72)
+	at org.eclipse.jface.text.contentassist.CompletionProposalPopup.showProposals(CompletionProposalPopup.java:500)
+	at org.eclipse.jface.text.contentassist.ContentAssistant.showPossibleCompletions(ContentAssistant.java:1824)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor$AdaptedSourceViewer.doOperation(CompilationUnitEditor.java:189)
+	at org.eclipse.ui.texteditor.ContentAssistAction.lambda$0(ContentAssistAction.java:85)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:72)
+	at org.eclipse.ui.texteditor.ContentAssistAction.run(ContentAssistAction.java:84)
+	at org.eclipse.jface.action.Action.runWithEvent(Action.java:474)
+	at org.eclipse.jface.commands.ActionHandler.execute(ActionHandler.java:121)
+	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:96)
+	at jdk.internal.reflect.GeneratedMethodAccessor115.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:320)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:254)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:173)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:156)
+	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:497)
+	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:490)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceImpl.executeHandler(HandlerServiceImpl.java:213)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.executeCommand(KeyBindingDispatcher.java:308)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.press(KeyBindingDispatcher.java:584)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.processKeyEvent(KeyBindingDispatcher.java:653)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.filterKeySequenceBindings(KeyBindingDispatcher.java:443)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.access$2(KeyBindingDispatcher.java:386)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher$KeyDownFilter.handleEvent(KeyBindingDispatcher.java:96)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.filterEvent(Display.java:1194)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1054)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1079)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1064)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1106)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1102)
+	at org.eclipse.swt.widgets.Widget.wmChar(Widget.java:1489)
+	at org.eclipse.swt.widgets.Control.WM_CHAR(Control.java:4888)
+	at org.eclipse.swt.widgets.Canvas.WM_CHAR(Canvas.java:353)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4768)
+	at org.eclipse.swt.widgets.Canvas.windowProc(Canvas.java:348)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:4770)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessage(Native Method)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3545)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1173)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1062)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:566)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:150)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:155)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:661)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1476)
+
+!ENTRY org.eclipse.jdt.ui 2 0 2019-06-06 13:49:53.666
+!MESSAGE The 'org.eclipse.mylyn.java.ui.javaAllCompletionProposalComputer' proposal computer from the 'org.eclipse.mylyn.java.ui' plug-in did not complete normally. The extension has thrown a runtime exception.
+!STACK 0
+java.lang.IllegalArgumentException: FileNotFoundException | IOException
+	at org.eclipse.jdt.core.Signature.createCharArrayTypeSignature(Signature.java:1100)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.createTypeSignature(CompletionEngine.java:558)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.findVariablesAndMethods(CompletionEngine.java:12569)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.completionOnSingleNameReference(CompletionEngine.java:3771)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.complete(CompletionEngine.java:1945)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.complete(CompletionEngine.java:2271)
+	at org.eclipse.jdt.internal.core.Openable.codeComplete(Openable.java:136)
+	at org.eclipse.jdt.internal.core.CompilationUnit.codeComplete(CompilationUnit.java:368)
+	at org.eclipse.jdt.internal.core.CompilationUnit.codeComplete(CompilationUnit.java:358)
+	at org.eclipse.jdt.internal.ui.text.java.JavaCompletionProposalComputer.internalComputeCompletionProposals(JavaCompletionProposalComputer.java:253)
+	at org.eclipse.jdt.internal.ui.text.java.JavaCompletionProposalComputer.computeCompletionProposals(JavaCompletionProposalComputer.java:215)
+	at org.eclipse.jdt.internal.ui.text.java.JavaTypeCompletionProposalComputer.computeCompletionProposals(JavaTypeCompletionProposalComputer.java:66)
+	at org.eclipse.mylyn.internal.java.ui.editor.FocusedJavaAllProposalComputer.computeCompletionProposals(FocusedJavaAllProposalComputer.java:41)
+	at org.eclipse.jdt.internal.ui.text.java.CompletionProposalComputerDescriptor.computeCompletionProposals(CompletionProposalComputerDescriptor.java:336)
+	at org.eclipse.jdt.internal.ui.text.java.CompletionProposalCategory.computeCompletionProposals(CompletionProposalCategory.java:340)
+	at org.eclipse.jdt.internal.ui.text.java.ContentAssistProcessor.collectProposals(ContentAssistProcessor.java:334)
+	at org.eclipse.jdt.internal.ui.text.java.ContentAssistProcessor.computeCompletionProposals(ContentAssistProcessor.java:291)
+	at org.eclipse.jface.text.contentassist.ContentAssistant$2.lambda$0(ContentAssistant.java:2014)
+	at java.base/java.util.Collections$SingletonSet.forEach(Collections.java:4795)
+	at org.eclipse.jface.text.contentassist.ContentAssistant$2.run(ContentAssistant.java:2013)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jface.text.contentassist.ContentAssistant.computeCompletionProposals(ContentAssistant.java:2010)
+	at org.eclipse.jface.text.contentassist.CompletionProposalPopup.computeProposals(CompletionProposalPopup.java:575)
+	at org.eclipse.jface.text.contentassist.CompletionProposalPopup.lambda$0(CompletionProposalPopup.java:505)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:72)
+	at org.eclipse.jface.text.contentassist.CompletionProposalPopup.showProposals(CompletionProposalPopup.java:500)
+	at org.eclipse.jface.text.contentassist.ContentAssistant.showPossibleCompletions(ContentAssistant.java:1824)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor$AdaptedSourceViewer.doOperation(CompilationUnitEditor.java:189)
+	at org.eclipse.ui.texteditor.ContentAssistAction.lambda$0(ContentAssistAction.java:85)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:72)
+	at org.eclipse.ui.texteditor.ContentAssistAction.run(ContentAssistAction.java:84)
+	at org.eclipse.jface.action.Action.runWithEvent(Action.java:474)
+	at org.eclipse.jface.commands.ActionHandler.execute(ActionHandler.java:121)
+	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:96)
+	at jdk.internal.reflect.GeneratedMethodAccessor115.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:320)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:254)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:173)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:156)
+	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:497)
+	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:490)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceImpl.executeHandler(HandlerServiceImpl.java:213)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.executeCommand(KeyBindingDispatcher.java:308)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.press(KeyBindingDispatcher.java:584)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.processKeyEvent(KeyBindingDispatcher.java:653)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.filterKeySequenceBindings(KeyBindingDispatcher.java:443)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.access$2(KeyBindingDispatcher.java:386)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher$KeyDownFilter.handleEvent(KeyBindingDispatcher.java:96)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.filterEvent(Display.java:1194)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1054)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1079)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1064)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1106)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1102)
+	at org.eclipse.swt.widgets.Widget.wmChar(Widget.java:1489)
+	at org.eclipse.swt.widgets.Control.WM_CHAR(Control.java:4888)
+	at org.eclipse.swt.widgets.Canvas.WM_CHAR(Canvas.java:353)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4768)
+	at org.eclipse.swt.widgets.Canvas.windowProc(Canvas.java:348)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:4770)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessage(Native Method)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3545)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1173)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1062)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:566)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:150)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:155)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:661)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1476)
+
+!ENTRY org.eclipse.jdt.ui 2 0 2019-06-06 13:50:02.481
+!MESSAGE The 'org.eclipse.mylyn.java.ui.javaAllCompletionProposalComputer' proposal computer from the 'org.eclipse.mylyn.java.ui' plug-in did not complete normally. The extension has thrown a runtime exception.
+!STACK 0
+java.lang.IllegalArgumentException: FileNotFoundException | IOException
+	at org.eclipse.jdt.core.Signature.createCharArrayTypeSignature(Signature.java:1100)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.createTypeSignature(CompletionEngine.java:558)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.findVariablesAndMethods(CompletionEngine.java:12569)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.completionOnSingleNameReference(CompletionEngine.java:3771)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.complete(CompletionEngine.java:1945)
+	at org.eclipse.jdt.internal.codeassist.CompletionEngine.complete(CompletionEngine.java:2271)
+	at org.eclipse.jdt.internal.core.Openable.codeComplete(Openable.java:136)
+	at org.eclipse.jdt.internal.core.CompilationUnit.codeComplete(CompilationUnit.java:368)
+	at org.eclipse.jdt.internal.core.CompilationUnit.codeComplete(CompilationUnit.java:358)
+	at org.eclipse.jdt.internal.ui.text.java.JavaCompletionProposalComputer.internalComputeCompletionProposals(JavaCompletionProposalComputer.java:253)
+	at org.eclipse.jdt.internal.ui.text.java.JavaCompletionProposalComputer.computeCompletionProposals(JavaCompletionProposalComputer.java:215)
+	at org.eclipse.jdt.internal.ui.text.java.JavaTypeCompletionProposalComputer.computeCompletionProposals(JavaTypeCompletionProposalComputer.java:66)
+	at org.eclipse.mylyn.internal.java.ui.editor.FocusedJavaAllProposalComputer.computeCompletionProposals(FocusedJavaAllProposalComputer.java:41)
+	at org.eclipse.jdt.internal.ui.text.java.CompletionProposalComputerDescriptor.computeCompletionProposals(CompletionProposalComputerDescriptor.java:336)
+	at org.eclipse.jdt.internal.ui.text.java.CompletionProposalCategory.computeCompletionProposals(CompletionProposalCategory.java:340)
+	at org.eclipse.jdt.internal.ui.text.java.ContentAssistProcessor.collectProposals(ContentAssistProcessor.java:334)
+	at org.eclipse.jdt.internal.ui.text.java.ContentAssistProcessor.computeCompletionProposals(ContentAssistProcessor.java:291)
+	at org.eclipse.jface.text.contentassist.ContentAssistant$2.lambda$0(ContentAssistant.java:2014)
+	at java.base/java.util.Collections$SingletonSet.forEach(Collections.java:4795)
+	at org.eclipse.jface.text.contentassist.ContentAssistant$2.run(ContentAssistant.java:2013)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jface.text.contentassist.ContentAssistant.computeCompletionProposals(ContentAssistant.java:2010)
+	at org.eclipse.jface.text.contentassist.CompletionProposalPopup.computeProposals(CompletionProposalPopup.java:575)
+	at org.eclipse.jface.text.contentassist.CompletionProposalPopup.lambda$0(CompletionProposalPopup.java:505)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:72)
+	at org.eclipse.jface.text.contentassist.CompletionProposalPopup.showProposals(CompletionProposalPopup.java:500)
+	at org.eclipse.jface.text.contentassist.ContentAssistant.showPossibleCompletions(ContentAssistant.java:1824)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor$AdaptedSourceViewer.doOperation(CompilationUnitEditor.java:189)
+	at org.eclipse.ui.texteditor.ContentAssistAction.lambda$0(ContentAssistAction.java:85)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:72)
+	at org.eclipse.ui.texteditor.ContentAssistAction.run(ContentAssistAction.java:84)
+	at org.eclipse.jface.action.Action.runWithEvent(Action.java:474)
+	at org.eclipse.jface.commands.ActionHandler.execute(ActionHandler.java:121)
+	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:96)
+	at jdk.internal.reflect.GeneratedMethodAccessor115.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:320)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:254)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:173)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:156)
+	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:497)
+	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:490)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceImpl.executeHandler(HandlerServiceImpl.java:213)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.executeCommand(KeyBindingDispatcher.java:308)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.press(KeyBindingDispatcher.java:584)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.processKeyEvent(KeyBindingDispatcher.java:653)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.filterKeySequenceBindings(KeyBindingDispatcher.java:443)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.access$2(KeyBindingDispatcher.java:386)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher$KeyDownFilter.handleEvent(KeyBindingDispatcher.java:96)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.filterEvent(Display.java:1194)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1054)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1079)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1064)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1106)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1102)
+	at org.eclipse.swt.widgets.Widget.wmChar(Widget.java:1489)
+	at org.eclipse.swt.widgets.Control.WM_CHAR(Control.java:4888)
+	at org.eclipse.swt.widgets.Canvas.WM_CHAR(Canvas.java:353)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4768)
+	at org.eclipse.swt.widgets.Canvas.windowProc(Canvas.java:348)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:4770)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessage(Native Method)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3545)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1173)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1062)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:566)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:150)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:155)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:661)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1476)

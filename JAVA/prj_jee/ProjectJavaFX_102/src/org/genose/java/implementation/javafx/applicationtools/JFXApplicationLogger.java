@@ -112,4 +112,19 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 		
 	}
 
+	public void log(String className, String message, System.Logger.Level aSeverity) {
+		log( aSeverity, ((className != null && className.length()>0)?className+":":"")+message );
+	}
+	
+	public void logInfo(String className, String message) {
+		log(System.Logger.Level.INFO, ((className != null && className.length()>0)?className+":":"")+message );
+	}
+	public void logWarning(String className, String message) {
+		log(System.Logger.Level.WARNING, ((className != null && className.length()>0)?className+":":"")+message );
+	}
+	
+	public void logError(String className, String message) {
+		log(System.Logger.Level.ERROR, ((className != null && className.length()>0)?className+":":"")+message );
+	}
+
 }

@@ -76,7 +76,6 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 
 	@Override
 	public void print(String arg0) {
-		// TODO Auto-generated method stub
 		super.print(arg0);
 	}
 
@@ -101,15 +100,14 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	}
 
 	@Override
-	public void log(Level level, ResourceBundle bundle, String msg, Throwable thrown) {
-		// TODO Auto-generated method stub
+	public void log(Level level, ResourceBundle bundle, String message, Throwable aThrownedCause) {
+		aLogger.log(level,String.format("%s \n :: %s \n :: %s", aThrownedCause, bundle.toString(), message));
 		
 	}
 
 	@Override
 	public void log(Level level, ResourceBundle bundle, String format, Object... params) {
-		// TODO Auto-generated method stub
-		
+		aLogger.log(level,String.format("%s :: %s", bundle.toString(), String.format(format, params)));
 	}
 
 	public void log(String className, String message, System.Logger.Level aSeverity) {
@@ -123,8 +121,20 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 		log(System.Logger.Level.WARNING, ((className != null && className.length()>0)?className+":":"")+message );
 	}
 	
-	public void logError(String className, String message) {
-		log(System.Logger.Level.ERROR, ((className != null && className.length()>0)?className+":":"")+message );
+	public void logError(String fromCurrentClassName, String message) {
+		log(System.Logger.Level.ERROR, ((fromCurrentClassName != null && fromCurrentClassName.length()>0)?fromCurrentClassName+":":"")+message );
+	}
+	
+	public void logError(Class<?> fromCurrentClass,Class<?> throwedType ,String message, String callStack) {
+		
+		String format = "******************************************* \n Occured in : %s \n Throwed type : %s \n Message : %s \n********************************************** \n CallStack : \n %s"; 
+		
+		log(System.Logger.Level.ERROR, String.format(format, String.valueOf(fromCurrentClass) , String.valueOf(throwedType) , String.valueOf(message), String.valueOf(callStack) ) );
+	}
+
+	public void logError(Class<?> fromCurrentClass,Class<?> throwedType, Throwable aThrowedCause) {
+		logError(fromCurrentClass, throwedType,aThrowedCause.getMessage(), aThrowedCause.getStackTrace().toString());
+		
 	}
 
 }

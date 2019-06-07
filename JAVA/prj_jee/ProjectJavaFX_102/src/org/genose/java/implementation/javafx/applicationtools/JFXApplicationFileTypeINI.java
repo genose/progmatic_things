@@ -10,8 +10,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 
 /**
  * @author 59013-36-18
@@ -69,7 +67,11 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor implem
 				if(!bSaveStatus) { break; }
 			}
 		} catch (IOException evERRFILE) {
-			getLogger().logError(this.getClass().getName(), evERRFILE.getMessage());
+			getLogger().logError(this.getClass(), IOException.class, evERRFILE);
+			return false;
+		} catch (JFXApplicationException evERRTRANSFORMDATA) {
+			getLogger().logError(this.getClass(), JFXApplicationException.class, evERRTRANSFORMDATA);
+			return false;
 		}
 		// flush to the file all your modifications, if no error occured
 		return ((bSaveStatus) ? super.save() : bSaveStatus);
@@ -81,33 +83,46 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor implem
 	 * @return
 	 * @throws IOException 
 	 */
-	private Boolean appendChildValues(Map<String, Object> aParentNodeElement) throws IOException {
-
-		Boolean bAppendStatus = true;
-		for (Entry<String, Object> aNodeChildElementEntry : aParentNodeElement.entrySet()) {
+	private Boolean appendChildValues(Map<String, Object> aParentNodeElement) throws JFXApplicationException {
+		try {
 			
-			String aNodeChildElementName = aNodeChildElementEntry.getKey();
-		    Object aNodeChildElement = aNodeChildElementEntry.getValue();
-			
-		    // put to the buffer 
-			try {
-				// key of element
-				super.append(aNodeChildElementName+"=");
+			Boolean bAppendStatus = true;
+			for (Entry<String, Object> aNodeChildElementEntry : aParentNodeElement.entrySet()) {
+				
+				String aNodeChildElementName = aNodeChildElementEntry.getKey();
+			    Object aNodeChildElement = aNodeChildElementEntry.getValue();
+				
+			    // put to the buffer 
+				
+				// *************************************************************************
+				
 				// value(s) contained 
 				if(aNodeChildElement instanceof String) {
+					// key of element
+					super.append(aNodeChildElementName+"=");
 					bAppendStatus = super.append(aNodeChildElement.toString());
 					super.appendNewLine();
+				}else if((aNodeChildElement instanceof Map)) {
+					// key of element
+					super.append(aNodeChildElementName+"=");
+					bAppendStatus = super.appendObjectToSerializedJSON((Map<String, Object>)aNodeChildElement);
 				}else {
-					bAppendStatus = super.appendObjectToSerializedJSON(aNodeChildElement);
+					throw new JFXApplicationException(getClass().getName()+" : Unexpected object type at index : "+aNodeChildElementName +":"+aNodeChildElement.getClass());
 				}
-			} catch (IOException evERRFILEIO) {
-				getLogger().logError(this.getClass().getName(), evERRFILEIO.getMessage());
-				bAppendStatus = false;
-				break;
+				
+				if(!bAppendStatus) {
+					throw new JFXApplicationException(String.format(" Something goes wrong when adding (%s)",aNodeChildElementName));
+				}
+				// *************************************************************************
+				
 			}
-			
+			// return status
+			return bAppendStatus;
+		} catch (IOException | JFXApplicationException evERRAPPENDCHILD) {
+			getLogger().logError(this.getClass(), evERRAPPENDCHILD.getClass(), evERRAPPENDCHILD);
+			throw new JFXApplicationException(evERRAPPENDCHILD);
 		}
-		return bAppendStatus;
+		
 	}
 	// *************************************************************************
 	/**

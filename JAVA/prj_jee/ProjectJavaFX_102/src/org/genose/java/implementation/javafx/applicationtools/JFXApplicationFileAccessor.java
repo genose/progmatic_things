@@ -10,8 +10,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import org.json.JSONObject;
 
 /**
  * @author 59013-36-18
@@ -56,7 +61,7 @@ public class JFXApplicationFileAccessor {
 		
 		aLogger = new JFXApplicationLogger(""+aFileDescriptor.toString() );
 		
-		Map<String,String> aFileContentDescriptor = new HashMap<String, String>();
+		Map<String,String> aFileContentDescriptor = new HashMap<>();
 		
 		BufferedReader aBufferedReader = null;
 		BufferedWriter aBufferedWriter = null;
@@ -71,20 +76,44 @@ public class JFXApplicationFileAccessor {
 	}
 	
 	public Boolean append(String aStringToAppend) throws IOException {
-		return aBufferedWriter.append(aStringToAppend) != null;
+		try {
+			return aBufferedWriter.append(aStringToAppend) != null;
+	} catch (Exception evERRFILEIO) {
+		tragicClose();
+		getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
+		throw evERRFILEIO;
+	}
 	}
 	
 	public Boolean appendWithNewLine(String aStringToAppend) throws IOException {
+	try {
 		return aBufferedWriter.append(aStringToAppend) != null;
+	} catch (Exception evERRFILEIO) {
+		tragicClose();
+		getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
+		throw evERRFILEIO;
+	}
 
 	}
 
 	public Boolean put(String aStringToAppend) throws IOException { 
-		return aBufferedWriter.append(aStringToAppend) != null;
+		try {
+			return aBufferedWriter.append(aStringToAppend) != null;
+		} catch (Exception evERRFILEIO) {
+			tragicClose();
+			getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
+			throw evERRFILEIO;
+		}
 	}
 	
 	public Boolean appendNewLine() throws IOException {	
-		aBufferedWriter.newLine();
+		try {
+			aBufferedWriter.newLine();
+		} catch (Exception evERRFILEIO) {
+			tragicClose();
+			getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
+			throw evERRFILEIO;
+		}
 		return true;
 	}
 	
@@ -93,38 +122,105 @@ public class JFXApplicationFileAccessor {
 		return false;
 	}
 	
-	public Boolean appendObjectToSerializedJSON(Object aNodeChildElement) {
-		
-		
+	public Boolean appendObjectToSerializedJSON(String aNodeChildElementName, Object aNodeChildElement) throws JFXApplicationException {
+		try {
+			
+			JSONObject dataset = new JSONObject();
+			dataset.put(aNodeChildElementName, aNodeChildElement);
+
+			aBufferedWriter.append(aNodeChildElementName);
+			aBufferedWriter.append( String.valueOf( dataset.toString() ) );
+			
+			getLogger().getConsoleLog().println( dataset.toString() );
+			
+			return true;
+			
+		} catch (Exception evERRENCODEJSON) {
+			tragicClose();
+			getLogger().logError(this.getClass(), evERRENCODEJSON.getClass(), evERRENCODEJSON);
+			throw new JFXApplicationException( evERRENCODEJSON );
+		}
+	}
+	
+	public Boolean appendObjectToSerializedJSON(Map<String, Object> aNodeChildElement) throws JFXApplicationException {
+		try {
+			JSONObject dataset = new JSONObject();
+			
+			if( ! (aNodeChildElement instanceof Iterable<?>) ) {
+				throw new JFXApplicationException ( getClass().getName()+": the node class "+aNodeChildElement.getClass()+" is not iterable ... ");
+			}
+			
+			for (Entry<String, Object> aNodeChildElementEntry : aNodeChildElement.entrySet()) {
+			
+				String aNodeChildElementName = aNodeChildElementEntry.getKey();
+				Object aNodeChildElementValue = aNodeChildElementEntry.getValue();
+				dataset.put(aNodeChildElementName, aNodeChildElementValue);
+			}
+			
+			aBufferedWriter.append( String.valueOf( dataset.toString() ) );
+			
+			getLogger().getConsoleLog().println( dataset.toString() );
+		}catch (JFXApplicationException | IOException evERRENCODEJSON ) {
+			tragicClose();
+				getLogger().logError(this.getClass(), evERRENCODEJSON.getClass(), evERRENCODEJSON);
+				throw new JFXApplicationException(evERRENCODEJSON);
+		}
 		return false;
 	}
 
 	public Boolean save() throws IOException {
-		if(aBufferedWriter == null) throw new IOException(" Invalid BufferWriter");
-	
-		aBufferedWriter.flush();
-		aBufferedWriter.close();
+		try {
+			if(aBufferedWriter == null) {
+				throw new IOException(" Invalid BufferWriter");
+			}else {
+				aBufferedWriter.flush();
+				aBufferedWriter.close();
+			}
+		} catch (IOException evERRFILEIO) {
+			tragicClose();
+			getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
+			throw evERRFILEIO;
+		}
 		return true;
 	}
 
 	public void clearReader() throws IOException {
-
-		aFileContentDescriptor.clear();
-		if(aBufferedReader != null) {
-			aBufferedReader.reset();
+		try {
+			aFileContentDescriptor.clear();
+			if(aBufferedReader != null) {
+				aBufferedReader.reset();
+			}
+				
+		} catch (IOException evERRFILEIO) {
+			tragicClose();
+			getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
+			throw evERRFILEIO;
 		}
 	}
 	
 	public Boolean clearWriter() throws IOException {
+		try {
+			if(aBufferedWriter != null) {
+				 aBufferedWriter = new BufferedWriter( new FileWriter( aFileDescriptor ) );
+			}
 		
-		if(aBufferedWriter != null) {
-			 aBufferedWriter = new BufferedWriter( new FileWriter( aFileDescriptor ) );
+		} catch (IOException evERRFILEIO) {
+			tragicClose();
+			getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
+			throw evERRFILEIO;
 		}
 		return true;
 	}
 
 	public Boolean rewind() throws IOException {
+		try {
 		aBufferedReader.reset();
+		
+		} catch (IOException evERRFILEIO) {
+			tragicClose();
+			getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
+			throw evERRFILEIO;
+		}
 		return true;
 	}
 
@@ -137,30 +233,47 @@ public class JFXApplicationFileAccessor {
 		
 	}
 
-	public boolean isEOF() throws IOException {
+	public boolean isEOF() {
 		return aBufferedReaderLine == null;
 	}
 	
 	public String readln() throws IOException {
+		try {
 		 aBufferedReaderLine = aBufferedReader.readLine();
-		 aBufferedReaderChar = 0; 
+		 aBufferedReaderChar = 0;
+			
+		} catch (IOException evERRFILEIO) {
+			tragicClose();
+			getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
+			throw evERRFILEIO;
+		} 
 		return aBufferedReaderLine;
 	}
 	
 	public Integer read() throws IOException {
 		
-		aBufferedReaderChar = aBufferedReader.read();
-		
-		// handle EOF
-		if(aBufferedReaderChar != (-1)) {
-			aBufferedReaderLine = Character.toString( aBufferedReaderChar );
-		}else {
-			aBufferedReaderLine = null;
-		}
-		
+		try {
+			aBufferedReaderChar = aBufferedReader.read();
+			
+			// handle EOF
+			if(aBufferedReaderChar != (-1)) {
+				aBufferedReaderLine = Character.toString( aBufferedReaderChar );
+			}else {
+				aBufferedReaderLine = null;
+			}
+			
+		} catch (IOException evERRFILEIO) {
+			tragicClose();
+			getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
+			throw evERRFILEIO;
+		} 
 		return aBufferedReaderChar;
 	}
-	
+	/**
+	 * 
+	 * @return false when no data 
+	 * @throws IOException
+	 */
 	public boolean readFile() throws IOException {
 	
 		try {
@@ -172,39 +285,72 @@ public class JFXApplicationFileAccessor {
 			}
 			return true;	
 		} catch (IOException evERRFILEIO) {
-			getLogger().logError(getClass().getName(), evERRFILEIO.getMessage());
+			tragicClose();
+			getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
 			throw evERRFILEIO;
-		}finally {
-			aBufferedReader.close();
-		}
-		
+		}		
 	}
-	
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	protected void initReader() throws IOException {
 		try {
 			aFileReader = new FileReader(aFileDescriptor);
 			aBufferedReader = new BufferedReader(aFileReader);
 			aFileContentDescriptor.clear();
 		} catch (IOException evERRFILEIO) {
-			aLogger.logError(getClass().getName(), evERRFILEIO.getMessage());
+			tragicClose();
+			getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
 			throw evERRFILEIO;
 		}
 		
 	}
-	
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	protected void initWriter() throws IOException {
 
 		
 		try {
 			aBufferedWriter = new BufferedWriter(new FileWriter(aFileDescriptor));
-		} catch (IOException evERRFILE) {
-			aLogger.logError(getClass().getName(), evERRFILE.getMessage());
-			throw evERRFILE;
+		} catch (IOException evERRFILEIO) {
+			tragicClose();
+			getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
+			throw evERRFILEIO;
 		}
 		
-		
 	}
-
+	/**
+	 * Close ressources when Exception occur ...
+	 */
+	private void tragicClose() {
+		try {
+			
+			if(aFileReader != null) { 
+				aFileReader.close();
+				aFileReader = null;
+			}
+			
+			if(aBufferedReader != null) {
+				aBufferedReader.close();
+				aBufferedReader = null;
+			}
+			
+			if(aFileWriter != null) { 
+				aFileWriter.nullWriter();
+				aFileWriter = null;
+			}
+			
+			if(aBufferedWriter != null) {
+				aBufferedWriter.nullWriter();
+				aBufferedWriter = null;
+			}
+		} catch (Exception evERRFILEIO) {
+			getLogger().logError(this.getClass(), evERRFILEIO.getClass(), evERRFILEIO);
+		}
+	}
 	/**
 	 * @return the aLogger
 	 */

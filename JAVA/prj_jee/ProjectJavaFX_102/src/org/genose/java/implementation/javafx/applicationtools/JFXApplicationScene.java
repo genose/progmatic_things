@@ -116,19 +116,22 @@ public class JFXApplicationScene extends Scene {
 				? sApplicationPath + "" + argModuleName + "/"
 				: "");
 
-		sBasePath = ((sBasePath.length() <= 1) ? ((JFXApplication.applicationPathExist(
-				sApplicationPath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_APPSRC.getValue() + "/"))
-						? sApplicationPath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_APPSRC.getValue()
-						: sBasePath)
-				: sBasePath).replace("/./", "/");
+		
+		String sBasePathAlt = ((JFXApplication.applicationPathExist(
+				sApplicationPath + "/" + JFXApplication.JFXFILETYPE.DIR_APPSRC.getValue() + "/"))
+						? sApplicationPath + "/" + JFXApplication.JFXFILETYPE.DIR_APPSRC.getValue()
+						: sBasePath);
+				
+		
+		sBasePath = ((sBasePath.length() <= 1) ? sBasePathAlt: sBasePath).replace("/./", "/");
 
 		sBasePath = ((JFXApplication.applicationPathExist(sBasePath + "/" + argModuleName))
 				? sBasePath + "/" + argModuleName
 				: sBasePath).replace("/./", "/");
 
 		sBasePath = ((JFXApplication
-				.applicationPathExist(sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_ASSETS.getValue()))
-						? sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_ASSETS.getValue()
+				.applicationPathExist(sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_ASSETS.getValue()))
+						? sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_ASSETS.getValue()
 						: sBasePath).replace("/./", "/").replace("//", "/");
 
  
@@ -137,8 +140,8 @@ public class JFXApplicationScene extends Scene {
 		}
 
 		String sRequestedScene = ((JFXApplication
-				.applicationPathExist(sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_VIEWS.getValue()))
-						? sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_VIEWS.getValue()
+				.applicationPathExist(sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue()))
+						? sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue()
 						: sBasePath);
 		
 		
@@ -152,8 +155,8 @@ public class JFXApplicationScene extends Scene {
 						: sRequestedSceneAlt);
 
 		String sRequestedSceneCSS = ((JFXApplication
-				.applicationPathExist(sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_RESSOURCES.getValue()))
-						? sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_RESSOURCES.getValue()
+				.applicationPathExist(sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()))
+						? sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()
 						: sBasePath);
 		
 		String sRequestedSceneCSSAlt = (((sRequestedSceneCSS != null) && JFXApplication
@@ -168,8 +171,8 @@ public class JFXApplicationScene extends Scene {
 						: sRequestedSceneCSSAlt);
 
 		String sRequestedSceneIcon = ((JFXApplication
-				.applicationPathExist(sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_RESSOURCES.getValue()))
-						? sBasePath + "/" + JFXApplication.APPLICATION_MVC_DIRS.DIR_RESSOURCES.getValue()
+				.applicationPathExist(sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()))
+						? sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()
 						: null);
 		
 		String sRequestedSceneIconAlt = (((sRequestedSceneIcon != null) && JFXApplication
@@ -199,17 +202,17 @@ public class JFXApplicationScene extends Scene {
 					Parent root;
 					try {
 						root = FXMLLoader.load(aUrlPath);
-					} catch (IOException EV_ERR_LOAD_FXML ) {
-						EV_ERR_LOAD_FXML.printStackTrace();
-						throw new JFXApplicationException( EV_ERR_LOAD_FXML );
+					} catch (IOException evERRLOADFXML ) {
+						evERRLOADFXML.printStackTrace();
+						throw new JFXApplicationException( evERRLOADFXML );
 					}
 					if (root != null) {
 						this.setRoot(root);
 					} else {
-						throw new Error(" can't load " + sRequestedScene);
+						throw new JFXApplicationException(" can't load " + sRequestedScene);
 					}  
 				}else {
-					throw new Error(" can't load " + sRequestedScene);
+					throw new JFXApplicationException(" can't load " + sRequestedScene);
 				}
 
 				// this.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -273,8 +276,7 @@ public class JFXApplicationScene extends Scene {
 	 * @param image
 	 */
 	public Boolean setIcon(Image aImage) {
-		Parent rootStage = this.getRoot();
-		aImage.getClass();
+	 
 		return false;
 	}
 

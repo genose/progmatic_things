@@ -24,24 +24,24 @@ public class JFXApplication extends Application {
 	
 	
 	
-    public enum APPLICATION_MVC_DIRS  {
+    public enum JFXFILETYPE  {
     		DIR_ASSETS("Assets"), DIR_VIEWS("Views"), DIR_CONTROLLERS("Controllers"), DIR_RESSOURCES("Ressources"), DIR_APPSRC("src");
     	
 		private String value;
 		private static java.util.HashMap<Object, Object> map = new java.util.HashMap<>();
 
-		private APPLICATION_MVC_DIRS(String value) {
+		private JFXFILETYPE(String value) {
 			this.value = value;
 		}
 
 		static {
-			for (APPLICATION_MVC_DIRS addrType : APPLICATION_MVC_DIRS.values()) {
+			for (JFXFILETYPE addrType : JFXFILETYPE.values()) {
 				map.put(addrType.value, addrType);
 			}
 		}
 
-		public static APPLICATION_MVC_DIRS valueOf(int pageType) {
-			return (APPLICATION_MVC_DIRS) map.get(pageType);
+		public static JFXFILETYPE valueOf(int pageType) {
+			return (JFXFILETYPE) map.get(pageType);
 		}
 
 		public String getValue() {
@@ -49,7 +49,7 @@ public class JFXApplication extends Application {
 		}
 
 		public String getEnumByString(String code) {
-			for (APPLICATION_MVC_DIRS e : APPLICATION_MVC_DIRS.values()) {
+			for (JFXFILETYPE e : JFXFILETYPE.values()) {
 				if (code == String.valueOf(value))
 					return e.name();
 			}
@@ -57,7 +57,7 @@ public class JFXApplication extends Application {
 		}
 
 		public String toString() {
-			for (APPLICATION_MVC_DIRS e : APPLICATION_MVC_DIRS.values()) {
+			for (JFXFILETYPE e : JFXFILETYPE.values()) {
 				if (value == e.value)
 					return e.name();
 			}

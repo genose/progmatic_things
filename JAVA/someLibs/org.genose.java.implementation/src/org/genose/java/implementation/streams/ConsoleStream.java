@@ -25,7 +25,6 @@ public class ConsoleStream {
 	}
 
 	public ConsoleStream(PrintStream apPrintStream) {
-		// TODO Auto-generated constructor stub
 			consoleLogStream = apPrintStream;		
 	}	
 	
@@ -90,6 +89,7 @@ public class ConsoleStream {
 		if(consoleLogObject != null)
 		{
 			//((ConsoleStream)consoleLogObject).println("");	
+			//((ConsoleStream)consoleLogObject).clear();	
 		}else {
 			consoleLogStream.println("");
 		}

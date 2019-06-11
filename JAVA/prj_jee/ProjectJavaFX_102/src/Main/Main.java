@@ -5,6 +5,7 @@ import java.lang.System.Logger;
 
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationScene;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationStage;
 import org.genose.java.implementation.streams.ConsoleStream;
@@ -22,7 +23,7 @@ public class Main extends JFXApplication {
     		// setPrimaryStage ...
         	super.start(primaryStage);
         	
-        	(System.getLogger(getClass().toString())).log(System.Logger.Level.OFF, "{string}", getClass()+" :: "+JFXApplication.getApplicationBundlePath());
+        	getLogger().log(System.Logger.Level.OFF, "{string}", getClass()+" :: "+JFXApplication.getApplicationBundlePath());
     		
           /*  
 Parent root = FXMLLoader.load(getClass().getResource("../MainWindow/MainWindow.fxml"));
@@ -47,7 +48,12 @@ primaryStage.centerOnScreen();
 
 
     public static void main(String[] args) {
-        launch(args); 
+        try {
+			launch(args); 
+		} catch (Exception evERRMAIN) {
+			(new JFXApplicationLogger(Main.class.getName())).logError(Main.class.getClass(), evERRMAIN);
+			
+		}
     }
 
  

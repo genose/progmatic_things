@@ -3,9 +3,13 @@ package org.genose.java.implementation.javafx.applicationtools;
 import java.io.File;
 import java.lang.System.Logger;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -28,54 +32,91 @@ public class JFXApplication extends Application {
 	private JFXApplicationLogger aLogger = null;
 	
     public enum JFXFILETYPE  {
-    		DIR_ASSETS("Assets"), DIR_VIEWS("Views"), DIR_CONTROLLERS("Controllers"), DIR_RESSOURCES("Ressources"), DIR_APPSRC("src");
+    		DIR_ASSETS("Assets"), DIR_VIEWS("Views"), DIR_CONTROLLERS("Controllers"), DIR_RESSOURCES("Ressources"), DIR_APPSRC("src"),
+    		FILETYPE_READEABLE_TEXT(".txt;.csv"),
+    		FILETYPE_FXML(".fxml"),
+    		FILETYPE_FCSS(".fcss"),
+    		FILETYPE_PNG(".png");
     	
-		private String value;
+		private String strValue;
 		private static java.util.HashMap<Object, Object> map = new java.util.HashMap<>();
-
-		private JFXFILETYPE(String value) {
-			this.value = value;
+		/* ******************************************************* */
+		/**
+		 * 
+		 * @param aStrValue
+		 */
+		private JFXFILETYPE(String aStrValue) {
+			this.strValue = aStrValue;
 		}
-
+		/* ******************************************************* */
+		/**
+		 * 
+		 */
 		static {
-			for (JFXFILETYPE addrType : JFXFILETYPE.values()) {
-				map.put(addrType.value, addrType);
+			for (JFXFILETYPE aType : JFXFILETYPE.values()) {
+				map.put(aType.strValue, aType);
 			}
 		}
-
+		/* ******************************************************* */
+		/**
+		 * 
+		 * @param pageType
+		 * @return
+		 */
 		public static JFXFILETYPE valueOf(int pageType) {
 			return (JFXFILETYPE) map.get(pageType);
 		}
-
+		/* ******************************************************* */
+		/**
+		 * 
+		 * @return
+		 */
 		public String getValue() {
-			return value;
+			return strValue;
 		}
-
-		public String getEnumByString(String code) {
-			for (JFXFILETYPE e : JFXFILETYPE.values()) {
-				if (code == String.valueOf(value))
-					return e.name();
+		/* ******************************************************* */
+		/**
+		 * 
+		 * @param strCode
+		 * @return
+		 */
+		public String getEnumByString(String strCode) {
+			for (JFXFILETYPE eType : JFXFILETYPE.values()) {
+				if (strCode.toUpperCase().compareTo(String.valueOf(strValue.toUpperCase())) == 0)
+					return eType.name();
 			}
 			return null;
 		}
-
+		/* ******************************************************* */
+		@Override
 		public String toString() {
-			for (JFXFILETYPE e : JFXFILETYPE.values()) {
-				if (value == e.value)
-					return e.name();
+			for (JFXFILETYPE eType : JFXFILETYPE.values()) {
+				if (strValue.compareTo(eType.strValue) == 0)
+					return eType.name();
 			}
 			return "";
 		}
-
+		/* ******************************************************* */
+		/**
+		 * 
+		 * @return
+		 */
+		public List<String> split()
+		{
+			ArrayList<String> aSplittedValues  = new ArrayList<>();
+			String[] arrayStringOfValues = strValue.split(";");
+			for (int i = 0; i < arrayStringOfValues.length; i++) {
+				aSplittedValues.add( arrayStringOfValues[i]);
+			}
+			return aSplittedValues;
+		}
     	
     		
     };
 
-
-	/**
-	 * 
-	 * 
-	 */
+    /**
+     * 
+     */
 	public JFXApplication() {
 		super();
 	    synchronized(JFXApplication.class){
@@ -91,7 +132,7 @@ public class JFXApplication extends Application {
 	 * 
 	 * @return {@link JFXApplicationLogger}
 	 */
-	private JFXApplicationLogger getLogger() {
+	public JFXApplicationLogger getLogger() {
 		return aLogger;
 	}
 	/* ****************************************************** */
@@ -147,13 +188,14 @@ public class JFXApplication extends Application {
 		 */
 		Stage aPrimStage = JFXApplication.getActiveStage();
 		if(aPrimStage != null) {
-			JFXApplicationScene aScene = (JFXApplicationScene) ((aPrimStage).getScene());
+			Scene aScene = ((aPrimStage).getScene());
 						
 			ObservableList<Image> aStageIcons = aPrimStage.getIcons();
-			if(aStageIcons.size() >0)
+			if(aStageIcons.isEmpty())
 				aStageIcons.set( aStageIcons.size() -1 , new Image(aIconPath));
 			else
 				aStageIcons.add( new Image(aIconPath));
+			aScene.getRoot();
 		}
 		
 		

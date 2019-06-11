@@ -11,11 +11,33 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Spliterator;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
+import java.util.stream.Collector;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
+import org.genose.java.implementation.javafx.applicationtools.JFXApplication.JFXFILETYPE;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -23,13 +45,13 @@ import org.json.JSONObject;
  * @author 59013-36-18
  *
  */
-public class JFXApplicationFileAccessor {
+public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 
 	/**
 	 * 
 	 * File relative
 	 */
-	private Map<String, String> aFileContentDescriptor;
+	protected Map<String, Object> aFileContentDescriptor;
 	private File aFileDescriptor = null;
 	private String aFileName = null;
 	private String aFilePath = null;
@@ -49,12 +71,14 @@ public class JFXApplicationFileAccessor {
 	private FileWriter aFileWriter = null;
 
 	private JFXApplicationLogger aLogger = null;
+	private ArrayList<String> aAuthourizedFileExtentions = null;
 
 	/* **************************************** */
 	/**
 	 * 
 	 */
-	public JFXApplicationFileAccessor() {
+	public JFXApplicationFileAccessor() throws FileNotFoundException {
+		throw new FileNotFoundException(getClass().getName() + ": file argument is null or file not exists ");
 	}
 
 	/* **************************************** */
@@ -66,16 +90,23 @@ public class JFXApplicationFileAccessor {
 	public JFXApplicationFileAccessor(File aFileArg) throws FileNotFoundException {
 		/* **************************************** */
 		if (aFileArg == null) {
-			throw new FileNotFoundException(getClass().getName() + ": argument is null or file not exists ");
+			throw new FileNotFoundException(getClass().getName() + ": file argument is null or file not exists ");
 		}
 		/* **************************************** */
 		if (!aFileArg.exists()) {
-			throw new FileNotFoundException(getClass().getName() + ": argument is null or file not exists ");
+			throw new FileNotFoundException(getClass().getName() + ": file argument is null or file not exists ");
 		}
 		/* **************************************** */
+		if (aFileArg.canExecute()) {
+
+		}
+		aAuthourizedFileExtentions = new ArrayList<String>();
+		aAuthourizedFileExtentions.addAll(JFXFILETYPE.FILETYPE_READEABLE_TEXT.split());
+
 		aFileDescriptor = aFileArg;
 		aFileName = aFileArg.getName();
 		aFilePath = aFileArg.getPath();
+
 		aFilePathAbsolute = aFileArg.getAbsolutePath();
 		/* **************************************** */
 		aLogger = new JFXApplicationLogger("" + aFileDescriptor.toString());
@@ -109,6 +140,28 @@ public class JFXApplicationFileAccessor {
 			throw evERRFILEIO;
 		}
 	}
+	
+	/* **************************************** */
+	
+	public Boolean appendObject(Object aObjectLineToStringify) throws IOException {
+		StringBuilder aStringToAppend = new StringBuilder("");
+		Boolean bAppendStatus = false;
+		if( aObjectLineToStringify instanceof String){
+			bAppendStatus = appendWithNewLine(String.valueOf(aObjectLineToStringify));
+		}else {
+			Map<Object,Object> aIterableObject = new HashMap<>();
+					aIterableObject.putAll( (Map<Object, Object>) aObjectLineToStringify);
+			for (Iterator iteratedObject = aIterableObject.entrySet().iterator(); iteratedObject.hasNext();) {
+				Map.Entry<Object, Object> aEntry = (Entry<Object, Object>) iteratedObject.next();
+				aStringToAppend.append(String.format("[%s]:%s%s",String.valueOf(aEntry.getKey() ), String.valueOf(aEntry.getValue()), ((iteratedObject.hasNext())? " " :"" ) ) );
+				bAppendStatus  = appendWithNewLine(aStringToAppend.toString());
+				if(!bAppendStatus) break;
+			}
+		}
+
+		return bAppendStatus;
+	}
+
 
 	/* **************************************** */
 	/**
@@ -127,7 +180,7 @@ public class JFXApplicationFileAccessor {
 		}
 
 	}
-
+	
 	/* **************************************** */
 	/**
 	 * 
@@ -167,17 +220,17 @@ public class JFXApplicationFileAccessor {
 	 * 
 	 * @param aParentNodeElement
 	 * @return
-	 * @throws JFXApplicationException 
+	 * @throws JFXApplicationException
 	 */
 	private Boolean appendValues(Map<String, Object> aChildNodeElement) throws JFXApplicationException {
-		if(aBufferedWriter == null) {
+		if (aBufferedWriter == null) {
 			throw new JFXApplicationException("can t append to unintilaize buffer ... ");
 		}
 		/* **************************************** */
-		JSONArray dataset = new JSONArray();
-		
+		JSONArray dataset = new JSONArray(aChildNodeElement);
+
 		try {
-			aBufferedWriter.append( dataset.toString() );
+			aBufferedWriter.append(dataset.toString());
 		} catch (IOException evErrAPPENDERROR) {
 			getLogger().logError(this.getClass(), evErrAPPENDERROR);
 			tragicClose();
@@ -202,7 +255,6 @@ public class JFXApplicationFileAccessor {
 			JSONObject dataset = new JSONObject();
 			dataset.put(aNodeChildElementName, aNodeChildElement);
 
-			aBufferedWriter.append(aNodeChildElementName);
 			aBufferedWriter.append(String.valueOf(dataset.toString()));
 
 			getLogger().getConsoleLog().println(dataset.toString());
@@ -225,7 +277,9 @@ public class JFXApplicationFileAccessor {
 	 */
 	public Boolean appendObjectToSerializedJSON(Map<String, Object> aNodeChildElement) throws JFXApplicationException {
 		try {
-			// prepare to tranfrom current data nodes to JSON ...
+
+			// :: https://www.baeldung.com/java-map-to-string-conversion
+			// prepare to transfrom current data nodes to JSON ...
 			JSONObject dataset = new JSONObject();
 
 			if (!(aNodeChildElement instanceof Iterable<?>)) {
@@ -244,13 +298,13 @@ public class JFXApplicationFileAccessor {
 							String.valueOf(" some data could be tranfrom due to NULL KEY .... "
 									+ ((aNodeChildElementValue == null) ? String.valueOf(aNodeChildElementValue)
 											: aNodeChildElementValue.toString())));
-					// skipping erroneous keys ... 
+					// skipping erroneous keys ...
 					continue;
 				}
 				/* **************************************** */
-				if (aNodeChildElementValue == null ) {
+				if (aNodeChildElementValue == null) {
 					dataset.put(aNodeChildElementName, String.valueOf(aNodeChildElementValue));
-				}else {
+				} else {
 					dataset.put(aNodeChildElementName, aNodeChildElementValue);
 				}
 
@@ -383,8 +437,10 @@ public class JFXApplicationFileAccessor {
 	 * @return String or NULL
 	 * @throws IOException
 	 */
-	public String readln() throws IOException {
+	protected String readln() throws IOException {
 		try {
+			if (aBufferedReader == null)
+				throw new IOException("File Reader must be initilized before calling this method ... ");
 			aBufferedReaderLine = aBufferedReader.readLine();
 			aBufferedReaderChar = 0;
 
@@ -399,12 +455,34 @@ public class JFXApplicationFileAccessor {
 	/* **************************************** */
 	/**
 	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	public Map<Integer, Object> readlnAsMapIntegerKey() throws IOException {
+		readln();
+		Map<Integer, Object> aReadedLineMap = new HashMap<>();
+		(aReadedLineMap).put(0, aBufferedReaderLine);
+		return (aReadedLineMap);
+	}
+
+	public Map<String, Object> readlnAsMapStringKey() throws IOException {
+		readln();
+		Map<String, Object> aReadedLineMap = new HashMap<>();
+		(aReadedLineMap).put("0", aBufferedReaderLine);
+		return (aReadedLineMap);
+	}
+
+	/* **************************************** */
+	/**
+	 * 
 	 * @return CharBuffer
 	 * @throws IOException
 	 */
-	public Integer read() throws IOException {
+	protected Integer read() throws IOException {
 
 		try {
+			if (aBufferedReader == null)
+				throw new IOException("File Reader must be initilized before calling this method ... ");
 			aBufferedReaderChar = aBufferedReader.read();
 
 			// handle EOF Mechanism
@@ -428,16 +506,21 @@ public class JFXApplicationFileAccessor {
 	 * @return false when no data
 	 * @throws IOException
 	 */
-	public boolean readFile() throws IOException {
+	protected boolean readFile() throws IOException {
 
 		try {
 			int i = 0;
 			// init file reader
 			initReader();
 			// read until EOF Mechanism is reached ...
+			String aLineReaded = "";
 			while (!isEOF()) {
-				// read until EOF Internal is Reached
-				if (aFileContentDescriptor.put(String.valueOf(i++), readln()) == null) {
+				// read until EOF Internal is Reached 
+				aLineReaded = readln();
+				
+				if(aLineReaded.isEmpty()) return false;
+				
+				if (aFileContentDescriptor.put(String.valueOf(i++), aLineReaded ) == null) {
 					return false;
 				}
 			}
@@ -446,9 +529,37 @@ public class JFXApplicationFileAccessor {
 			tragicClose();
 			getLogger().logError(this.getClass(), evERRFILEIO);
 			throw evERRFILEIO;
+		} finally {
+			closeReader();
 		}
 	}
 
+	/* **************************************** */
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	protected void initReaderIfNecessary() throws IOException {
+		try {
+			if (aFileDescriptor == null) {
+				aFileDescriptor = new File(aFileName);
+				aFileReader = new FileReader(aFileDescriptor);
+				aBufferedReader = new BufferedReader(aFileReader);
+			} else {
+				if (aFileReader == null) {
+					aFileReader = new FileReader(aFileDescriptor);
+				} else {
+					aFileReader.close();
+					aFileReader = new FileReader(aFileDescriptor);
+				}
+			}
+		} catch (IOException evERRFILEIO) {
+			tragicClose();
+			getLogger().logError(this.getClass(), evERRFILEIO);
+			throw evERRFILEIO;
+		}
+			
+	}
 	/* **************************************** */
 	/**
 	 * 
@@ -482,10 +593,38 @@ public class JFXApplicationFileAccessor {
 	 * 
 	 * @throws IOException
 	 */
+	protected void initWriterIfNecessary() throws IOException {
+
+		try {
+			if(aBufferedWriter == null ) {
+				aFileWriter = new FileWriter(aFileDescriptor);
+				aBufferedWriter = new BufferedWriter(aFileWriter);
+			}
+			
+		} catch (IOException evERRFILEIO) {
+			getLogger().logError(this.getClass(), evERRFILEIO);
+			tragicClose();
+			throw evERRFILEIO;
+		}
+	}
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	protected void initWriter() throws IOException {
 
 		try {
-			aBufferedWriter = new BufferedWriter(new FileWriter(aFileDescriptor));
+			if(aBufferedWriter == null ) {
+				aFileWriter = new FileWriter(aFileDescriptor);
+				aBufferedWriter = new BufferedWriter(aFileWriter);
+			}else {
+				if(aFileWriter == null ) {
+					aFileWriter = new FileWriter(aFileDescriptor);
+				}
+				
+				aBufferedWriter = new BufferedWriter(aFileWriter);
+			}
+			
 		} catch (IOException evERRFILEIO) {
 			getLogger().logError(this.getClass(), evERRFILEIO);
 			tragicClose();
@@ -498,7 +637,16 @@ public class JFXApplicationFileAccessor {
 	/**
 	 * Close ressources when Exception occur ...
 	 */
-	private void tragicClose() {
+	protected void tragicClose() {
+		closeReader();
+		closeWriter();
+	}
+
+	/* **************************************** */
+	/**
+	 * close reader ressources
+	 */
+	protected void closeReader() {
 		try {
 
 			if (aFileReader != null) {
@@ -510,7 +658,13 @@ public class JFXApplicationFileAccessor {
 				aBufferedReader.close();
 				aBufferedReader = null;
 			}
+		} catch (Exception evERRFILEIO) {
+			getLogger().logError(this.getClass(), evERRFILEIO);
+		}
+	}
 
+	protected void closeWriter() {
+		try {
 			if (aFileWriter != null) {
 				aFileWriter.nullWriter();
 				aFileWriter = null;
@@ -540,15 +694,255 @@ public class JFXApplicationFileAccessor {
 	public synchronized void setLogger(JFXApplicationLogger aLogger) {
 		this.aLogger = aLogger;
 	}
+
+	
 	/* **************************************** */
-	/**
-	 * 
-	 * @param aStringToAppend
-	 * @return
-	 * @throws IOException
-	 */
-	public Boolean appendLn(String aStringToAppend) throws IOException {
-		return append(aStringToAppend) && appendNewLine() ;
+	/* **************************************** */
+	// Iterable and Streams relatives ...
+	/* **************************************** */
+	/* **************************************** */
+
+	@Override
+	public Iterator<Map<String, Object>> iterator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Override
+	public Spliterator<Map<String, Object>> spliterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isParallel() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Stream<Map<String, Object>> sequential() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<Map<String, Object>> parallel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<Map<String, Object>> unordered() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<Map<String, Object>> onClose(Runnable closeHandler) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void close() {
+		closeReader();
+		closeWriter();
+	}
+
+	@Override
+	public Stream<Map<String, Object>> filter(Predicate<? super Map<String, Object>> predicate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <R> Stream<R> map(Function<? super Map<String, Object>, ? extends R> mapper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IntStream mapToInt(ToIntFunction<? super Map<String, Object>> mapper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LongStream mapToLong(ToLongFunction<? super Map<String, Object>> mapper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DoubleStream mapToDouble(ToDoubleFunction<? super Map<String, Object>> mapper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <R> Stream<R> flatMap(Function<? super Map<String, Object>, ? extends Stream<? extends R>> mapper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IntStream flatMapToInt(Function<? super Map<String, Object>, ? extends IntStream> mapper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LongStream flatMapToLong(Function<? super Map<String, Object>, ? extends LongStream> mapper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DoubleStream flatMapToDouble(Function<? super Map<String, Object>, ? extends DoubleStream> mapper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<Map<String, Object>> distinct() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<Map<String, Object>> sorted() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<Map<String, Object>> sorted(Comparator<? super Map<String, Object>> comparator) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<Map<String, Object>> peek(Consumer<? super Map<String, Object>> action) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<Map<String, Object>> limit(long maxSize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<Map<String, Object>> skip(long n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void forEach(Consumer<? super Map<String, Object>> action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void forEachOrdered(Consumer<? super Map<String, Object>> action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Object[] toArray() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <A> A[] toArray(IntFunction<A[]> generator) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> reduce(Map<String, Object> identity, BinaryOperator<Map<String, Object>> accumulator) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<Map<String, Object>> reduce(BinaryOperator<Map<String, Object>> accumulator) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <U> U reduce(U identity, BiFunction<U, ? super Map<String, Object>, U> accumulator,
+			BinaryOperator<U> combiner) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super Map<String, Object>> accumulator,
+			BiConsumer<R, R> combiner) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <R, A> R collect(Collector<? super Map<String, Object>, A, R> collector) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<Map<String, Object>> min(Comparator<? super Map<String, Object>> comparator) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<Map<String, Object>> max(Comparator<? super Map<String, Object>> comparator) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long count() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean anyMatch(Predicate<? super Map<String, Object>> predicate) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean allMatch(Predicate<? super Map<String, Object>> predicate) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean noneMatch(Predicate<? super Map<String, Object>> predicate) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Optional<Map<String, Object>> findFirst() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<Map<String, Object>> findAny() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }

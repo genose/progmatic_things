@@ -1,6 +1,7 @@
 package org.genose.java.implementation.javafx.applicationtools;
 
 import java.io.File;
+import java.lang.System.Logger;
 import java.net.URL;
 
 import javafx.application.Application;
@@ -21,8 +22,10 @@ public class JFXApplication extends Application {
 	  *  ** Declare a flag for if (class).start() was already called ... ** 
 	  */
 	private static Boolean  		bJFXApplicationIsStarted = false;
-	
-	
+	/**
+	  *  ** Declare a Log wrapper  ... ** 
+	  */
+	private JFXApplicationLogger aLogger = null;
 	
     public enum JFXFILETYPE  {
     		DIR_ASSETS("Assets"), DIR_VIEWS("Views"), DIR_CONTROLLERS("Controllers"), DIR_RESSOURCES("Ressources"), DIR_APPSRC("src");
@@ -80,12 +83,21 @@ public class JFXApplication extends Application {
 	                getClass()+" is singleton but constructor called more than once");
 	        JFXApplication_singleton = this;
 	    }
-	    System.out.println(getClass()+" : was instiated");
+	    aLogger = new JFXApplicationLogger(getClass().getName());
+	    getLogger().logInfo(getClass(), "was instiated");
 	}
 	/* ****************************************************** */
 	/**
 	 * 
-	 * @param stage
+	 * @return {@link JFXApplicationLogger}
+	 */
+	private JFXApplicationLogger getLogger() {
+		return aLogger;
+	}
+	/* ****************************************************** */
+	/**
+	 * 
+	 * @param {{@link javafx.stage}
 	 */
     public void setPrimaryStage(Stage stage) {
         JFXApplication.aPrimaryStage =  stage;

@@ -2,6 +2,7 @@ package org.genose.java.implementation.javafx.applicationtools;
 
 
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -106,33 +107,32 @@ public class JFXApplicationScene extends Scene {
 		super((new Parent() {
 
 		}));
-		String sApplicationPath = (JFXApplication.getApplicationBundlePath() + "/").replace("/./", "/");
+		String sApplicationPath = (JFXApplication.getApplicationBundlePath() + File.pathSeparator).replace(File.pathSeparator+"."+File.pathSeparator, File.pathSeparator);
 		Boolean bModuleAsMVC = false;
 
-		// formatting path as [APP_ROOT]/src/[ARGUMENT]/[MVC
-		// STYLE(Controller;View;Ressources)]/[ARGUMENT].[FILEEXT]
+		// formatting path as [APP_ROOT]/src/[ARGUMENT]/[MVC_STYLE(Controller;View;Ressources)]/[ARGUMENT].[FILEEXT]
 
-		String sBasePath = ((JFXApplication.applicationPathExist(sApplicationPath + "" + argModuleName + "/"))
-				? sApplicationPath + "" + argModuleName + "/"
+		String sBasePath = ((JFXApplication.applicationPathExist(sApplicationPath + "" + argModuleName + File.pathSeparator))
+				? sApplicationPath + "" + argModuleName + File.pathSeparator
 				: "");
 
 		
 		String sBasePathAlt = ((JFXApplication.applicationPathExist(
-				sApplicationPath + "/" + JFXApplication.JFXFILETYPE.DIR_APPSRC.getValue() + "/"))
-						? sApplicationPath + "/" + JFXApplication.JFXFILETYPE.DIR_APPSRC.getValue()
+				sApplicationPath + File.pathSeparator + JFXApplication.JFXFILETYPE.DIR_APPSRC.getValue() + File.pathSeparator))
+						? sApplicationPath + File.pathSeparator + JFXApplication.JFXFILETYPE.DIR_APPSRC.getValue()
 						: sBasePath);
 				
 		
-		sBasePath = ((sBasePath.length() <= 1) ? sBasePathAlt: sBasePath).replace("/./", "/");
+		sBasePath = ((sBasePath.length() <= 1) ? sBasePathAlt: sBasePath).replace(File.pathSeparator+"."+File.pathSeparator, File.pathSeparator);
 
-		sBasePath = ((JFXApplication.applicationPathExist(sBasePath + "/" + argModuleName))
-				? sBasePath + "/" + argModuleName
-				: sBasePath).replace("/./", "/");
+		sBasePath = ((JFXApplication.applicationPathExist(sBasePath + File.pathSeparator + argModuleName))
+				? sBasePath + File.pathSeparator + argModuleName
+				: sBasePath).replace("/./", File.pathSeparator);
 
 		sBasePath = ((JFXApplication
-				.applicationPathExist(sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_ASSETS.getValue()))
-						? sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_ASSETS.getValue()
-						: sBasePath).replace("/./", "/").replace("//", "/");
+				.applicationPathExist(sBasePath + File.pathSeparator + JFXApplication.JFXFILETYPE.DIR_ASSETS.getValue()))
+						? sBasePath + File.pathSeparator + JFXApplication.JFXFILETYPE.DIR_ASSETS.getValue()
+						: sBasePath).replace(File.pathSeparator+"."+File.pathSeparator, File.pathSeparator).replace(File.pathSeparator+""+File.pathSeparator, File.pathSeparator);
 
  
 		if (!JFXApplication.applicationPathExist(sBasePath)) {
@@ -140,50 +140,50 @@ public class JFXApplicationScene extends Scene {
 		}
 
 		String sRequestedScene = ((JFXApplication
-				.applicationPathExist(sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue()))
-						? sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue()
+				.applicationPathExist(sBasePath + File.pathSeparator + JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue()))
+						? sBasePath + File.pathSeparator + JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue()
 						: sBasePath);
 		
 		
-		String sRequestedSceneAlt = (((sRequestedScene != null) && JFXApplication.applicationPathExist(sRequestedScene + "/" + argModuleName + ".fxml"))
-										? sRequestedScene + "/" + argModuleName + ".fxml"
+		String sRequestedSceneAlt = (((sRequestedScene != null) && JFXApplication.applicationPathExist(sRequestedScene + File.pathSeparator + argModuleName + ".fxml"))
+										? sRequestedScene + File.pathSeparator + argModuleName + ".fxml"
 										: null);
 		
 		sRequestedScene = (((sRequestedScene != null) && ((argModuleNameFile != null) && argModuleNameFile.length() > 1)
-				&& JFXApplication.applicationPathExist(sRequestedScene + "/" + argModuleNameFile + ".fxml"))
-						? sRequestedScene + "/" + argModuleNameFile + ".fxml"
+				&& JFXApplication.applicationPathExist(sRequestedScene + File.pathSeparator + argModuleNameFile + ".fxml"))
+						? sRequestedScene + File.pathSeparator + argModuleNameFile + ".fxml"
 						: sRequestedSceneAlt);
 
 		String sRequestedSceneCSS = ((JFXApplication
-				.applicationPathExist(sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()))
-						? sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()
+				.applicationPathExist(sBasePath + File.pathSeparator + JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()))
+						? sBasePath + File.pathSeparator + JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()
 						: sBasePath);
 		
 		String sRequestedSceneCSSAlt = (((sRequestedSceneCSS != null) && JFXApplication
-								.applicationPathExist(sRequestedSceneCSS + "/" + argModuleName + ".css"))
-										? sRequestedSceneCSS + "/" + argModuleName + ".css"
+								.applicationPathExist(sRequestedSceneCSS + File.pathSeparator + argModuleName + ".css"))
+										? sRequestedSceneCSS + File.pathSeparator + argModuleName + ".css"
 										: null);
 		
 		sRequestedSceneCSS = (((sRequestedSceneCSS != null)
 				&& ((argModuleNameFile != null) && argModuleNameFile.length() > 1)
-				&& JFXApplication.applicationPathExist(sRequestedSceneCSS + "/" + argModuleNameFile + ".css"))
-						? sRequestedSceneCSS + "/" + argModuleNameFile + ".css"
+				&& JFXApplication.applicationPathExist(sRequestedSceneCSS + File.pathSeparator + argModuleNameFile + ".css"))
+						? sRequestedSceneCSS + File.pathSeparator + argModuleNameFile + ".css"
 						: sRequestedSceneCSSAlt);
 
 		String sRequestedSceneIcon = ((JFXApplication
-				.applicationPathExist(sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()))
-						? sBasePath + "/" + JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()
+				.applicationPathExist(sBasePath + File.pathSeparator + JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()))
+						? sBasePath + File.pathSeparator + JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()
 						: null);
 		
 		String sRequestedSceneIconAlt = (((sRequestedSceneIcon != null) && JFXApplication
-								.applicationPathExist(sRequestedSceneIcon + "/" + argModuleName + ".fxml"))
-										? sRequestedSceneIcon + "/" + argModuleName + ".png"
+								.applicationPathExist(sRequestedSceneIcon + File.pathSeparator + argModuleName + ".fxml"))
+										? sRequestedSceneIcon + File.pathSeparator + argModuleName + ".png"
 										: null);
 		
 		sRequestedSceneIcon = (((sRequestedSceneIcon != null)
 				&& ((argModuleNameFile != null) && argModuleNameFile.length() > 1)
-				&& JFXApplication.applicationPathExist(sRequestedSceneIcon + "/" + argModuleNameFile + ".png"))
-						? sRequestedSceneIcon + "/" + argModuleNameFile + ".png"
+				&& JFXApplication.applicationPathExist(sRequestedSceneIcon + File.pathSeparator + argModuleNameFile + ".png"))
+						? sRequestedSceneIcon + File.pathSeparator + argModuleNameFile + ".png"
 						: sRequestedSceneIconAlt);
 
 		if (sRequestedScene == null) {
@@ -203,7 +203,7 @@ public class JFXApplicationScene extends Scene {
 					try {
 						root = FXMLLoader.load(aUrlPath);
 					} catch (IOException evERRLOADFXML ) {
-						evERRLOADFXML.printStackTrace();
+						
 						throw new JFXApplicationException( evERRLOADFXML );
 					}
 					if (root != null) {
@@ -211,12 +211,16 @@ public class JFXApplicationScene extends Scene {
 					} else {
 						throw new JFXApplicationException(" can't load " + sRequestedScene);
 					}  
+					
+					if(JFXApplicationBundle.fileExist()) {
+						String aURLforCSS = getClass().getResource("application.css").toExternalForm();
+						this.getStylesheets().add(aURLforCSS);
+					}
+					
+
 				}else {
 					throw new JFXApplicationException(" can't load " + sRequestedScene);
 				}
-
-				// this.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-				
 			}
 		} else {
 			throw new JFXApplicationInvalidParameterException(" No Primary Stae for this Application ... ");

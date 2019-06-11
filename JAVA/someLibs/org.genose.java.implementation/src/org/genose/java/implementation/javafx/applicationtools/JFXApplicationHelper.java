@@ -15,9 +15,7 @@ import javafx.scene.Parent;
  *
  */
 public class JFXApplicationHelper {
-//:: https://riptutorial.com/javafx/example/19339/loading-resource-bundle
-	// :: https://riptutorial.com/Download/javafx.pdf
-	
+
 	/**
 	 * 
 	 */

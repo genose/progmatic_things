@@ -12,7 +12,7 @@ public class TestUnit_106 {
 	static PrintStream consoleLog = System.out;
 	static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
 
-	static PenduGame aJeuDuPenduGame = new PenduGame();
+	static org.genose.java.implementation.games.PenduGame aJeuDuPenduGame = new org.genose.java.implementation.games.PenduGame();
 	
 	public static void main(String[] args) {
 

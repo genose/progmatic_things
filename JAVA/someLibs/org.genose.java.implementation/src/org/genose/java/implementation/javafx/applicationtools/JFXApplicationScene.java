@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationBundle;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -6,13 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX12">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JAVAFX12"/>
-	<classpathentry kind="lib" path="C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/someLibs/org.genose.java.implementation"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.genose.java.implementation"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

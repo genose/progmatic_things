@@ -5,6 +5,7 @@ package org.genose.java.implementation.javafx.applicationtools;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.function.Function;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationBundle;
@@ -21,6 +22,41 @@ import javafx.stage.Window;
 
 public class JFXApplicationScene extends Scene {
 
+	private String aSceneIdentifier = null;
+	/* ************************************************ */
+	/**
+	 * 
+	 * 
+	 */
+	public JFXApplicationScene() {
+		super(null);
+	}
+	
+	/* ************************************************ */
+	/**
+	 * Replace something like this : 
+	 *  Parent root = FXMLLoader.load(getClass().getResource("/MainWindow/MainWindow.fxml"));
+        primaryStage.setScene(new Scene(root, primaryStage.getHeight(), primaryStage.getWidth()));
+	 * 
+	 * @param argModuleName
+	 * @throws JFXApplicationException  
+	 * @throws Exception
+	 */
+	 
+	public JFXApplicationScene(String argModuleName, String argModuleNameFile, Function<Object, Boolean> aFuncCallback ) throws JFXApplicationException {
+
+		super((new Parent() {
+
+		}));
+		
+		createScene(argModuleName, argModuleNameFile);
+
+		
+		if(aFuncCallback != null) { 
+			Boolean bCallBackResult = aFuncCallback.apply(null);
+		}
+	}
+	/* ************************************************ */
 	/**
 	 * @param arg0
 	 * @param arg1
@@ -31,7 +67,7 @@ public class JFXApplicationScene extends Scene {
 	public JFXApplicationScene(Parent arg0, double arg1, double arg2, boolean arg3, SceneAntialiasing arg4) {
 		super(arg0, arg1, arg2, arg3, arg4);
 	}
-
+/* ************************************************ */
 	/**
 	 * @param arg0
 	 * @param arg1
@@ -51,7 +87,7 @@ public class JFXApplicationScene extends Scene {
 	public JFXApplicationScene(Parent arg0, double arg1, double arg2, Paint arg3) {
 		super(arg0, arg1, arg2, arg3);
 	}
-
+	/* ************************************************ */
 	/**
 	 * @param arg0
 	 * @param arg1
@@ -60,19 +96,16 @@ public class JFXApplicationScene extends Scene {
 	public JFXApplicationScene(Parent arg0, double arg1, double arg2) {
 		super(arg0, arg1, arg2);
 	}
-
+	/* ************************************************ */
 	/**
 	 * @param arg0
 	 * @param arg1
 	 */
 	public JFXApplicationScene(Parent arg0, Paint arg1) {
 		super(arg0, arg1);
+		
 	}
-
-	/*
-	 * *****************************************************************************
-	 * *
-	 */
+	/* ************************************************ */
 	/**
 	 * @param arg0
 	 */
@@ -80,36 +113,17 @@ public class JFXApplicationScene extends Scene {
 		super(arg0);
 	}
 
-	/*
-	 * *****************************************************************************
-	 * *
-	 */
-	/**
-	 * 
-	 * 
-	 */
-	public JFXApplicationScene() {
-		super(null);
-	}
 
-	/*
-	 * *****************************************************************************
-	 * *
-	 */
+	/* ************************************************ */
 	/**
-	 * Replace someting like this : 
-	 *  Parent root = FXMLLoader.load(getClass().getResource("/MainWindow/MainWindow.fxml"));
-        primaryStage.setScene(new Scene(root, primaryStage.getHeight(), primaryStage.getWidth()));
-	 * 
 	 * @param argModuleName
-	 * @throws Exception
+	 * @param argModuleNameFile
+	 * @param argCallBack
+	 * @throws JFXApplicationException
+	 * 
 	 */
-	 
-	public JFXApplicationScene(String argModuleName, String argModuleNameFile) throws JFXApplicationException {
-
-		super((new Parent() {
-
-		}));
+	protected boolean createScene(String argModuleName, String argModuleNameFile)
+			throws JFXApplicationException {
 		String sApplicationPath = (JFXApplication.getApplicationBundlePath() + File.pathSeparator).replace(File.pathSeparator+"."+File.pathSeparator, File.pathSeparator);
 		Boolean bModuleAsMVC = false;
 
@@ -148,13 +162,13 @@ public class JFXApplicationScene extends Scene {
 						: sBasePath);
 		
 		
-		String sRequestedSceneAlt = (((sRequestedScene != null) && JFXApplication.applicationPathExist(sRequestedScene + File.pathSeparator + argModuleName + ".fxml"))
-										? sRequestedScene + File.pathSeparator + argModuleName + ".fxml"
+		String sRequestedSceneAlt = (((sRequestedScene != null) && JFXApplication.applicationPathExist(sRequestedScene + File.pathSeparator + argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FXML.toString() ))
+										? sRequestedScene + File.pathSeparator + argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FXML.toString()
 										: null);
 		
 		sRequestedScene = (((sRequestedScene != null) && ((argModuleNameFile != null) && argModuleNameFile.length() > 1)
-				&& JFXApplication.applicationPathExist(sRequestedScene + File.pathSeparator + argModuleNameFile + ".fxml"))
-						? sRequestedScene + File.pathSeparator + argModuleNameFile + ".fxml"
+				&& JFXApplication.applicationPathExist(sRequestedScene + File.pathSeparator + argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_FXML.toString()))
+						? sRequestedScene + File.pathSeparator + argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_FXML.toString()
 						: sRequestedSceneAlt);
 
 		String sRequestedSceneCSS = ((JFXApplication
@@ -163,14 +177,14 @@ public class JFXApplicationScene extends Scene {
 						: sBasePath);
 		
 		String sRequestedSceneCSSAlt = (((sRequestedSceneCSS != null) && JFXApplication
-								.applicationPathExist(sRequestedSceneCSS + File.pathSeparator + argModuleName + ".css"))
-										? sRequestedSceneCSS + File.pathSeparator + argModuleName + ".css"
+								.applicationPathExist(sRequestedSceneCSS + File.pathSeparator + argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FCSS.toString()))
+										? sRequestedSceneCSS + File.pathSeparator + argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FCSS.toString()
 										: null);
 		
 		sRequestedSceneCSS = (((sRequestedSceneCSS != null)
 				&& ((argModuleNameFile != null) && argModuleNameFile.length() > 1)
-				&& JFXApplication.applicationPathExist(sRequestedSceneCSS + File.pathSeparator + argModuleNameFile + ".css"))
-						? sRequestedSceneCSS + File.pathSeparator + argModuleNameFile + ".css"
+				&& JFXApplication.applicationPathExist(sRequestedSceneCSS + File.pathSeparator + argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_FCSS.toString()))
+						? sRequestedSceneCSS + File.pathSeparator + argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_FCSS.toString()
 						: sRequestedSceneCSSAlt);
 
 		String sRequestedSceneIcon = ((JFXApplication
@@ -179,14 +193,14 @@ public class JFXApplicationScene extends Scene {
 						: null);
 		
 		String sRequestedSceneIconAlt = (((sRequestedSceneIcon != null) && JFXApplication
-								.applicationPathExist(sRequestedSceneIcon + File.pathSeparator + argModuleName + ".fxml"))
-										? sRequestedSceneIcon + File.pathSeparator + argModuleName + ".png"
+								.applicationPathExist(sRequestedSceneIcon + File.pathSeparator + argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FXML.toString()))
+										? sRequestedSceneIcon + File.pathSeparator + argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_PNG.toString()
 										: null);
 		
 		sRequestedSceneIcon = (((sRequestedSceneIcon != null)
 				&& ((argModuleNameFile != null) && argModuleNameFile.length() > 1)
-				&& JFXApplication.applicationPathExist(sRequestedSceneIcon + File.pathSeparator + argModuleNameFile + ".png"))
-						? sRequestedSceneIcon + File.pathSeparator + argModuleNameFile + ".png"
+				&& JFXApplication.applicationPathExist(sRequestedSceneIcon + File.pathSeparator + argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_PNG.toString()))
+						? sRequestedSceneIcon + File.pathSeparator + argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_PNG.toString()
 						: sRequestedSceneIconAlt);
 
 		if (sRequestedScene == null) {
@@ -227,8 +241,9 @@ public class JFXApplicationScene extends Scene {
 			}
 		} else {
 			throw new JFXApplicationInvalidParameterException(" No Primary Stae for this Application ... ");
-		}  
-
+		}
+		/* ******************************** */
+		return true;
 	}
 	/*
 	 * *****************************************************************************
@@ -286,5 +301,7 @@ public class JFXApplicationScene extends Scene {
 	 
 		return false;
 	}
+	
+	 
 
 }

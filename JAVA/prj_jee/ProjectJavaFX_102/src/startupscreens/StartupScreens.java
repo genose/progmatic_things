@@ -1,4 +1,4 @@
-package StartupScreens;
+package startupscreens;
 
 import javafx.fxml.FXML;
 

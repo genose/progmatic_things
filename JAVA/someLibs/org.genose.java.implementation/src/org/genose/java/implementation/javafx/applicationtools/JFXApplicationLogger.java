@@ -206,7 +206,7 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 		try {
 			aLogger.log(level,String.format("%s :: %s", ((bundle == null) ? "[NULL BUNDLE]" :bundle.toString()), String.format(format, params)));	
 		} catch (Exception evERRFATALSYSLOG) {
-			System.out.println(String.format(LOGGERFORMAT.LOG_EXCEPTION_WITHSTACK.toString(),evERRFATALSYSLOG.toString(), Arrays.asList(getStackTrace()).toString().replaceAll(",", "\n")  ));
+			System.out.println(String.format(LOGGERFORMAT.LOG_EXCEPTION_WITHSTACK.getValue(),evERRFATALSYSLOG.toString(), Arrays.asList(getStackTrace()).toString().replaceAll(",", "\n")  ));
 		}
 	}
 	/* ****************************************************** */
@@ -269,13 +269,13 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 			logError(((fromCurrentClass == null )? getClass() : fromCurrentClass),
 					getClass() ,
 					"Neverland happen sometime ...",
-					Arrays.deepToString(getStackTrace())
+					Arrays.asList(getStackTrace()).toString().replaceAll(",", "\n")
 				);
 		} else {
 			logError(((fromCurrentClass == null )? getClass() : fromCurrentClass),
 					aThrowedCause.getClass() ,
 					aThrowedCause.getMessage(),
-					Arrays.toString(aThrowedCause.getStackTrace())
+					Arrays.asList(aThrowedCause.getStackTrace()).toString().replaceAll(",", "\n")
 				);
 		}
 			
@@ -291,10 +291,10 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	public void logError(Class<?> fromCurrentClass,Class<?> throwedType ,String message, String callStack) {
 
 		log(System.Logger.Level.ERROR,
-				String.format(LOGGERFORMAT.LOG_EXCEPTION_WITHSTACK.toString(), String.valueOf(fromCurrentClass) ,
+				String.format(LOGGERFORMAT.LOG_EXCEPTION_WITHSTACK.getValue(), String.valueOf(fromCurrentClass) ,
 				String.valueOf(throwedType) ,
 				String.valueOf(message),
-				((callStack == null )? Arrays.deepToString(getStackTrace()) : String.valueOf(callStack)) ) 
+				((callStack == null )? Arrays.asList(getStackTrace()).toString().replaceAll(",", "\n") : String.valueOf(callStack).replaceAll(",", "\n")) ) 
 				);
 	}
 	/* ****************************************************** */
@@ -306,7 +306,7 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 		 StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace(); 
 		
 		lastStackTraceList.clear();
-		for (int i = 0; i < (stackTrace.length-2); i++) {
+		for (int i = 0; i < (stackTrace.length-1); i++) {
 			lastStackTraceList.add(stackTrace[i]);
 		}
 		

@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -143,7 +144,7 @@ public class JFXApplication extends Application {
     public void setPrimaryStage(Stage stage) {
         JFXApplication.aPrimaryStage =  stage;
     }
-
+    
 	/* ****************************************************** */
     /**
      * 
@@ -288,7 +289,7 @@ public class JFXApplication extends Application {
 		return aUrlClassPath.getPath().replace("/", "");
 	}
 
-	private static JFXApplication getJFXApplicationSingleton() {
+	public static JFXApplication getJFXApplicationSingleton() {
 		// TODO Auto-generated method stub
 		return JFXApplication_singleton;
 	}
@@ -298,8 +299,7 @@ public class JFXApplication extends Application {
 	 * @param aPath
 	 * @return true if path exists inside bundle app 
 	 */
-	public static boolean applicationPathExist(String aPath) {
-		// TODO Auto-generated method stub
+	public static boolean applicationPathExist(String aPath) { 
 		try {
 			File localClassPath = new java.io.File(String.valueOf(aPath).replace("/./", "/"));
 			
@@ -308,12 +308,32 @@ public class JFXApplication extends Application {
 			
 			return ((localClassPath != null)? localClassPath.exists() : false) ;
 			
-		} catch (Exception EV_ERR_FILEEXISTS) {
-			EV_ERR_FILEEXISTS.printStackTrace();
+		} catch (Exception evERRFILEEXISTS) {
+			(new JFXApplicationLogger()).logError(JFXApplication.getJFXApplicationSingleton().getClass(), evERRFILEEXISTS);
 		}
 		return false;
 		
 	}
+	/**
+	 *  Quit Application 
+	 */
+	public void notifyQuit() {
+		 Platform.exit();
+	}
+	
+	public void setPrimaryScene(JFXApplicationScene jfxApplicationScene) {
+
+		
+	}
+	public void setSecondaryScene(JFXApplicationScene jfxApplicationScene) {
+
+		
+	}
+	public Scene getPrimaryScene() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 
 }

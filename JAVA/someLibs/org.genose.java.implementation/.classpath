@@ -11,6 +11,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.javastleary"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/JSON-java-master"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

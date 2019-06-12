@@ -1,7 +1,7 @@
 /**
  * 
  */
-package mainwindow.assets.controllers;
+package MainWindow.Assets.Controllers;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationStage;

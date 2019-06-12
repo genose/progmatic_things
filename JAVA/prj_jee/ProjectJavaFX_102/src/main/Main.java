@@ -1,7 +1,4 @@
-package main;
-
-import java.util.function.Function;
-
+package Main;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationScene;
@@ -18,17 +15,16 @@ public class Main extends JFXApplication {
 			// setPrimaryStage ...
 			super.start(primaryStage);
 
-			getLogger().log(System.Logger.Level.OFF, "{string}",
-					getClass() + " :: " + JFXApplication.getApplicationBundlePath());
+			// getLogger().log(System.Logger.Level.OFF, "{string}", getClass() + " :: " + JFXApplication.getApplicationBundlePath());
 			
 			{ 
 				
 				// JFXApplicationScene("MainWindow", { setAsPrimary(); });
-			}
+			} 
 			
-			super.setPrimaryScene(new JFXApplicationScene("StartupScreens", null, null ));
+			super.setPrimaryScene(JFXApplicationScene.createScene("StartupScreens", null, null));
 			// :: handler to call  after loading super.setOnComplete();
-			super.setSecondaryScene(new JFXApplicationScene("mainwindow", null, null ));
+			//super.setSecondaryScene(new JFXApplicationScene("mainwindow", null, null ));
 			
 // primaryStage.setScene(new Scene(root, primaryStage.getHeight(), primaryStage.getWidth()));
 
@@ -38,7 +34,7 @@ public class Main extends JFXApplication {
 			primaryStage.centerOnScreen();
 
 		} catch (Exception evERRINSTANTIATE) {
-			(System.getLogger(getClass().toString())).log(System.Logger.Level.ERROR, evERRINSTANTIATE.getMessage());
+			JFXApplicationLogger.getLogger().logError(this.getClass(), evERRINSTANTIATE.getMessage());
 			throw evERRINSTANTIATE;
 		}
 	}
@@ -47,7 +43,7 @@ public class Main extends JFXApplication {
 		try {
 			launch(args);
 		} catch (Exception evERRMAIN) {
-			(new JFXApplicationLogger(Main.class.getName())).logError(Main.class.getClass(), evERRMAIN);
+			JFXApplicationLogger.getLogger().logError(Main.class.getClass(), evERRMAIN);
 
 		}
 	}

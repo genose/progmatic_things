@@ -21,72 +21,77 @@ import org.genose.java.implementation.streams.LectureFichier;
 public class DicoMots {
 
 	static public final String DEFAULT_DICO_LANG = "Francais";
-	private String sLangueDico =  DEFAULT_DICO_LANG;
+	private String sLangueDico = DEFAULT_DICO_LANG;
 	private Path documentPath = null;
 	private ArrayList<String> mots;
+
 	/**
 	 * @param sLangueDico
 	 */
 	public DicoMots(String sLangueDicoToSet) {
 		super();
-		this.sLangueDico = ( ( ( sLangueDicoToSet != null ) && (String.valueOf( sLangueDicoToSet ).length() >2) )? sLangueDico : DEFAULT_DICO_LANG );
+		this.sLangueDico = (((sLangueDicoToSet != null) && (String.valueOf(sLangueDicoToSet).length() > 2))
+				? sLangueDico
+				: DEFAULT_DICO_LANG);
 		/* **************************************************************** */
 		try {
-			
-			this.documentPath = Paths.get("Dictionnaires", sLangueDico+".txt");
-			
-			if( this.documentPath != null) {
-				boolean bFileExists = LectureFichier.pathExists( this.documentPath.toAbsolutePath().toString() ); 
-			
-				/* if(!bFileExists){
-					this.documentPath = Paths.get("src","Dictionnaires", sLangueDico+".txt");
-				}
-				
-				bFileExists = LectureFichier.pathExists( this.documentPath.toAbsolutePath().toString() );
-				*/ 
-				if(!bFileExists) {
+
+			this.documentPath = Paths.get("Dictionnaires", sLangueDico + ".txt");
+
+			if (this.documentPath != null) {
+				boolean bFileExists = LectureFichier.pathExists(this.documentPath.toAbsolutePath().toString());
+
+				/*
+				 * if(!bFileExists){ this.documentPath = Paths.get("src","Dictionnaires",
+				 * sLangueDico+".txt"); }
+				 * 
+				 * bFileExists = LectureFichier.pathExists(
+				 * this.documentPath.toAbsolutePath().toString() );
+				 */
+				if (!bFileExists) {
 					throw new FileNotFoundException(this.documentPath.toAbsolutePath().toString());
 				}
-				
+
+			} else {
+				/* **************************************************************** */
+				String cheminFichier = this.documentPath.toAbsolutePath().toString();
+				/* **************************************************************** */
+				this.mots = (new LectureFichier(cheminFichier)).lire();
 			}
 			/* **************************************************************** */
-			String cheminFichier = this.documentPath.toAbsolutePath().toString();
-			/* **************************************************************** */
-			this.mots = (new LectureFichier(cheminFichier)) .lire();
-			/* **************************************************************** */
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
-			
+
 			this.mots = new ArrayList<String>();
-			this.mots.add( "Exception" ); 
-			this.mots.add( "LolliDolls" );
-			
-			
+			this.mots.add("Exception");
+			this.mots.add("LolliDolls");
+
 		}
-		
+
 	}
-/**
- * 
- * @return String
- */
+
+	/**
+	 * 
+	 * @return String
+	 */
 	public String getLangueDico() {
 		return sLangueDico;
 	}
 
 	public void setLangueDico(String sLangueDicoToSet) {
-		
-		this.sLangueDico = ( ( ( sLangueDicoToSet != null ) && (String.valueOf( sLangueDicoToSet ).length() >2) )? sLangueDico : DEFAULT_DICO_LANG );
+
+		this.sLangueDico = (((sLangueDicoToSet != null) && (String.valueOf(sLangueDicoToSet).length() > 2))
+				? sLangueDico
+				: DEFAULT_DICO_LANG);
 	}
-	
-	public String genererMotAleatoire()
-	{
+
+	public String genererMotAleatoire() {
 		Random alea = new Random();
 		return mots.get(alea.nextInt(mots.size()));
 	}
+
 	public int count() {
-		// TODO Auto-generated method stub
-		return ((mots != null ) ? mots .size():0);
+		return ((mots != null) ? mots.size() : 0);
 	}
-	
+
 }

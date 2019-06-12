@@ -23,6 +23,8 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 
 	final String DEFAULTSTRINGDELIMITER = ";";
 	private String aStringDelimiterSeparator = DEFAULTSTRINGDELIMITER;
+	private Boolean bFileHaveFirstLineHasKeyDescriptor = false;
+	Map<Integer, Object> aFirstLineKeyDescriptor = new HashMap<>();
 
 	/* **************************************** */
 	/**
@@ -70,6 +72,22 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 	 */
 	public synchronized void setStringDelimiter(String aStringDelimiter) {
 		this.aStringDelimiterSeparator = aStringDelimiter;
+	}
+
+	/**
+	 * 
+	 * @return bFileHaveFirstLineHasKeyDescriptor
+	 */
+	public synchronized Boolean getFirstLineIsKeyDescriptor() {
+		return bFileHaveFirstLineHasKeyDescriptor;
+	}
+
+	/**
+	 * 
+	 * @param bFirstLineIsKeyDescriptor
+	 */
+	public synchronized void setFirstLineIsKeyDescriptor(Boolean bFirstLineIsKeyDescriptor) {
+		this.bFileHaveFirstLineHasKeyDescriptor = bFirstLineIsKeyDescriptor;
 	}
 
 	/* **************************************** */
@@ -171,6 +189,9 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 				if (aLineReaded.isEmpty() && isEOF())
 					return true;
 
+				if(bFileHaveFirstLineHasKeyDescriptor && aFirstLineKeyDescriptor.isEmpty()) {
+					aFirstLineKeyDescriptor.putAll( aLineReaded );
+				}else 
 				if (aFileContentDescriptor.put(String.valueOf(i++), aLineReaded) == null) {
 					return false;
 				}

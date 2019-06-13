@@ -42,6 +42,7 @@ public class Observable implements Observer {
 	 * notify one/chaining observer/observable
 	 */
  
+	@Override
 	public Boolean notifyChange(Object objNotifiedFrom) throws Exception {
 		
 		if(objNotifiedFrom instanceof Observer) {
@@ -77,6 +78,7 @@ public class Observable implements Observer {
 		return bObserverNotified;
 	}
 	
+	@Override
 	public Boolean notifyShow() {
 		System.err.println(getClass()+":Base notifyShow return false ...");
 		return false;

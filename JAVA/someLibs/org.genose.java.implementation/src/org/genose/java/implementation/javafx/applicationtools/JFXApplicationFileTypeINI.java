@@ -246,7 +246,7 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 		aPropertyPathSplittedArray.remove(0);
 		
 		for (Iterator aIteratedKeyValue = aPropertyPathSplittedArray.iterator(); aIteratedKeyValue.hasNext();) {
-			String aKeyProperty = String.valueOf( ((String) aIteratedKeyValue.next()) ).toUpperCase();
+			String aKeyProperty = String.valueOf( (aIteratedKeyValue.next()) ).toUpperCase();
 			
 			if( aObjectFoundiInPath == null ) {
 				return null;

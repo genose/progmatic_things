@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JSON-java-master"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.genose.java.implementation"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
@@ -18,7 +17,5 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/org.genose.java.implementation/src"/>
-	<classpathentry kind="lib" path="/JSON-java-master/org"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

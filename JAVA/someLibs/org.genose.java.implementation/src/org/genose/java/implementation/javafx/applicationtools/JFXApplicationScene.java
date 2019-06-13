@@ -212,7 +212,7 @@ public class JFXApplicationScene extends Scene {
 						} 
 						// Setup icon 
 						if( (sRequestedSceneIcon != null) &&  GNSJavaClassHelper.respondsTo("setIcon",aSceneNode)) {
-							((JFXApplicationScene)aSceneNode).setIcon(sRequestedSceneIcon);
+							aSceneNode.setIcon(sRequestedSceneIcon);
 						}
 					}
 					

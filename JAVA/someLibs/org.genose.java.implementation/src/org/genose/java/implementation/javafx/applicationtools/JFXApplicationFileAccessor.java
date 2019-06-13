@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.security.InvalidAlgorithmParameterException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,8 +39,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication.JFXFILETYPE;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.*;
 
 /**
  * @author 59013-36-18
@@ -227,7 +227,7 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 			throw new JFXApplicationException("can t append to unintilaize buffer ... ");
 		}
 		/* **************************************** */
-		JSONArray dataset = new JSONArray(aChildNodeElement);
+		JSONArray  dataset = new JSONArray(aChildNodeElement);
 
 		try {
 			aBufferedWriter.append(dataset.toString());
@@ -666,12 +666,12 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 	protected void closeWriter() {
 		try {
 			if (aFileWriter != null) {
-				aFileWriter.nullWriter();
+				Writer.nullWriter();
 				aFileWriter = null;
 			}
 
 			if (aBufferedWriter != null) {
-				aBufferedWriter.nullWriter();
+				Writer.nullWriter();
 				aBufferedWriter = null;
 			}
 		} catch (Exception evERRFILEIO) {

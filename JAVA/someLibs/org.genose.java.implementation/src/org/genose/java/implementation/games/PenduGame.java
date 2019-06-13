@@ -71,6 +71,7 @@ public class PenduGame extends Observable {
 			return null;
 		}
 
+		@Override
 		public String toString() {
 			for (GAMESTATUS e : GAMESTATUS.values()) {
 				if (value == e.value)
@@ -162,7 +163,7 @@ public class PenduGame extends Observable {
 				
 				// mask used char
 				
-				bCharFoundAlreadyUsed = (Boolean) (lsUsableChars.indexOf(scurrentString) == (-1));
+				bCharFoundAlreadyUsed = lsUsableChars.indexOf(scurrentString) == (-1);
 				
 				if( !bCharFoundAlreadyUsed ) {
 					lsUsableChars.set(iCharIndex - 1, "*");

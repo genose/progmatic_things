@@ -14,6 +14,6 @@
          </effect>
       </ProgressBar>
       <ProgressIndicator layoutX="272.0" layoutY="174.0" />
-      <Label layoutX="113.0" layoutY="335.0" prefHeight="20.0" text="Label" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="107.0" AnchorPane.rightAnchor="107.0" />
+      <Label alignment="CENTER" layoutX="113.0" layoutY="335.0" prefHeight="20.0" text="Label" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="107.0" AnchorPane.rightAnchor="107.0" />
    </children>
 </AnchorPane>

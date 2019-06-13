@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools;
+package org.genose.java.implementation.javafx.applicationtools.files;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,6 +15,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationMappedObject;
+import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationObjectValue;
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 
 
 /**
@@ -59,7 +63,7 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 	 * 
 	 */
 	@Override
-	public Map<Integer, Object> readlnAsMapIntegerKey() throws IOException {
+	public JFXApplicationMappedObject readlnAsMapIntegerKey() throws IOException {
 		return null;
 	}
 	// *************************************************************************
@@ -67,7 +71,7 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 	 * 
 	 */
 	@Override
-	public Map<String, Object> readlnAsMapStringKey() throws IOException {
+	public JFXApplicationMappedObject readlnAsMapStringKey() throws IOException {
 		return null;
 	}
 	// *************************************************************************
@@ -92,7 +96,7 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 			String aLineReaded = "";
 			String aSectionName = "";
 			String aLastSectionName = "";
-			Map<String,Object> aSectionDATA = new HashMap<>();
+			JFXApplicationMappedObject aSectionDATA = new JFXApplicationMappedObject();
 			
 			// **************************************************
 			while (!isEOF()) {
@@ -115,7 +119,7 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 					String[] aSplittedSectionLineValues = aLineReaded.split(DEFAULTSECTIONVALUEDELIMITER);
 					// **************************************************
 					String aSectionDATAKey = ((aSplittedSectionLineValues != null && aSplittedSectionLineValues.length >1)? String.valueOf(aSplittedSectionLineValues[0]):null);
-					Object aSectionDATAValues = ((aSplittedSectionLineValues != null && aSplittedSectionLineValues.length >1)? String.valueOf(aSplittedSectionLineValues[0]):null);
+					String aSectionDATAValues = ((aSplittedSectionLineValues != null && aSplittedSectionLineValues.length >1)? String.valueOf(aSplittedSectionLineValues[0]):null);
 					// **************************************************
 					// invalid arguments in file ...
 					if((aSectionDATAKey == null) || (String.valueOf( aSectionDATAKey).length()<2)) {
@@ -157,18 +161,20 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 			initWriterIfNecessary();
 			
 			// *************************************************************************
-			for (Entry<String, Object> aParentNodeElement : aFileContentDescriptor.entrySet()) {
+			for (Entry<String, JFXApplicationObjectValue> aParentNodeElement : aFileContentDescriptor.entrySet()) {
 				
 				String aNodeElementName = aParentNodeElement.getKey();
-				Map<String, Object> aNodeElement = (Map<String, Object>) aParentNodeElement.getValue();
+				JFXApplicationObjectValue aNodeElement = aParentNodeElement.getValue();
 				
 				String sIniFileSectionName = String.format(DEFAULTSECTIONFORMAT, String.valueOf(aNodeElementName));
+				if(aNodeElement.isComplexObject()) {
+					bSaveStatus = super.append(sIniFileSectionName) && appendChildValues(((JFXApplicationMappedObject)aNodeElement.getObjectValue())) && super.appendNewLine();	
+				}else {
+					bSaveStatus = super.append(sIniFileSectionName) && append(String.valueOf(aNodeElement.getObjectValue())) && super.appendNewLine();
+				}
 				
-				bSaveStatus = super.append(sIniFileSectionName) && appendChildValues(aNodeElement);
 				if(!bSaveStatus) { break; }
-			 
-				bSaveStatus = super.appendNewLine();
-				if(!bSaveStatus) { break; }
+			  
 			}
 		} catch (IOException evERRFILE) {
 			getLogger().logError(this.getClass(), evERRFILE);
@@ -187,22 +193,28 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 	 * @return
 	 * @throws IOException 
 	 */
-	private Boolean appendChildValues(Map<String, Object> aParentNodeElement) throws JFXApplicationException {
+	private Boolean appendChildValues(JFXApplicationMappedObject aParentNodeElement) throws JFXApplicationException {
 		try {
 			initWriterIfNecessary();
 			Boolean bAppendStatus = true;
 			String aNodeChildElementName = null;
-		    Object aNodeChildElement = null;
-			for (Entry<String, Object> aNodeChildElementEntry : aParentNodeElement.entrySet()) {
+		    JFXApplicationObjectValue aNodeChildElement = null;
+			for (Entry<String, JFXApplicationObjectValue> aNodeChildElementEntry : aParentNodeElement.entrySet()) {
 				
 				aNodeChildElementName = aNodeChildElementEntry.getKey();
 			    aNodeChildElement = aNodeChildElementEntry.getValue();
 				
+			    
+			    if( !(aNodeChildElement instanceof JFXApplicationObjectValue) ) {
+			    	throw new JFXApplicationException(getClass().getName()+" : Unexpected object type at index : "+aNodeChildElementName +":"+aNodeChildElement.getClass());
+					
+			    }
+			    
 			    // put to the buffer 
 				// *************************************************************************
 				
 				// value(s) contained 
-				if(aNodeChildElement instanceof String) {
+				if(!aNodeChildElement.isComplexObject()) {
 					// key of element
 					bAppendStatus = super.appendWithNewLine(aNodeChildElementName+"="+aNodeChildElement.toString());
 					if(!bAppendStatus) {
@@ -210,17 +222,16 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 					}
 					 
 					
-				}else if((aNodeChildElement instanceof Map)) {
+				}else {
 					// *************************************************************************
 					// key of element
-					bAppendStatus = super.append(String.valueOf(aNodeChildElementName+""+DEFAULTSECTIONVALUEDELIMITER)) &&  super.appendObjectToSerializedJSON((Map<String, Object>)aNodeChildElement);
+					bAppendStatus = super.append(String.valueOf(aNodeChildElementName+""+DEFAULTSECTIONVALUEDELIMITER)) &&  super.appendObjectToSerializedJSON( ((JFXApplicationMappedObject) aNodeChildElement.getObjectValue()) );
 					
 					if(!bAppendStatus) {
 						throw new JFXApplicationException(String.format(" Something goes wrong when adding JSON on (%s)",aNodeChildElementName));
 					}
-				}else {
-					throw new JFXApplicationException(getClass().getName()+" : Unexpected object type at index : "+aNodeChildElementName +":"+aNodeChildElement.getClass());
 				}
+				
 				
 				// *************************************************************************
 				
@@ -237,16 +248,16 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 		
 	}
 	// *************************************************************************
-	public String getStringProperty(String aMatchedPathProperty) {
+	public String getStringPropertyFromPath(String aMatchedPathProperty) {
 		String [] aPropertyPathSplitted = aMatchedPathProperty.split(DEFAULTPATHPROPERTYDELIMITER);
 		
 		List<String> aPropertyPathSplittedArray  = Arrays.asList(aPropertyPathSplitted);
 		
 		Object aObjectFoundiInPath = aFileContentDescriptor.get(aPropertyPathSplittedArray.get(0) );
 		aPropertyPathSplittedArray.remove(0);
-		
+		String aKeyProperty = null;
 		for (Iterator aIteratedKeyValue = aPropertyPathSplittedArray.iterator(); aIteratedKeyValue.hasNext();) {
-			String aKeyProperty = String.valueOf( (aIteratedKeyValue.next()) ).toUpperCase();
+			aKeyProperty = String.valueOf( (aIteratedKeyValue.next()) ).toUpperCase();
 			
 			if( aObjectFoundiInPath == null ) {
 				return null;
@@ -254,14 +265,12 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 				if(aObjectFoundiInPath instanceof String) {
 					return ((String)aObjectFoundiInPath);
 				}else {
-					aObjectFoundiInPath = ((Map<?, ?>)aObjectFoundiInPath).get(aPropertyPathSplittedArray.get(0) );
+					aObjectFoundiInPath = ((JFXApplicationMappedObject)aObjectFoundiInPath).get(aKeyProperty);
 				}
 			}
 		}
 		
-		
-		
-		return null;
+		return String.valueOf(((String)aObjectFoundiInPath));
 	}
 
 }

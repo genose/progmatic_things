@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools;
+package org.genose.java.implementation.javafx.applicationtools.exceptionerror;
 
 /**
  * @author 59013-36-18
@@ -46,8 +46,7 @@ public class JFXApplicationRuntimeException extends RuntimeException {
 	 */
 	public JFXApplicationRuntimeException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-		// TODO Auto-generated constructor stub
+		super(message, cause, enableSuppression, writableStackTrace); 
 	}
 
 }

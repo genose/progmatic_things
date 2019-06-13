@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools;
+package org.genose.java.implementation.javafx.applicationtools.exceptionerror;
 
 /**
  * @author 59013-36-18

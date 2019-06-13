@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools;
+package org.genose.java.implementation.javafx.applicationtools.files;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationMappedObject;
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
+
 /**
  * @author 59013-36-18
  *
@@ -24,7 +27,7 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 	final String DEFAULTSTRINGDELIMITER = ";";
 	private String aStringDelimiterSeparator = DEFAULTSTRINGDELIMITER;
 	private Boolean bFileHaveFirstLineHasKeyDescriptor = false;
-	Map<Integer, Object> aFirstLineKeyDescriptor = new HashMap<>();
+	JFXApplicationMappedObject aFirstLineKeyDescriptor = new JFXApplicationMappedObject();
 
 	/* **************************************** */
 	/**
@@ -117,7 +120,7 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 	}
 	/* **************************************** */
 	@Override
-	public Boolean appendObjectToSerializedJSON(Map<String, Object> aNodeChildElement) throws JFXApplicationException {
+	public Boolean appendObjectToSerializedJSON(JFXApplicationMappedObject aNodeChildElement) throws JFXApplicationException {
 		
 		Boolean bApppendStatus = false;
 		try {
@@ -139,7 +142,8 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 		initWriterIfNecessary();
 		StringBuilder aStringToAppend = new StringBuilder("");
 		Boolean bAppendStatus = false;
-		if( aObjectLineToStringify instanceof String){
+		if((aObjectLineToStringify instanceof String) || (aObjectLineToStringify instanceof Integer)
+				|| (aObjectLineToStringify instanceof Double)){
 			bAppendStatus = super.appendWithNewLine(String.valueOf(aObjectLineToStringify));
 		}else {
 			Map<Object,Object> aIterableObject = new HashMap<>();
@@ -164,8 +168,17 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 	}
 
 	@Override
-	public Map<String, Object> readlnAsMapStringKey() throws IOException {
-		return null;
+	public JFXApplicationMappedObject readlnAsMapStringKey() throws IOException {
+		initReaderIfNecessary();
+		String aFileLineReaded = super.readln();
+
+		JFXApplicationMappedObject aSplittedValues = new JFXApplicationMappedObject();
+
+		String[] arrayStringOfValues = aFileLineReaded.split(aStringDelimiterSeparator);
+		for (int i = 0; i < arrayStringOfValues.length; i++) {
+			aSplittedValues.put(String.valueOf(i), arrayStringOfValues[i]);
+		}
+		return aSplittedValues;
 	}
 
 	@Override
@@ -180,7 +193,7 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 			// init file reader
 			initReaderIfNecessary();
 			// read until EOF Mechanism is reached ...
-			Map<Integer, Object> aLineReaded = new HashMap<>();
+			JFXApplicationMappedObject aLineReaded = new JFXApplicationMappedObject();
 			while (!isEOF()) {
 				// read until EOF Internal is Reached
 				aLineReaded.clear();
@@ -207,11 +220,11 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 	}
 
 	@Override
-	public Map<Integer, Object> readlnAsMapIntegerKey() throws IOException {
+	public JFXApplicationMappedObject readlnAsMapIntegerKey() throws IOException {
 		initReaderIfNecessary();
 		String aFileLineReaded = super.readln();
 
-		Map<Integer, Object> aSplittedValues = new HashMap<>();
+		JFXApplicationMappedObject aSplittedValues = new JFXApplicationMappedObject();
 
 		String[] arrayStringOfValues = aFileLineReaded.split(aStringDelimiterSeparator);
 		for (int i = 0; i < arrayStringOfValues.length; i++) {

@@ -6,7 +6,7 @@ package org.genose.java.implementation.streams;
 
 import java.io.IOException;
 
-import org.genose.java.implementation.javafx.applicationtools.JFXApplicationError;
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationError;
 import org.genose.java.implementation.streams.ConsoleStream;
 
 

@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.util.function.Function;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationInvalidParameterException;
 import org.genose.java.implementation.GNSJavaClassHelper;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationBundle;
 
@@ -120,7 +122,7 @@ public class JFXApplicationScene extends Scene {
 		// [APP_ROOT]/src/[ARGUMENT]/[MVC_STYLE(Controller;View;Ressources)]/[ARGUMENT].[FILEEXT]
 
 		// check out entry point of this Module
-		Path aPathInBundle = Paths.get(sApplicationAbsPath, argModuleName);
+		Path aPathInBundle = Paths.get(sApplicationPath, String.valueOf("bin"), argModuleName);
 		
 		String sBasePath = ((JFXApplication.applicationPathExist(aPathInBundle.toString())) ? aPathInBundle.toString() : sApplicationPath);
 

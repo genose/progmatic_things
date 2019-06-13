@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools;
+package org.genose.java.implementation.javafx.applicationtools.files;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -39,19 +39,23 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication.JFXFILETYPE;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
+import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationMappedObject;
+import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationObjectValue;
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.json.*;
 
 /**
  * @author 59013-36-18
  *
  */
-public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
+public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedObject> {
 
 	/**
 	 * 
 	 * File relative
 	 */
-	protected Map<String, Object> aFileContentDescriptor;
+	protected JFXApplicationMappedObject aFileContentDescriptor;
 	private File aFileDescriptor = null;
 	private String aFileName = null;
 	private String aFilePath = null;
@@ -62,7 +66,7 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 	 * 
 	 */
 	private BufferedReader aBufferedReader = null;
-	private String aBufferedReaderLine = null;
+	private String aBufferedReaderLineString = null;
 	private Integer aBufferedReaderChar = null;
 
 	private BufferedWriter aBufferedWriter = null;
@@ -140,28 +144,30 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 			throw evERRFILEIO;
 		}
 	}
-	
+
 	/* **************************************** */
-	
+
 	public Boolean appendObject(Object aObjectLineToStringify) throws IOException {
 		StringBuilder aStringToAppend = new StringBuilder("");
 		Boolean bAppendStatus = false;
-		if( aObjectLineToStringify instanceof String){
+		if ((aObjectLineToStringify instanceof String) || (aObjectLineToStringify instanceof Integer)
+				|| (aObjectLineToStringify instanceof Double)) {
 			bAppendStatus = appendWithNewLine(String.valueOf(aObjectLineToStringify));
-		}else {
-			Map<Object,Object> aIterableObject = new HashMap<>();
-					aIterableObject.putAll( (Map<Object, Object>) aObjectLineToStringify);
+		} else {
+			Map<Object, Object> aIterableObject = new HashMap<>();
+			aIterableObject.putAll((Map<Object, Object>) aObjectLineToStringify);
 			for (Iterator iteratedObject = aIterableObject.entrySet().iterator(); iteratedObject.hasNext();) {
 				Map.Entry<Object, Object> aEntry = (Entry<Object, Object>) iteratedObject.next();
-				aStringToAppend.append(String.format("[%s]:%s%s",String.valueOf(aEntry.getKey() ), String.valueOf(aEntry.getValue()), ((iteratedObject.hasNext())? " " :"" ) ) );
-				bAppendStatus  = appendWithNewLine(aStringToAppend.toString());
-				if(!bAppendStatus) break;
+				aStringToAppend.append(String.format("[%s]:%s%s", String.valueOf(aEntry.getKey()),
+						String.valueOf(aEntry.getValue()), ((iteratedObject.hasNext()) ? " " : "")));
+				bAppendStatus = appendWithNewLine(aStringToAppend.toString());
+				if (!bAppendStatus)
+					break;
 			}
 		}
 
 		return bAppendStatus;
 	}
-
 
 	/* **************************************** */
 	/**
@@ -180,7 +186,7 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 		}
 
 	}
-	
+
 	/* **************************************** */
 	/**
 	 * 
@@ -227,7 +233,7 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 			throw new JFXApplicationException("can t append to unintilaize buffer ... ");
 		}
 		/* **************************************** */
-		JSONArray  dataset = new JSONArray(aChildNodeElement);
+		JSONArray dataset = new JSONArray(aChildNodeElement);
 
 		try {
 			aBufferedWriter.append(dataset.toString());
@@ -275,19 +281,20 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 	 * @return
 	 * @throws JFXApplicationException
 	 */
-	public Boolean appendObjectToSerializedJSON(Map<String, Object> aNodeChildElement) throws JFXApplicationException {
+	public Boolean appendObjectToSerializedJSON(JFXApplicationMappedObject aNodeChildElement)
+			throws JFXApplicationException {
 		try {
 
 			// :: https://www.baeldung.com/java-map-to-string-conversion
 			// prepare to transfrom current data nodes to JSON ...
 			JSONObject dataset = new JSONObject();
 
-			if (!(aNodeChildElement instanceof Iterable<?>)) {
+			if (!(aNodeChildElement instanceof JFXApplicationMappedObject)) {
 				throw new JFXApplicationException(getClass().getName() + ": the node class "
 						+ aNodeChildElement.getClass() + " is not iterable ... ");
 			}
 			/* **************************************** */
-			for (Entry<String, Object> aNodeChildElementEntry : aNodeChildElement.entrySet()) {
+			for (Entry<String, JFXApplicationObjectValue> aNodeChildElementEntry : aNodeChildElement.entrySet()) {
 
 				String aNodeChildElementName = aNodeChildElementEntry.getKey();
 				Object aNodeChildElementValue = aNodeChildElementEntry.getValue();
@@ -302,11 +309,8 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 					continue;
 				}
 				/* **************************************** */
-				if (aNodeChildElementValue == null) {
-					dataset.put(aNodeChildElementName, String.valueOf(aNodeChildElementValue));
-				} else {
-					dataset.put(aNodeChildElementName, aNodeChildElementValue);
-				}
+
+				dataset.put(aNodeChildElementName, aNodeChildElementValue);
 
 			}
 			/* **************************************** */
@@ -428,7 +432,7 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 	 * @return EOF true when Read() or Readln() reach File EOF or can t read bytes
 	 */
 	public boolean isEOF() {
-		return aBufferedReaderLine == null;
+		return aBufferedReaderLineString == null;
 	}
 
 	/* **************************************** */
@@ -441,7 +445,7 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 		try {
 			if (aBufferedReader == null)
 				throw new IOException("File Reader must be initilized before calling this method ... ");
-			aBufferedReaderLine = aBufferedReader.readLine();
+			aBufferedReaderLineString = aBufferedReader.readLine();
 			aBufferedReaderChar = 0;
 
 		} catch (IOException evERRFILEIO) {
@@ -449,7 +453,7 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 			tragicClose();
 			throw evERRFILEIO;
 		}
-		return aBufferedReaderLine;
+		return aBufferedReaderLineString;
 	}
 
 	/* **************************************** */
@@ -458,17 +462,17 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 	 * @return
 	 * @throws IOException
 	 */
-	public Map<Integer, Object> readlnAsMapIntegerKey() throws IOException {
+	public JFXApplicationMappedObject readlnAsMapIntegerKey() throws IOException {
 		readln();
-		Map<Integer, Object> aReadedLineMap = new HashMap<>();
-		(aReadedLineMap).put(0, aBufferedReaderLine);
+		JFXApplicationMappedObject aReadedLineMap = new JFXApplicationMappedObject();
+		(aReadedLineMap).put(0, aBufferedReaderLineString);
 		return (aReadedLineMap);
 	}
 
-	public Map<String, Object> readlnAsMapStringKey() throws IOException {
+	public JFXApplicationMappedObject readlnAsMapStringKey() throws IOException {
 		readln();
-		Map<String, Object> aReadedLineMap = new HashMap<>();
-		(aReadedLineMap).put("0", aBufferedReaderLine);
+		JFXApplicationMappedObject aReadedLineMap = new JFXApplicationMappedObject();
+		(aReadedLineMap).put(0, aBufferedReaderLineString);
 		return (aReadedLineMap);
 	}
 
@@ -487,9 +491,9 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 
 			// handle EOF Mechanism
 			if (aBufferedReaderChar != (-1)) {
-				aBufferedReaderLine = Character.toString(aBufferedReaderChar);
+				aBufferedReaderLineString = Character.toString(aBufferedReaderChar);
 			} else {
-				aBufferedReaderLine = null;
+				aBufferedReaderLineString = null;
 			}
 
 		} catch (IOException evERRFILEIO) {
@@ -515,12 +519,13 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 			// read until EOF Mechanism is reached ...
 			String aLineReaded = "";
 			while (!isEOF()) {
-				// read until EOF Internal is Reached 
+				// read until EOF Internal is Reached
 				aLineReaded = readln();
-				
-				if(aLineReaded.isEmpty()) return false;
-				
-				if (aFileContentDescriptor.put(String.valueOf(i++), aLineReaded ) == null) {
+
+				if (aLineReaded.isEmpty())
+					return false;
+
+				if (aFileContentDescriptor.put(String.valueOf(i++), aLineReaded) == null) {
 					return false;
 				}
 			}
@@ -558,8 +563,9 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 			getLogger().logError(this.getClass(), evERRFILEIO);
 			throw evERRFILEIO;
 		}
-			
+
 	}
+
 	/* **************************************** */
 	/**
 	 * 
@@ -596,17 +602,18 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 	protected void initWriterIfNecessary() throws IOException {
 
 		try {
-			if(aBufferedWriter == null ) {
+			if (aBufferedWriter == null) {
 				aFileWriter = new FileWriter(aFileDescriptor);
 				aBufferedWriter = new BufferedWriter(aFileWriter);
 			}
-			
+
 		} catch (IOException evERRFILEIO) {
 			getLogger().logError(this.getClass(), evERRFILEIO);
 			tragicClose();
 			throw evERRFILEIO;
 		}
 	}
+
 	/**
 	 * 
 	 * @throws IOException
@@ -614,17 +621,17 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 	protected void initWriter() throws IOException {
 
 		try {
-			if(aBufferedWriter == null ) {
+			if (aBufferedWriter == null) {
 				aFileWriter = new FileWriter(aFileDescriptor);
 				aBufferedWriter = new BufferedWriter(aFileWriter);
-			}else {
-				if(aFileWriter == null ) {
+			} else {
+				if (aFileWriter == null) {
 					aFileWriter = new FileWriter(aFileDescriptor);
 				}
-				
+
 				aBufferedWriter = new BufferedWriter(aFileWriter);
 			}
-			
+
 		} catch (IOException evERRFILEIO) {
 			getLogger().logError(this.getClass(), evERRFILEIO);
 			tragicClose();
@@ -694,14 +701,13 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 	public synchronized void setLogger(JFXApplicationLogger aLogger) {
 		this.aLogger = aLogger;
 	}
-	
+
 	/* **************************************** */
 	/* **************************************** */
 	// values accessors relatives ...
 	/* **************************************** */
 	/* **************************************** */
 
-	
 	/* **************************************** */
 	/* **************************************** */
 	// Iterable and Streams relatives ...
@@ -709,13 +715,13 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 	/* **************************************** */
 
 	@Override
-	public Iterator<Map<String, Object>> iterator() {
+	public Iterator<JFXApplicationMappedObject> iterator() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Spliterator<Map<String, Object>> spliterator() {
+	public Spliterator<JFXApplicationMappedObject> spliterator() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -727,133 +733,133 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 	}
 
 	@Override
-	public Stream<Map<String, Object>> sequential() {
+	public Stream<JFXApplicationMappedObject> sequential() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<Map<String, Object>> parallel() {
+	public Stream<JFXApplicationMappedObject> parallel() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<Map<String, Object>> unordered() {
+	public Stream<JFXApplicationMappedObject> unordered() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<Map<String, Object>> onClose(Runnable closeHandler) {
+	public Stream<JFXApplicationMappedObject> onClose(Runnable closeHandler) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void close() {
-		closeReader();
-		closeWriter();
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public Stream<Map<String, Object>> filter(Predicate<? super Map<String, Object>> predicate) {
+	public Stream<JFXApplicationMappedObject> filter(Predicate<? super JFXApplicationMappedObject> predicate) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <R> Stream<R> map(Function<? super Map<String, Object>, ? extends R> mapper) {
+	public <R> Stream<R> map(Function<? super JFXApplicationMappedObject, ? extends R> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public IntStream mapToInt(ToIntFunction<? super Map<String, Object>> mapper) {
+	public IntStream mapToInt(ToIntFunction<? super JFXApplicationMappedObject> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public LongStream mapToLong(ToLongFunction<? super Map<String, Object>> mapper) {
+	public LongStream mapToLong(ToLongFunction<? super JFXApplicationMappedObject> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public DoubleStream mapToDouble(ToDoubleFunction<? super Map<String, Object>> mapper) {
+	public DoubleStream mapToDouble(ToDoubleFunction<? super JFXApplicationMappedObject> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <R> Stream<R> flatMap(Function<? super Map<String, Object>, ? extends Stream<? extends R>> mapper) {
+	public <R> Stream<R> flatMap(Function<? super JFXApplicationMappedObject, ? extends Stream<? extends R>> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public IntStream flatMapToInt(Function<? super Map<String, Object>, ? extends IntStream> mapper) {
+	public IntStream flatMapToInt(Function<? super JFXApplicationMappedObject, ? extends IntStream> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public LongStream flatMapToLong(Function<? super Map<String, Object>, ? extends LongStream> mapper) {
+	public LongStream flatMapToLong(Function<? super JFXApplicationMappedObject, ? extends LongStream> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public DoubleStream flatMapToDouble(Function<? super Map<String, Object>, ? extends DoubleStream> mapper) {
+	public DoubleStream flatMapToDouble(Function<? super JFXApplicationMappedObject, ? extends DoubleStream> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<Map<String, Object>> distinct() {
+	public Stream<JFXApplicationMappedObject> distinct() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<Map<String, Object>> sorted() {
+	public Stream<JFXApplicationMappedObject> sorted() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<Map<String, Object>> sorted(Comparator<? super Map<String, Object>> comparator) {
+	public Stream<JFXApplicationMappedObject> sorted(Comparator<? super JFXApplicationMappedObject> comparator) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<Map<String, Object>> peek(Consumer<? super Map<String, Object>> action) {
+	public Stream<JFXApplicationMappedObject> peek(Consumer<? super JFXApplicationMappedObject> action) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<Map<String, Object>> limit(long maxSize) {
+	public Stream<JFXApplicationMappedObject> limit(long maxSize) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<Map<String, Object>> skip(long n) {
+	public Stream<JFXApplicationMappedObject> skip(long n) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void forEach(Consumer<? super Map<String, Object>> action) {
+	public void forEach(Consumer<? super JFXApplicationMappedObject> action) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void forEachOrdered(Consumer<? super Map<String, Object>> action) {
+	public void forEachOrdered(Consumer<? super JFXApplicationMappedObject> action) {
 		// TODO Auto-generated method stub
 
 	}
@@ -871,45 +877,46 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 	}
 
 	@Override
-	public Map<String, Object> reduce(Map<String, Object> identity, BinaryOperator<Map<String, Object>> accumulator) {
+	public JFXApplicationMappedObject reduce(JFXApplicationMappedObject identity,
+			BinaryOperator<JFXApplicationMappedObject> accumulator) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Optional<Map<String, Object>> reduce(BinaryOperator<Map<String, Object>> accumulator) {
+	public Optional<JFXApplicationMappedObject> reduce(BinaryOperator<JFXApplicationMappedObject> accumulator) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <U> U reduce(U identity, BiFunction<U, ? super Map<String, Object>, U> accumulator,
+	public <U> U reduce(U identity, BiFunction<U, ? super JFXApplicationMappedObject, U> accumulator,
 			BinaryOperator<U> combiner) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super Map<String, Object>> accumulator,
+	public <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super JFXApplicationMappedObject> accumulator,
 			BiConsumer<R, R> combiner) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <R, A> R collect(Collector<? super Map<String, Object>, A, R> collector) {
+	public <R, A> R collect(Collector<? super JFXApplicationMappedObject, A, R> collector) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Optional<Map<String, Object>> min(Comparator<? super Map<String, Object>> comparator) {
+	public Optional<JFXApplicationMappedObject> min(Comparator<? super JFXApplicationMappedObject> comparator) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Optional<Map<String, Object>> max(Comparator<? super Map<String, Object>> comparator) {
+	public Optional<JFXApplicationMappedObject> max(Comparator<? super JFXApplicationMappedObject> comparator) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -921,34 +928,33 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 	}
 
 	@Override
-	public boolean anyMatch(Predicate<? super Map<String, Object>> predicate) {
+	public boolean anyMatch(Predicate<? super JFXApplicationMappedObject> predicate) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean allMatch(Predicate<? super Map<String, Object>> predicate) {
+	public boolean allMatch(Predicate<? super JFXApplicationMappedObject> predicate) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean noneMatch(Predicate<? super Map<String, Object>> predicate) {
+	public boolean noneMatch(Predicate<? super JFXApplicationMappedObject> predicate) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Optional<Map<String, Object>> findFirst() {
+	public Optional<JFXApplicationMappedObject> findFirst() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Optional<Map<String, Object>> findAny() {
+	public Optional<JFXApplicationMappedObject> findAny() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	
 }

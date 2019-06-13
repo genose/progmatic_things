@@ -694,6 +694,12 @@ public class JFXApplicationFileAccessor implements Stream<Map<String, Object>> {
 	public synchronized void setLogger(JFXApplicationLogger aLogger) {
 		this.aLogger = aLogger;
 	}
+	
+	/* **************************************** */
+	/* **************************************** */
+	// values accessors relatives ...
+	/* **************************************** */
+	/* **************************************** */
 
 	
 	/* **************************************** */

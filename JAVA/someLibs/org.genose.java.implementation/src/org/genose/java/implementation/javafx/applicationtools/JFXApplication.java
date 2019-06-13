@@ -271,11 +271,10 @@ public class JFXApplication extends Application {
 
 			String systemPathSeparator = String.valueOf(File.separatorChar);
 			String packageNamed = localClass.getPackageName();
-			String localPackagePath = "" + packageNamed.replaceAll("[.]", systemPathSeparator);
-			String localRunnablePathRelative = String
-					.valueOf(localPackagePath.replaceAll("[^\\"+systemPathSeparator+"]", ""));
+			String localPackagePath = String.valueOf(packageNamed);
+			String localRunnablePathRelative =  String.valueOf("."  + packageNamed).replaceAll("[.]",  "*").replaceAll("[^\\*]","");
 			
-			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\"+systemPathSeparator+"]", ".." + systemPathSeparator);
+			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\" + systemPathSeparator);
 			/* ************************************************* */
 			// :: path wil be resolved as-is : (.) inherited root path, package path of
 			// (Extends ApplicationJFX)
@@ -291,7 +290,7 @@ public class JFXApplication extends Application {
 			// (Extends ApplicationJFX)
 			// :: localpath :: getpath(/) will provide root runnable directory ;; on MacOS
 			/* ************************************************* */
-			File localClassPath = new java.io.File(".");
+/** 			File localClassPath = new java.io.File(".");
 			String localAbsolutePath = localClassPath.getAbsolutePath().replace(".", "");
 			// localAbsolutePath = localAbsolutePath.substring(0,
 			// localAbsolutePath.length()-1);
@@ -299,7 +298,7 @@ public class JFXApplication extends Application {
 			String localpathname = localClassPath.getName();
 			URL aUrlClassPath = localClass.getResource(localpath);
 			String sFinalAppPath = aUrlClassPath.getPath().replaceFirst("[/]", "") .replaceFirst( localPackagePath , "").replaceAll("[//]", "/");
-/** 
+
 			JFXApplicationLogger.getLogger()
 					.logInfo(localClass + " 1 ;; class package path  \n ll >> " + localPackagePath);
 		
@@ -317,9 +316,9 @@ public class JFXApplication extends Application {
 			// URL aUrlClass = ((localClass.getResource(localAbsolutePath) == null )?
 			// localClass.getResource(localRunnablePathRelative) :
 			// localClass.getResource(localAbsolutePath));
-			URL aUrlClass = localClass.getResource(localRunnablePathRelative); 
+			// URL aUrlClass = localClass.getResource(localRunnablePathRelative); 
 		
-			return sFinalAppPath.replaceAll("[//]", "/");
+			return localRunnablePathRelative;
 		} catch (Exception evErrPath) {
 			JFXApplicationLogger.getLogger().logError(JFXApplication.class.getClass(), evErrPath);
 		}

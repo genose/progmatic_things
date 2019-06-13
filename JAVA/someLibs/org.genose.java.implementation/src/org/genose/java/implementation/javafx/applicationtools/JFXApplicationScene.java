@@ -120,7 +120,7 @@ public class JFXApplicationScene extends Scene {
 		// [APP_ROOT]/src/[ARGUMENT]/[MVC_STYLE(Controller;View;Ressources)]/[ARGUMENT].[FILEEXT]
 
 		// check out entry point of this Module
-		Path aPathInBundle = Paths.get(sApplicationPath, argModuleName);
+		Path aPathInBundle = Paths.get(sApplicationAbsPath, argModuleName);
 		
 		String sBasePath = ((JFXApplication.applicationPathExist(aPathInBundle.toString())) ? aPathInBundle.toString() : sApplicationPath);
 

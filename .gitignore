@@ -1,6 +1,4 @@
 *.log
 *cache*
-*.meta*
 *.class
-
 *.nrm

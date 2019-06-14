@@ -1,0 +1,19 @@
+/**
+ * 
+ */
+package org.genose.java.implementation.javafx.applicationtools;
+
+/**
+ * @author 59013-36-18
+ *
+ */
+public class JFXApplicationHelper {
+
+	/**
+	 * 
+	 */
+	public JFXApplicationHelper() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

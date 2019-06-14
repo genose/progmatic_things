@@ -1,7 +1,7 @@
 package StartupScreens;
 
 import javafx.fxml.FXML;
-
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Window;
 
@@ -9,10 +9,10 @@ import javafx.stage.Window;
  * @author xenon
  *
  */
-public class StartupScreens extends Window {
+public class StartupScreens {
 
 	@FXML
-	private TextField aStartupText;
+	private Label aStartupText;
 	/* ******************************************************* */
 	/**
 	 * 

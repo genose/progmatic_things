@@ -1,0 +1,25 @@
+/**
+ * 
+ */
+package org.genose.java.implementation;
+
+/**
+ * @author 59013-36-18
+ *
+ */
+public class GNSJavaClassHelper {
+
+	/**
+	 * 
+	 */
+	public GNSJavaClassHelper() {	}
+	public Boolean respondsTo(Class aClassToTest, String aMethodName) {
+		Method methodToFind = null;
+		try {
+		  methodToFind = aClassToTest.getMethod(aMethodName, (Class<?>[]) null);
+		} catch (NoSuchMethodException | SecurityException e) {
+			return false;
+		}
+		return false;
+	}
+}

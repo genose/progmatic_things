@@ -1,0 +1,24 @@
+
+‹squid:UselessImportCheck"TRemove this unnecessary import: same package classes are always implicitly imported.(ÈÕ­ÂRMINORZ
+CODE_SMELL
+b
+squid:S106Q"9Replace this use of System.out or System.err by a logger.(é—ãRMAJORZ
+CODE_SMELL
+b
+squid:S106"9Replace this use of System.out or System.err by a logger.(°÷Ç±RMAJORZ
+CODE_SMELL
+{squid:S34572"Q%n should be used in place of \n to produce the platform-specific line separator.(ÖŸÌðRMAJORZ
+CODE_SMELL
+b
+squid:S106J"9Replace this use of System.out or System.err by a logger.(È‹µ²RMAJORZ
+CODE_SMELL
+gsquid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±ÄøÿÿÿÿRMINORZ
+CODE_SMELL
+msquid:S1155@">Use isEmpty() to check whether the collection is empty or not.(¡ÏÆ¼ùÿÿÿÿRMINORZ
+CODE_SMELL
+squid:UselessImportCheck
+"CRemove this unused import 'javax.management.RuntimeErrorException'.(ÍÖÅÓøÿÿÿÿRMINORZ
+CODE_SMELL
+qsquid:S00112D"FDefine and throw a dedicated exception instead of using a generic one.(ììý©RMAJORZ
+CODE_SMELL
+Hsquid:S21165"%Use "Arrays.toString(array)" instead.(Ÿøß•RMAJORZBUG

@@ -1,0 +1,41 @@
+
+¹squid:S1186ù"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Õœ,8À–ªÒ´-H×ùRCRITICALZ
+CODE_SMELL
+ssquid:S1854À"=Remove this useless assignment to local variable "aUrlClass".(ŒÀ„8©µû´-HØùRMAJORZ
+CODE_SMELL
+msquid:S1481«"2Remove this unused "localpathname" local variable.(Âëå¦şÿÿÿÿ8©µû´-HÙùRMINORZ
+CODE_SMELL
+rsquid:UselessImportCheck"0Remove this unused import 'java.nio.file.Paths'.(áè°¯8©µû´-HÚùRMINORZ
+CODE_SMELL
+msquid:S2696¤"6Make the enclosing method "static" or remove this set.(‡Å“¶ÿÿÿÿÿHÛùRCRITICALZ
+CODE_SMELL
+esquid:S1135ë"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHÜùRINFOZ
+CODE_SMELL
+qsquid:S1481§"6Remove this unused "localAbsolutePath" local variable.(¼èî®ÿÿÿÿÿ8©µû´-HİùRMINORZ
+CODE_SMELL
+isquid:S1068"<Remove this unused "bJFXApplicationIsStarted" private field.(¡²ı^HŞùRMAJORZ
+CODE_SMELL
+†squid:CommentedOutCodeLineÔ"<This block of commented-out lines of code should be removed.(«œï¡úÿÿÿÿ8é“¥Ó´-HßùRMAJORZ
+CODE_SMELL
+€squid:S1854§"ERemove this useless assignment to local variable "localAbsolutePath".(¼èî®ÿÿÿÿÿ8©µû´-HàùRMAJORZ
+CODE_SMELL
+¿squid:S1186õ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(àÁ—ûÿÿÿÿ8À–ªÒ´-HáùRCRITICALZ
+CODE_SMELL
+dsquid:S1481À".Remove this unused "aUrlClass" local variable.(ŒÀ„8©µû´-HâùRMINORZ
+CODE_SMELL
+squid:CommentedOutCodeLineš"<This block of commented-out lines of code should be removed.(¾¯´ôıÿÿÿÿHãùRMAJORZ
+CODE_SMELL
+qsquid:UselessImportCheck"/Remove this unused import 'java.util.Iterator'.(¥ÍòÕ8ÿøÅ­´-HäùRMINORZ
+CODE_SMELL
+†squid:CommentedOutCodeLine¿"<This block of commented-out lines of code should be removed.(õ£¬½úÿÿÿÿ8é“¥Ó´-HåùRMAJORZ
+CODE_SMELL
+esquid:S1135ş"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHæùRINFOZ
+CODE_SMELL
+squid:CommentedOutCodeLine©"<This block of commented-out lines of code should be removed.(ƒáÉÙ8é“¥Ó´-HçùRMAJORZ
+CODE_SMELL
+|squid:S1854«"ARemove this useless assignment to local variable "localpathname".(Âëå¦şÿÿÿÿ8©µû´-HèùRMAJORZ
+CODE_SMELL
+bsquid:EmptyStatementUsageChecky"Remove this empty statement.(ôŸìúÿÿÿÿHéùRMINORZ
+CODE_SMELL
+‚squid:ModifiersOrderCheck¬"EReorder the modifiers to comply with the Java Language Specification.(¢—Í¬HêùRMINORZ
+CODE_SMELL

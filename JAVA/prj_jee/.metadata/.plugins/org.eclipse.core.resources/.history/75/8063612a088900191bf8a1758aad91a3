@@ -1,0 +1,29 @@
+/**
+ * 
+ */
+package org.genose.java.implementation.javafx.applicationtools;
+
+/**
+ * @author 59013-36-18
+ *
+ */
+public class JFXApplicationHelper {
+//:: https://riptutorial.com/javafx/example/19339/loading-resource-bundle
+	// :: https://riptutorial.com/Download/javafx.pdf
+	
+	/**
+	 * 
+	 */
+	public JFXApplicationHelper() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	void loadBundleRessource() {
+		Locale locale = new Locale("en", "UK");
+		ResourceBundle bundle = ResourceBundle.getBundle("strings", locale);
+
+		Parent root = FXMLLoader.load(getClass().getClassLoader()
+		                                  .getResource("ui/main.fxml"), bundle);
+	}
+
+}

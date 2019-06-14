@@ -370,22 +370,35 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 						((callStack == null) ? Arrays.asList(getStackTrace()).toString().replaceAll(",", "\n")
 								: String.valueOf(callStack).replaceAll(",", "\n"))));
 	}
-
+	
+	
+	public void logError(String message, Throwable throwedEvent) {
+		
+		logError(this.getClass(), throwedEvent.getClass(), message, throwedEvent.getMessage()+"\n*********************\n"+throwedEvent.getCause());
+	}
 	/* ****************************************************** */
 	/**
 	 * 
 	 * @return List<StackTraceElement>
 	 */
 	private StackTraceElement[] getStackTrace() {
-		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+		StackTraceElement[] aStackTrace = Thread.currentThread().getStackTrace();
 
 		lastStackTraceList.clear();
-		for (int i = 0; i < (stackTrace.length - 1); i++) {
-			lastStackTraceList.add(stackTrace[i]);
+		for (int i = 0; i < (aStackTrace.length - 1); i++) {
+			lastStackTraceList.add(aStackTrace[i]);
 		}
 
-		return stackTrace;
+		return aStackTrace;
 	}
+	
+	private StackTraceElement getLastStackTrace()
+	{
+		StackTraceElement[] aStackTrace = Thread.currentThread().getStackTrace();
+		return aStackTrace[aStackTrace.length -2];
+	}
+	
+	
 	/* ****************************************************** */
 	/**
 	 * 
@@ -399,5 +412,7 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 			return pJFXApplicationLoggerSingleton;
 		}
 	}
+
+
 
 }

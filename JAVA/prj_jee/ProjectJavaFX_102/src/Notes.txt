@@ -10,3 +10,63 @@
 			primaryStage.show();
 			primaryStage.setIconified(false);
 			primaryStage.centerOnScreen();
+			
+			
+			
+			
+			
+			
+			
+			*********************************************************************************************
+			Consignes
+
+Gestion d’un Comité d’entreprise
+
+Le comité d’entreprise de la société X veut gérer les droits de salariés répartis sur plusieurs agences. Selon leur agence les salariés ont accès à un restaurant d’entreprise ou à des tickets restaurant. Enfin tout salarié a droit à des chèques vacances à condition de justifier d’une ancienneté de 18 mois au 01 juillet de l’année.
+
+Chaque salarié a de plus, sans condition d’ancienneté, droit à un chèque de Noël dont le montant dépend du nombre et de l’âge de ses enfants, d’après le barème suivant :
+
+    20 euros pour les enfants de 0 à 10 ans
+    30 euros pour les enfants de 11 à 15 ans.
+    50 euros pour les enfants de 16 à 18 ans.
+
+L’âge des enfants est évalué au 31/12 de l’année.
+
+Il vous est fourni un fichier contenant l’ensemble des salariés présents dans l’entreprise à ce jour.
+
+ Les lignes commencent par le type de données. (Salarie ou Enfant)
+
+ Les lignes de type Salarié comportent les informations suivantes :
+
+    Sexe
+    Prénom
+    Date de naissance
+    Nom
+    Agence
+    Date d’embauche
+
+Les lignes de type Enfant comportent les informations suivantes :
+
+    Sexe
+    Prénom
+    Date de naissance
+
+
+On désire une application permettant de gérer ces salariés, c’est-à-dire de pouvoir :
+
+     Visualiser, modifier, supprimer, ajouter des salariés.
+     Ajouter, modifier, supprimer des enfants.
+     Afficher les droits d’un salarié.
+     Editer la liste des salariés ayant droit aux chèques vacances,
+     Editer la liste des salariés ayant droit aux chèques « Noël », ainsi que du montant.
+
+ 
+
+ Contraintes :
+
+    Un nom est toujours en majuscule.
+    Les initiales des prénoms sont en majuscules, le reste en minuscule.
+    Il y a trois agences : Lille et Roubaix qui ont un restaurant et Dunkerque qui n’en a pas.
+    Un salarié ne peut être embauché avant l’âge de 16 ans, et ne peut être embauché par anticipation.
+    Un enfant doit avoir au moins 16 ans de plus que son parent et au moins 9 mois de plus que l’enfant précédant dans la fratrie.
+			

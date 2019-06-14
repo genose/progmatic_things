@@ -1,0 +1,105 @@
+/**
+ * 
+ */
+package org.genose.java.implementation.javafx.applicationtools;
+
+import java.util.Map;
+import java.util.Objects;
+
+/**
+ * @author 59013-36-18
+ *
+ */
+public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
+	private Object pPrivateValue = null;
+	
+	/**
+	 * 
+	 */
+	public JFXApplicationObjectValue() {
+		super();
+	}
+
+	@Override
+	public Boolean isComplexObject() {
+		if(this.pPrivateValue instanceof Map<?, ?>) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Object getObjectValue() {
+		
+		return pPrivateValue;
+	}
+
+	@Override
+	public Boolean setObjectValue(Object aObjectValue) {
+		this.pPrivateValue =  aObjectValue;
+		return Objects.equals(pPrivateValue, aObjectValue);
+	}
+
+	@Override
+	public Boolean getBoolean() {
+		if(isComplexObject()) {
+			throw new JFXApplicationRuntimeException("This Type ("+getObjectValue()+") is ");
+		}else {
+			return ((Boolean)this.pPrivateValue).booleanValue();
+		}
+	}
+
+	@Override
+	public Boolean setBoolean(Boolean aBooleanValue) {
+		this.pPrivateValue = aBooleanValue;
+		return ((Boolean)this.pPrivateValue).booleanValue();
+	}
+
+	@Override
+	public Integer getInteger() {
+		// TODO Auto-generated method stub
+		return ((Integer)this.pPrivateValue).integerValue();
+	}
+
+	@Override
+	public void setInteger(Integer aIntegerValue) {
+		
+	}
+
+	@Override
+	public Double getDouble() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean setDouble(Double aDoubleValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean setString(String aStringValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object serialize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object unserialize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+ 
+}

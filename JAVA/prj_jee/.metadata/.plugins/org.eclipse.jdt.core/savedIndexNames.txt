@@ -1,0 +1,14 @@
+INDEX VERSION 1.131+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\.metadata\.plugins\org.eclipse.jdt.core
+2335170150.index
+1132052575.index
+1178682869.index
+3274283451.index
+1122013783.index
+2508526259.index
+458030369.index
+3387885595.index
+2421738877.index
+2550604317.index
+1653399429.index
+623304515.index
+3414349032.index

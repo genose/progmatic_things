@@ -1,8 +1,14 @@
 package Application.Main;
+
+import java.net.URL;
+
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationScene;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.stage.Stage;
 
 public class Main extends JFXApplication {
@@ -15,26 +21,31 @@ public class Main extends JFXApplication {
 			// setPrimaryStage ...
 			super.start(primaryStage);
 
-			// getLogger().log(System.Logger.Level.OFF, "{string}", getClass() + " :: " + JFXApplication.getApplicationBundlePath());
-			
-			{ 
-				
+			// getLogger().log(System.Logger.Level.OFF, "{string}", getClass() + " :: " +
+			// JFXApplication.getApplicationBundlePath());
+
+			{
+
 				// JFXApplicationScene("MainWindow", { setAsPrimary(); });
-			} 
+			}
+
+			//URL aressource = getClass().getResource("../../StartupScreens/StartupScreens.fxml");
+			//Parent root = FXMLLoader.load(aressource);
 			
 			super.setPrimaryScene(JFXApplicationScene.createScene("StartupScreens", null, null));
-			// :: handler to call  after loading super.setOnComplete();
-			//super.setSecondaryScene(new JFXApplicationScene("mainwindow", null, null ));
 			
 // primaryStage.setScene(new Scene(root, primaryStage.getHeight(), primaryStage.getWidth()));
 
-			primaryStage.setScene(super.getPrimaryScene());
+			//primaryStage.setScene(super.getPrimaryScene());
 
 			primaryStage.show();
 			primaryStage.centerOnScreen();
 
+			// :: handler to call after loading super.setOnComplete();
+		super.setSecondaryScene(new JFXApplicationScene("MainWindow", null, null ));
+
 		} catch (Exception evERRINSTANTIATE) {
-			JFXApplicationLogger.getLogger().logError(this.getClass(), evERRINSTANTIATE.getMessage());
+			JFXApplicationLogger.getLogger().logError(this.getClass(), evERRINSTANTIATE);
 			throw evERRINSTANTIATE;
 		}
 	}

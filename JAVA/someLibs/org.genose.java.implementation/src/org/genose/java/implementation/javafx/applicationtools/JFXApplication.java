@@ -249,12 +249,11 @@ public class JFXApplication extends Application {
 
 			String packageNamed = localClass.getPackageName();
 			String localPackagePath = String.valueOf(packageNamed);
-		 
-			String localRunnablePathRelative = String
-					.valueOf(String.valueOf("."+localPackagePath).replaceAll("[.]", "\\" + systemPathSeparator).replaceAll("[^\\" + systemPathSeparator + "]", ""));
 
-			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\" + systemPathSeparator + "]",
-					"../" );
+			String localRunnablePathRelative = String.valueOf(String.valueOf("." + localPackagePath)
+					.replaceAll("[.]", "\\" + systemPathSeparator).replaceAll("[^\\" + systemPathSeparator + "]", ""));
+
+			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\" + systemPathSeparator + "]", "../");
 			URL aUrlClass = localClass.getResource(localRunnablePathRelative);
 			if (aUrlClass != null) {
 				return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
@@ -350,6 +349,7 @@ public class JFXApplication extends Application {
 
 	/* ****************************************************** */
 	/**
+	 * Intend to be used with (class).getRessource(String);
 	 * 
 	 * @param aPath
 	 * @return true if path exists inside bundle app
@@ -365,19 +365,23 @@ public class JFXApplication extends Application {
 				String documentPath = localClassPath.getAbsolutePath();
 				String documentPathRelative = localClassPath.getPath();
 				// .replaceAll("[..\\"+systemPathSeparator+"]", "");
-				
-				/*if(documentPathRelative.length() != localClassPath.length()) {
-					documentPathRelative = String.format(""+systemPathSeparator+"%s", documentPathRelative);
-				}
-					*/
+
+				/*
+				 * if(documentPathRelative.length() != localClassPath.length()) {
+				 * documentPathRelative = String.format(""+systemPathSeparator+"%s",
+				 * documentPathRelative); }
+				 */
 				URL aPathUrl = localClass.getResource(documentPathRelative);
 				URL aPathUrlAlt = localClass.getResource(aPath);
-boolean bPathExist = localClassPath.exists();
-boolean bPathUrlValid = (aPathUrl != null);
-				JFXApplicationLogger.getLogger().logInfo(null,
-						((bPathExist && bPathUrlValid) ? "" : "Not" ) + " exist :: " + documentPath + " :: ");
 
-				return bPathExist && bPathUrlValid;
+				boolean bPathIsValid = ((aPathUrl != null) && (aPathUrlAlt != null));
+
+				boolean bPathExist = localClassPath.exists();
+				boolean bPathUrlValid = (aPathUrl != null);
+				JFXApplicationLogger.getLogger().logInfo(null,
+						((bPathIsValid) ? "" : "Not") + " exist :: " + documentPath + " :: ");
+
+				return bPathIsValid;
 
 			}
 		} catch (Exception evERRFILEEXISTS) {
@@ -397,7 +401,7 @@ boolean bPathUrlValid = (aPathUrl != null);
 	}
 
 	public void setPrimaryScene(JFXApplicationScene jfxApplicationScene) {
-
+		aPrimaryStage.setScene(jfxApplicationScene);
 	}
 
 	public void setSecondaryScene(JFXApplicationScene jfxApplicationScene) {

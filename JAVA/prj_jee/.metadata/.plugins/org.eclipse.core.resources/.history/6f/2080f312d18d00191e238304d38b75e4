@@ -1,0 +1,68 @@
+/**
+ * 
+ */
+package org.genose.java.implementation.javafx.applicationtools.arraysmapslists;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @author 59013-36-18
+ *
+ */
+public class JFXApplicationMappedObject extends HashMap<String, JFXApplicationObjectValue> implements Map<String, JFXApplicationObjectValue> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	public JFXApplicationMappedObject() {
+		super();
+	}
+
+	/**
+	 * @param initialCapacity
+	 * @param loadFactor
+	 */
+	public JFXApplicationMappedObject(int initialCapacity, float loadFactor) {
+		super(initialCapacity, loadFactor);
+	}
+
+	/**
+	 * @param initialCapacity
+	 */
+	public JFXApplicationMappedObject(int initialCapacity) {
+		super(initialCapacity);
+	}
+
+	/**
+	 * @param m
+	 */
+	public JFXApplicationMappedObject(Map<? extends String, ? extends JFXApplicationObjectValue> m) {
+		super(m);
+	}
+	
+	@Override
+	public void putAll(Map<? extends String, ? extends JFXApplicationObjectValue> m) {
+		super.putAll(m);
+	}
+	@Override
+	public JFXApplicationObjectValue put(String key, JFXApplicationObjectValue value) {
+		return super.put(key, value);
+	}
+	
+	public Boolean isComplexObject()
+	{
+		return true;
+	}
+
+	public void put(String key, String aBufferedReaderLine) {
+		super.put(key, new JFXApplicationMappedObject(aBufferedReaderLine));
+		
+	}
+
+}

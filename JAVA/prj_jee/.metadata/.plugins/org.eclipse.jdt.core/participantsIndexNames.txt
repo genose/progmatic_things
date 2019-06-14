@@ -1,0 +1,9 @@
+INDEX VERSION 1.131
+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2002205057.index
+\ProjectJ2EE_101\src
+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\889327634.index
+\ProjectJ2EE_101\src
+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4025765521.index
+\ProjectJ2EE_104\src
+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1369455024.index
+\ProjectJ2EE_101\src

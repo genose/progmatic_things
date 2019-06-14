@@ -1,0 +1,31 @@
+
+Xsquid:S1148c"#Use a logger to log this exception.(ú“İÓÿÿÿÿÿHÑ|RMINORZVULNERABILITY
+usquid:UselessImportCheck";Remove this unused import 'javafx.scene.control.TextField'.(¨¢¤¶HÒ|RMINORZ
+CODE_SMELL
+squid:S1450("\Remove the "aGameObserver" field and declare it as a local variable in the relevant methods.(µÚó‰ûÿÿÿÿHÓ|RMINORZ
+CODE_SMELL
+dsquid:S1135È"2Complete the task associated to this TODO comment.(ÕÌ®şÿÿÿÿHÔ|RINFOZ
+CODE_SMELL
+f
+squid:S106—"9Replace this use of System.out or System.err by a logger.(ùš›¹HÕ|RMAJORZ
+CODE_SMELL
+~squid:CommentedOutCodeLine§"<This block of commented-out lines of code should be removed.(³­˜ÍÿÿÿÿÿHÖ|RMAJORZ
+CODE_SMELL
+squid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ßõÁÿÿÿÿÿH×|RMINORZ
+CODE_SMELL
+…squid:S00117•"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ê §ùÿÿÿÿHØ|RMINORZ
+CODE_SMELL
+ysquid:UselessImportCheck":Remove this unused import 'javafx.scene.control.CheckBox'.(¸şıÿÿÿÿHÙ|RMINORZ
+CODE_SMELL
+Tsquid:S1148É"#Use a logger to log this exception.(ªšŠ±HÚ|RMINORZVULNERABILITY
+€squid:S00117Ç"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸Ş¬HÛ|RMINORZ
+CODE_SMELL
+}squid:CommentedOutCodeLine3"<This block of commented-out lines of code should be removed.(¯‹ÂùÿÿÿÿHÜ|RMAJORZ
+CODE_SMELL
+j
+squid:S106?"9Replace this use of System.out or System.err by a logger.(™¤‚ÑıÿÿÿÿHİ|RMAJORZ
+CODE_SMELL
+tsquid:UselessImportCheck":Remove this unused import 'javafx.scene.control.TextArea'.(ö ¸HŞ|RMINORZ
+CODE_SMELL
+wsquid:UselessImportCheck"8Remove this unused import 'javafx.scene.control.Button'.(Ë Í‹øÿÿÿÿHß|RMINORZ
+CODE_SMELL

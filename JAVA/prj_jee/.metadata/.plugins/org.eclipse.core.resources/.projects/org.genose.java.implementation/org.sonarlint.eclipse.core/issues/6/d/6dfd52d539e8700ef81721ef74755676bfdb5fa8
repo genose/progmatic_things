@@ -1,0 +1,28 @@
+
+dsquid:S1481u"1Remove this unused "bModuleAsMVC" local variable.(ËƒçûÿÿÿÿHÊùRMINORZ
+CODE_SMELL
+›squid:UselessImportCheck
+"TRemove this unnecessary import: same package classes are always implicitly imported.(…®•ùÿÿÿÿ8ïŒù©´-HËùRMINORZ
+CODE_SMELL
+gsquid:S1068"2Remove this unused "aSceneRootNode" private field.(Øöò×8µû´-HÌùRMAJORZ
+CODE_SMELL
+nsquid:S1068"4Remove this unused "aSceneIdentifier" private field.(˜“¨¢øÿÿÿÿ8¬–ªÒ´-HÍùRMAJORZ
+CODE_SMELL
+{squid:S1854…"FRemove this useless assignment to local variable "sBasePathModuleSrc".(Â›á&8µû´-HÎùRMAJORZ
+CODE_SMELL
+squid:ModifiersOrderCheckk"EReorder the modifiers to comply with the Java Language Specification.(šÈîãüÿÿÿÿ8µû´-HÏùRMINORZ
+CODE_SMELL
+~squid:S1854‰"HRemove this useless assignment to local variable "sBasePathModuleAsset".(æèóÂ8µû´-HĞùRMAJORZ
+CODE_SMELL
+lsquid:S1481…"7Remove this unused "sBasePathModuleSrc" local variable.(Â›á&8µû´-HÑùRMINORZ
+CODE_SMELL
+€squid:CommentedOutCodeLinef"<This block of commented-out lines of code should be removed.(ñâì¶8µû´-HÒùRMAJORZ
+CODE_SMELL
+›squid:UselessImportCheck"TRemove this unnecessary import: same package classes are always implicitly imported.(¡Ê³Õşÿÿÿÿ8¬–ªÒ´-HÓùRMINORZ
+CODE_SMELL
+osquid:S1481‰"9Remove this unused "sBasePathModuleAsset" local variable.(æèóÂ8µû´-HÔùRMINORZ
+CODE_SMELL
+Œsquid:S4276l"WRefactor this code to use the more specialised Functional Interface 'Predicate<Object>'(¾ööœ8µû´-HÕùRMINORZ
+CODE_SMELL
+squid:S3776k"RRefactor this method to reduce its Cognitive Complexity from 45 to the 15 allowed.(šÈîãüÿÿÿÿ8µû´-HÖùRCRITICALZ
+CODE_SMELL

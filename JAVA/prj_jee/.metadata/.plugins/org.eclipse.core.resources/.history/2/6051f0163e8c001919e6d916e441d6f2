@@ -1,0 +1,145 @@
+/**
+ * 
+ */
+package org.genose.java.implementation.javafx.applicationtools;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
+/**
+ * @author 59013-36-18
+ *
+ */
+public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFileAccessor {
+
+	final String DEFAULTSTRINGDELIMITER = ";";
+	private String aStringDelimiterSeparator = DEFAULTSTRINGDELIMITER;
+
+	/* **************************************** */
+	/**
+	 * @throws FileNotFoundException
+	 */
+	public JFXApplicationFileTypeDelimitedSeparator() throws FileNotFoundException {
+		super();
+	}
+
+	/* **************************************** */
+	/**
+	 * @param aFileArg
+	 * @throws FileNotFoundException
+	 */
+	public JFXApplicationFileTypeDelimitedSeparator(File aFileArg) throws FileNotFoundException {
+		super(aFileArg);
+	}
+
+	/* **************************************** */
+	/**
+	 * 
+	 * @param aFileArg
+	 * @param aStringDelimiter
+	 * @throws FileNotFoundException
+	 */
+	public JFXApplicationFileTypeDelimitedSeparator(File aFileArg, String aStringDelimiter)
+			throws FileNotFoundException {
+		super(aFileArg);
+		if (aStringDelimiter == null)
+			throw new FileNotFoundException(String.format(" can t use a null delimiter for the file (%s)", aFileArg));
+		aStringDelimiterSeparator = aStringDelimiter;
+	}
+
+	/* **************************************** */
+	/**
+	 * @return the aStringDelimiter
+	 */
+	public synchronized String getStringDelimiter() {
+		return aStringDelimiterSeparator;
+	}
+
+	/* **************************************** */
+	/**
+	 * @param aStringDelimiter the aStringDelimiter to set
+	 */
+	public synchronized void setStringDelimiter(String aStringDelimiter) {
+		this.aStringDelimiterSeparator = aStringDelimiter;
+	}
+
+	/* **************************************** */
+	@Override
+	public Boolean appendObject(Object aObjectLineToStringify) throws IOException {
+		String aStringToAppend = "";
+		
+		return super.append(aStringToAppend);
+	}
+	@Override
+	public Boolean save() throws IOException {
+		this.initWriter();
+
+		return super.save();
+	}
+
+	@Override
+	protected String readln() throws IOException {
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> readlnAsMapStringKey() throws IOException {
+		return null;
+	}
+
+	@Override
+	protected Integer read() throws IOException {
+		return 0;
+	}
+
+	@Override
+	public boolean readFile() throws IOException {
+		try {
+			int i = 0;
+			// init file reader
+			initReader();
+			// read until EOF Mechanism is reached ...
+			Map<Integer, Object> aLineReaded = new HashMap<>();
+			while (!isEOF()) {
+				// read until EOF Internal is Reached
+				aLineReaded.clear();
+				aLineReaded = readlnAsMapIntegerKey();
+
+				if (aLineReaded.isEmpty() && isEOF())
+					return true;
+
+				if (aFileContentDescriptor.put(String.valueOf(i++), aLineReaded) == null) {
+					return false;
+				}
+			}
+			return true;
+		} catch (IOException evERRFILEIO) {
+			super.tragicClose();
+			getLogger().logError(this.getClass(), evERRFILEIO);
+			throw evERRFILEIO;
+		} finally {
+			super.closeReader();
+		}
+	}
+
+	@Override
+	public Map<Integer, Object> readlnAsMapIntegerKey() throws IOException {
+
+		String aFileLineReaded = super.readln();
+
+		Map<Integer, Object> aSplittedValues = new HashMap<>();
+
+		String[] arrayStringOfValues = aFileLineReaded.split(aStringDelimiterSeparator);
+		for (int i = 0; i < arrayStringOfValues.length; i++) {
+			aSplittedValues.put(i, arrayStringOfValues[i]);
+		}
+		return aSplittedValues;
+
+	}
+}

@@ -1,0 +1,7 @@
+package org.genose.java.implementation.javafx.applicationtools;
+
+public abstract interface JFXApplicationFileAccessorValues {
+
+	
+	public Boolean getBoolean();
+}

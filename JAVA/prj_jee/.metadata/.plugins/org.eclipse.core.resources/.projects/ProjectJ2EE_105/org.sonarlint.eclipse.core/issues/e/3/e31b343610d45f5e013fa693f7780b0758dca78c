@@ -1,0 +1,244 @@
+
+´squid:S1192˜"‚Define a constant instead of duplicating this literal " *************************************************************** " 3 times.(³¶—Hœ}RCRITICALZ
+CODE_SMELL
+‹
+squid:S135¿"YReduce the total number of break and continue statements in this loop to use at most one.(´º¸ÏùÿÿÿÿH}RMINORZ
+CODE_SMELL
+ysquid:S00112l"FDefine and throw a dedicated exception instead of using a generic one.(¹Ÿ‡ÒøÿÿÿÿH}RMAJORZ
+CODE_SMELL
+zsquid:S00112š"FDefine and throw a dedicated exception instead of using a generic one.(œœóÊüÿÿÿÿHŸ}RMAJORZ
+CODE_SMELL
+usquid:S00112"FDefine and throw a dedicated exception instead of using a generic one.(ªÏÂ¬H }RMAJORZ
+CODE_SMELL
+usquid:S00112±"FDefine and throw a dedicated exception instead of using a generic one.(ôœ„ H¡}RMAJORZ
+CODE_SMELL
+„squid:S00117u"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨ÑÓŸøÿÿÿÿH¢}RMINORZ
+CODE_SMELL
+„squid:S00117~"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŸÖÚşùÿÿÿÿH£}RMINORZ
+CODE_SMELL
+…squid:S00117ˆ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŸÖÚşùÿÿÿÿH¤}RMINORZ
+CODE_SMELL
+…squid:S00117‘"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŸÖÚşùÿÿÿÿH¥}RMINORZ
+CODE_SMELL
+…squid:S00117å"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çíÚâúÿÿÿÿH¦}RMINORZ
+CODE_SMELL
+squid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…ÊèßøÿÿÿÿH§}RMINORZ
+CODE_SMELL
+dsquid:S1153»"1Directly append the argument of String.valueOf().(™ƒí½úÿÿÿÿH¨}RMINORZ
+CODE_SMELL
+dsquid:S1153»"1Directly append the argument of String.valueOf().(™ƒí½úÿÿÿÿH©}RMINORZ
+CODE_SMELL
+dsquid:S1153í"1Directly append the argument of String.valueOf().(¾§Ì›ıÿÿÿÿHª}RMINORZ
+CODE_SMELL
+dsquid:S1153ú"1Directly append the argument of String.valueOf().(Å¡»ûúÿÿÿÿH«}RMINORZ
+CODE_SMELL
+isquid:UselessImportCheck"/Remove this unused import 'java.util.Iterator'.(¥ÍòÕH¬}RMINORZ
+CODE_SMELL
+jsquid:S1854n"8Remove this useless assignment to local variable "util".(µ‚çÓûÿÿÿÿH­}RMAJORZ
+CODE_SMELL
+csquid:S1135h"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH®}RINFOZ
+CODE_SMELL
+e
+squid:S106v"9Replace this use of System.out or System.err by a logger.(ÿÕ¹òH¯}RMAJORZ
+CODE_SMELL
+k
+squid:S106€"9Replace this use of System.out or System.err by a logger.(­´äæÿÿÿÿÿH°}RMAJORZ
+CODE_SMELL
+f
+squid:S106Š"9Replace this use of System.out or System.err by a logger.(—ª ¹H±}RMAJORZ
+CODE_SMELL
+f
+squid:S106“"9Replace this use of System.out or System.err by a logger.(ä¬ã±H²}RMAJORZ
+CODE_SMELL
+dsquid:S1135š"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH³}RINFOZ
+CODE_SMELL
+dsquid:S1135 "2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH´}RINFOZ
+CODE_SMELL
+dsquid:S1135¦"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHµ}RINFOZ
+CODE_SMELL
+dsquid:S1135¬"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH¶}RINFOZ
+CODE_SMELL
+dsquid:S1135²"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH·}RINFOZ
+CODE_SMELL
+dsquid:S1135¸"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH¸}RINFOZ
+CODE_SMELL
+dsquid:S1135¾"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH¹}RINFOZ
+CODE_SMELL
+dsquid:S1135Ä"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHº}RINFOZ
+CODE_SMELL
+dsquid:S1135Ê"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH»}RINFOZ
+CODE_SMELL
+dsquid:S1135Ğ"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH¼}RINFOZ
+CODE_SMELL
+dsquid:S1135Ö"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH½}RINFOZ
+CODE_SMELL
+dsquid:S1135Ü"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH¾}RINFOZ
+CODE_SMELL
+dsquid:S1135â"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH¿}RINFOZ
+CODE_SMELL
+dsquid:S1135è"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHÀ}RINFOZ
+CODE_SMELL
+dsquid:S1135î"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHÁ}RINFOZ
+CODE_SMELL
+dsquid:S1135ô"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHÂ}RINFOZ
+CODE_SMELL
+dsquid:S1135ú"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHÃ}RINFOZ
+CODE_SMELL
+dsquid:S1135€"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHÄ}RINFOZ
+CODE_SMELL
+dsquid:S1135†"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHÅ}RINFOZ
+CODE_SMELL
+dsquid:S1135Œ"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHÆ}RINFOZ
+CODE_SMELL
+‚squid:S3776”"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(ùµÚHÇ}RCRITICALZ
+CODE_SMELL
+osquid:S1854§"BRemove this useless assignment to local variable "aObjectIDClass".(¦¹åyHÈ}RMAJORZ
+CODE_SMELL
+msquid:S1854€":Remove this useless assignment to local variable "source".(ÏôêîûÿÿÿÿHÉ}RMAJORZ
+CODE_SMELL
+tsquid:S1854ˆ"ARemove this useless assignment to local variable "compileResult".(¾ª´¼ùÿÿÿÿHÊ}RMAJORZ
+CODE_SMELL
+f
+squid:S106˜"9Replace this use of System.out or System.err by a logger.(³¶—HË}RMAJORZ
+CODE_SMELL
+dsquid:S1135•"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHÌ}RINFOZ
+CODE_SMELL
+Œsquid:S2293­"YReplace the type specification in this constructor call with the diamond operator ("<>").(ƒ¿ÆÿûÿÿÿÿHÍ}RMINORZ
+CODE_SMELL
+k
+squid:S106»"9Replace this use of System.out or System.err by a logger.(™ƒí½úÿÿÿÿHÎ}RMAJORZ
+CODE_SMELL
+‡squid:S2293½"YReplace the type specification in this constructor call with the diamond operator ("<>").(¸àÁ HÏ}RMINORZ
+CODE_SMELL
+f
+squid:S106Ê"9Replace this use of System.out or System.err by a logger.(³¶—HĞ}RMAJORZ
+CODE_SMELL
+k
+squid:S106Ñ"9Replace this use of System.out or System.err by a logger.( â•ÕûÿÿÿÿHÑ}RMAJORZ
+CODE_SMELL
+k
+squid:S106Ú"9Replace this use of System.out or System.err by a logger.(İğÀóÿÿÿÿÿHÒ}RMAJORZ
+CODE_SMELL
+f
+squid:S106á"9Replace this use of System.out or System.err by a logger.( âí‚HÓ}RMAJORZ
+CODE_SMELL
+f
+squid:S106ç"9Replace this use of System.out or System.err by a logger.(ª¤öƒHÔ}RMAJORZ
+CODE_SMELL
+_squid:S1135æ"2Complete the task associated to this TODO comment.(‡ñÅ¼HÕ}RINFOZ
+CODE_SMELL
+f
+squid:S106ë"9Replace this use of System.out or System.err by a logger.(³¶—HÖ}RMAJORZ
+CODE_SMELL
+k
+squid:S106í"9Replace this use of System.out or System.err by a logger.(¾§Ì›ıÿÿÿÿH×}RMAJORZ
+CODE_SMELL
+f
+squid:S106ğ"9Replace this use of System.out or System.err by a logger.(ë»É‚HØ}RMAJORZ
+CODE_SMELL
+k
+squid:S106ú"9Replace this use of System.out or System.err by a logger.(Å¡»ûúÿÿÿÿHÙ}RMAJORZ
+CODE_SMELL
+Ssquid:S2129€" Remove this "String" constructor(ÏôêîûÿÿÿÿHÚ}RMAJORZ
+CODE_SMELL
+[squid:S1125ˆ"(Remove the literal "true" boolean value.(¾ª´¼ùÿÿÿÿHÛ}RMINORZ
+CODE_SMELL
+k
+squid:S106š"9Replace this use of System.out or System.err by a logger.(°è­‡üÿÿÿÿHÜ}RMAJORZ
+CODE_SMELL
+dsquid:S1135¢"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHİ}RINFOZ
+CODE_SMELL
+dsquid:S1135ª"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHŞ}RINFOZ
+CODE_SMELL
+dsquid:S1135°"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHß}RINFOZ
+CODE_SMELL
+dsquid:S1135¶"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHà}RINFOZ
+CODE_SMELL
+dsquid:S1135¼"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHá}RINFOZ
+CODE_SMELL
+dsquid:S1135Â"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHâ}RINFOZ
+CODE_SMELL
+dsquid:S1135È"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHã}RINFOZ
+CODE_SMELL
+dsquid:S1135Î"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHä}RINFOZ
+CODE_SMELL
+dsquid:S1135Ô"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHå}RINFOZ
+CODE_SMELL
+Ysquid:S1168Û"+Return an empty collection instead of null.(¥¹ïHæ}RMAJORZ
+CODE_SMELL
+dsquid:S1135Ú"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHç}RINFOZ
+CODE_SMELL
+dsquid:S1135à"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHè}RINFOZ
+CODE_SMELL
+dsquid:S1135æ"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHé}RINFOZ
+CODE_SMELL
+dsquid:S1135ì"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHê}RINFOZ
+CODE_SMELL
+dsquid:S1135ò"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHë}RINFOZ
+CODE_SMELL
+dsquid:S1135ø"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHì}RINFOZ
+CODE_SMELL
+dsquid:S1135ş"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHí}RINFOZ
+CODE_SMELL
+dsquid:S1135„"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHî}RINFOZ
+CODE_SMELL
+dsquid:S1135Š"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHï}RINFOZ
+CODE_SMELL
+dsquid:S1135"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHğ}RINFOZ
+CODE_SMELL
+dsquid:S1135–"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHñ}RINFOZ
+CODE_SMELL
+dsquid:S1135œ"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHò}RINFOZ
+CODE_SMELL
+dsquid:S1135¢"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHó}RINFOZ
+CODE_SMELL
+dsquid:S1135¨"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHô}RINFOZ
+CODE_SMELL
+dsquid:S1135®"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHõ}RINFOZ
+CODE_SMELL
+dsquid:S1135´"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHö}RINFOZ
+CODE_SMELL
+dsquid:S1135º"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH÷}RINFOZ
+CODE_SMELL
+dsquid:S1135À"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHø}RINFOZ
+CODE_SMELL
+dsquid:S1135Æ"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHù}RINFOZ
+CODE_SMELL
+dsquid:S1135Ì"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHú}RINFOZ
+CODE_SMELL
+dsquid:S1135Ò"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHû}RINFOZ
+CODE_SMELL
+dsquid:S1135Ø"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHü}RINFOZ
+CODE_SMELL
+dsquid:S1135Ş"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿHı}RINFOZ
+CODE_SMELL
+[squid:S1481n")Remove this unused "util" local variable.(µ‚çÓûÿÿÿÿHş}RMINORZ
+CODE_SMELL
+[squid:S1481¦"-Remove this unused "aClassID" local variable.(·ÎªÈHÿ}RMINORZ
+CODE_SMELL
+`squid:S1481§"3Remove this unused "aObjectIDClass" local variable.(¦¹åyH€~RMINORZ
+CODE_SMELL
+^squid:S1481€"+Remove this unused "source" local variable.(ÏôêîûÿÿÿÿH~RMINORZ
+CODE_SMELL
+esquid:S1481ˆ"2Remove this unused "compileResult" local variable.(¾ª´¼ùÿÿÿÿH‚~RMINORZ
+CODE_SMELL
+}squid:CommentedOutCodeLineq"<This block of commented-out lines of code should be removed.(ÎÊË°şÿÿÿÿHƒ~RMAJORZ
+CODE_SMELL
+~squid:CommentedOutCodeLineµ"<This block of commented-out lines of code should be removed.(ïüÄ¬ûÿÿÿÿH„~RMAJORZ
+CODE_SMELL
+~squid:CommentedOutCodeLineÉ"<This block of commented-out lines of code should be removed.(È¤Â€üÿÿÿÿH…~RMAJORZ
+CODE_SMELL
+~squid:CommentedOutCodeLineÒ"<This block of commented-out lines of code should be removed.(ªŸåŞşÿÿÿÿH†~RMAJORZ
+CODE_SMELL
+~squid:CommentedOutCodeLineü"<This block of commented-out lines of code should be removed.(Ä›ò”üÿÿÿÿH‡~RMAJORZ
+CODE_SMELL
+~squid:CommentedOutCodeLine…"<This block of commented-out lines of code should be removed.(ĞÖùõúÿÿÿÿHˆ~RMAJORZ
+CODE_SMELL
+~squid:CommentedOutCodeLine‡"<This block of commented-out lines of code should be removed.(Ï”ÔæüÿÿÿÿH‰~RMAJORZ
+CODE_SMELL
+ysquid:CommentedOutCodeLine‹"<This block of commented-out lines of code should be removed.(÷Ç­ÚHŠ~RMAJORZ
+CODE_SMELL
+ysquid:CommentedOutCodeLine¡"<This block of commented-out lines of code should be removed.(Èİ¢‚H‹~RMAJORZ
+CODE_SMELL
+~squid:CommentedOutCodeLineã"<This block of commented-out lines of code should be removed.(Ö¥€›ûÿÿÿÿHŒ~RMAJORZ
+CODE_SMELL

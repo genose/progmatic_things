@@ -8,5 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JAVAFX12"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.jsonstleary"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.jsonstleary"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

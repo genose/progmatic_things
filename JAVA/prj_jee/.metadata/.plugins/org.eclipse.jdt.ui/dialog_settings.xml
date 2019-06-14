@@ -102,7 +102,7 @@
 		<item key="height" value="400"/>
 	</section>
 	<section name="BuildPathsPropertyPage">
-		<item key="pageIndex" value="2"/>
+		<item key="pageIndex" value="1"/>
 	</section>
 	<section name="ClasspathContainerSelectionPage">
 		<item key="index" value="10"/>

@@ -1,28 +1,83 @@
 
-dsquid:S1481u"1Remove this unused "bModuleAsMVC" local variable.(ËƒçûÿÿÿÿHÊùRMINORZ
+rsquid:S1481®"7Remove this unused "sBasePathModuleSrc" local variable.(Ê ½éùÿÿÿÿ8ƒ©»©µ-HŞRMINORZ
+CODE_SMELL
+gsquid:S1481",Remove this unused "bExistc" local variable.(Ğâñïúÿÿÿÿ8ƒ©»©µ-HŠŞRMINORZ
+CODE_SMELL
+vsquid:S1854";Remove this useless assignment to local variable "bExistc".(Ğâñïúÿÿÿÿ8ƒ©»©µ-HõİRMAJORZ
+CODE_SMELL
+squid:S3776n"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(šÈîãüÿÿÿÿ8µû´-HòİRCRITICALZ
+CODE_SMELL
+n
+squid:S106‰"9Replace this use of System.out or System.err by a logger.(³ë…¨8ƒ©»©µ-HŞRMAJORZ
+CODE_SMELL
+^squid:S1905ù"(Remove this unnecessary cast to "Scene".(óä·î8ƒ©»©µ-H„ŞRMINORZ
+CODE_SMELL
+›squid:UselessImportCheck"TRemove this unnecessary import: same package classes are always implicitly imported.(¡Ê³Õşÿÿÿÿ8¬–ªÒ´-HêİRMINORZ
+CODE_SMELL
+squid:S1854v"GRemove this useless assignment to local variable "sApplicationAbsPath".(æÜ¬°øÿÿÿÿ8ƒ©»©µ-HùİRMAJORZ
+CODE_SMELL
+qsquid:S1854Œ";Remove this useless assignment to local variable "bExistb".(›‰ÈÃ8ƒ©»©µ-H÷İRMAJORZ
+CODE_SMELL
+Zsquid:S1075}"&Remove this hard-coded path-delimiter.(Œ¨18ƒ©»©µ-HşİRMINORZ
+CODE_SMELL
+squid:CommentedOutCodeLineÈ"<This block of commented-out lines of code should be removed.(°–­ï8ƒ©»©µ-HŞRMAJORZ
+CODE_SMELL
+xsquid:S1854"=Remove this useless assignment to local variable "aPathUrlc".(›¢ÜËøÿÿÿÿ8ƒ©»©µ-HôİRMAJORZ
+CODE_SMELL
+squid:S1854®"FRemove this useless assignment to local variable "sBasePathModuleSrc".(Ê ½éùÿÿÿÿ8ƒ©»©µ-HûİRMAJORZ
+CODE_SMELL
+isquid:S1481".Remove this unused "aPathUrlb" local variable.(ª´Çõøÿÿÿÿ8ƒ©»©µ-H‰ŞRMINORZ
+CODE_SMELL
+x
+squid:S899";Do something with the "boolean" value returned by "exists".(Ğâñïúÿÿÿÿ8ƒ©»©µ-HƒŞRMINORZVULNERABILITY
+asquid:S1481„"+Remove this unused "bExist" local variable.(ä³ƒˆ8ƒ©»©µ-H‡ŞRMINORZ
+CODE_SMELL
+xsquid:S1854"=Remove this useless assignment to local variable "aPathUrlb".(ª´Çõøÿÿÿÿ8ƒ©»©µ-HöİRMAJORZ
+CODE_SMELL
+tsquid:S1155ê">Use isEmpty() to check whether the collection is empty or not.(ºÇäÇ8ƒ©»©µ-HóİRMINORZ
+CODE_SMELL
+Zsquid:S1075}"&Remove this hard-coded path-delimiter.(Œ¨18ƒ©»©µ-HÿİRMINORZ
+CODE_SMELL
+isquid:S1481".Remove this unused "aPathUrlc" local variable.(›¢ÜËøÿÿÿÿ8ƒ©»©µ-H‹ŞRMINORZ
+CODE_SMELL
+dsquid:S1481w"1Remove this unused "bModuleAsMVC" local variable.(ËƒçûÿÿÿÿHëİRMINORZ
+CODE_SMELL
+s
+squid:S899„";Do something with the "boolean" value returned by "exists".(ä³ƒˆ8ƒ©»©µ-H€ŞRMINORZVULNERABILITY
+squid:ModifiersOrderCheckn"EReorder the modifiers to comply with the Java Language Specification.(šÈîãüÿÿÿÿ8µû´-HìİRMINORZ
+CODE_SMELL
+squid:S1854Ú"FRemove this useless assignment to local variable "sRequestedSceneCSS".(îµËıÿÿÿÿÿ8ƒ©»©µ-HüİRMAJORZ
+CODE_SMELL
+†squid:CommentedOutCodeLineÖ"<This block of commented-out lines of code should be removed.(é›é–üÿÿÿÿ8ƒ©»©µ-HŞRMAJORZ
+CODE_SMELL
+psquid:S1854„":Remove this useless assignment to local variable "bExist".(ä³ƒˆ8ƒ©»©µ-HøİRMAJORZ
+CODE_SMELL
+|squid:S1854º"ARemove this useless assignment to local variable "aPathInBundle".(äÃÒüÿÿÿÿ8ƒ©»©µ-HúİRMAJORZ
+CODE_SMELL
+Œsquid:S4276o"WRefactor this code to use the more specialised Functional Interface 'Predicate<Object>'(¾ööœ8µû´-HîİRMINORZ
+CODE_SMELL
+s
+squid:S899Œ";Do something with the "boolean" value returned by "exists".(›‰ÈÃ8ƒ©»©µ-H‚ŞRMINORZVULNERABILITY
+rsquid:S1481v"8Remove this unused "sApplicationAbsPath" local variable.(æÜ¬°øÿÿÿÿ8ƒ©»©µ-H†ŞRMINORZ
+CODE_SMELL
+[squid:S1075y"&Remove this hard-coded path-delimiter.(æ¥©8ƒ©»©µ-HıİRMINORZ
+CODE_SMELL
+†squid:CommentedOutCodeLineà"<This block of commented-out lines of code should be removed.(ó€Šçûÿÿÿÿ8ƒ©»©µ-HŞRMAJORZ
 CODE_SMELL
 ›squid:UselessImportCheck
-"TRemove this unnecessary import: same package classes are always implicitly imported.(…®•ùÿÿÿÿ8ïŒù©´-HËùRMINORZ
+"TRemove this unnecessary import: same package classes are always implicitly imported.(…®•ùÿÿÿÿ8ïŒù©´-HïİRMINORZ
 CODE_SMELL
-gsquid:S1068"2Remove this unused "aSceneRootNode" private field.(Øöò×8µû´-HÌùRMAJORZ
+hsquid:S1481˜"2Remove this unused "aPathInBundle" local variable.(ıİ—¡8ƒ©»©µ-HŒŞRMINORZ
 CODE_SMELL
-nsquid:S1068"4Remove this unused "aSceneIdentifier" private field.(˜“¨¢øÿÿÿÿ8¬–ªÒ´-HÍùRMAJORZ
+csquid:S1172ù"-Remove this unused method parameter "aImage".(¡òí£8ƒ©»©µ-H…ŞRMAJORZ
 CODE_SMELL
-{squid:S1854…"FRemove this useless assignment to local variable "sBasePathModuleSrc".(Â›á&8µû´-HÎùRMAJORZ
+nsquid:S1068"4Remove this unused "aSceneIdentifier" private field.(˜“¨¢øÿÿÿÿ8¬–ªÒ´-HíİRMAJORZ
 CODE_SMELL
-squid:ModifiersOrderCheckk"EReorder the modifiers to comply with the Java Language Specification.(šÈîãüÿÿÿÿ8µû´-HÏùRMINORZ
+gsquid:S1068"2Remove this unused "aSceneRootNode" private field.(Øöò×8µû´-HğİRMAJORZ
 CODE_SMELL
-~squid:S1854‰"HRemove this useless assignment to local variable "sBasePathModuleAsset".(æèóÂ8µû´-HĞùRMAJORZ
+bsquid:S1481Œ",Remove this unused "bExistb" local variable.(›‰ÈÃ8ƒ©»©µ-HˆŞRMINORZ
 CODE_SMELL
-lsquid:S1481…"7Remove this unused "sBasePathModuleSrc" local variable.(Â›á&8µû´-HÑùRMINORZ
+€squid:CommentedOutCodeLineh"<This block of commented-out lines of code should be removed.(ñâì¶8µû´-HñİRMAJORZ
 CODE_SMELL
-€squid:CommentedOutCodeLinef"<This block of commented-out lines of code should be removed.(ñâì¶8µû´-HÒùRMAJORZ
-CODE_SMELL
-›squid:UselessImportCheck"TRemove this unnecessary import: same package classes are always implicitly imported.(¡Ê³Õşÿÿÿÿ8¬–ªÒ´-HÓùRMINORZ
-CODE_SMELL
-osquid:S1481‰"9Remove this unused "sBasePathModuleAsset" local variable.(æèóÂ8µû´-HÔùRMINORZ
-CODE_SMELL
-Œsquid:S4276l"WRefactor this code to use the more specialised Functional Interface 'Predicate<Object>'(¾ööœ8µû´-HÕùRMINORZ
-CODE_SMELL
-squid:S3776k"RRefactor this method to reduce its Cognitive Complexity from 45 to the 15 allowed.(šÈîãüÿÿÿÿ8µû´-HÖùRCRITICALZ
+squid:S3776£"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(ëÕºòüÿÿÿÿ8²ÇÈ©µ-HêßRCRITICALZ
 CODE_SMELL

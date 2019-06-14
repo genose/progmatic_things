@@ -1,0 +1,7 @@
+
+‰squid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(›‹…©H“λRMINORZ
+CODE_SMELL
+psquid:UselessImportCheck"0Remove this unused import 'javafx.stage.Window'.(Ρ€ή‡ψÿÿÿÿH•λRMINORZ
+CODE_SMELL
+xsquid:UselessImportCheck	"8Remove this unused import 'javafx.application.Platform'.(§“σωÿÿÿÿH”λRMINORZ
+CODE_SMELL

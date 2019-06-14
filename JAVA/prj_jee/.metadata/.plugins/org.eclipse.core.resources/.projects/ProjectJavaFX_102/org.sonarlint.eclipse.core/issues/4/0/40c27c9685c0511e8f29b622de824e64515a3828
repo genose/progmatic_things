@@ -1,0 +1,17 @@
+
+~squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¢ÂúÿÿÿÿH®ÞRMAJORZ
+CODE_SMELL
+`squid:S1199"-Extract this nested code block into a method.(ÒÌâ–øÿÿÿÿH¬ÞRMINORZ
+CODE_SMELL
+ysquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(·¹ËóH¯ÞRMAJORZ
+CODE_SMELL
+…squid:CommentedOutCodeLine'"<This block of commented-out lines of code should be removed.(ÒË©Èüÿÿÿÿ8Ó©¢«µ-H©îRMAJORZ
+CODE_SMELL
+Žsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(øò¿úÿÿÿÿH­ÞRMINORZ
+CODE_SMELL
+€squid:CommentedOutCodeLine,"<This block of commented-out lines of code should be removed.(úßÅ½8øÓ•«µ-HîRMAJORZ
+CODE_SMELL
+€squid:CommentedOutCodeLine "<This block of commented-out lines of code should be removed.(º·à–8øÓ•«µ-HîRMAJORZ
+CODE_SMELL
+~squid:CommentedOutCodeLine%"<This block of commented-out lines of code should be removed.(±™Ñ¢úÿÿÿÿH±ÞRMAJORZ
+CODE_SMELL

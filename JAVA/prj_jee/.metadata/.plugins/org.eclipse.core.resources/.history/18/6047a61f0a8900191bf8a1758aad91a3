@@ -1,7 +1,0 @@
-package org.genose.java.implementation.javafx.applicationtools;
-
-public enum JFXApplicationFileType {
-
-	FXML_TYPE(".fxml");
-	
-}

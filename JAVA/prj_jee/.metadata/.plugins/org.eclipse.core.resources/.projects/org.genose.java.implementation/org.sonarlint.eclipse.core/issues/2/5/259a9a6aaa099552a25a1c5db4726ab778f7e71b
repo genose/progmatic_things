@@ -1,107 +1,0 @@
-
-{squid:CommentedOutCodeLineƒ"<This block of commented-out lines of code should be removed.(Ğ²†ƒúÿÿÿÿRMAJORZ
-CODE_SMELL
-Vsquid:S1148ı"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿRMINORZVULNERABILITY
-c
-squid:S106Ã"9Replace this use of System.out or System.err by a logger.(ÆÀûıRMAJORZ
-CODE_SMELL
-^squid:EmptyStatementUsageCheckR"Remove this empty statement.(ôŸìúÿÿÿÿRMINORZ
-CODE_SMELL
-csquid:S1068""4Remove this unused "iLengthAskedWord" private field.(ˆûŠ‘úÿÿÿÿRMAJORZ
-CODE_SMELL
-bsquid:S2696k"6Make the enclosing method "static" or remove this set.(âêíMRCRITICALZ
-CODE_SMELL
-Xsquid:S1125²"(Remove the literal "true" boolean value.(ä•ûÿÿÿÿRMINORZ
-CODE_SMELL
-isquid:S2696Á"6Make the enclosing method "static" or remove this set.(¢İÈ—şÿÿÿÿRCRITICALZ
-CODE_SMELL
-g
-squid:S106_"9Replace this use of System.out or System.err by a logger.(İÍúúÿÿÿÿRMAJORZ
-CODE_SMELL
-squid:S3776‘"RRefactor this method to reduce its Cognitive Complexity from 44 to the 15 allowed.(§Ñ+RCRITICALZ
-CODE_SMELL
-tsquid:S3358š"DExtract this nested ternary operation into an independent statement.(Ã·ÆåúÿÿÿÿRMAJORZ
-CODE_SMELL
-\squid:S1153·"1Directly append the argument of String.valueOf().(ÿ…ÌRMINORZ
-CODE_SMELL
-\squid:S1135á"2Complete the task associated to this TODO comment.(‡ñÅ¼RINFOZ
-CODE_SMELL
-Ssquid:S3010`")Remove this assignment of "consoleInput".( İ“ĞRMAJORZ
-CODE_SMELL
-Vsquid:S3010_"'Remove this assignment of "consoleLog".(İÍúúÿÿÿÿRMAJORZ
-CODE_SMELL
-asquid:S1135Ê"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-lsquid:UselessImportCheck"0Remove this unused import 'java.io.IOException'.(ªº»ÚıÿÿÿÿRMINORZ
-CODE_SMELL
-dsquid:S2696Ë"6Make the enclosing method "static" or remove this set.(ÙÊï‚RCRITICALZ
-CODE_SMELL
-vsquid:S00112b"FDefine and throw a dedicated exception instead of using a generic one.(‘Öá¡şÿÿÿÿRMAJORZ
-CODE_SMELL
-]squid:S1068#".Remove this unused "bCharFound" private field.(™»õñøÿÿÿÿRMAJORZ
-CODE_SMELL
-osquid:S3358£"DExtract this nested ternary operation into an independent statement.(ÜŒÉâRMAJORZ
-CODE_SMELL
-lsquid:S3457µ"AFormat specifiers should be used instead of string concatenation.(‡¡¢®RMAJORZ
-CODE_SMELL
-{squid:CommentedOutCodeLine±"<This block of commented-out lines of code should be removed.(ˆ™à½øÿÿÿÿRMAJORZ
-CODE_SMELL
-nsquid:S3358"DExtract this nested ternary operation into an independent statement.(†ğRMAJORZ
-CODE_SMELL
-ƒsquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(­Û’•RMINORZ
-CODE_SMELL
-‚squid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(ÔÆ•ûúÿÿÿÿRMINORZ
-CODE_SMELL
-vsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ÕĞäRMAJORZ
-CODE_SMELL
-Zsquid:S1066Ó"/Merge this if statement with the enclosing one.(ØæÙRMAJORZ
-CODE_SMELL
-zsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‰«÷½üÿÿÿÿRMAJORZ
-CODE_SMELL
-asquid:S1135Ğ"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-osquid:S3358œ"DExtract this nested ternary operation into an independent statement.(šÙôRMAJORZ
-CODE_SMELL
-zsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(âî™æÿÿÿÿÿRMAJORZ
-CODE_SMELL
-osquid:S3358¢"DExtract this nested ternary operation into an independent statement.(“³¡ÍRMAJORZ
-CODE_SMELL
-ˆsquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(¹ŠÀ¡şÿÿÿÿRMINORZ
-CODE_SMELL
-isquid:S2696Ô"6Make the enclosing method "static" or remove this set.(´ÕÈİüÿÿÿÿRCRITICALZ
-CODE_SMELL
-asquid:S1153Ä"1Directly append the argument of String.valueOf().(¹ûììşÿÿÿÿRMINORZ
-CODE_SMELL
-osquid:S3358Ÿ"DExtract this nested ternary operation into an independent statement.(«…šËRMAJORZ
-CODE_SMELL
-zsquid:S3973š"GUse indentation to denote the code conditionally executed by this "if".(¯¶¢ÖøÿÿÿÿRCRITICALZ
-CODE_SMELL
-dsquid:S1161J":Add the "@Override" annotation above this method signature(Á»›êRMAJORZ
-CODE_SMELL
-\squid:S1153Å"1Directly append the argument of String.valueOf().(¬íîRMINORZ
-CODE_SMELL
-osquid:S3358 "DExtract this nested ternary operation into an independent statement.(÷Õ„ÈRMAJORZ
-CODE_SMELL
-osquid:S3358™"DExtract this nested ternary operation into an independent statement.(›†ªÎRMAJORZ
-CODE_SMELL
-isquid:S1155º">Use isEmpty() to check whether the collection is empty or not.(ğÿ„òRMINORZ
-CODE_SMELL
-ˆsquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(îÅóÛøÿÿÿÿRMINORZ
-CODE_SMELL
-asquid:S1135ü"2Complete the task associated to this TODO comment.(ÕÌ®şÿÿÿÿRINFOZ
-CODE_SMELL
-osquid:S3358"DExtract this nested ternary operation into an independent statement.(È™Ì½RMAJORZ
-CODE_SMELL
-tsquid:S3358¡"DExtract this nested ternary operation into an independent statement.(œŠÀ‡øÿÿÿÿRMAJORZ
-CODE_SMELL
-usquid:CommentedOutCodeLineî"<This block of commented-out lines of code should be removed.(ÑóÔRMAJORZ
-CODE_SMELL
-osquid:S3358›"DExtract this nested ternary operation into an independent statement.(ôÒèÀRMAJORZ
-CODE_SMELL
-{squid:CommentedOutCodeLine†"<This block of commented-out lines of code should be removed.(‡éøšüÿÿÿÿRMAJORZ
-CODE_SMELL
-\squid:S4973D"9Use the "equals" method if value comparison was intended.(šäî„RMAJORZBUG
-{squid:CommentedOutCodeLine¿"<This block of commented-out lines of code should be removed.(“˜Ÿ¬úÿÿÿÿRMAJORZ
-CODE_SMELL
-…squid:S3776“"RRefactor this method to reduce its Cognitive Complexity from 33 to the 15 allowed.(·ê¦üıÿÿÿÿRCRITICALZ
-CODE_SMELL

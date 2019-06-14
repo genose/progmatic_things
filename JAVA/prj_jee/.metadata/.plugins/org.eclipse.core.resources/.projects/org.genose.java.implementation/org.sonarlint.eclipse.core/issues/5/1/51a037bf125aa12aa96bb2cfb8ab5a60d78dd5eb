@@ -1,10 +1,0 @@
-
-vsquid:S22599"JA "NullPointerException" could be thrown; "documentPath" is nullable here.(·‡œøÿÿÿÿH×·RMAJORZBUG
-Ysquid:S1148?"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿHÚ·RMINORZVULNERABILITY
-†squid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(Ã§ššşÿÿÿÿHÖ·RMINORZ
-CODE_SMELL
-Msquid:S2119Y"Save and re-use this "Random".(’»ÑşÿÿÿÿHØ·RCRITICALZBUG
-Œsquid:S2293A"YReplace the type specification in this constructor call with the diamond operator ("<>").(µø¬±ÿÿÿÿÿHÙ·RMINORZ
-CODE_SMELL
-€squid:CommentedOutCodeLine-"<This block of commented-out lines of code should be removed.(®¤”Ó8‘ÂúÒ´-Hê·RMAJORZ
-CODE_SMELL

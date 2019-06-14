@@ -1,63 +1,0 @@
-
-`squid:S1135_"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-Wsquid:S1185:"(Remove this method to simply inherit it.(ßŞ—’ıÿÿÿÿRMINORZ
-CODE_SMELL
-Rsquid:S1185""(Remove this method to simply inherit it.(ã¾úüRMINORZ
-CODE_SMELL
-Wsquid:S11854"(Remove this method to simply inherit it.(¥Ä–ÚşÿÿÿÿRMINORZ
-CODE_SMELL
-Wsquid:S1185"(Remove this method to simply inherit it.(—µ±şıÿÿÿÿRMINORZ
-CODE_SMELL
-Rsquid:S1185"(Remove this method to simply inherit it.(Ïş‘öRMINORZ
-CODE_SMELL
-`squid:S1135#"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-Qsquid:S1185^"(Remove this method to simply inherit it.(™”” RMINORZ
-CODE_SMELL
-`squid:S1135;"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-Wsquid:S1185("(Remove this method to simply inherit it.(×äìşÿÿÿÿRMINORZ
-CODE_SMELL
-Wsquid:S1185."(Remove this method to simply inherit it.(§©ÙçıÿÿÿÿRMINORZ
-CODE_SMELL
-`squid:S1135"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-`squid:S1135S"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-Wsquid:S1185j"(Remove this method to simply inherit it.(ÖÒ˜ÙùÿÿÿÿRMINORZ
-CODE_SMELL
-`squid:S1135A"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-Wsquid:S1185L"(Remove this method to simply inherit it.(ŠÏ¶ÁùÿÿÿÿRMINORZ
-CODE_SMELL
-~squid:S2975^"SRemove this "clone" implementation; use a copy constructor or copy factory instead.(™”” RBLOCKERZ
-CODE_SMELL
-`squid:S1135M"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-`squid:S1135e"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-`squid:S1135)"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-`squid:S1135k"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-Rsquid:S1185"(Remove this method to simply inherit it.(ÒÍRMINORZ
-CODE_SMELL
-`squid:S1135G"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-`squid:S11355"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-v"squid:ObjectFinalizeOverridenCheckj"-Do not override the Object.finalize() method.(ÖÒ˜ÙùÿÿÿÿRCRITICALZ
-CODE_SMELL
-`squid:S1135"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-`squid:S1135/"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-`squid:S1135Y"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL
-Wsquid:S1185@"(Remove this method to simply inherit it.(ğ£²¾ÿÿÿÿÿRMINORZ
-CODE_SMELL
-Wsquid:S1185F"(Remove this method to simply inherit it.(ƒ‹÷ôúÿÿÿÿRMINORZ
-CODE_SMELL
-`squid:S1135"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿRINFOZ
-CODE_SMELL

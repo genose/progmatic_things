@@ -1,13 +1,0 @@
-
-Zsquid:S1604-"(Make this anonymous inner class a lambda(Ø³ĞıúÿÿÿÿH¿NRMAJORZ
-CODE_SMELL
-Usquid:S1604="(Make this anonymous inner class a lambda(–—ÑòHÀNRMAJORZ
-CODE_SMELL
-squid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(°€ÒşÿÿÿÿHÁNRMINORZ
-CODE_SMELL
-Zsquid:S1905("(Remove this unnecessary cast to "Scene".(ÒøÀÿÿÿÿÿHÂNRMINORZ
-CODE_SMELL
-xsquid:CommentedOutCodeLine5"<This block of commented-out lines of code should be removed.(õ¶úîHÃNRMAJORZ
-CODE_SMELL
-xsquid:CommentedOutCodeLineE"<This block of commented-out lines of code should be removed.(õ¶úîHÄNRMAJORZ
-CODE_SMELL

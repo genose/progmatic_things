@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy package &apos;org.genose.java.implementation.observable&apos; to &apos;ProjectJava_106/src&apos;&#x0D;&#x0A;- Original project: &apos;ProjectJava_105&apos;&#x0D;&#x0A;- Destination element: &apos;ProjectJava_106/src&apos;&#x0D;&#x0A;- Original element: &apos;ProjectJava_105/src/org.genose.java.implementation.observable&apos;" description="Copy package" destination="=ProjectJava_106/src" element1="/src&lt;org.genose.java.implementation.observable" flags="589830" fragments="1" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1559027025633" version="1.0"/>
-</session>

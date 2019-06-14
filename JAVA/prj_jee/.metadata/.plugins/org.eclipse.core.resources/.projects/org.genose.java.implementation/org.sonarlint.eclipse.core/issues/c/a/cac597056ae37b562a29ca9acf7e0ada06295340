@@ -1,36 +1,0 @@
-
-\squid:S1185Ó"(Remove this method to simply inherit it.(¦åû·ıÿÿÿÿHàRMINORZ
-CODE_SMELL
-Â%squid:RedundantThrowsDeclarationCheck¶"rRemove the declaration of thrown exception 'java.lang.UnsupportedOperationException' which is a runtime exception.(£ªï†8ÏÉÓ´-H£àRMINORZ
-CODE_SMELL
-Wsquid:S1185Ø"(Remove this method to simply inherit it.(Ö™Ó¸HŸàRMINORZ
-CODE_SMELL
-Wsquid:S1185İ"(Remove this method to simply inherit it.(Á¹×ıH¡àRMINORZ
-CODE_SMELL
-isquid:EmptyStatementUsageCheckp"Remove this empty statement.(ôŸìúÿÿÿÿ8¬¹Ì±´-HœàRMINORZ
-CODE_SMELL
-€squid:UnusedPrivateMethod¶"<Remove this unused private "singletonInstanceCreate" method.(£ªï†8ÉÒç©µ-H§àRMAJORZ
-CODE_SMELL
-Wsquid:S1185Î"(Remove this method to simply inherit it.(ËÜİ­H™àRMINORZ
-CODE_SMELL
-s
-squid:S106ˆ"9Replace this use of System.out or System.err by a logger.(òÌ€™ùÿÿÿÿ8Ğ¦¼¯´-H›àRMAJORZ
-CODE_SMELL
-Wsquid:S1185â"(Remove this method to simply inherit it.(˜ÚšßHšàRMINORZ
-CODE_SMELL
-squid:UnusedPrivateMethod‹"6Remove this unused private "getLastStackTrace" method.(ªõ€£ıÿÿÿÿ8×•ÿ©µ-HÌâRMAJORZ
-CODE_SMELL
-qsquid:UselessImportCheck"1Remove this unused import 'java.util.Collection'.(¹ÉĞšùÿÿÿÿH àRMINORZ
-CODE_SMELL
-squid:S1192«"PDefine a constant instead of duplicating this literal "[NULL CLASS] : " 3 times.(íëä5H¦àRCRITICALZ
-CODE_SMELL
-fsquid:S1068z"8Remove this unused "aMessageFormatLogger" private field.(î©è¿H¥àRMAJORZ
-CODE_SMELL
-Wsquid:S1185Ä"(Remove this method to simply inherit it.(Åö·ÊH˜àRMINORZ
-CODE_SMELL
-\squid:S1185ç"(Remove this method to simply inherit it.(Ş‚ÄÔıÿÿÿÿH¢àRMINORZ
-CODE_SMELL
-dsquid:S1068x"6Remove this unused "aLoggerDescription" private field.(ª÷ÇÿH¤àRMAJORZ
-CODE_SMELL
-Wsquid:S1185É"(Remove this method to simply inherit it.(Ùîµ€HàRMINORZ
-CODE_SMELL

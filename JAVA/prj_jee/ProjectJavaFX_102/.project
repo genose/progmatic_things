@@ -14,4 +14,10 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>ORGGRNOSELIBS</name>
+			<value>$%7BPARENT_LOC%7D/org.genose.java.implementation/src</value>
+		</variable>
+	</variableList>
 </projectDescription>

@@ -42,7 +42,7 @@ public class Main extends JFXApplication {
 			primaryStage.centerOnScreen();
 
 			// :: handler to call after loading super.setOnComplete();
-		super.setSecondaryScene(new JFXApplicationScene("MainWindow", null, null ));
+		super.setSecondaryScene(JFXApplicationScene.createScene("MainWindow", null, null ));
 
 		} catch (Exception evERRINSTANTIATE) {
 			JFXApplicationLogger.getLogger().logError(this.getClass(), evERRINSTANTIATE);

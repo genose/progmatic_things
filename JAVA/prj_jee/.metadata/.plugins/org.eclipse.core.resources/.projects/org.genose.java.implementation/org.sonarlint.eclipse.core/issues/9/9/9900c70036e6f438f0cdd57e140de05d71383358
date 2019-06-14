@@ -1,53 +1,0 @@
-
-bsquid:EmptyStatementUsageChecky"Remove this empty statement.(ôŸìúÿÿÿÿH˜ŞRMINORZ
-CODE_SMELL
-¹squid:S1186—"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Õœ,8À–ªÒ´-HŞRCRITICALZ
-CODE_SMELL
-wsquid:S1854ü"ARemove this useless assignment to local variable "bPathUrlValid".(ìİãÁ8‹©»©µ-H£ŞRMAJORZ
-CODE_SMELL
-Á%squid:RedundantThrowsDeclarationCheck½"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(âÃ‚‡üÿÿÿÿ8‹©»©µ-HŸŞRMINORZ
-CODE_SMELL
-ysquid:S1854û">Remove this useless assignment to local variable "bPathExist".(¶Ôôøÿÿÿÿ8‹©»©µ-H¤ŞRMAJORZ
-CODE_SMELL
-†squid:CommentedOutCodeLineÌ"<This block of commented-out lines of code should be removed.(õ£¬½úÿÿÿÿ8é“¥Ó´-H™ŞRMAJORZ
-CODE_SMELL
-squid:CommentedOutCodeLine¢"<This block of commented-out lines of code should be removed.(¾¯´ôıÿÿÿÿH—ŞRMAJORZ
-CODE_SMELL
-†squid:CommentedOutCodeLineò"<This block of commented-out lines of code should be removed.(ò¤êâÿÿÿÿÿ8‹©»©µ-H«ŞRMAJORZ
-CODE_SMELL
-‚squid:ModifiersOrderCheck«"EReorder the modifiers to comply with the Java Language Specification.(¢—Í¬H”ŞRMINORZ
-CODE_SMELL
-‚squid:S1854ê"GRemove this useless assignment to local variable "systemPathSeparator".(ãØ•íùÿÿÿÿ8‹©»©µ-H¢ŞRMAJORZ
-CODE_SMELL
-esquid:S1135œ"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH›ŞRINFOZ
-CODE_SMELL
-squid:S1854š"DRemove this useless assignment to local variable "localPackagePath".(Ş¨ıëşÿÿÿÿ8‹©»©µ-H¡ŞRMAJORZ
-CODE_SMELL
-isquid:S1068"<Remove this unused "bJFXApplicationIsStarted" private field.(¡²ı^HšŞRMAJORZ
-CODE_SMELL
-qsquid:UselessImportCheck"/Remove this unused import 'java.util.Iterator'.(¥ÍòÕ8ÿøÅ­´-H“ŞRMINORZ
-CODE_SMELL
-jsquid:S1481û"/Remove this unused "bPathExist" local variable.(¶Ôôøÿÿÿÿ8‹©»©µ-H¨ŞRMINORZ
-CODE_SMELL
-‚squid:S00112½"FDefine and throw a dedicated exception instead of using a generic one.(âÃ‚‡üÿÿÿÿ8‹©»©µ-HŞRMAJORZ
-CODE_SMELL
-esquid:S1135ê"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿH‘ŞRINFOZ
-CODE_SMELL
-€squid:CommentedOutCodeLineï"<This block of commented-out lines of code should be removed.(‘ Ä8‹©»©µ-HªŞRMAJORZ
-CODE_SMELL
-ssquid:S1481ê"8Remove this unused "systemPathSeparator" local variable.(ãØ•íùÿÿÿÿ8‹©»©µ-H§ŞRMINORZ
-CODE_SMELL
-hsquid:S1481ü"2Remove this unused "bPathUrlValid" local variable.(ìİãÁ8‹©»©µ-H©ŞRMINORZ
-CODE_SMELL
-msquid:S2696£"6Make the enclosing method "static" or remove this set.(‡Å“¶ÿÿÿÿÿH•ŞRCRITICALZ
-CODE_SMELL
-\squid:S1075ş"&Remove this hard-coded path-delimiter.(ÿ‡ÓÂ8‹©»©µ-H ŞRMINORZ
-CODE_SMELL
-rsquid:UselessImportCheck"0Remove this unused import 'java.nio.file.Paths'.(áè°¯8©µû´-H–ŞRMINORZ
-CODE_SMELL
-x
-squid:S899û";Do something with the "boolean" value returned by "exists".(¶Ôôøÿÿÿÿ8‹©»©µ-H¥ŞRMINORZVULNERABILITY
-psquid:S1481š"5Remove this unused "localPackagePath" local variable.(Ş¨ıëşÿÿÿÿ8‹©»©µ-H¦ŞRMINORZ
-CODE_SMELL
-†squid:CommentedOutCodeLineÓ"<This block of commented-out lines of code should be removed.(«œï¡úÿÿÿÿ8é“¥Ó´-HœŞRMAJORZ
-CODE_SMELL

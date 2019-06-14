@@ -1,25 +1,0 @@
-
-€squid:S00101
-"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(Œ£¨öùÿÿÿÿHÒyRMINORZ
-CODE_SMELL
-csquid:S11359"2Complete the task associated to this TODO comment.(ÕÌ®şÿÿÿÿHÙyRINFOZ
-CODE_SMELL
-csquid:S11352"2Complete the task associated to this TODO comment.(ÕÌ®şÿÿÿÿHÛyRINFOZ
-CODE_SMELL
-osquid:S18547"=Remove this useless assignment to local variable "bnotified".(÷ÿåÓúÿÿÿÿHÓyRMAJORZ
-CODE_SMELL
-Xsquid:S1148:"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿHØyRMINORZVULNERABILITY
-csquid:S1135"2Complete the task associated to this TODO comment.(ÕÌ®şÿÿÿÿHÑyRINFOZ
-CODE_SMELL
-Gsquid:S1220""Move this file to a named package.HÕyRMINORZ
-CODE_SMELL
-}squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Ğ’ÚÔøÿÿÿÿHĞyRMAJORZ
-CODE_SMELL
-Xsquid:S11483"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿHİyRMINORZVULNERABILITY
-csquid:S1135%"2Complete the task associated to this TODO comment.(ÕÌ®şÿÿÿÿHÜyRINFOZ
-CODE_SMELL
-j
-squid:S106"9Replace this use of System.out or System.err by a logger.(•§ª©øÿÿÿÿHÖyRMAJORZ
-CODE_SMELL
-`squid:S14817".Remove this unused "bnotified" local variable.(÷ÿåÓúÿÿÿÿHÚyRMINORZ
-CODE_SMELL

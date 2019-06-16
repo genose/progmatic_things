@@ -1,4 +1,4 @@
-package org.genose.java.implementation.javafx.applicationtools;
+package org.genose.java.implementation.javafx.applicationtools.views;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,11 +8,13 @@ import java.nio.file.Paths;
 import java.util.function.Function;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplication.JFXFILETYPE;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationInvalidParameterException;
 
 import org.genose.java.implementation.GNSJavaClassHelper;
-
+import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationBundle;
 
 import javafx.collections.ObservableList;
@@ -233,7 +235,7 @@ public class JFXApplicationScene extends Scene {
 		/* ****************************************************************** */
 		// :: https://stackoverflow.com/questions/10121991/javafx-application-icon
 
-		if (JFXApplication.getPrimaryStage() != null) {
+		if (JFXApplication.getJFXApplicationSingleton().getPrimaryStage() != null) {
 
 			try {
 				URL aUrlRequestedScenePath = aClassReference.getResource(sFilePath);
@@ -256,18 +258,18 @@ public class JFXApplicationScene extends Scene {
 					}
 
 				} else {
-					throw new JFXApplicationException(" can't load " + sRequestedSceneFile);
+					JFXApplicationException.raiseToFront(JFXApplicationScene.class, new JFXApplicationException(" can't load " + sRequestedSceneFile));
 				}
 
 			} catch (IOException evERRLOADFXML) {
 				JFXApplicationLogger.getLogger().logError(
 						String.format("Unable to load requested file (%s) %n ;; cause of returned error ",sRequestedSceneFile), evERRLOADFXML);
-				throw new JFXApplicationException(evERRLOADFXML);
+				JFXApplicationException.raiseToFront(JFXApplicationScene.class, evERRLOADFXML);
 			}
 
 		} else {
-			throw new JFXApplicationInvalidParameterException(
-					" No Primary Stage for this Application ... %n Ensure you called super([Stage.class]) on your Main() ");
+			JFXApplicationException.raiseToFront(JFXApplicationScene.class, new JFXApplicationInvalidParameterException(
+					" No Primary Stage for this Application ... %n Ensure you called super([Stage.class]) on your Main() "));
 		}
 		/* ******************************** */
 		try {

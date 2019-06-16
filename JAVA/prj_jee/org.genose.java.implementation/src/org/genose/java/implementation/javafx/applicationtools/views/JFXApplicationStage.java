@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools;
+package org.genose.java.implementation.javafx.applicationtools.views;
 
 import javafx.event.EventDispatchChain;
 import javafx.stage.Stage;

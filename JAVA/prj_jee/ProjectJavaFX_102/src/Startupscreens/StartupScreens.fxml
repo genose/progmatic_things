@@ -16,6 +16,6 @@
       </ProgressBar>
       <ProgressIndicator layoutX="272.0" layoutY="174.0" AnchorPane.leftAnchor="272.0" AnchorPane.topAnchor="174.0" />
       <Label fx:id="aStartupText" alignment="CENTER" layoutX="113.0" layoutY="335.0" prefHeight="20.0" text="Label" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="107.0" />
-      <Button layoutX="272.0" layoutY="76.0" mnemonicParsing="false" text="Button" AnchorPane.leftAnchor="272.0" AnchorPane.topAnchor="76.0" />
+      <Button layoutX="272.0" layoutY="76.0" mnemonicParsing="false" onAction="#doStart" text="Button" AnchorPane.leftAnchor="272.0" AnchorPane.topAnchor="76.0" />
    </children>
 </AnchorPane>

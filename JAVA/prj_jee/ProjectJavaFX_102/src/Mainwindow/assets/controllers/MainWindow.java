@@ -4,10 +4,11 @@
 package Mainwindow.assets.controllers;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
-import org.genose.java.implementation.javafx.applicationtools.JFXApplicationStage;
+import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationStage;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.stage.Window;
 
 /**
@@ -16,6 +17,10 @@ import javafx.stage.Window;
  */
 public class MainWindow extends JFXApplicationStage {
 
+	@FXML
+	public void initialize() {
+		
+	}
 	 @FXML
 	 public void quitApp() {
 		 JFXApplication.getJFXApplicationSingleton().notifyQuit();

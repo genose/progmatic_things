@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
+import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
+import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationStage;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -32,7 +36,8 @@ public class JFXApplication extends Application {
 	/**
 	 * ** Declare a Log wrapper ... **
 	 */
-	private JFXApplicationLogger aLogger = null;
+	private static JFXApplicationLogger aLogger = null;
+	private static JFXApplicationException aExceptionManager;
 
 	public enum JFXFILETYPE {
 		DIR_ASSETS("Assets"), DIR_VIEWS("Views"), DIR_CONTROLLERS("Controllers"), DIR_RESSOURCES("Ressources"),
@@ -127,6 +132,7 @@ public class JFXApplication extends Application {
 		super();
 		singletonInstanceCreate();
 		aLogger = new JFXApplicationLogger(getClass().getName());
+		aExceptionManager = new JFXApplicationException();
 		getLogger().logInfo(getClass(), "was instiated");
 	}
 
@@ -151,7 +157,7 @@ public class JFXApplication extends Application {
 	 * @return {@link JFXApplicationLogger}
 	 */
 	public JFXApplicationLogger getLogger() {
-		return aLogger;
+		return JFXApplication.aLogger;
 	}
 
 	/* ****************************************************** */
@@ -168,7 +174,7 @@ public class JFXApplication extends Application {
 	 * 
 	 * @return javafx.Stage (JFXApplicationStage)
 	 */
-	static public Stage getPrimaryStage() {
+	public Stage getPrimaryStage() {
 		return JFXApplication.aPrimaryStage;
 	}
 
@@ -230,9 +236,16 @@ public class JFXApplication extends Application {
 	 * 
 	 * @return
 	 */
-	private static Stage getActiveStage() {
-		// TODO Auto-generated method stub
-		return getPrimaryStage();
+	private static Stage getActiveStage() { 
+		return JFXApplication.getJFXApplicationSingleton().getPrimaryStage();
+	}
+	/* ****************************************************** */
+	/**
+	 * 
+	 * @return
+	 */
+	private static Stage getActivePrimaryStage() { 
+		return JFXApplication.getJFXApplicationSingleton().getPrimaryStage();
 	}
 
 	/* ****************************************************** */
@@ -393,13 +406,6 @@ public class JFXApplication extends Application {
 
 	}
 
-	/**
-	 * Quit Application
-	 */
-	public void notifyQuit() {
-		Platform.exit();
-	}
-
 	public void setPrimaryScene(JFXApplicationScene jfxApplicationScene) {
 		aPrimaryStage.setScene(jfxApplicationScene);
 	}
@@ -409,8 +415,42 @@ public class JFXApplication extends Application {
 	}
 
 	public Scene getPrimaryScene() {
-		// TODO Auto-generated method stub
-		return null;
+		return aPrimaryStage.getScene();
+	}
+
+	public static JFXApplicationLogger getLoger() throws JFXApplicationException {
+		synchronized (JFXApplication.class) {
+			if (pJFXApplicationSingleton == null)
+			throw new JFXApplicationException(" Application is not intanciated ... ");
+		}
+		return JFXApplication.getJFXApplicationSingleton().getLogger();
+		
+	}
+
+	public static JFXApplicationException getExceptionManagaer() {
+		synchronized (JFXApplication.class) {
+			if (pJFXApplicationSingleton == null) {
+				JFXApplicationException.raiseToFront(JFXApplication.class.getClass(), new JFXApplicationException(" Application is not intanciated ... ") );
+			}
+		}
+		return JFXApplication.getJFXApplicationSingleton().aExceptionManager;
+	}
+
+	
+	/* ****************************************************** */
+	/**
+	 * Quit Application
+	 */
+	public void notifyQuit() {
+		Platform.exit();
+	}
+	/* ****************************************************** */
+	/*
+	 * 
+	 */
+	public static void notityDramaticQuit() {
+		
+		Platform.exit();
 	}
 
 }

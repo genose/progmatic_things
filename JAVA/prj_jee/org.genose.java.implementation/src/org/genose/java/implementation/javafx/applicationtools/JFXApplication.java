@@ -28,7 +28,7 @@ public class JFXApplication extends Application {
 	/**
 	 * ** Declare static Stage **
 	 */
-	private static Stage aPrimaryStage;
+	private static JFXApplicationStage aPrimaryStage;
 	/**
 	 * ** Declare a flag for if (class).start() was already called ... **
 	 */
@@ -167,8 +167,8 @@ public class JFXApplication extends Application {
 	 * 
 	 * @param {{@link javafx.stage}
 	 */
-	public void setPrimaryStage(Stage stage) {
-		JFXApplication.aPrimaryStage = stage;
+	public void setPrimaryStage(JFXApplicationStage astage) {
+		aPrimaryStage = astage;
 	}
 
 	/* ****************************************************** */
@@ -176,8 +176,8 @@ public class JFXApplication extends Application {
 	 * 
 	 * @return javafx.Stage (JFXApplicationStage)
 	 */
-	public Stage getPrimaryStage() {
-		return JFXApplication.aPrimaryStage;
+	public JFXApplicationStage getPrimaryStage() {
+		return aPrimaryStage;
 	}
 
 	/* ****************************************************** */
@@ -189,18 +189,38 @@ public class JFXApplication extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		synchronized (JFXApplication.class) {
 			if (pJFXApplicationSingleton == null)
-				pJFXApplicationSingleton = this;
+				throw new UnsupportedOperationException(" singleton is null");
 		}
-		setPrimaryStage(primaryStage);
+		setPrimaryStage((JFXApplicationStage) primaryStage);
+		
 	}
 
+	/* ****************************************************** */
+	/**
+	 * 
+	 * @param primaryStage
+	 * @throws Exception
+	 */
 	public void start(JFXApplicationStage primaryStage) throws Exception {
 		synchronized (JFXApplication.class) {
 			if (pJFXApplicationSingleton == null)
-				pJFXApplicationSingleton = this;
+				throw new UnsupportedOperationException(" singleton is null");
 		}
 		setPrimaryStage(primaryStage);
 
+	}
+
+	/* ****************************************************** */
+	/**
+	 * 
+	 * @return
+	 */
+	public static JFXApplication getJFXApplicationSingleton() {
+		synchronized (JFXApplication.class) {
+			if (pJFXApplicationSingleton == null)
+				throw new UnsupportedOperationException(" singleton is null");
+		}
+		return pJFXApplicationSingleton;
 	}
 
 	/* ****************************************************** */
@@ -309,13 +329,6 @@ public class JFXApplication extends Application {
 		return null;
 	}
 
-	public static JFXApplication getJFXApplicationSingleton() {
-		synchronized (JFXApplication.class) {
-			if (pJFXApplicationSingleton == null)
-				throw new UnsupportedOperationException(" singleton is null");
-		}
-		return pJFXApplicationSingleton;
-	}
 
 	/* ****************************************************** */
 	/**
@@ -365,7 +378,7 @@ public class JFXApplication extends Application {
 			aPrimaryStage.setScene(jfxApplicationScene);
 		} else {
 			JFXApplicationException.raiseToFront(this.getClass(),
-					new JFXApplicationException("Primary stage window is null ..."));
+					new JFXApplicationException("Primary stage window is null ..."), true);
 		}
 	}
 /**
@@ -379,13 +392,14 @@ public class JFXApplication extends Application {
  * 
  * @return
  */
-	public Scene getPrimaryScene() {
+	public JFXApplicationScene getPrimaryScene() {
 		if (aPrimaryStage == null) {
 			
 			JFXApplicationException.raiseToFront(this.getClass(),
-					new JFXApplicationException("Primary stage window is null ..."));
+					new JFXApplicationException("Primary stage window is null ..."), false);
 		}
-		return aPrimaryStage.getScene();
+		
+		return (JFXApplicationScene) aPrimaryStage.getScene();
 	}
 /**
  * 
@@ -408,7 +422,7 @@ public class JFXApplication extends Application {
 		synchronized (JFXApplication.class) {
 			if (pJFXApplicationSingleton == null) {
 				JFXApplicationException.raiseToFront(JFXApplication.class.getClass(),
-						new JFXApplicationException(" Application is not intanciated ... "));
+						new JFXApplicationException(" Application is not intanciated ... "), true);
 			}
 		}
 		return JFXApplication.getJFXApplicationSingleton().aExceptionManager;

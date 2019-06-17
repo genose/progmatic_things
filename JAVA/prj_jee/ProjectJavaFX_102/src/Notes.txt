@@ -14,7 +14,8 @@
 			
 
 
-
+					// ::
+					// https://stackoverflow.com/questions/36032888/using-command-line-arguments-in-java-with-javafx
 https://code.makery.ch/fr/library/javafx-tutorial/part5/			
 https://o7planning.org/fr/11529/tutoriel-javafx-alert-dialog#a10503960			
 			

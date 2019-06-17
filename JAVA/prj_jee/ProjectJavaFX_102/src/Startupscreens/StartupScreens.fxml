@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ProgressIndicator?>
@@ -15,5 +16,6 @@
       </ProgressBar>
       <ProgressIndicator layoutX="272.0" layoutY="174.0" AnchorPane.leftAnchor="272.0" AnchorPane.topAnchor="174.0" />
       <Label fx:id="aStartupText" alignment="CENTER" layoutX="113.0" layoutY="335.0" prefHeight="20.0" text="Label" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="107.0" />
+      <Button layoutX="248.0" layoutY="55.0" mnemonicParsing="false" text="Button" AnchorPane.leftAnchor="248.0" AnchorPane.topAnchor="55.0" />
    </children>
 </AnchorPane>

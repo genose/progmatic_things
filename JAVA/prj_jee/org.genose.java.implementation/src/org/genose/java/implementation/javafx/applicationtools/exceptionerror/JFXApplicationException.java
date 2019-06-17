@@ -33,8 +33,7 @@ public class JFXApplicationException extends Exception {
 
 	/**
 	 * 
-	 */
-	private StackTraceElement[] pRelativeStackTrace = null;
+	 */ 
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -76,13 +75,14 @@ public class JFXApplicationException extends Exception {
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
-
+ 
 	public JFXApplicationException(String sMessageToRaise, Throwable throwedCause, StackTraceElement[] stackTrace) {
 		super(sMessageToRaise, throwedCause);
-		pRelativeStackTrace = stackTrace;
+		super.setStackTrace(stackTrace);
+
 	}
 
-	public static void raiseToFront(Class<?> fromClass, Throwable throwedEvent) {
+	public static void raiseToFront(Class<?> fromClass, Throwable throwedEvent, Boolean bFatalQuit) {
 
 // :: https://o7planning.org/fr/11529/tutoriel-javafx-alert-dialog#a10503960
 		String aCauseMessage = String.format(
@@ -106,7 +106,9 @@ public class JFXApplicationException extends Exception {
 
 				@Override
 				public void handle(ActionEvent event) {
-					Platform.exit();
+					if(bFatalQuit) {
+						Platform.exit();
+					}
 				}
 
 			});
@@ -122,7 +124,7 @@ public class JFXApplicationException extends Exception {
 			/* ********************************* */
 			/* ********************************* */
 			/* ********************************* */
-			Alert aFatalErrorAlert = new Alert(AlertType.ERROR);
+			Alert aFatalErrorAlert = new Alert(AlertType.CONFIRMATION);
 			aFatalErrorAlert.setTitle("Fatal Error ...");
 			aFatalErrorAlert.setHeaderText("Fatal Error : " + throwedEvent.getMessage());
 
@@ -139,13 +141,15 @@ public class JFXApplicationException extends Exception {
 			TextArea textArea = new TextArea();
 			textArea.setText(stackTrace);
 
-			dialogPaneContent.getChildren().addAll(aLabelCause, aLabel, textArea, aQuitButton);
+			dialogPaneContent.getChildren().addAll(aLabelCause, aLabel, textArea);
 			// Set content for Dialog Pane
 			aFatalErrorAlert.getDialogPane().setContent(dialogPaneContent);
 			aFatalErrorAlert.getDialogPane().setContentText("Text ...");
 
 			aFatalErrorAlert.showAndWait();
-			JFXApplication.notityDramaticQuit();
+			if(bFatalQuit) { 
+				JFXApplication.notityDramaticQuit();
+			}
 		} else {
 
 			JFXApplicationLogger.getLogger().log(System.Logger.Level.ERROR, aCauseMessage);

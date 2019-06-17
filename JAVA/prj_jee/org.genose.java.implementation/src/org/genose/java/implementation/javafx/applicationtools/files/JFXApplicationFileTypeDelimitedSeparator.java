@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationMappedObject;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 
@@ -233,4 +236,19 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 		return aSplittedValues;
 
 	}
+	
+
+	public static void main(String[] args) {
+		JFXApplicationLogger.getLogger().logInfo("Test class ... ");
+		File aFilePath = new File(JFXApplicationHelper.getApplicationBundlePath()+""+File.separatorChar+"salarie.txt");
+		JFXApplicationLogger.getLogger().logInfo(" file :"+aFilePath.getAbsolutePath());
+		
+		try {
+			JFXApplicationFileTypeDelimitedSeparator aFileAccessor = new JFXApplicationFileTypeDelimitedSeparator(aFilePath, "|");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }

@@ -34,6 +34,7 @@ public class JFXApplicationScene extends Scene {
 	private String aSceneIdentifier = null;
 	private Parent aSceneRootNode = null;
 	private Object aSceneRootController = null;
+
 	/* ************************************************ */
 	/**
 	 * 
@@ -138,32 +139,7 @@ public class JFXApplicationScene extends Scene {
 		String sApplicationPath = JFXApplication.getApplicationBundlePath();
 		String sApplicationAbsPath = JFXApplication.getApplicationRunnablePathAbsolute();
 		Boolean bModuleAsMVC = false;
-		String sFilePath = String.valueOf(
-				"../../" + argModuleName + "/" + argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FXML.getValue());
-		String sFilePathb = String.valueOf("../../" + argModuleName);
-
-		String sFilePathc = String.valueOf(
-				"/" + argModuleName + "/" + argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FXML.getValue());
-
-		File localClassPath = new java.io.File(sFilePath);
-
-		File localClassPathb = new java.io.File(sFilePathb);
-		File localClassPathc = new java.io.File(sFilePathc);
-
-		Boolean bExist = localClassPath.exists();
-		URL aPathUrl = aClassReference.getResource(sFilePath);
-		URL aPathUrlAlt = aClassReference.getResource(localClassPath.getPath());
-		URL aPathUrlAltb = aClassReference.getResource(localClassPath.getAbsolutePath());
-
-		System.out
-				.println("JFXApplicationScene.createScene() : " + aPathUrl + "\n" + aPathUrlAlt + "\n" + aPathUrlAltb);
-
-		Boolean bExistb = localClassPathb.exists();
-		URL aPathUrlb = aClassReference.getResource(sFilePathb);
-
-		Boolean bExistc = localClassPathc.exists();
-		URL aPathUrlc = aClassReference.getResource(sFilePathc);
-
+		 
 		/* ****************************************************************** */
 		// formatting path as
 		// [APP_ROOT]/src/[ARGUMENT]/[MVC_STYLE(Controller;View;Ressources)]/[ARGUMENT].[FILEEXT]
@@ -257,21 +233,25 @@ public class JFXApplicationScene extends Scene {
 			try {
 				URL aUrlRequestedScenePath = aClassReference.getResource(sRequestedSceneFile);
 				if (aUrlRequestedScenePath != null) {
-					// :: https://stackoverflow.com/questions/36032888/using-command-line-arguments-in-java-with-javafx
+
 					aRootNodeLoader = new FXMLLoader(aUrlRequestedScenePath);
-					
+
 					aRootNode = aRootNodeLoader.load(aUrlRequestedScenePath);
-					
+
 				} else {
 					throw new JFXApplicationException(" can't find / load " + sRequestedSceneFile);
 				}
 
 				if (aRootNode != null) {
 					aSceneNode = new JFXApplicationScene(aRootNode);
-					
-					aSceneNode.setRootController(  aRootNodeLoader.getController());
-					
 
+					Object oControllerView = aRootNodeLoader.getController();
+					
+					if(oControllerView == null) {
+						JFXApplicationLogger.getLogger().logError(aSceneNode.getClass(), String.format(" Loaded controler is null ... for (%s) of type (%s) :: (%s)", sRequestedSceneFile, aRootNode.getScene(), aRootNode.getClass()));
+					}
+					aSceneNode.setRootController(oControllerView);
+					aSceneNode.setUserData( aRootNodeLoader );
 					if (sRequestedSceneCSS != null) {
 						String aURLforCSS = aClassReference.getResource("application.css").toExternalForm();
 						((Scene) aSceneNode).getStylesheets().add(aURLforCSS);
@@ -282,18 +262,20 @@ public class JFXApplicationScene extends Scene {
 					}
 
 				} else {
-					JFXApplicationException.raiseToFront(JFXApplicationScene.class, new JFXApplicationException(" can't obtain to load " + sRequestedSceneFile));
+					JFXApplicationException.raiseToFront(JFXApplicationScene.class,
+							new JFXApplicationException(" can't obtain to load " + sRequestedSceneFile), true);
 				}
 
 			} catch (IOException evERRLOADFXML) {
-				JFXApplicationLogger.getLogger().logError(
-						String.format("Unable to load requested file (%s) %n ;; cause of returned error ",sRequestedSceneFile), evERRLOADFXML);
-				JFXApplicationException.raiseToFront(JFXApplicationScene.class, evERRLOADFXML);
+				JFXApplicationLogger.getLogger()
+						.logError(String.format("Unable to load requested file (%s) %n ;; cause of returned error ",
+								sRequestedSceneFile), evERRLOADFXML);
+				JFXApplicationException.raiseToFront(JFXApplicationScene.class, evERRLOADFXML, true);
 			}
 
 		} else {
 			JFXApplicationException.raiseToFront(JFXApplicationScene.class, new JFXApplicationInvalidParameterException(
-					" No Primary Stage for this Application ... %n Ensure you called super([Stage.class]) on your Main() "));
+					" No Primary Stage for this Application ... %n Ensure you called super([Stage.class]) on your Main() "), true);
 		}
 		/* ******************************** */
 		try {
@@ -405,6 +387,11 @@ public class JFXApplicationScene extends Scene {
 	public Boolean setIcon(Image aImage) {
 
 		return false;
+	}
+
+	public JFXApplicationScene getScene() {
+		// TODO Auto-generated method stub
+		return this;
 	}
 
 }

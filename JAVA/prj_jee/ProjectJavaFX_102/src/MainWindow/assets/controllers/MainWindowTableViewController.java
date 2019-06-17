@@ -1,7 +1,7 @@
-package Mainwindow.assets.controllers;
+package MainWindow.assets.controllers;
 
  
-import Mainwindow.assets.datamodels.*;
+import MainWindow.assets.datamodels.*;
 import javafx.scene.control.TableView;
 
 public class MainWindowTableViewController extends TableView<Salary> {

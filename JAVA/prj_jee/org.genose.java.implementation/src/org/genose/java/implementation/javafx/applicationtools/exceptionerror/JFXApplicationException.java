@@ -118,7 +118,7 @@ public class JFXApplicationException extends Exception {
 			/* ********************************* */
 			Alert aFatalErrorAlert = new Alert(AlertType.ERROR);
 			aFatalErrorAlert.setTitle("Fatal Error ...");
-			aFatalErrorAlert.setHeaderText("Error : " + throwedEvent.getMessage());
+			aFatalErrorAlert.setHeaderText("Fatal Error : " + throwedEvent.getMessage());
 
 			aFatalErrorAlert.setContentText(String.format(" Fatal Error \n %s", aCauseMessage));
 			/* ********************************* */

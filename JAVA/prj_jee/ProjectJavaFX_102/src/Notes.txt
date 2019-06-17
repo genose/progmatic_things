@@ -12,61 +12,67 @@
 			primaryStage.centerOnScreen();
 			
 			
+
+
+
+https://code.makery.ch/fr/library/javafx-tutorial/part5/			
+https://o7planning.org/fr/11529/tutoriel-javafx-alert-dialog#a10503960			
 			
-			
-			
-			
+			https://www.google.com/search?client=firefox-b-d&q=javafx+table+cell+onmouseover
+https://stackoverflow.com/questions/34941411/how-to-get-controller-of-scene-in-javafx8			
+https://stackoverflow.com/questions/13468137/how-to-set-tool-tip-on-the-each-cell-of-javafx-table-mouse-over			
+https://fabrice-bouye.developpez.com/tutoriels/javafx/gui-service-tache-de-fond-thread-javafx/			
 			
 			*********************************************************************************************
 			Consignes
 
-Gestion d’un Comité d’entreprise
+Gestion dï¿½un Comitï¿½ dï¿½entreprise
 
-Le comité d’entreprise de la société X veut gérer les droits de salariés répartis sur plusieurs agences. Selon leur agence les salariés ont accès à un restaurant d’entreprise ou à des tickets restaurant. Enfin tout salarié a droit à des chèques vacances à condition de justifier d’une ancienneté de 18 mois au 01 juillet de l’année.
+Le comitï¿½ dï¿½entreprise de la sociï¿½tï¿½ X veut gï¿½rer les droits de salariï¿½s rï¿½partis sur plusieurs agences. Selon leur agence les salariï¿½s ont accï¿½s ï¿½ un restaurant dï¿½entreprise ou ï¿½ des tickets restaurant. Enfin tout salariï¿½ a droit ï¿½ des chï¿½ques vacances ï¿½ condition de justifier dï¿½une anciennetï¿½ de 18 mois au 01 juillet de lï¿½annï¿½e.
 
-Chaque salarié a de plus, sans condition d’ancienneté, droit à un chèque de Noël dont le montant dépend du nombre et de l’âge de ses enfants, d’après le barème suivant :
+Chaque salariï¿½ a de plus, sans condition dï¿½anciennetï¿½, droit ï¿½ un chï¿½que de Noï¿½l dont le montant dï¿½pend du nombre et de lï¿½ï¿½ge de ses enfants, dï¿½aprï¿½s le barï¿½me suivant :
 
-    20 euros pour les enfants de 0 à 10 ans
-    30 euros pour les enfants de 11 à 15 ans.
-    50 euros pour les enfants de 16 à 18 ans.
+    20 euros pour les enfants de 0 ï¿½ 10 ans
+    30 euros pour les enfants de 11 ï¿½ 15 ans.
+    50 euros pour les enfants de 16 ï¿½ 18 ans.
 
-L’âge des enfants est évalué au 31/12 de l’année.
+Lï¿½ï¿½ge des enfants est ï¿½valuï¿½ au 31/12 de lï¿½annï¿½e.
 
-Il vous est fourni un fichier contenant l’ensemble des salariés présents dans l’entreprise à ce jour.
+Il vous est fourni un fichier contenant lï¿½ensemble des salariï¿½s prï¿½sents dans lï¿½entreprise ï¿½ ce jour.
 
- Les lignes commencent par le type de données. (Salarie ou Enfant)
+ Les lignes commencent par le type de donnï¿½es. (Salarie ou Enfant)
 
- Les lignes de type Salarié comportent les informations suivantes :
+ Les lignes de type Salariï¿½ comportent les informations suivantes :
 
     Sexe
-    Prénom
+    Prï¿½nom
     Date de naissance
     Nom
     Agence
-    Date d’embauche
+    Date dï¿½embauche
 
 Les lignes de type Enfant comportent les informations suivantes :
 
     Sexe
-    Prénom
+    Prï¿½nom
     Date de naissance
 
 
-On désire une application permettant de gérer ces salariés, c’est-à-dire de pouvoir :
+On dï¿½sire une application permettant de gï¿½rer ces salariï¿½s, cï¿½est-ï¿½-dire de pouvoir :
 
-     Visualiser, modifier, supprimer, ajouter des salariés.
+     Visualiser, modifier, supprimer, ajouter des salariï¿½s.
      Ajouter, modifier, supprimer des enfants.
-     Afficher les droits d’un salarié.
-     Editer la liste des salariés ayant droit aux chèques vacances,
-     Editer la liste des salariés ayant droit aux chèques « Noël », ainsi que du montant.
+     Afficher les droits dï¿½un salariï¿½.
+     Editer la liste des salariï¿½s ayant droit aux chï¿½ques vacances,
+     Editer la liste des salariï¿½s ayant droit aux chï¿½ques ï¿½ Noï¿½l ï¿½, ainsi que du montant.
 
  
 
  Contraintes :
 
     Un nom est toujours en majuscule.
-    Les initiales des prénoms sont en majuscules, le reste en minuscule.
-    Il y a trois agences : Lille et Roubaix qui ont un restaurant et Dunkerque qui n’en a pas.
-    Un salarié ne peut être embauché avant l’âge de 16 ans, et ne peut être embauché par anticipation.
-    Un enfant doit avoir au moins 16 ans de plus que son parent et au moins 9 mois de plus que l’enfant précédant dans la fratrie.
+    Les initiales des prï¿½noms sont en majuscules, le reste en minuscule.
+    Il y a trois agences : Lille et Roubaix qui ont un restaurant et Dunkerque qui nï¿½en a pas.
+    Un salariï¿½ ne peut ï¿½tre embauchï¿½ avant lï¿½ï¿½ge de 16 ans, et ne peut ï¿½tre embauchï¿½ par anticipation.
+    Un enfant doit avoir au moins 16 ans de plus que son parent et au moins 9 mois de plus que lï¿½enfant prï¿½cï¿½dant dans la fratrie.
 			

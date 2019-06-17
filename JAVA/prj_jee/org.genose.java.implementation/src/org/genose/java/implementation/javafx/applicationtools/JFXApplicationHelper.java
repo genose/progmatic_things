@@ -31,4 +31,9 @@ public class JFXApplicationHelper {
 		                                  .getResource("ui/main.fxml"), bundle);
 	}
 
+	public static void invoke(Object rootController, String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -236,15 +236,16 @@ public class JFXApplication extends Application {
 	 * 
 	 * @return
 	 */
-	private static Stage getActiveStage() { 
+	private static Stage getActiveStage() {
 		return JFXApplication.getJFXApplicationSingleton().getPrimaryStage();
 	}
+
 	/* ****************************************************** */
 	/**
 	 * 
 	 * @return
 	 */
-	private static Stage getActivePrimaryStage() { 
+	private static Stage getActivePrimaryStage() {
 		return JFXApplication.getJFXApplicationSingleton().getPrimaryStage();
 	}
 
@@ -297,53 +298,7 @@ public class JFXApplication extends Application {
 					.replaceAll("[^\\*]", "");
 
 			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\" + systemPathSeparator);
-			/* ************************************************* */
-			// :: path wil be resolved as-is : (.) inherited root path, package path of
-			// (Extends ApplicationJFX)
-			// :: path wil be resolved as-is : (/) root runnable directory ;;
-			/* ************************************************* */
-			// :: absolutepath will fail with (.)
-			// :: absolutepath will provide Application BasePath with (.) on windows
-			// :: absolutepath will provide Application BasePath with (/) on MacOS
-			/* ************************************************* */
-			// :: localpath :: getpath() will provide inherited root path, package path of
-			// (Extends ApplicationJFX) on windows
-			// :: localpath :: getpath(.) will provide inherited root path, package path of
-			// (Extends ApplicationJFX)
-			// :: localpath :: getpath(/) will provide root runnable directory ;; on MacOS
-			/* ************************************************* */
-			/**
-			 * File localClassPath = new java.io.File("."); String localAbsolutePath =
-			 * localClassPath.getAbsolutePath().replace(".", ""); // localAbsolutePath =
-			 * localAbsolutePath.substring(0, // localAbsolutePath.length()-1); String
-			 * localpath = localClassPath.getPath(); String localpathname =
-			 * localClassPath.getName(); URL aUrlClassPath =
-			 * localClass.getResource(localpath); String sFinalAppPath =
-			 * aUrlClassPath.getPath().replaceFirst("[/]", "") .replaceFirst(
-			 * localPackagePath , "").replaceAll("[//]", "/");
-			 * 
-			 * JFXApplicationLogger.getLogger() .logInfo(localClass + " 1 ;; class package
-			 * path \n ll >> " + localPackagePath);
-			 * 
-			 * JFXApplicationLogger.getLogger().logInfo(localClass + " 1 ;; class abspath \n
-			 * >> " + localAbsolutePath);
-			 * 
-			 * JFXApplicationLogger.getLogger().logInfo(localClass + " 1 ;; class localpath
-			 * \n >> " + localpath);
-			 * 
-			 * JFXApplicationLogger.getLogger().logInfo(localClass + " 1 ;; class pathname
-			 * \n >> " + localpathname);
-			 * 
-			 * 
-			 * JFXApplicationLogger.getLogger().logInfo(localClass + " 2 ;; \n class
-			 * getressource localpath \n >> " + aUrlClassPath + " \n origin >> " +
-			 * localpath);
-			 */
-			// get runnable dir
-			// URL aUrlClass = ((localClass.getResource(localAbsolutePath) == null )?
-			// localClass.getResource(localRunnablePathRelative) :
-			// localClass.getResource(localAbsolutePath));
-			// URL aUrlClass = localClass.getResource(localRunnablePathRelative);
+			 
 
 			return localRunnablePathRelative;
 		} catch (Exception evErrPath) {
@@ -377,13 +332,7 @@ public class JFXApplication extends Application {
 
 				String documentPath = localClassPath.getAbsolutePath();
 				String documentPathRelative = localClassPath.getPath();
-				// .replaceAll("[..\\"+systemPathSeparator+"]", "");
-
-				/*
-				 * if(documentPathRelative.length() != localClassPath.length()) {
-				 * documentPathRelative = String.format(""+systemPathSeparator+"%s",
-				 * documentPathRelative); }
-				 */
+				 
 				URL aPathUrl = localClass.getResource(documentPathRelative);
 				URL aPathUrlAlt = localClass.getResource(aPath);
 
@@ -391,9 +340,9 @@ public class JFXApplication extends Application {
 
 				boolean bPathExist = localClassPath.exists();
 				boolean bPathUrlValid = (aPathUrl != null);
-				JFXApplicationLogger.getLogger().logInfo(null,
+				/* JFXApplicationLogger.getLogger().logInfo(null,
 						((bPathIsValid) ? "" : "Not") + " exist :: " + documentPath + " :: ");
-
+*/
 				return bPathIsValid;
 
 			}
@@ -405,38 +354,64 @@ public class JFXApplication extends Application {
 		return false;
 
 	}
-
+/**
+ * 
+ * @param jfxApplicationScene
+ */
 	public void setPrimaryScene(JFXApplicationScene jfxApplicationScene) {
-		aPrimaryStage.setScene(jfxApplicationScene);
+		if (aPrimaryStage != null) {
+			aPrimaryStage.setScene(jfxApplicationScene);
+		} else {
+			JFXApplicationException.raiseToFront(this.getClass(),
+					new JFXApplicationException("Primary stage window is null ..."));
+		}
 	}
-
-	public void setSecondaryScene(JFXApplicationScene jfxApplicationScene) {
+/**
+ * 
+ * @param ajfxApplicationScene
+ */
+	public void setSecondaryScene(JFXApplicationScene ajfxApplicationScene) {
 
 	}
-
+/**
+ * 
+ * @return
+ */
 	public Scene getPrimaryScene() {
+		if (aPrimaryStage == null) {
+			
+			JFXApplicationException.raiseToFront(this.getClass(),
+					new JFXApplicationException("Primary stage window is null ..."));
+		}
 		return aPrimaryStage.getScene();
 	}
-
+/**
+ * 
+ * @return
+ * @throws JFXApplicationException
+ */
 	public static JFXApplicationLogger getLoger() throws JFXApplicationException {
 		synchronized (JFXApplication.class) {
 			if (pJFXApplicationSingleton == null)
-			throw new JFXApplicationException(" Application is not intanciated ... ");
+				throw new JFXApplicationException(" Application is not intanciated ... ");
 		}
 		return JFXApplication.getJFXApplicationSingleton().getLogger();
-		
-	}
 
+	}
+/**
+ * 
+ * @return
+ */
 	public static JFXApplicationException getExceptionManagaer() {
 		synchronized (JFXApplication.class) {
 			if (pJFXApplicationSingleton == null) {
-				JFXApplicationException.raiseToFront(JFXApplication.class.getClass(), new JFXApplicationException(" Application is not intanciated ... ") );
+				JFXApplicationException.raiseToFront(JFXApplication.class.getClass(),
+						new JFXApplicationException(" Application is not intanciated ... "));
 			}
 		}
 		return JFXApplication.getJFXApplicationSingleton().aExceptionManager;
 	}
 
-	
 	/* ****************************************************** */
 	/**
 	 * Quit Application
@@ -444,12 +419,13 @@ public class JFXApplication extends Application {
 	public void notifyQuit() {
 		Platform.exit();
 	}
+
 	/* ****************************************************** */
 	/*
 	 * 
 	 */
 	public static void notityDramaticQuit() {
-		
+
 		Platform.exit();
 	}
 

@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.Function;
 
+import javax.swing.RootPaneContainer;
+
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication.JFXFILETYPE;
@@ -31,7 +33,7 @@ public class JFXApplicationScene extends Scene {
 
 	private String aSceneIdentifier = null;
 	private Parent aSceneRootNode = null;
-
+	private Object aSceneRootController = null;
 	/* ************************************************ */
 	/**
 	 * 
@@ -102,6 +104,20 @@ public class JFXApplicationScene extends Scene {
 		super(arg0);
 	}
 
+	/**
+	 * @return the aSceneRootController
+	 */
+	public Object getRootController() {
+		return aSceneRootController;
+	}
+
+	/**
+	 * @param aSceneRootController the aSceneRootController to set
+	 */
+	public void setRootController(Object aSceneRootController) {
+		this.aSceneRootController = aSceneRootController;
+	}
+
 	/* ************************************************ */
 	/*
 	 * * Replace something like this : Parent root =
@@ -114,6 +130,7 @@ public class JFXApplicationScene extends Scene {
 	static public JFXApplicationScene createScene(String argModuleName, String argModuleNameFile,
 			Function<Object, Boolean> aFuncCallback) throws JFXApplicationException {
 
+		FXMLLoader aRootNodeLoader = null;
 		Parent aRootNode = null;
 		JFXApplicationScene aSceneNode = null;
 
@@ -234,19 +251,26 @@ public class JFXApplicationScene extends Scene {
 		sRequestedSceneIcon = resolveModulePathInsenstiveCase(sRequestedRessourcesDir, sRequestedSceneIcon, null);
 		/* ****************************************************************** */
 		// :: https://stackoverflow.com/questions/10121991/javafx-application-icon
-
+		// https://stackoverflow.com/questions/34941411/how-to-get-controller-of-scene-in-javafx8
 		if (JFXApplication.getJFXApplicationSingleton().getPrimaryStage() != null) {
 
 			try {
-				URL aUrlRequestedScenePath = aClassReference.getResource(sFilePath);
+				URL aUrlRequestedScenePath = aClassReference.getResource(sRequestedSceneFile);
 				if (aUrlRequestedScenePath != null) {
-					aRootNode = FXMLLoader.load(aUrlRequestedScenePath);
+					// :: https://stackoverflow.com/questions/36032888/using-command-line-arguments-in-java-with-javafx
+					aRootNodeLoader = new FXMLLoader(aUrlRequestedScenePath);
+					
+					aRootNode = aRootNodeLoader.load(aUrlRequestedScenePath);
+					
 				} else {
-					throw new JFXApplicationException(" can't load " + sRequestedSceneFile);
+					throw new JFXApplicationException(" can't find / load " + sRequestedSceneFile);
 				}
 
 				if (aRootNode != null) {
 					aSceneNode = new JFXApplicationScene(aRootNode);
+					
+					aSceneNode.setRootController(  aRootNodeLoader.getController());
+					
 
 					if (sRequestedSceneCSS != null) {
 						String aURLforCSS = aClassReference.getResource("application.css").toExternalForm();
@@ -258,7 +282,7 @@ public class JFXApplicationScene extends Scene {
 					}
 
 				} else {
-					JFXApplicationException.raiseToFront(JFXApplicationScene.class, new JFXApplicationException(" can't load " + sRequestedSceneFile));
+					JFXApplicationException.raiseToFront(JFXApplicationScene.class, new JFXApplicationException(" can't obtain to load " + sRequestedSceneFile));
 				}
 
 			} catch (IOException evERRLOADFXML) {

@@ -23,7 +23,7 @@
 		<link>
 			<name>src/javafx.base.jar</name>
 			<type>1</type>
-			<locationURI>PARENT-9-WORKSPACE_LOC/usr/local/lib/javafx-sdk-12.0.1/lib/javafx.base.jar</locationURI>
+			<locationURI>PARENT-9-WORKSPACE_LOC/java/javafx-sdk-12.0.1/lib/javafx.base.jar</locationURI>
 		</link>
 		<link>
 			<name>src/javafx.controls.jar</name>

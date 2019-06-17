@@ -34,6 +34,7 @@ public class JFXApplicationException extends Exception {
 	/**
 	 * 
 	 */
+	private StackTraceElement[] pRelativeStackTrace = null;
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -74,6 +75,11 @@ public class JFXApplicationException extends Exception {
 	public JFXApplicationException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
+	}
+
+	public JFXApplicationException(String sMessageToRaise, Throwable throwedCause, StackTraceElement[] stackTrace) {
+		super(sMessageToRaise, throwedCause);
+		pRelativeStackTrace = stackTrace;
 	}
 
 	public static void raiseToFront(Class<?> fromClass, Throwable throwedEvent) {

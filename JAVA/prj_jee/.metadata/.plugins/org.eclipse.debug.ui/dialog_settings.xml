@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<item key="EXT_FOLDER_SOURCE_LAST_SUBDIR_SETTING" value="true"/>
+	<item key="org.eclipse.debug.ui.InspectPopupDialogDIALOG_WIDTH" value="300"/>
+	<item key="org.eclipse.debug.ui.InspectPopupDialogDIALOG_HEIGHT" value="250"/>
 	<section name="org.eclipse.debug.ui.LAUNCH_CONFIGURATIONS_DIALOG_SECTION">
 		<item key="org.eclipse.debug.ui.DIALOG_SASH_WEIGHTS_1" value="237"/>
 		<item key="org.eclipse.debug.ui.DIALOG_SASH_WEIGHTS_2" value="762"/>

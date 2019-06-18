@@ -9,6 +9,7 @@
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException"/>
     <fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
-    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplication"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplication"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationStage"/>
 </qualifiedTypeNameHistroy>

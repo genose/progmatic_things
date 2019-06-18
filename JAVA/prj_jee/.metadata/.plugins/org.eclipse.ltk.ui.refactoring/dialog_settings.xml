@@ -13,4 +13,7 @@
 		<item key="assumeCloneReturnsSameType" value="true"/>
 		<item key="leaveUnconstrainedRaw" value="true"/>
 	</section>
+	<section name="RefactoringPropertyPage">
+		<item key="org.eclipse.ltk.ui.refactoring.sortRefactorings" value="true"/>
+	</section>
 </section>

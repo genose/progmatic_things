@@ -1,5 +1,1 @@
 INDEX VERSION 1.131+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\.metadata\.plugins\org.eclipse.jdt.core
-2671496684.index
-436136804.index
-4170822954.index
-3241283451.index

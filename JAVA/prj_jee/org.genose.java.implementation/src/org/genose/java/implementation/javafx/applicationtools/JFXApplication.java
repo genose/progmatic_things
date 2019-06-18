@@ -36,7 +36,7 @@ public class JFXApplication extends Application {
 	/**
 	 * ** Declare a Log wrapper ... **
 	 */
-	private static JFXApplicationLogger aLogger = null;
+	private static JFXApplicationLogger aLogger = null; 
 	private static JFXApplicationException aExceptionManager;
 
 	public enum JFXFILETYPE {

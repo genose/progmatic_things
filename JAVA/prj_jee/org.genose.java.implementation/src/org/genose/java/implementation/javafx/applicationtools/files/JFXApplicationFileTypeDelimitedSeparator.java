@@ -240,8 +240,8 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 
 	public static void main(String[] args) {
 		JFXApplicationLogger.getLogger().logInfo("Test class ... ");
-		File aFilePath = new File(JFXApplicationHelper.getApplicationBundlePath()+""+File.separatorChar+"salarie.txt");
-		JFXApplicationLogger.getLogger().logInfo(" file :"+aFilePath.getAbsolutePath());
+		File aFilePath = new File("salaries.txt");
+		JFXApplicationLogger.getLogger().logInfo(" file :"+aFilePath.getAbsolutePath()+"::"+String.valueOf(aFilePath.exists()));
 		
 		try {
 			JFXApplicationFileTypeDelimitedSeparator aFileAccessor = new JFXApplicationFileTypeDelimitedSeparator(aFilePath, "|");

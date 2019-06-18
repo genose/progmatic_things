@@ -3,6 +3,8 @@
 	<name>JAVAFX12LOCALPRJ</name>
 	<comment></comment>
 	<projects>
+		<project>org_genose_java_implementation</project>
+		<project>ProjectJavaFX_102</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

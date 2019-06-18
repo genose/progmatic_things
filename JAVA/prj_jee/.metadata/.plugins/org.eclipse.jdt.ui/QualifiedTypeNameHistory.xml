@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="javafx.application.Application"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationClassHelper"/>
+    <fullyQualifiedTypeName name="java.io.IOException"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationViewInvokableInterface"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException"/>
+    <fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplication"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger"/>
+</qualifiedTypeNameHistroy>

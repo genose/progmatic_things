@@ -6,11 +6,8 @@ package MainWindow.assets.controllers;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationStage;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.stage.Window;
 
 /**
  * @author 59013-36-18
@@ -22,6 +19,7 @@ public class MainWindow extends JFXApplicationStage {
 	private Button tirroirButton;
 	@FXML
 	public void initialize() {
+		tirroirButton.setText("X");
 		
 	}
 	 @FXML
@@ -29,4 +27,9 @@ public class MainWindow extends JFXApplicationStage {
 		 JFXApplication.getJFXApplicationSingleton().notifyQuit();
 		
 	 }
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return super.equals(obj);
+	}
 }

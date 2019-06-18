@@ -8,13 +8,10 @@ import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicati
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.SceneAntialiasing;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Paint;
 
 /**
  * @author xenon
@@ -25,30 +22,30 @@ import javafx.scene.paint.Paint;
 public class TableViewDemo extends JFXApplicationScene {
 // https://o7planning.org/fr/11079/tutoriel-javafx-tableview
 	
-	TableView<UserAccount> table = new TableView<UserAccount>();
+	TableView<UserAccount> table = new TableView<>();
 	 
     // Create column UserName (Data type of String).
     TableColumn<UserAccount, String> userNameCol //
-            = new TableColumn<UserAccount, String>("User Name");
+            = new TableColumn<>("User Name");
 
     // Create column Email (Data type of String).
     TableColumn<UserAccount, String> emailCol//
-            = new TableColumn<UserAccount, String>("Email");
+            = new TableColumn<>("Email");
 
     // Create column FullName (Data type of String).
     TableColumn<UserAccount, String> fullNameCol//
-            = new TableColumn<UserAccount, String>("Full Name");
+            = new TableColumn<>("Full Name");
 
     // Create 2 sub column for FullName.
     TableColumn<UserAccount, String> firstNameCol //
-            = new TableColumn<UserAccount, String>("First Name");
+            = new TableColumn<>("First Name");
 
     TableColumn<UserAccount, String> lastNameCol //
-            = new TableColumn<UserAccount, String>("Last Name");
+            = new TableColumn<>("Last Name");
 
     // Active Column
     TableColumn<UserAccount, Boolean> activeCol//
-            = new TableColumn<UserAccount, Boolean>("Active");
+            = new TableColumn<>("Active");
 
     
     static StackPane root = new StackPane();
@@ -85,8 +82,7 @@ public class TableViewDemo extends JFXApplicationScene {
 	    
 	      root.setPadding(new Insets(5));
 	      root.getChildren().add(table);
-	      
-	      JFXApplicationScene scene = this;
+	       
 	      
 	}
 
@@ -100,8 +96,8 @@ public class TableViewDemo extends JFXApplicationScene {
 	      UserAccount user3 = new UserAccount(3L, "white", "white@gmail.com", //
 	              "Kenvin", "White", false);
 	 
-	      ObservableList<UserAccount> list = FXCollections.observableArrayList(user1, user2, user3);
-	      return list;
+	       return FXCollections.observableArrayList(user1, user2, user3);
+	      
 	  }
 	 
 

@@ -14,7 +14,7 @@ public class Main extends JFXApplication {
 		try {
 
 			// setPrimaryStage ...
-			super.start((JFXApplicationStage)primaryStage);
+			super.start(primaryStage);
   
 			super.setPrimaryScene(JFXApplicationScene.createScene("StartupScreens", null, null));
   

@@ -4,12 +4,14 @@ import org.genose.java.implementation.observable.*;
 
 import org.genose.java.implementation.streams.ConsoleStream;
 
+import genose.java.implementation.dicomots.DicoMots;
+
 import java.io.BufferedReader; 
 import java.io.InputStreamReader; 
 import java.util.ArrayList;
 import java.util.Locale;
 
-import org.genose.java.implementation.dicomots.DicoMots;
+import org.genose.java.implementation.games.*;
 
 public class PenduGame extends Observable {
 
@@ -89,7 +91,7 @@ public class PenduGame extends Observable {
 	 */
 	public PenduGame() {
 		super();
-		dictionnaryWordGame = new DicoMots(DicoMots.DEFAULT_DICO_LANG);
+		dictionnaryWordGame = new DicoMots(DicoMots.DEFAULT_DICO_LANG); 
 
 		consoleLog = new ConsoleStream(System.out);
 		consoleInput = new ConsoleStream((new BufferedReader(new InputStreamReader(System.in))));

@@ -1,6 +1,7 @@
 package StartupScreens;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationCallback;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
@@ -41,12 +42,23 @@ public class StartupScreens implements JFXApplicationViewInvokableInterface {
 	@FXML
 	public void doStart() {
 		try {
-			JFXApplication.getJFXApplicationSingleton().getPrimaryStage().hide();
+		
 
-			JFXApplication.getJFXApplicationSingleton()
-					.setPrimaryScene(JFXApplicationScene.createScene("MainWindow", null, null));
+			
+			JFXApplicationScene.createScene("MainWindow", null, new JFXApplicationCallback() {
+				
+				@Override
+				public Object apply(Object arg0) {
+					JFXApplication.getJFXApplicationSingleton().getPrimaryStage().hide();
+					JFXApplication.getJFXApplicationSingleton().setPrimaryScene((JFXApplicationScene)arg0);
+					JFXApplication.getJFXApplicationSingleton().getPrimaryStage().show();
+					return arg0;
+				}
+			});
+			
 
-			JFXApplication.getJFXApplicationSingleton().getPrimaryStage().show();
+
+
 
 		} catch (JFXApplicationException evERRDOSTART) {
 			JFXApplicationLogger.getLogger().logError(this.getClass(), evERRDOSTART);

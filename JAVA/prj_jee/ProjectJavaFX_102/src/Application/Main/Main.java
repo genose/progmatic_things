@@ -1,40 +1,60 @@
 package Application.Main;
- 
-import org.genose.java.implementation.javafx.applicationtools.*;
-import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
-import org.genose.java.implementation.javafx.applicationtools.views.*;
-  
-import javafx.stage.Stage;
 
-public class Main extends JFXApplication { 
+import java.util.function.Function;
+
+import javax.print.DocFlavor.URL;
+
+import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationCallback;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationClassHelper;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
+import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+
+public class Main extends JFXApplication {
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage primaryStage) throws Exception {  
 
 		try {
 
 			// setPrimaryStage ...
 			super.start(primaryStage);
-  
-			super.setPrimaryScene(JFXApplicationScene.createScene("StartupScreens", null, null));
-  
+
+			JFXApplicationCallback aCallBackFunc = new JFXApplicationCallback() {
+
+				@Override
+				public Object apply(Object aNode) {
+
+					Object aInvokeableObject = JFXApplicationClassHelper.invokeMethod(aNode, "getRootController");
+					if (aInvokeableObject != null
+							&& JFXApplicationClassHelper.respondsTo(aInvokeableObject, "doStart")) {
+						JFXApplicationClassHelper.invokeMethod(aInvokeableObject, "doStart");
+					} else {
+						String sMessageFailInvokeable = "Something went wrong when finding Method doStart ...";
+						getLogger().logError(this.getClass(), sMessageFailInvokeable);
+						JFXApplicationException.raiseToFront(this.getClass(), new JFXApplicationException(
+								sMessageFailInvokeable, null, JFXApplicationHelper.getStackTrace()), true);
+					}
+
+					return null;
+				}
+			};
+
+			super.setPrimaryScene(JFXApplicationScene.createScene("StartupScreens", null, aCallBackFunc)); 
+
 			primaryStage.show();
 			primaryStage.centerOnScreen();
 
-			Object aInvokeableObject = JFXApplicationClassHelper.invokeMethod((super.getPrimaryScene()),
-					"getRootController");
-			if (aInvokeableObject != null) {
-				JFXApplicationClassHelper.invokeMethod(aInvokeableObject, "doStart");
-			} else {
-				String sMessageFailInvokeable = "Something went wrong when finding Method doStart ...";
-				getLogger().logError(this.getClass(), sMessageFailInvokeable);
-				JFXApplicationException.raiseToFront(this.getClass(),
-						new JFXApplicationException(sMessageFailInvokeable, null, JFXApplicationHelper.getStackTrace()),
-						true);
-			}
-
 			// :: handler to call after loading super.setOnComplete(); ...
-			// super.setSecondaryScene(JFXApplicationScene.createScene("MainWindow", null,  null )); ...
+			// super.setSecondaryScene(JFXApplicationScene.createScene("MainWindow", null,
+			// null )); ...
 
 		} catch (Exception evERRINSTANTIATE) {
 			JFXApplicationLogger.getLogger().logError(this.getClass(), evERRINSTANTIATE);
@@ -44,9 +64,10 @@ public class Main extends JFXApplication {
 
 	public static void main(String[] args) {
 		try {
-			launch(args);
+			launch(args); 
 		} catch (Exception evERRMAIN) {
 			JFXApplicationLogger.getLogger().logError(Main.class.getClass(), evERRMAIN);
+			JFXApplicationException.raiseToFront(JFXApplication.class.getClass(), evERRMAIN, true);
 
 		}
 	}

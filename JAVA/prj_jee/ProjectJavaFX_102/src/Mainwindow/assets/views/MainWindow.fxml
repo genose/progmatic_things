@@ -19,7 +19,7 @@
                <children>
                   <ToolBar orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <Button mnemonicParsing="false" text="=">
+                      <Button fx:id="tirroirButton" mnemonicParsing="false" text="=">
                            <tooltip>
                               <Tooltip text="Click to Open / Close" />
                            </tooltip>

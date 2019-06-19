@@ -30,7 +30,7 @@ public class JFXApplicationClassHelper {
 	 * @param aMethodName
 	 * @return true when method is found
 	 */
-	public static Boolean respondsTo(String aMethodName, Object aObjectToTest) {
+	public static Boolean respondsTo(Object aObjectToTest, String aMethodName) {
 		Method methodToFind = null;
 		Class<?> aClassToTest = aObjectToTest.getClass();
 		try {
@@ -42,7 +42,8 @@ public class JFXApplicationClassHelper {
 				Method[] aDeclaredMethod = aClassToTest.getDeclaredMethods();
 				// *******************************************************
 				for (int i = 0; i < aDeclaredMethod.length; i++) {
-					if (String.valueOf(aDeclaredMethod[i]).compareToIgnoreCase(aMethodName) == 0) {
+					int iStringCompare = String.valueOf(aDeclaredMethod[i]).compareToIgnoreCase(aMethodName);
+					if ( iStringCompare == 0) {
 						return true;
 					}
 				}
@@ -51,7 +52,7 @@ public class JFXApplicationClassHelper {
 				return false;
 			}
 		}
-		return (methodToFind == null);
+		return (methodToFind != null);
 	}
 
 	/**

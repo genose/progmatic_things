@@ -1,4 +1,4 @@
-package genose.java.implementation.dicomots;
+package org.genose.java.implementation.dicomots;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Path;

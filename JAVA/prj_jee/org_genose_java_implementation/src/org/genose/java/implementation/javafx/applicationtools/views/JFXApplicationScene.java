@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Callback;
 
 public class JFXApplicationScene extends Scene {
 
@@ -119,7 +120,7 @@ public class JFXApplicationScene extends Scene {
 	 * 
 	 */
 	static public JFXApplicationScene createScene(String argModuleName, String argModuleNameFile,
-			Function<Object, Boolean> aFuncCallback) throws JFXApplicationException {
+			JFXApplicationCallback aFuncCallback) throws JFXApplicationException {
 
 		FXMLLoader aRootNodeLoader = null;
 		Parent aRootNode = null;
@@ -146,7 +147,7 @@ public class JFXApplicationScene extends Scene {
 		/* ****************************************************************** */
 		// check out module folder in this Module
 		/* ****************************************************************** */
-		sBasePath = resolveModulePathInsenstiveCase(sBasePath, argModuleName, null);
+		sBasePath = resolveModulePathInsenstiveCase(sBasePath, argModuleName, ((argModuleName == null)?sBasePath: null) );
 
 		/* ****************************************************************** */
 		if (sBasePath == null) {
@@ -226,7 +227,7 @@ public class JFXApplicationScene extends Scene {
 
 					aRootNodeLoader = new FXMLLoader(aUrlRequestedScenePath);
 
-					aRootNode = aRootNodeLoader.load(aUrlRequestedScenePath);
+					aRootNode = aRootNodeLoader.load();
 
 				} else {
 					throw new JFXApplicationException(" can't find / load " + sRequestedSceneFile);
@@ -247,7 +248,7 @@ public class JFXApplicationScene extends Scene {
 						((Scene) aSceneNode).getStylesheets().add(aURLforCSS);
 					}
 					// Setup icon
-					if ((sRequestedSceneIcon != null) && JFXApplicationClassHelper.respondsTo("setIcon", aSceneNode)) {
+					if ((sRequestedSceneIcon != null) && JFXApplicationClassHelper.respondsTo(aSceneNode, "setIcon")) {
 						aSceneNode.setIcon(sRequestedSceneIcon);
 					}
 
@@ -271,9 +272,9 @@ public class JFXApplicationScene extends Scene {
 		try {
 
 			if (aFuncCallback != null) {
-				Boolean bCallBackResult = aFuncCallback.apply(aSceneNode);
+				Object oCallBackResult = aFuncCallback.apply(aSceneNode);
 				JFXApplicationLogger.getLogger().logInfo(JFXApplicationScene.class.getClass(),
-						String.format("Callback returned %i", bCallBackResult));
+						String.format("Callback returned %s", ((oCallBackResult == null)?"[Null]": oCallBackResult)));
 			}
 
 		} catch (Exception evErrCallBack) {

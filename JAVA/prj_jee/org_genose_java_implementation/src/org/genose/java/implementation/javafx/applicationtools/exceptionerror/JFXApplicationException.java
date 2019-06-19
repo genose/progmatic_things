@@ -100,7 +100,7 @@ public class JFXApplicationException extends Exception {
 
 			Button aQuitButton = new Button("Quit ... ");
 
-			aQuitButton.setOnAction(new EventHandler<ActionEvent>() {
+			aQuitButton.setOnAction(new EventHandler<ActionEvent>() { 
 
 				@Override
 				public void handle(ActionEvent event) {

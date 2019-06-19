@@ -4,7 +4,7 @@ import org.genose.java.implementation.observable.*;
 
 import org.genose.java.implementation.streams.ConsoleStream;
 
-import genose.java.implementation.dicomots.DicoMots;
+import org.genose.java.implementation.dicomots.DicoMots;
 
 import java.io.BufferedReader; 
 import java.io.InputStreamReader; 

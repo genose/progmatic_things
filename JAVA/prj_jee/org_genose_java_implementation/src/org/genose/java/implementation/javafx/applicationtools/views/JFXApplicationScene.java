@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.TimerTask;
 import java.util.function.Function;
 
 import org.genose.java.implementation.javafx.applicationtools.*;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.*;
+import org.genose.java.implementation.javafx.applicationtools.threadstasks.JFXApplicationScheduledTask;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -272,9 +274,18 @@ public class JFXApplicationScene extends Scene {
 		try {
 
 			if (aFuncCallback != null) {
-				Object oCallBackResult = aFuncCallback.apply(aSceneNode);
-				JFXApplicationLogger.getLogger().logInfo(JFXApplicationScene.class.getClass(),
-						String.format("Callback returned %s", ((oCallBackResult == null)?"[Null]": oCallBackResult)));
+				
+				
+							
+								JFXApplicationScheduledTask aTimerTaskCallback = new JFXApplicationScheduledTask();
+								
+								aTimerTaskCallback.setCallback(aFuncCallback, aSceneNode);
+								aTimerTaskCallback.setUserDatas(null);
+								aTimerTaskCallback.setupDelayFromCallback();
+								aTimerTaskCallback.schedule();
+								
+				
+				
 			}
 
 		} catch (Exception evErrCallBack) {

@@ -20,14 +20,14 @@ import javafx.util.Callback;
 public class Main extends JFXApplication {
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {  
+	public void start(Stage primaryStage) throws Exception {
 
 		try {
 
 			// setPrimaryStage ...
 			super.start(primaryStage);
-
-			JFXApplicationCallback aCallBackFunc = new JFXApplicationCallback() {
+			// :: handler to call after loading super.setOnComplete(); ...
+			JFXApplicationCallback aCallBackFunc = new JFXApplicationCallback(5000) {
 
 				@Override
 				public Object apply(Object aNode) {
@@ -43,16 +43,20 @@ public class Main extends JFXApplication {
 								sMessageFailInvokeable, null, JFXApplicationHelper.getStackTrace()), true);
 					}
 
-					return null;
+					return aNode;
+				}
+				@Override
+				public <V> Function<Object, V> andThen(Function<? super Object, ? extends V> after) {
+					return super.andThen(after);
 				}
 			};
 
-			super.setPrimaryScene(JFXApplicationScene.createScene("StartupScreens", null, aCallBackFunc)); 
+			super.setPrimaryScene(JFXApplicationScene.createScene("StartupScreens", null, aCallBackFunc));
 
 			primaryStage.show();
 			primaryStage.centerOnScreen();
 
-			// :: handler to call after loading super.setOnComplete(); ...
+		
 			// super.setSecondaryScene(JFXApplicationScene.createScene("MainWindow", null,
 			// null )); ...
 
@@ -64,7 +68,7 @@ public class Main extends JFXApplication {
 
 	public static void main(String[] args) {
 		try {
-			launch(args); 
+			launch(args);
 		} catch (Exception evERRMAIN) {
 			JFXApplicationLogger.getLogger().logError(Main.class.getClass(), evERRMAIN);
 			JFXApplicationException.raiseToFront(JFXApplication.class.getClass(), evERRMAIN, true);

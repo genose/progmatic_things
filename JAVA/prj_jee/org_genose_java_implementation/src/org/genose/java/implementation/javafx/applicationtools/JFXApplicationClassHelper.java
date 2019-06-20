@@ -48,7 +48,8 @@ public class JFXApplicationClassHelper {
 					}
 				}
 
-			} catch (SecurityException e) {
+			} catch (Exception evERRRESPONDSTO) {
+				JFXApplicationLogger.getLogger().logError(JFXApplicationClassHelper.class, evERRRESPONDSTO);
 				return false;
 			}
 		}
@@ -79,11 +80,12 @@ public class JFXApplicationClassHelper {
 			Method[] aMethodList = aObjectToIntrospect.getClass().getDeclaredMethods();
 			List<Method> aArrayMethodList = Arrays.asList(aMethodList);
 
-			JFXApplicationLogger.getLogger().logInfo(aObjectToIntrospect.getClass().getName() + " Got Method count : "
-					+ String.valueOf(aMethodList.length));
-			for (Method mMethodFound : aArrayMethodList) {
-				JFXApplicationLogger.getLogger().logInfo(" Got Method : " + mMethodFound.getName());
-				if (mMethodFound.getName().toLowerCase().compareToIgnoreCase(sInvokeMethodName) == 0) {
+			/* JFXApplicationLogger.getLogger().logInfo(aObjectToIntrospect.getClass().getName() + " Got Method count : "
+					+ String.valueOf(aMethodList.length)); */
+			for (Method mMethodFound : aArrayMethodList) { 
+				JFXApplicationLogger.getLogger().logInfo(aObjectToIntrospect.getClass()+"%n Got Method : " + mMethodFound.getName());
+				int iCompreState = mMethodFound.getName().toLowerCase().compareToIgnoreCase(sInvokeMethodName) ;  
+				if ( iCompreState == 0) {
 					try {
 
 						Class<?> aReturnType = mMethodFound.getReturnType();

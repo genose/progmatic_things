@@ -94,8 +94,9 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 	@Override
 	public Boolean append(String aStringToAppend) throws IOException {
 		initWriterIfNecessary();
-		return super.append(String.format( "%s%s" , aStringToAppend, aStringDelimiterSeparator));
+		return super.append(String.format("%s%s", aStringToAppend, aStringDelimiterSeparator));
 	}
+
 	/* **************************************** */
 	@Override
 	public Boolean appendObjectToSerializedJSON(String aNodeChildElementName, Object aNodeChildElement)
@@ -105,54 +106,62 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 		try {
 			initWriterIfNecessary();
 			bApppendStatus = super.appendObjectToSerializedJSON(aNodeChildElementName, aNodeChildElement);
-			if(!bApppendStatus) return bApppendStatus;
+			if (!bApppendStatus)
+				return bApppendStatus;
 			bApppendStatus = super.appendWithNewLine(aStringDelimiterSeparator);
 		} catch (Exception evERRENCODEJSON) {
 			getLogger().logError(this.getClass(), evERRENCODEJSON);
 			tragicClose();
 			throw new JFXApplicationException(evERRENCODEJSON);
 		}
-		
+
 		return bApppendStatus;
 	}
+
 	/* **************************************** */
 	@Override
-	public Boolean appendObjectToSerializedJSON(JFXApplicationMappedObject aNodeChildElement) throws JFXApplicationException {
-		
+	public Boolean appendObjectToSerializedJSON(JFXApplicationMappedObject aNodeChildElement)
+			throws JFXApplicationException {
+
 		Boolean bApppendStatus = false;
 		try {
 			initWriterIfNecessary();
 			bApppendStatus = super.appendObjectToSerializedJSON(aNodeChildElement);
-			if(!bApppendStatus) return bApppendStatus;
+			if (!bApppendStatus)
+				return bApppendStatus;
 			bApppendStatus = super.appendWithNewLine(aStringDelimiterSeparator);
 		} catch (Exception evERRENCODEJSON) {
 			getLogger().logError(this.getClass(), evERRENCODEJSON);
 			tragicClose();
 			throw new JFXApplicationException(evERRENCODEJSON);
 		}
-		
+
 		return bApppendStatus;
 	}
+
 	/* **************************************** */
 	@Override
 	public Boolean appendObject(Object aObjectLineToStringify) throws IOException {
 		initWriterIfNecessary();
 		StringBuilder aStringToAppend = new StringBuilder("");
 		Boolean bAppendStatus = false;
-		if((aObjectLineToStringify instanceof String) || (aObjectLineToStringify instanceof Integer)
-				|| (aObjectLineToStringify instanceof Double)){
+		if ((aObjectLineToStringify instanceof String) || (aObjectLineToStringify instanceof Integer)
+				|| (aObjectLineToStringify instanceof Double)) {
 			bAppendStatus = super.appendWithNewLine(String.valueOf(aObjectLineToStringify));
-		}else {
-			Map<Object,Object> aIterableObject = new HashMap<>();
-					aIterableObject.putAll( (Map<Object, Object>) aObjectLineToStringify);
-			for (Iterator<Entry<Object, Object>> iteratedObject = aIterableObject.entrySet().iterator(); iteratedObject.hasNext();) {
-				aStringToAppend.append(String.format("%s%s",String.valueOf(iteratedObject.next() ), ((iteratedObject.hasNext())? aStringDelimiterSeparator :"" ) ) );
+		} else {
+			Map<Object, Object> aIterableObject = new HashMap<>();
+			aIterableObject.putAll((Map<Object, Object>) aObjectLineToStringify);
+			for (Iterator<Entry<Object, Object>> iteratedObject = aIterableObject.entrySet().iterator(); iteratedObject
+					.hasNext();) {
+				aStringToAppend.append(String.format("%s%s", String.valueOf(iteratedObject.next()),
+						((iteratedObject.hasNext()) ? aStringDelimiterSeparator : "")));
 			}
-			bAppendStatus  = super.appendWithNewLine(aStringToAppend.toString());
+			bAppendStatus = super.appendWithNewLine(aStringToAppend.toString());
 		}
 
 		return bAppendStatus;
 	}
+
 	@Override
 	public Boolean save() throws IOException {
 		initWriterIfNecessary();
@@ -161,14 +170,16 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 
 	@Override
 	protected String readln() throws IOException {
-		return null;
+		return super.readln();
 	}
 
 	@Override
 	public JFXApplicationMappedObject readlnAsMapStringKey() throws IOException {
 		initReaderIfNecessary();
 		String aFileLineReaded = super.readln();
-
+		
+		if(isEOF()) return null;
+		
 		JFXApplicationMappedObject aSplittedValues = new JFXApplicationMappedObject();
 
 		String[] arrayStringOfValues = aFileLineReaded.split(aStringDelimiterSeparator);
@@ -199,10 +210,9 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 				if (aLineReaded.isEmpty() && isEOF())
 					return true;
 
-				if(bFileHaveFirstLineHasKeyDescriptor && aFirstLineKeyDescriptor.isEmpty()) {
-					aFirstLineKeyDescriptor.putAll( aLineReaded );
-				}else 
-				if (aFileContentDescriptor.put(String.valueOf(i++), aLineReaded) == null) {
+				if (bFileHaveFirstLineHasKeyDescriptor && aFirstLineKeyDescriptor.isEmpty()) {
+					aFirstLineKeyDescriptor.putAll(aLineReaded);
+				} else if (aFileContentDescriptor.put(String.valueOf(i++), aLineReaded) == null) {
 					return false;
 				}
 			}
@@ -230,20 +240,36 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 		return aSplittedValues;
 
 	}
-	
 
 	public static void main(String[] args) {
 		JFXApplicationLogger.getLogger().logInfo("Test class ... ");
 		File aFilePath = new File("salaries.txt");
-		JFXApplicationLogger.getLogger().logInfo(" file :"+aFilePath.getAbsolutePath()+"::"+String.valueOf(aFilePath.exists()));
-		
+
+		JFXApplicationLogger.getLogger()
+				.logInfo(" file :" + aFilePath.getAbsolutePath() + "::" + String.valueOf(aFilePath.exists()));
+
 		try {
-			JFXApplicationFileTypeDelimitedSeparator aFileAccessor = new JFXApplicationFileTypeDelimitedSeparator(aFilePath, "|");
+			JFXApplicationFileTypeDelimitedSeparator aFileAccessor = new JFXApplicationFileTypeDelimitedSeparator(
+					aFilePath, "\\|");
+			aFileAccessor.initReaderIfNecessary();
+			do {
+				
+				JFXApplicationMappedObject aMappedObjectLine = aFileAccessor.readlnAsMapStringKey();
+				// 
+				System.out.println(" :: "+aFileAccessor.readln());
+				if(aMappedObjectLine != null)
+					System.out.println(" ....  :: "+aMappedObjectLine.toAsString.apply(aMappedObjectLine) );
+			} while (!aFileAccessor.isEOF());
+			System.out.println(" :: .... clear ");
+			
 			aFileAccessor.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
-	
+
 }

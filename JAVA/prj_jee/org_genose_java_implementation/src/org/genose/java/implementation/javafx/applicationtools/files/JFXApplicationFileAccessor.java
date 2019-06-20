@@ -187,7 +187,7 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 
 	}
 
-	/* **************************************** */
+	/* **************************************** */ 
 	/**
 	 * 
 	 * @param aStringToAppend to the writer buffer
@@ -553,10 +553,14 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 			} else {
 				if (aFileReader == null) {
 					aFileReader = new FileReader(aFileDescriptor);
-				} else {
+					aBufferedReader = new BufferedReader(aFileReader);
+				} 
+				/*else {
+					aBufferedReader.close();
 					aFileReader.close();
 					aFileReader = new FileReader(aFileDescriptor);
-				}
+					aBufferedReader = new BufferedReader(aFileReader);
+				}*/
 			}
 		} catch (IOException evERRFILEIO) {
 			tragicClose();
@@ -580,10 +584,14 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 			} else {
 				if (aFileReader == null) {
 					aFileReader = new FileReader(aFileDescriptor);
-				} else {
+					aBufferedReader = new BufferedReader(aFileReader);
+				}
+				/*else {
+					aBufferedReader.close();
 					aFileReader.close();
 					aFileReader = new FileReader(aFileDescriptor);
-				}
+					aBufferedReader = new BufferedReader(aFileReader);
+				}*/
 			}
 			aFileContentDescriptor.clear();
 		} catch (IOException evERRFILEIO) {

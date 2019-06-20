@@ -2,3 +2,13 @@
 1560929167347	Delete element
 1560930481550	Delete element
 1560930847700	Move file
+1560962845748	Rename field 'iTimerDelay'
+1560963790365	Rename type 'JFXApplicationSchdledTask'
+1560964186367	Rename field 'pObjectRef'
+1560965906502	Encapsulate field 'iCallbackDelayAfter'
+1560966495413	Encapsulate field 'iCallbackRepeatDelayAfter'
+1560968043062	Rename local variable 'iCallbackDelayAfter'
+1560968064738	Rename local variable 'iCallbackDelayRepeat'
+1560968153830	Rename local variable 'iDelayAfter'
+1560968164525	Rename local variable 'iDelayAfter'
+1560974009616	Move file

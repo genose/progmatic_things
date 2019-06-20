@@ -66,7 +66,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	 */
 	@Override
 	public Boolean isComplexObject() {
-		return ((this.pPrivateValue == null) || (this.pPrivateValue instanceof String)
+		return !((this.pPrivateValue == null) || (this.pPrivateValue instanceof String)
 				|| (this.pPrivateValue instanceof Integer) || (this.pPrivateValue instanceof Double));
 	}
 

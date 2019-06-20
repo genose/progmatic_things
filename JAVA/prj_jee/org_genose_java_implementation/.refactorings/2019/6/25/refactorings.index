@@ -12,3 +12,4 @@
 1560968153830	Rename local variable 'iDelayAfter'
 1560968164525	Rename local variable 'iDelayAfter'
 1560974009616	Move file
+1561029809948	Rename method 'getStackTraceFormatted'

@@ -29,8 +29,8 @@ public class Main extends JFXApplication {
 			// :: handler to call after loading super.setOnComplete(); ...
 			JFXApplicationCallback aCallBackFunc = new JFXApplicationCallback(5000) {
 
-				@Override
-				public Object apply(Object aNode) {
+				
+				public Object doapply(Object aNode) {
 
 					Object aInvokeableObject = JFXApplicationClassHelper.invokeMethod(aNode, "getRootController");
 					if (aInvokeableObject != null
@@ -45,10 +45,7 @@ public class Main extends JFXApplication {
 
 					return aNode;
 				}
-				@Override
-				public <V> Function<Object, V> andThen(Function<? super Object, ? extends V> after) {
-					return super.andThen(after);
-				}
+
 			};
 
 			super.setPrimaryScene(JFXApplicationScene.createScene("StartupScreens", null, aCallBackFunc));

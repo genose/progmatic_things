@@ -27,14 +27,26 @@ public class JFXApplicationHelper {
 		Locale locale = new Locale("en", "UK");
 		ResourceBundle bundle = ResourceBundle.getBundle("strings", locale);
 
-		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("ui/main.fxml"), bundle);
+		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("ui/main.fxml"), bundle); 
 	}
 
+	
+	/* ****************************************************** */
+	/**
+	 * 
+	 * @return List<StackTraceElement>
+	 */
 	public static StackTraceElement[] getStackTrace() {
 		return Thread.currentThread().getStackTrace();
 		
 	}
-
+	/* ****************************************************** */
+	private StackTraceElement getLastStackTrace()
+	{
+		StackTraceElement[] aStackTrace = Thread.currentThread().getStackTrace();
+		return aStackTrace[aStackTrace.length -1];
+	}
+	/* ****************************************************** */
 	public static String getApplicationBundlePath() {
 		try {
 			Class localClass = JFXApplicationHelper.class.getClass();

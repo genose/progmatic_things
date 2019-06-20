@@ -43,7 +43,7 @@ public class JFXApplicationClassHelper {
 				// *******************************************************
 				for (int i = 0; i < aDeclaredMethod.length; i++) {
 					int iStringCompare = String.valueOf(aDeclaredMethod[i]).compareToIgnoreCase(aMethodName);
-					if ( iStringCompare == 0) {
+					if (iStringCompare == 0) {
 						return true;
 					}
 				}
@@ -79,14 +79,62 @@ public class JFXApplicationClassHelper {
 		try {
 			Method[] aMethodList = aObjectToIntrospect.getClass().getDeclaredMethods();
 			List<Method> aArrayMethodList = Arrays.asList(aMethodList);
+			Object aObjectToIntrospectSuperClass = aObjectToIntrospect.getClass().getSuperclass();
+			Class aclassSuper = aObjectToIntrospectSuperClass.getClass();
+			Method[] aMethodListSuperClass =  
+					aObjectToIntrospectSuperClass.getClass().getDeclaredMethods();
+			List<Method> aArrayMethodListSuperClass = Arrays.asList(aMethodListSuperClass);
+			
+			
+			Boolean bIsEnclosedOrOverriten = (aObjectToIntrospect.getClass().getEnclosingClass() != null ) && (aObjectToIntrospect.getClass().getEnclosingMethod() != null) && (aObjectToIntrospect.getClass().getEnclosingClass() != null);
+			
+ 
+			
+			String sClassInfos = String.format("*********************************************** "
+					+ "%n Class : %s %n "
+					+ "Got Method count :   %s "
+					+ "%n IsEnclosed / Anonymous : %s "
+					+ "%n Super Class : %s"
+					+ "%n Super Got Method count :   %s "
+					+ "%n IsEnclosed / Anonymous : %s "
+					+ "%n *********************************************** %n",
+					aObjectToIntrospect.toString(), 
+					String.valueOf(aMethodList.length),
+					aObjectToIntrospect.getClass().getEnclosingClass()+" :: "+aObjectToIntrospect.getClass().getEnclosingMethod() +" :: "+aObjectToIntrospect.getClass().getEnclosingClass(),
+					
+					aObjectToIntrospectSuperClass,
+					String.valueOf(aMethodListSuperClass.length),
+					aObjectToIntrospectSuperClass.getClass().getEnclosingClass()+" :: "+aObjectToIntrospectSuperClass.getClass().getEnclosingMethod() +" :: "+aObjectToIntrospectSuperClass.getClass().getEnclosingClass()
+					 );
+			JFXApplicationLogger.getLogger() .logInfo(sClassInfos);
+			
+			
+			for (Method mMethodFound : aArrayMethodList) {
+				JFXApplicationLogger.getLogger().logInfo("Class : " + aObjectToIntrospect.toString() + "%n Super : "
+						+ aObjectToIntrospect.getClass().getSuperclass() + "%n Got Method : " + mMethodFound.getName());
+				int iCompreState = mMethodFound.getName().toLowerCase().compareToIgnoreCase(sInvokeMethodName);
+				if (iCompreState == 0) {
 
-			/* JFXApplicationLogger.getLogger().logInfo(aObjectToIntrospect.getClass().getName() + " Got Method count : "
-					+ String.valueOf(aMethodList.length)); */
-			for (Method mMethodFound : aArrayMethodList) { 
-				JFXApplicationLogger.getLogger().logInfo(aObjectToIntrospect.getClass()+"%n Got Method : " + mMethodFound.getName());
-				int iCompreState = mMethodFound.getName().toLowerCase().compareToIgnoreCase(sInvokeMethodName) ;  
-				if ( iCompreState == 0) {
-					try {
+					Class<?> aReturnType = mMethodFound.getReturnType();
+					if (mMethodFound.getReturnType() != null) {
+						JFXApplicationLogger.getLogger()
+								.logInfo(" Return Method Type : " + aReturnType.toGenericString());
+						return mMethodFound.invoke(aObjectToIntrospect);
+					} else {
+						JFXApplicationLogger.getLogger().logInfo(" Return Method Type : is NULL ");
+						mMethodFound.invoke(aObjectToIntrospect);
+						return null;
+					}
+
+				}
+			}
+			
+			if(bIsEnclosedOrOverriten) {
+				for (Method mMethodFound : aMethodListSuperClass) {
+					JFXApplicationLogger.getLogger().logInfo( "%n Super : "
+							+ aObjectToIntrospectSuperClass + "%n Got Method : " + mMethodFound.getName());
+					int iCompreState = mMethodFound.getName().toLowerCase().compareToIgnoreCase(sInvokeMethodName);
+					if (iCompreState == 0) {
 
 						Class<?> aReturnType = mMethodFound.getReturnType();
 						if (mMethodFound.getReturnType() != null) {
@@ -99,26 +147,20 @@ public class JFXApplicationClassHelper {
 							return null;
 						}
 
-					} catch (IllegalAccessException | IllegalArgumentException
-							| InvocationTargetException aThroweableException) {
-						JFXApplicationException.raiseToFront(JFXApplicationClassHelper.class, aThroweableException,
-								false);
 					}
-
-					return null;
 				}
 			}
-		} catch (SecurityException evERRREFLECT) {
+			
+		} catch (Exception evERRREFLECT) {
 			JFXApplicationException.raiseToFront(JFXApplicationClassHelper.class, evERRREFLECT, false);
 
 		}
-		
+
 		String sObjectIntrospectedClassName = "[NULL CLASS]";
 		sObjectIntrospectedClassName = aObjectToIntrospect.getClass().getName();
-	 
 
-		throw new JFXApplicationRuntimeException(
-				String.format("(%s) Does not respond to (%s)  ", String.valueOf(sObjectIntrospectedClassName), sInvokeMethodName));
+		throw new JFXApplicationRuntimeException(String.format("(%s) Does not respond to (%s)  ",
+				String.valueOf(sObjectIntrospectedClassName), sInvokeMethodName));
 
 	}
 

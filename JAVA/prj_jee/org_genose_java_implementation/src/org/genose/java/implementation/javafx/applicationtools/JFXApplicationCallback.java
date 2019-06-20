@@ -9,7 +9,7 @@ import java.util.function.Function;
  * @author 59013-36-18
  *
  */
-public abstract class JFXApplicationCallback implements Function<Object, Object> {
+public class JFXApplicationCallback implements Function<Object, Object> {
 
 	private int iCallbackDelayAfter;
 	private int iCallbackRepeatDelayAfter;
@@ -93,7 +93,16 @@ public abstract class JFXApplicationCallback implements Function<Object, Object>
 	public void setDescription(String sDescription) {
 		this.sCallbackDescription = sDescription;
 	}
-
+	@Override
+	public <V> Function<Object, V> andThen(Function<? super Object, ? extends V> after) {
+		System.out.println("Apply  function andthen");
+		return (Function<Object, V>) apply(after);
+	}
+	@Override
+	public Object apply(Object t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	public String getDeScription() {
 		return ((this.sCallbackDescription == null) ? this.toString() : this.sCallbackDescription);
 	}

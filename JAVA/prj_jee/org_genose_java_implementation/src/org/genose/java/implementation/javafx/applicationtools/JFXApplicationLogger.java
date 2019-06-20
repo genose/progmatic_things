@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.streams.ConsoleStream;
 
 /**
@@ -27,7 +28,9 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 		LOG_ERROR(
 				"%n ************************************** %n Error ... %n ************************************** %n %s %n ************************************** %n %s %n ************************************** %n "),
 		LOG_EXCEPTION_WITHSTACK(
-				" %n ******************************************* * %n Error ... %n Occured in : %s %n ************************************** %n Throwed type : %s %n Message : %s %n ********************************************** %n CallStack : %n %s  %n ************************************** %n");
+				" %n ******************************************* * BEGIN * ******************************************* * %n Error ... %n Occured in : %s %n ************************************** %n Throwed type : %s %n Message : %s  %nCause : %s %n ********************************************** %n CallStack : %n %s  %n ************************************** %n  %n Additional info : %n %s  %n ************************************** %n ******************************************* * END * ******************************************* *"),
+		LOG_EXCEPTION_WITHSTACK_WITHORIGIN(
+				" %n ******************************************* * BEGIN * ******************************************* * %n Error ... %n Occured in : %s %n ************************************** %n Throwed type : %s %n Message : %s %nCause : %s %n ********************************************** %n CallStack : %n %s  %n ************************************** %n Raised From previously cause %n ************************************** %n %s %n ************************************** %n  %n Additional info : %n %s  %n ************************************** %n  ******************************************* * END * ******************************************* *");
 
 		private String strValue;
 		private static java.util.HashMap<Object, Object> map = new java.util.HashMap<>();
@@ -119,7 +122,6 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	private String aLoggerDescription = JFXApplicationLogger.class.getName() + ":System.getLogger([String])";
 	private String aLoggerName = "";
 	private MessageFormat aMessageFormatLogger = null;
-	private List<StackTraceElement> lastStackTraceList = null;
 
 	/*
 	 * *****************************************************************************
@@ -132,7 +134,6 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 		super();
 		aLoggerName = JFXApplication.class.getClass().toString();
 		aLogger = System.getLogger(aLoggerName);
-		lastStackTraceList = new ArrayList<>();
 	}
 
 	/*
@@ -147,7 +148,6 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 		super();
 		aLoggerName = loggerName;
 		aLogger = System.getLogger(aLoggerName);
-		lastStackTraceList = new ArrayList<>();
 	}
 
 	/*
@@ -159,7 +159,6 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	 */
 	public JFXApplicationLogger(BufferedReader abufferedReader) {
 		super(abufferedReader);
-		lastStackTraceList = new ArrayList<>();
 	}
 
 	/*
@@ -171,11 +170,11 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	 */
 	public JFXApplicationLogger(PrintStream apPrintStream) {
 		super(apPrintStream);
-		lastStackTraceList = new ArrayList<>();
 	}
 
 	/**
 	 * used to create a stdout
+	 * 
 	 * @throws UnsupportedOperationException
 	 */
 	private void singletonInstanceCreate() throws UnsupportedOperationException {
@@ -249,7 +248,9 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	 * 
 	 */
 	public void log(Level level, ResourceBundle bundle, String message, Throwable aThrownedCause) {
-		aLogger.log(level, String.format("%n ************************************** %n %s %n :: %s %n :: %s %n ************************************** %n", aThrownedCause, bundle.toString(), message));
+		aLogger.log(level, String.format(
+				"%n ************************************** %n %s %n :: %s %n :: %s %n ************************************** %n",
+				aThrownedCause, bundle.toString(), message));
 
 	}
 
@@ -257,11 +258,13 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	@Override
 	public void log(Level level, ResourceBundle bundle, String format, Object... params) {
 		try {
-			aLogger.log(level, String.format("%n ************************************** %n %s :: %s %n ************************************** %n ", ((bundle == null) ? "[NULL BUNDLE]" : bundle.toString()),
-					String.format(format, params)));
+			aLogger.log(level, String.format(
+					"%n ************************************** %n %s :: %s %n ************************************** %n ",
+					((bundle == null) ? "[NULL BUNDLE]" : bundle.toString()), String.format(format, params)));
 		} catch (Exception evERRFATALSYSLOG) {
 			System.out.println(String.format(LOGGERFORMAT.LOG_EXCEPTION_WITHSTACK.getValue(),
-					evERRFATALSYSLOG.toString(), Arrays.asList(getStackTrace()).toString().replaceAll(",", "\n")));
+					evERRFATALSYSLOG.toString(), Arrays.asList(JFXApplicationHelper.getStackTrace()).toString()
+							.replaceAll(",", "\n").replaceAll("\\[", "").replaceAll("\\]", "")));
 		}
 	}
 
@@ -295,8 +298,11 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 		log(System.Logger.Level.INFO,
 				((fromCurrentClass != null && fromCurrentClass.getClass().getName().length() > 0)
 						? fromCurrentClass.getClass().getName() + " : "
-						: getClass().getName() + "[NULL CLASS] : ") + "\n"
-						+ ((message == null) ? Arrays.asList(getStackTrace()).toString().replaceAll(",", "\n")
+						: getClass().getName() + "[NULL CLASS] : ")
+						+ "\n"
+						+ ((message == null)
+								? Arrays.asList(JFXApplicationHelper.getStackTrace()).toString().replaceAll(",", "\n")
+										.replaceAll("\\[", "").replaceAll("\\]", "")
 								: String.valueOf(message)));
 
 	}
@@ -312,8 +318,11 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 		log(System.Logger.Level.WARNING,
 				((fromCurrentClass != null && fromCurrentClass.getClass().getName().length() > 0)
 						? fromCurrentClass.getClass().getName() + " : "
-						: getClass().getName() + "[NULL CLASS] : ") + "\n"
-						+ ((message == null) ? Arrays.asList(getStackTrace()).toString().replaceAll(",", "\n")
+						: getClass().getName() + "[NULL CLASS] : ")
+						+ "\n"
+						+ ((message == null)
+								? Arrays.asList(JFXApplicationHelper.getStackTrace()).toString().replaceAll(",", "\n")
+										.replaceAll("\\[", "").replaceAll("\\]", "")
 								: String.valueOf(message)));
 
 	}
@@ -325,13 +334,7 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	 * @param message
 	 */
 	public void logError(Class<?> fromCurrentClass, String message) {
-
-		log(System.Logger.Level.ERROR,
-				((fromCurrentClass != null && fromCurrentClass.getClass().getName().length() > 0)
-						? fromCurrentClass.getClass().getName() + " : "
-						: getClass().getName() + "[NULL CLASS] : ") + "\n"
-						+ ((message == null) ? Arrays.asList(getStackTrace()).toString().replaceAll(",", "\n")
-								: String.valueOf(message)));
+		logError(fromCurrentClass, null, message, null);
 	}
 
 	/* ****************************************************** */
@@ -340,17 +343,8 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	 * @param fromCurrentClass
 	 * @param aThrowedCause
 	 */
-	public void logError(Class<?> fromCurrentClass, Throwable aThrowedCause) {
-
-		if (aThrowedCause == null) {
-			logError(((fromCurrentClass == null) ? getClass() : fromCurrentClass), getClass(),
-					"Neverland happen sometime ...", Arrays.asList(getStackTrace()).toString().replaceAll(",", "\n"));
-		} else {
-			logError(((fromCurrentClass == null) ? getClass() : fromCurrentClass), aThrowedCause.getClass(),
-					aThrowedCause.getMessage(),
-					Arrays.asList(aThrowedCause.getStackTrace()).toString().replaceAll(",", "\n"));
-		}
-
+	public void logError(Class<?> fromCurrentClass, Throwable throwedEvent) {
+		logError(fromCurrentClass, throwedEvent, null, null);
 	}
 
 	/* ****************************************************** */
@@ -361,43 +355,67 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	 * @param message
 	 * @param callStack
 	 */
-	public void logError(Class<?> fromCurrentClass, Class<?> throwedType, String message, String callStack) {
-
-		log(System.Logger.Level.ERROR,
-				String.format(LOGGERFORMAT.LOG_EXCEPTION_WITHSTACK.getValue(), String.valueOf(fromCurrentClass),
-						String.valueOf(throwedType), String.valueOf(message),
-						((callStack == null) ? Arrays.asList(getStackTrace()).toString().replaceAll(",", "\n")
-								: String.valueOf(callStack).replaceAll(",", "\n"))));
+	public void logError(Class<?> fromCurrentClass, Throwable throwedEvent, String message) {
+		logError(fromCurrentClass, throwedEvent, message, null);
 	}
-	
-	
-	public void logError(String message, Throwable throwedEvent) {
-		
-		logError(this.getClass(), throwedEvent.getClass(), message, throwedEvent.getMessage()+"\n*********************\n"+throwedEvent.getCause());
-	}
-	/* ****************************************************** */
-	/**
-	 * 
-	 * @return List<StackTraceElement>
-	 */
-	private StackTraceElement[] getStackTrace() {
-		StackTraceElement[] aStackTrace = Thread.currentThread().getStackTrace();
 
-		lastStackTraceList.clear();
-		for (int i = 0; i < (aStackTrace.length - 1); i++) {
-			lastStackTraceList.add(aStackTrace[i]);
+	public void logError(Class<?> fromCurrentClass, Throwable throwedEvent, String message, String callStackInfo) {
+
+		StackTraceElement[] aStackTraceList = null;
+		String sPreviousCause = "[NULL EVENT]";
+		String sStackTraceFormatted = null;
+		Throwable aEnclavedThrowable = null;
+
+		// :: "[Previously Raised / Exception in Exception ]"
+		if (throwedEvent == null) {
+			aStackTraceList = JFXApplicationHelper.getStackTrace();
+			sPreviousCause = String.format(
+					"%n *************************** %n %s %n *************************** %n message : %s %n *************************** %n ",
+					message,  sPreviousCause);
+
+			sStackTraceFormatted = String.format(LOGGERFORMAT.LOG_EXCEPTION_WITHSTACK_WITHORIGIN.getValue(),
+					String.valueOf(fromCurrentClass),
+					"[NULL ORIGIN CLASS]", 
+					"[NULL MESSAGE]", 
+					"[NULL CAUSE]",
+					JFXApplicationException.doFormattedStackTrace(aStackTraceList),
+					sPreviousCause,
+					String.valueOf(callStackInfo));
+
+		} else {
+
+			if (throwedEvent instanceof JFXApplicationException) {
+				aEnclavedThrowable = ((JFXApplicationException) throwedEvent).getEncapsuledEventException();
+
+				sPreviousCause = String.format(LOGGERFORMAT.LOG_EXCEPTION_WITHSTACK.getValue(),
+						String.valueOf(aEnclavedThrowable.getClass()),
+						String.valueOf(aEnclavedThrowable.getClass()),
+						String.valueOf(aEnclavedThrowable.getMessage()),
+						String.valueOf(aEnclavedThrowable.getCause()),
+						JFXApplicationException.doFormattedStackTrace(aEnclavedThrowable.getStackTrace()),
+						String.valueOf(callStackInfo));
+			}
+
+			aStackTraceList = throwedEvent.getStackTrace();
+
+			// ******** matbe is a forwarded Throwable for we pick message from both sources
+			String sMessageStackedCause = String.format(
+					"%n *************************** %n message %s %n *************************** %n Event message : %s %n *************************** %n ",
+					message, String.valueOf(throwedEvent.getMessage()));
+			// ******** final message with all informations ...
+			sStackTraceFormatted = String.format(LOGGERFORMAT.LOG_EXCEPTION_WITHSTACK_WITHORIGIN.getValue(),
+					String.valueOf(fromCurrentClass), 
+					String.valueOf(throwedEvent.getClass()),
+					sMessageStackedCause,
+					String.valueOf(throwedEvent.getCause()),
+					JFXApplicationException.doFormattedStackTrace(aStackTraceList),
+					sPreviousCause,
+					String.valueOf(callStackInfo));
 		}
 
-		return aStackTrace;
+		log(System.Logger.Level.ERROR, sStackTraceFormatted);
 	}
-	
-	private StackTraceElement getLastStackTrace()
-	{
-		StackTraceElement[] aStackTrace = Thread.currentThread().getStackTrace();
-		return aStackTrace[aStackTrace.length -2];
-	}
-	
-	
+
 	/* ****************************************************** */
 	/**
 	 * 
@@ -411,7 +429,5 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 			return pJFXApplicationLoggerSingleton;
 		}
 	}
-
-
 
 }

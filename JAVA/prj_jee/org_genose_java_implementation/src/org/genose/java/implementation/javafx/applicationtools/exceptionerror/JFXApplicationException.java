@@ -5,7 +5,11 @@ package org.genose.java.implementation.javafx.applicationtools.exceptionerror;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.List;
+
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 
 import javafx.application.Platform;
@@ -31,8 +35,10 @@ public class JFXApplicationException extends Exception {
 
 	/**
 	 * 
-	 */ 
+	 */
 	private static final long serialVersionUID = 1L;
+	private Throwable aEncapsuledThrowable = null;
+	private static Alert aFatalErrorAlert = null;
 
 	/**
 	 * 
@@ -73,93 +79,159 @@ public class JFXApplicationException extends Exception {
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
- 
+
+	/**
+	 * 
+	 * @param sMessageToRaise
+	 * @param throwedCause
+	 * @param stackTrace
+	 */
 	public JFXApplicationException(String sMessageToRaise, Throwable throwedCause, StackTraceElement[] stackTrace) {
 		super(sMessageToRaise, throwedCause);
 		super.setStackTrace(stackTrace);
 
 	}
 
+	/**
+	 * 
+	 * @return Throwable
+	 */
+	public Throwable getEncapsuledEventException() {
+
+		return this.aEncapsuledThrowable;
+	}
+
+	/**
+	 * 
+	 * @param aThrowableToForward
+	 */
+	public void setEncapsuledEventException(Throwable aThrowableToForward) {
+
+		this.aEncapsuledThrowable = aThrowableToForward;
+	}
+
+	/**
+	 * 
+	 * @param fromClass
+	 * @param throwedEvent
+	 * @param bFatalQuit
+	 */
 	public static void raiseToFront(Class<?> fromClass, Throwable throwedEvent, Boolean bFatalQuit) {
 
 // :: https://o7planning.org/fr/11529/tutoriel-javafx-alert-dialog#a10503960
 		String aCauseMessage = String.format(
-				"Error in frontend ... %n ***************** %n %s %n ***************** %n %s %n ***************** %n %s %n ***************** %n %s %n ***************** %n",
-				fromClass, throwedEvent.getCause(), throwedEvent.getMessage(), throwedEvent.getStackTrace());
+				"Error in frontend ... %n ***************** %n %s %n ***************** %n ", String.valueOf(fromClass));
 
-		if (!(fromClass.getClass().equals(JFXApplicationLogger.class))) {
-			JFXApplicationLogger.getLogger().logError("Error while finding to forward error to frontend ...",
-					throwedEvent);
-			javafx.scene.control.Button aButton = new javafx.scene.control.Button();
+		if (throwedEvent != null) {
+			aCauseMessage = String.format(
+					"Error in frontend ... %n ***************** %n %s %n ***************** %n %s %n ***************** %n %s %n ***************** %n %s %n ***************** %n",
+					fromClass, throwedEvent.getCause(), throwedEvent.getMessage(), throwedEvent.getStackTrace());
+		}
 
-			Stage aStageForError = new Stage(StageStyle.UNDECORATED);
-
-			VBox root = new VBox();
-			root.setPadding(new Insets(10));
-			root.setSpacing(10);
-
-			Button aQuitButton = new Button("Quit ... ");
-
-			aQuitButton.setOnAction(new EventHandler<ActionEvent>() { 
-
-				@Override
-				public void handle(ActionEvent event) {
-					if(bFatalQuit) {
-						Platform.exit();
-					}
+		try {
+			if (JFXApplicationException.aFatalErrorAlert == null) {
+				
+				JFXApplicationException.aFatalErrorAlert = new Alert(AlertType.CONFIRMATION);
+				
+				if(throwedEvent == null) {
+					 throwedEvent = new JFXApplicationException("raiseToFront was Called for a certain reason ..." , throwedEvent, JFXApplicationHelper.getStackTrace());
 				}
+				
+				JFXApplicationLogger.getLogger().logError(JFXApplicationException.class, throwedEvent, "Error while finding to forward error to frontend ...");
 
-			});
+				javafx.scene.control.Button aButton = new javafx.scene.control.Button();
 
-			root.getChildren().addAll(aQuitButton);
+				Stage aStageForError = new Stage(StageStyle.UNDECORATED);
 
-			Scene scene = new Scene(root, Screen.getPrimary().getVisualBounds().getWidth()-20,
-					Screen.getPrimary().getVisualBounds().getHeight()-80);
-			aStageForError.setTitle("JavaFX Error Alert (o7planning.org)");
-			aStageForError.setScene(scene);
+				VBox root = new VBox();
+				root.setPadding(new Insets(10));
+				root.setSpacing(10);
 
-			// aStageForError.show();
-			/* ********************************* */
-			/* ********************************* */
-			/* ********************************* */
-			Alert aFatalErrorAlert = new Alert(AlertType.CONFIRMATION);
-			aFatalErrorAlert.setTitle("Fatal Error ...");
-			aFatalErrorAlert.setHeaderText("Fatal Error : " + throwedEvent.getMessage());
+				Button aQuitButton = new Button("Quit ... ");
 
-			aFatalErrorAlert.setContentText(String.format(" Fatal Error %n %s", aCauseMessage));
-			/* ********************************* */
-			/* ********************************* */
-			/* ********************************* */
-			VBox dialogPaneContent = new VBox();
- 
-			Label aLabelCause = new Label("Cause :" + throwedEvent.getCause());
-			Label aLabel = new Label("Stack Trace:");
+				aQuitButton.setOnAction(new EventHandler<ActionEvent>() {
 
-			String stackTrace = JFXApplicationException.getStackTraceFormatted(throwedEvent);
-			TextArea textArea = new TextArea();
-			textArea.setText(stackTrace);
+					@Override
+					public void handle(ActionEvent event) { 
+						if (bFatalQuit) {
+							Platform.exit();
+						}
+					}
 
-			dialogPaneContent.getChildren().addAll(aLabelCause, aLabel, textArea);
-			// Set content for Dialog Pane
-			aFatalErrorAlert.getDialogPane().setContent(dialogPaneContent);
-			aFatalErrorAlert.getDialogPane().setContentText("Text ...");
+				});
 
-			aFatalErrorAlert.showAndWait();
-			if(bFatalQuit) { 
-				JFXApplication.notityDramaticQuit();
+				root.getChildren().addAll(aQuitButton);
+
+				Scene scene = new Scene(root, Screen.getPrimary().getVisualBounds().getWidth() - 20,
+						Screen.getPrimary().getVisualBounds().getHeight() - 80);
+				aStageForError.setTitle("JavaFX Error Alert (o7planning.org)");
+				aStageForError.setScene(scene);
+
+				// aStageForError.show();
+				/* ********************************* */
+				/* ********************************* */
+				/* ********************************* */
+
+				
+				aFatalErrorAlert.setTitle("Fatal Error ...");
+				aFatalErrorAlert.setHeaderText("Fatal Error : " + throwedEvent.getMessage());
+
+				aFatalErrorAlert.setContentText(String.format(" Fatal Error %n %s", aCauseMessage));
+				/* ********************************* */
+				/* ********************************* */
+				/* ********************************* */
+				VBox dialogPaneContent = new VBox();
+
+				Label aLabelCause = new Label("Cause :" + throwedEvent.getCause());
+				Label aLabel = new Label("Stack Trace:");
+
+				String stackTrace = JFXApplicationException.doFormattedStackTrace(throwedEvent);
+				TextArea textArea = new TextArea();
+				textArea.setText(stackTrace);
+
+				dialogPaneContent.getChildren().addAll(aLabelCause, aLabel, textArea);
+				// Set content for Dialog Pane
+				aFatalErrorAlert.getDialogPane().setContent(dialogPaneContent);
+				aFatalErrorAlert.getDialogPane().setContentText("Text ...");
+
+				aFatalErrorAlert.showAndWait();
+
+				JFXApplicationException.aFatalErrorAlert = null;
+
+				if (bFatalQuit) {
+					JFXApplication.notityDramaticQuit();
+				}
+			} else {
+
+				JFXApplicationLogger.getLogger().logError(JFXApplicationException.class, aCauseMessage);
+				Platform.exit(); 
 			}
-		} else {
-
-			JFXApplicationLogger.getLogger().log(System.Logger.Level.ERROR, aCauseMessage);
-			Platform.exit();
+		} catch (Exception evERRRAISETOFRONT) {
+			JFXApplicationException aEncapsulatedFatalError = new JFXApplicationException(
+					"Exception when building front pane of Exception ...", evERRRAISETOFRONT,
+					JFXApplicationHelper.getStackTrace());
+			JFXApplicationLogger.getLogger().logError(JFXApplicationException.class, aEncapsulatedFatalError);
 		}
 	}
 
-	private static String getStackTraceFormatted(Throwable e) {
+	public static String doFormattedStackTrace(Throwable eThrowableStackTrace) {
+		if(eThrowableStackTrace == null) return ("[NULL]");
+		
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
-		e.printStackTrace(pw);
-		 return sw.toString(); 
+		eThrowableStackTrace.printStackTrace(pw);
+		return sw.toString();
+	}
+
+	public static String doFormattedStackTrace(StackTraceElement[] eStackTrace) {
+		// ::  ...
+		if(eStackTrace == null) return ("[NULL]");
+		return Arrays.asList(eStackTrace).toString().replaceAll(",", "\n").replaceAll("\\[", "").replaceAll("\\]", "");
+	}
+
+	public static String doFormattedStackTrace(List<StackTraceElement> aStackTraceList) {
+		if(aStackTraceList == null) return ("[NULL]");
+		return aStackTraceList.toString().replaceAll(",", "\n").replaceAll("\\[", "").replaceAll("\\]", "");
 	}
 
 }

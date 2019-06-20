@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Callback;
 
-public class JFXApplicationScene extends Scene {
+public class JFXApplicationScene extends Scene { 
 
 	private String aSceneIdentifier = null;
 	private Parent aSceneRootNode = null;
@@ -260,9 +260,10 @@ public class JFXApplicationScene extends Scene {
 				}
 
 			} catch (IOException evERRLOADFXML) {
+				String sFormattedErrorCause = String.format("Unable to load requested file (%s) %n ;; cause of returned error ",
+						sRequestedSceneFile);
 				JFXApplicationLogger.getLogger()
-						.logError(String.format("Unable to load requested file (%s) %n ;; cause of returned error ",
-								sRequestedSceneFile), evERRLOADFXML);
+						.logError(JFXApplicationScene.class, evERRLOADFXML, sFormattedErrorCause);
 				JFXApplicationException.raiseToFront(JFXApplicationScene.class, evERRLOADFXML, true);
 			}
 

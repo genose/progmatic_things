@@ -15,12 +15,12 @@ public enum HUMANDEFINITION {
 	HOMME(1, "M", "MASCULIN", "MONSIEUR", "GARCON"), FEMME(2, "F", "FEMININ", "MADAME", "FILLE"),
 	UNBINARY999(999, "P", "POLYTETRAHEDRE", "POLYPHASED", "POLY");
 
-	final static String REPRESENTATION_ABBREGED_ENUM = "typeAbbregedEnum";
-	final static String REPRESENTATION_ABBREGED_STRING = "typeAbbreged";
-	final static String REPRESENTATION_ADMINISTRATIVE_NAME = "typeAdministrativeName";
-	final static String REPRESENTATION_ADMINISTRATIVE_STYLE = "typeAdministrativeStyle";
-	final static String REPRESENTATION_ADMINISTRATIVE_SEX = "typeAdministrativeSex";
-	final static String REPRESENTATION_ADMINISTRATIVE_AGE = "typeAdministrativeAge";
+	static final  String REPRESENTATION_ABBREGED_ENUM = "typeAbbregedEnum";
+	static final String REPRESENTATION_ABBREGED_STRING = "typeAbbreged";
+	static final String REPRESENTATION_ADMINISTRATIVE_NAME = "typeAdministrativeName";
+	static final String REPRESENTATION_ADMINISTRATIVE_STYLE = "typeAdministrativeStyle";
+	static final String REPRESENTATION_ADMINISTRATIVE_SEX = "typeAdministrativeSex";
+	static final String REPRESENTATION_ADMINISTRATIVE_AGE = "typeAdministrativeAge";
 
 	private Map<Object, Object> enumDefMap = new HashMap<>();
 	private static Map<Object, Object> registredDefMap = new HashMap<>();
@@ -83,6 +83,11 @@ public enum HUMANDEFINITION {
 	}
 
 	/* ************************************************************* */
+	/**
+	 * Whatever you looking for, we you the soluce value !!
+	 * @param String eObjectValCode ; else Cast your argument Integer with String.valueOf( myIntegerArgument )
+	 * @return
+	 */
 	public Enum<HUMANDEFINITION> getEnumByString(String eObjectValCode) {
 		for (HUMANDEFINITION eObjectVal : HUMANDEFINITION.values()) {
 

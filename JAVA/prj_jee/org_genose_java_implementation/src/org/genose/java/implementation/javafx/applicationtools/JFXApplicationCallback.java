@@ -91,7 +91,7 @@ public class JFXApplicationCallback implements Function<Object, Object> {
 	 * @param sDescription
 	 */
 	public void setDescription(String sDescription) {
-		this.sCallbackDescription = sDescription;
+		this.sCallbackDescription = String.valueOf(sDescription);
 	}
 	@Override
 	public <V> Function<Object, V> andThen(Function<? super Object, ? extends V> after) {
@@ -103,7 +103,7 @@ public class JFXApplicationCallback implements Function<Object, Object> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	public String getDeScription() {
+	public String getDescription() {
 		return ((this.sCallbackDescription == null) ? this.toString() : this.sCallbackDescription);
 	}
 

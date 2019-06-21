@@ -39,7 +39,7 @@ public class JFXApplicationClassHelper {
 		} catch (NoSuchMethodException | SecurityException evERRREFLECT) {
 			try {
 				// *******************************************************
-				Method[] aDeclaredMethod = aClassToTest.getDeclaredMethods();
+				Method[] aDeclaredMethod = aClassToTest.getMethods();
 				// *******************************************************
 				for (int i = 0; i < aDeclaredMethod.length; i++) {
 					int iStringCompare = String.valueOf(aDeclaredMethod[i]).compareToIgnoreCase(aMethodName);
@@ -77,72 +77,93 @@ public class JFXApplicationClassHelper {
 		}
 
 		try {
-			Method[] aMethodList = aObjectToIntrospect.getClass().getDeclaredMethods();
+			Method[] aMethodList = aObjectToIntrospect.getClass().getMethods();
 			List<Method> aArrayMethodList = Arrays.asList(aMethodList);
 			Object aObjectToIntrospectSuperClass = aObjectToIntrospect.getClass().getSuperclass();
 			Class aclassSuper = aObjectToIntrospectSuperClass.getClass();
-			Method[] aMethodListSuperClass =  
-					aObjectToIntrospectSuperClass.getClass().getDeclaredMethods();
+			Method[] aMethodListSuperClass = aObjectToIntrospectSuperClass.getClass().getMethods();
 			List<Method> aArrayMethodListSuperClass = Arrays.asList(aMethodListSuperClass);
-			
-			
-			Boolean bIsEnclosedOrOverriten = (aObjectToIntrospect.getClass().getEnclosingClass() != null ) && (aObjectToIntrospect.getClass().getEnclosingMethod() != null) && (aObjectToIntrospect.getClass().getEnclosingClass() != null);
-			
- 
-			
-			String sClassInfos = String.format("*********************************************** "
-					+ "%n Class : %s %n "
-					+ "Got Method count :   %s "
-					+ "%n IsEnclosed / Anonymous : %s "
-					+ "%n Super Class : %s"
-					+ "%n Super Got Method count :   %s "
-					+ "%n IsEnclosed / Anonymous : %s "
-					+ "%n *********************************************** %n",
-					aObjectToIntrospect.toString(), 
-					String.valueOf(aMethodList.length),
-					aObjectToIntrospect.getClass().getEnclosingClass()+" :: "+aObjectToIntrospect.getClass().getEnclosingMethod() +" :: "+aObjectToIntrospect.getClass().getEnclosingClass(),
-					
-					aObjectToIntrospectSuperClass,
-					String.valueOf(aMethodListSuperClass.length),
-					aObjectToIntrospectSuperClass.getClass().getEnclosingClass()+" :: "+aObjectToIntrospectSuperClass.getClass().getEnclosingMethod() +" :: "+aObjectToIntrospectSuperClass.getClass().getEnclosingClass()
-					 );
-			JFXApplicationLogger.getLogger() .logInfo(sClassInfos);
-			
-			
+
+			Boolean bIsEnclosedOrOverriten = (aObjectToIntrospect.getClass().getEnclosingClass() != null)
+					&& (aObjectToIntrospect.getClass().getEnclosingMethod() != null)
+					&& (aObjectToIntrospect.getClass().getEnclosingClass() != null);
+
+			String sClassInfos = String.format(
+					"*********************************************** " + "%n Should Invoke : %s " + "%n Class : %s %n "
+							+ "Got Method count :   %s " + "%n IsEnclosed / Anonymous : %s " + "%n Super Class : %s"
+							+ "%n Super Got Method count :   %s " + "%n IsEnclosed / Anonymous : %s "
+							+ "%n *********************************************** %n",
+					sInvokeMethodName, aObjectToIntrospect.toString(), String.valueOf(aMethodList.length),
+					aObjectToIntrospect.getClass().getEnclosingClass() + " :: "
+							+ aObjectToIntrospect.getClass().getEnclosingMethod() + " :: "
+							+ aObjectToIntrospect.getClass().getEnclosingClass(),
+
+					aObjectToIntrospectSuperClass, String.valueOf(aMethodListSuperClass.length),
+					aObjectToIntrospectSuperClass.getClass().getEnclosingClass() + " :: "
+							+ aObjectToIntrospectSuperClass.getClass().getEnclosingMethod() + " :: "
+							+ aObjectToIntrospectSuperClass.getClass().getEnclosingClass());
+			// sonarlint says extract to method ... i say NO !!
+			try {
+				Method aclassmethod = aObjectToIntrospect.getClass().getMethod(sInvokeMethodName);
+				if (aclassmethod != null) {
+					Class<?> aReturnType = aclassmethod.getReturnType();
+					if (aclassmethod.getReturnType() != null) {
+						JFXApplicationLogger.getLogger().logInfo("[Object getMethod] " + sInvokeMethodName
+								+ " Return Method Type : " + aReturnType.toGenericString());
+						return aclassmethod.invoke(aObjectToIntrospect);
+					} else {
+						JFXApplicationLogger.getLogger()
+								.logInfo("[Object getMethod] " + sInvokeMethodName + " Return Method Type : is NULL ");
+						aclassmethod.invoke(aObjectToIntrospect);
+						return null;
+					}
+				}
+
+			} catch (Exception throwedEvent) {
+				JFXApplicationLogger.getLogger().logError(JFXApplicationHelper.class, throwedEvent,
+						"Can t find [Object Method[" + sInvokeMethodName + "]] ... Retry with introspect ...");
+			}
+			// Following should rarely be reached ...
+			// it find by Insensitive case methods name ...
+			JFXApplicationLogger.getLogger().logInfo(sClassInfos);
+			/* ********************************** */
 			for (Method mMethodFound : aArrayMethodList) {
-				JFXApplicationLogger.getLogger().logInfo("Class : " + aObjectToIntrospect.toString() + "%n Super : "
-						+ aObjectToIntrospect.getClass().getSuperclass() + "%n Got Method : " + mMethodFound.getName());
+
 				int iCompreState = mMethodFound.getName().toLowerCase().compareToIgnoreCase(sInvokeMethodName);
 				if (iCompreState == 0) {
-
+					JFXApplicationLogger.getLogger().logInfo(
+							"Class : " + aObjectToIntrospect.toString() + "%n Got Method : " + mMethodFound.getName());
 					Class<?> aReturnType = mMethodFound.getReturnType();
 					if (mMethodFound.getReturnType() != null) {
-						JFXApplicationLogger.getLogger()
-								.logInfo(" Return Method Type : " + aReturnType.toGenericString());
+						JFXApplicationLogger.getLogger().logInfo("[Object Introspect] " + sInvokeMethodName
+								+ " Return Method Type : " + aReturnType.toGenericString());
 						return mMethodFound.invoke(aObjectToIntrospect);
 					} else {
-						JFXApplicationLogger.getLogger().logInfo(" Return Method Type : is NULL ");
+						JFXApplicationLogger.getLogger()
+								.logInfo("[Object Introspect] " + sInvokeMethodName + " Return Method Type : is NULL ");
 						mMethodFound.invoke(aObjectToIntrospect);
 						return null;
 					}
 
 				}
 			}
-			
-			if(bIsEnclosedOrOverriten) {
+			/* ********************************** */
+			if (bIsEnclosedOrOverriten) {
 				for (Method mMethodFound : aMethodListSuperClass) {
-					JFXApplicationLogger.getLogger().logInfo( "%n Super : "
-							+ aObjectToIntrospectSuperClass + "%n Got Method : " + mMethodFound.getName());
+
 					int iCompreState = mMethodFound.getName().toLowerCase().compareToIgnoreCase(sInvokeMethodName);
 					if (iCompreState == 0) {
+						JFXApplicationLogger.getLogger().logInfo("%n Super : " + aObjectToIntrospectSuperClass
+								+ "%n Got Method : " + mMethodFound.getName());
 
 						Class<?> aReturnType = mMethodFound.getReturnType();
 						if (mMethodFound.getReturnType() != null) {
-							JFXApplicationLogger.getLogger()
-									.logInfo(" Return Method Type : " + aReturnType.toGenericString());
+							JFXApplicationLogger.getLogger().logInfo("[Object.Super Introspect] " + sInvokeMethodName
+									+ " Return Method Type : " + aReturnType.toGenericString());
 							return mMethodFound.invoke(aObjectToIntrospect);
 						} else {
-							JFXApplicationLogger.getLogger().logInfo(" Return Method Type : is NULL ");
+							JFXApplicationLogger.getLogger().logInfo("[Object.Super Introspect] " + sInvokeMethodName
+									+ " Return Method Type : is NULL ");
 							mMethodFound.invoke(aObjectToIntrospect);
 							return null;
 						}
@@ -150,7 +171,7 @@ public class JFXApplicationClassHelper {
 					}
 				}
 			}
-			
+
 		} catch (Exception evERRREFLECT) {
 			JFXApplicationException.raiseToFront(JFXApplicationClassHelper.class, evERRREFLECT, false);
 

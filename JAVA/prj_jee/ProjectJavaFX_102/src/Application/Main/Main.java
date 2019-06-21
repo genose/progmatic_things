@@ -1,5 +1,6 @@
 package Application.Main;
 
+import java.lang.reflect.Method;
 import java.util.function.Function;
 
 import javax.print.DocFlavor.URL;
@@ -27,10 +28,10 @@ public class Main extends JFXApplication {
 			// setPrimaryStage ...
 			super.start(primaryStage);
 			// :: handler to call after loading super.setOnComplete(); ...
-			JFXApplicationCallback aCallBackFunc = new JFXApplicationCallback(5000) {
+			JFXApplicationCallback aCallBackFunc = new JFXApplicationCallback(2000) {
 
-				
-				public Object doapply(Object aNode) {
+				@Override
+				public Object apply(Object aNode) {
 
 					Object aInvokeableObject = JFXApplicationClassHelper.invokeMethod(aNode, "getRootController");
 					if (aInvokeableObject != null
@@ -47,6 +48,9 @@ public class Main extends JFXApplication {
 				}
 
 			};
+			
+			
+			aCallBackFunc.setDescription("Call new Stage to show up MainWindow ...");
 
 			super.setPrimaryScene(JFXApplicationScene.createScene("StartupScreens", null, aCallBackFunc));
 

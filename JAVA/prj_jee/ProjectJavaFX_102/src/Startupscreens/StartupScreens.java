@@ -49,6 +49,7 @@ public class StartupScreens implements JFXApplicationViewInvokableInterface {
 				
 				@Override
 				public Object apply(Object arg0) {
+					this.setDescription("Close Startup Screen and Call new Stage to show up MainWindow ...");
 					JFXApplication.getJFXApplicationSingleton().getPrimaryStage().hide();
 					JFXApplication.getJFXApplicationSingleton().setPrimaryScene((JFXApplicationScene)arg0);
 					JFXApplication.getJFXApplicationSingleton().getPrimaryStage().show();

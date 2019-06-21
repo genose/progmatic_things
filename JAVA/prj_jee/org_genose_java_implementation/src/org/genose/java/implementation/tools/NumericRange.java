@@ -9,15 +9,18 @@ package org.genose.java.implementation.tools;
  */
 public class NumericRange
 {
-    private int low;
-    private int high;
+    private Double low;
+    private Double high;
 
-    public NumericRange(int low, int high){
+    public NumericRange(Double low, Double high){
         this.low = low;
         this.high = high;
     }
-
-    public boolean contains(int number){
-        return (number >= low && number <= high);
+  public NumericRange(int low, int high){
+        this.low = Double.valueOf(low);
+        this.high = Double.valueOf(high);
     }
-};
+    public boolean contains(Double number){
+    	return (number.compareTo(low) >= 0) && (number.compareTo(high) <= 0) ; 
+    }
+}

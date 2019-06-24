@@ -14,7 +14,7 @@ import javafx.scene.layout.AnchorPane;
  * @author 59013-36-18
  *
  */
-public class JFXApplicationCustomControl extends Control {
+public class JFXApplicationCustomControl extends AnchorPane {
 
 	
 	@FXML

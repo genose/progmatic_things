@@ -2,7 +2,24 @@
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="java.lang.Enum.EnumDesc"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.tools.HUMANDEFINITION"/>
-    <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.tools.HUMANDEFINITION_AGE"/>
     <fullyQualifiedTypeName name="java.lang.Double"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.TextField"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.Label"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.Tooltip"/>
+    <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
+    <fullyQualifiedTypeName name="java.util.regex.PatternSyntaxException"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.tools.NumericRange"/>
+    <fullyQualifiedTypeName name="java.util.regex.Matcher"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="javafx.fxml.FXML"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger"/>
+    <fullyQualifiedTypeName name="javafx.scene.paint.Color"/>
+    <fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
+    <fullyQualifiedTypeName name="jdk.internal.jshell.debug.InternalDebugControl"/>
+    <fullyQualifiedTypeName name="javafx.scene.layout.AnchorPane"/>
+    <fullyQualifiedTypeName name="javafx.scene.layout.Border"/>
+    <fullyQualifiedTypeName name="javafx.scene.layout.BorderStroke"/>
+    <fullyQualifiedTypeName name="javafx.scene.layout.BorderStrokeStyle"/>
+    <fullyQualifiedTypeName name="javafx.scene.layout.BorderWidths"/>
 </qualifiedTypeNameHistroy>

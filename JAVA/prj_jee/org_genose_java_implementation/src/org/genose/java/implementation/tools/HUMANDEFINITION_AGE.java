@@ -19,8 +19,7 @@ public enum HUMANDEFINITION_AGE {
 	AGE_SENIOR(new StringRange("SENIOR"), new NumericRange(60, 160)),
 	AGE_TALESOFTHEFUTUREPAST(new StringRange("HISTORY"), new NumericRange(-1.8e5, 0.0)),
 	AGE_DINAUSAUR(new StringRange("DINOSAUR"), new NumericRange(-6e5, -1.8e5)),
-	AGE_OMEGAPHY(new StringRange("DEUSEXDOMINUM"), new NumericRange(-10e10, 10e10))
-	;
+	AGE_OMEGAPHY(new StringRange("DEUSEXDOMINUM"), new NumericRange(-10e10, 10e10));
 
 	private NumericRange eAgeRange = new NumericRange(0, 0);
 	private StringRange eStringRange = new StringRange();
@@ -43,7 +42,7 @@ public enum HUMANDEFINITION_AGE {
 	public StringRange getStringRange() {
 		return eStringRange;
 	}
-	
+
 	/* ************************************************************* */
 	/**
 	 * 
@@ -51,26 +50,27 @@ public enum HUMANDEFINITION_AGE {
 	 * @return
 	 */
 	public Enum<HUMANDEFINITION_AGE> getEnumByString(String eObjectValCode) {
-		
-		
+
 		for (HUMANDEFINITION_AGE eObjectVal : HUMANDEFINITION_AGE.values()) {
-			
-			if(eObjectVal.eStringRange.containsKey(eObjectValCode)) return eObjectVal;
-			
+
+			if (eObjectVal.eStringRange.containsKey(eObjectValCode))
+				return eObjectVal;
+
 			try {
 				// find transformation ...
-				Double dObjectValueFind =  Double.valueOf(eObjectValCode);
+				Double dObjectValueFind = Double.valueOf(eObjectValCode);
 				dObjectValueFind = transformDoubleToAge(dObjectValueFind);
-				if(eObjectVal.eAgeRange.contains(dObjectValueFind)) return eObjectVal;
+				if (eObjectVal.eAgeRange.contains(dObjectValueFind))
+					return eObjectVal;
 			} catch (Exception e) {
-			
+
 			}
 
-			
 		}
-		
+
 		return getEnumByString(String.valueOf(eObjectValCode));
 	}
+
 	/* ************************************************************* */
 	/**
 	 * 
@@ -83,24 +83,29 @@ public enum HUMANDEFINITION_AGE {
 
 		for (HUMANDEFINITION_AGE eObjectVal : HUMANDEFINITION_AGE.values()) {
 
-			if (eObjectVal.eAgeRange.contains(eObjectValCode))
+			if ((!eObjectVal.name().equals(AGE_TALESOFTHEFUTUREPAST.name()))
+					&& (!eObjectVal.name().equals(AGE_DINAUSAUR.name()))
+					&& (!eObjectVal.name().equals(AGE_OMEGAPHY.name()))
+					&& (eObjectVal.eAgeRange.contains(eObjectValCode))) {
 				return eObjectVal;
+			}
 
 		}
 		// only energy matters --
 		return AGE_OMEGAPHY;
 	}
-/**
- * 
- * @param eObjectValCode
- * @return
- */
+
+	/**
+	 * 
+	 * @param eObjectValCode
+	 * @return
+	 */
 	public Double transformDoubleToAge(Double eObjectValCode) {
 		// checkup overflowed value ... can t be 1.505 ... so it wil be Round(0.505 /
 		// 0,12)
 		Integer iOrdonaryValue = eObjectValCode.intValue();
 		Double dExposantValue = (eObjectValCode - iOrdonaryValue);
-		// got more than a year ... so let s parse 
+		// got more than a year ... so let s parse
 		if (dExposantValue >= 0.11) {
 
 			dExposantValue = Double.valueOf((dExposantValue / 0.12));

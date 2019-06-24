@@ -379,7 +379,7 @@ public class JFXApplication extends Application {
 	 * 
 	 * @param jfxApplicationScene
 	 */
-	public void setPrimaryScene(JFXApplicationScene jfxApplicationScene) {
+	public JFXApplication setPrimaryScene(JFXApplicationScene jfxApplicationScene) {
 		singletonInstanceCheck();
 		synchronized (JFXApplication.class) {
 			if (aPrimaryStage != null) {
@@ -389,6 +389,7 @@ public class JFXApplication extends Application {
 						new JFXApplicationException("Primary stage window is null ..."), true);
 			}
 		}
+		return this;
 	}
 
 	/**

@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Callback;
 
-public class JFXApplicationScene extends Scene { 
+public class JFXApplicationScene extends Scene implements JFXApplicationDesignObjectLoad { 
 
 	private String aSceneIdentifier = null;
 	private Parent aSceneRootNode = null;
@@ -121,7 +121,7 @@ public class JFXApplicationScene extends Scene {
 	 * https://docs.oracle.com/javafx/2/best_practices/jfxpub-best_practices.htm
 	 * 
 	 */
-	static public JFXApplicationScene createScene(String argModuleName, String argModuleNameFile,
+	static public JFXApplicationScene create(String argModuleName, String argModuleNameFile,
 			JFXApplicationCallback aFuncCallback) throws JFXApplicationException {
 
 		FXMLLoader aRootNodeLoader = null;
@@ -142,14 +142,14 @@ public class JFXApplicationScene extends Scene {
 		 
 		String sBasePath = null;
 
-		sBasePath = resolveModulePathInsenstiveCase(sApplicationPath, JFXApplication.JFXFILETYPE.DIR_APPSRC.getValue(),
+		sBasePath = JFXApplicationHelper.resolveModulePathInsenstiveCase(sApplicationPath, JFXApplication.JFXFILETYPE.DIR_APPSRC.getValue(),
 				sApplicationPath);
 
 		/* ****************************************************************** */
 		/* ****************************************************************** */
 		// check out module folder in this Module
 		/* ****************************************************************** */
-		sBasePath = resolveModulePathInsenstiveCase(sBasePath, argModuleName, ((argModuleName == null)?sBasePath: null) );
+		sBasePath = JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePath, argModuleName, ((argModuleName == null)?sBasePath: null) );
 
 		/* ****************************************************************** */
 		if (sBasePath == null) {
@@ -160,13 +160,13 @@ public class JFXApplicationScene extends Scene {
 		/* ****************************************************************** */
 		// check out src folder in this Module ;; Module/src
 		/* ****************************************************************** */
-		String sBasePathModuleSrc = resolveModulePathInsenstiveCase(sBasePath,
+		String sBasePathModuleSrc = JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePath,
 				JFXApplication.JFXFILETYPE.DIR_APPSRC.getValue(), null);
 		/* ****************************************************************** */
 		/* ****************************************************************** */
 		// check out assets folder in this Module ;; Module/assets
 		/* ****************************************************************** */
-		String sBasePathModuleAsset = resolveModulePathInsenstiveCase(sBasePath,
+		String sBasePathModuleAsset = JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePath,
 				JFXApplication.JFXFILETYPE.DIR_ASSETS.getValue(), null);
 		Path aPathInBundle = null;
 		/* ****************************************************************** */
@@ -174,7 +174,7 @@ public class JFXApplicationScene extends Scene {
 		// check out ressources folder in this Module ;; Module/Ressources
 		/* ****************************************************************** */
 		aPathInBundle = Paths.get(sBasePath, JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue());
-		String sRequestedRessourcesDir = resolveModulePathInsenstiveCase(sBasePath,
+		String sRequestedRessourcesDir = JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePath,
 				JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue(), null);
 
 		/* ****************************************************************** */
@@ -182,9 +182,9 @@ public class JFXApplicationScene extends Scene {
 		// check out MVC View folder in this Module ;; Module/assets/views ... or ...
 		// Module/views
 		/* ****************************************************************** */
-		String sRequestedSceneViewsFolder = resolveModulePathInsenstiveCase(sBasePathModuleAsset,
+		String sRequestedSceneViewsFolder = JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePathModuleAsset,
 				JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(),
-				resolveModulePathInsenstiveCase(sBasePath, JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(), sBasePath));
+				JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePath, JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(), sBasePath));
 		/* ****************************************************************** */
 		/* ****************************************************************** */
 		// check out specific FXML in this Module ;;
@@ -193,7 +193,7 @@ public class JFXApplicationScene extends Scene {
 		String sRequestedSceneFile = ((argModuleNameFile != null)
 				? argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_FXML.getValue()
 				: argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FXML.getValue());
-		sRequestedSceneFile = resolveModulePathInsenstiveCase(sRequestedSceneViewsFolder, sRequestedSceneFile, null);
+		sRequestedSceneFile = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedSceneViewsFolder, sRequestedSceneFile, null);
 
 		if (sRequestedSceneFile == null) {
 			throw new JFXApplicationException(
@@ -208,7 +208,7 @@ public class JFXApplicationScene extends Scene {
 		String sRequestedSceneCSS = ((argModuleNameFile != null)
 				? argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_FCSS.getValue()
 				: argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FCSS.getValue());
-		sRequestedSceneCSS = resolveModulePathInsenstiveCase(sRequestedRessourcesDir, sRequestedSceneFile, null);
+		sRequestedSceneCSS = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedRessourcesDir, sRequestedSceneFile, null);
 		/* ****************************************************************** */
 		/* ****************************************************************** */
 		// check out for PNG icon ;;
@@ -217,7 +217,7 @@ public class JFXApplicationScene extends Scene {
 		String sRequestedSceneIcon = ((argModuleNameFile != null)
 				? argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_PNG.getValue()
 				: argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_PNG.getValue());
-		sRequestedSceneIcon = resolveModulePathInsenstiveCase(sRequestedRessourcesDir, sRequestedSceneIcon, null);
+		sRequestedSceneIcon = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedRessourcesDir, sRequestedSceneIcon, null);
 		/* ****************************************************************** */
 		// :: https://stackoverflow.com/questions/10121991/javafx-application-icon
 		// https://stackoverflow.com/questions/34941411/how-to-get-controller-of-scene-in-javafx8
@@ -247,7 +247,7 @@ public class JFXApplicationScene extends Scene {
 					aSceneNode.setUserData( aRootNodeLoader );
 					if (sRequestedSceneCSS != null) {
 						String aURLforCSS = aClassReference.getResource("application.css").toExternalForm();
-						((Scene) aSceneNode).getStylesheets().add(aURLforCSS);
+						((Scene) aSceneNode).getStylesheets().add(aURLforCSS); 
 					}
 					// Setup icon
 					if ((sRequestedSceneIcon != null) && JFXApplicationClassHelper.respondsTo(aSceneNode, "setIcon")) {
@@ -296,42 +296,7 @@ public class JFXApplicationScene extends Scene {
 		return aSceneNode;
 	}
 
-	/**
-	 * @param sApplicationPath
-	 * @param aPathInBundle
-	 * @return
-	 */
-	private static String resolveModulePathInsenstiveCase(String sApplicationPath, String sRequiredPathIn,
-			String sAltPathIfFail) {
-		String sBasePath = null;
-		if ((sApplicationPath != null) && (sRequiredPathIn != null)) {
-			Path aPathInBundle = Paths.get(sApplicationPath, sRequiredPathIn);
-
-			sBasePath = ((JFXApplication.applicationPathExist(aPathInBundle.toString())) ? aPathInBundle.toString()
-					: null);
-
-			if (sBasePath == null) {
-				aPathInBundle = Paths.get(sApplicationPath, String.valueOf(sRequiredPathIn).toLowerCase());
-
-				sBasePath = ((JFXApplication.applicationPathExist(aPathInBundle.toString())) ? aPathInBundle.toString()
-						: null);
-			}
-
-			if (sBasePath == null) {
-				aPathInBundle = Paths.get(sApplicationPath, String.valueOf(sRequiredPathIn).toUpperCase());
-
-				sBasePath = ((JFXApplication.applicationPathExist(aPathInBundle.toString())) ? aPathInBundle.toString()
-						: null);
-			}
-
-		}
-
-		if (((sAltPathIfFail != null) && String.valueOf(sAltPathIfFail).length() > 1) && (sBasePath == null)) {
-			sBasePath = ((JFXApplication.applicationPathExist(sAltPathIfFail)) ? String.valueOf(sAltPathIfFail) : null);
-		}
-
-		return sBasePath;
-	}
+ 
 
 	/*
 	 * *****************************************************************************

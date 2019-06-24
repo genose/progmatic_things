@@ -12,9 +12,12 @@ import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelp
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
+import org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlSplitMenuHBox;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -28,6 +31,8 @@ public class Main extends JFXApplication {
 			// setPrimaryStage ...
 			super.start(primaryStage);
 			// :: handler to call after loading super.setOnComplete(); ...
+			// as declared here, this instance of callback is a new extended class from
+			// JFXApplicationCallback
 			JFXApplicationCallback aCallBackFunc = new JFXApplicationCallback(2000) {
 
 				@Override
@@ -47,19 +52,26 @@ public class Main extends JFXApplication {
 					return aNode;
 				}
 
+				@Override
+				public String getDescription() {
+					return "Call new Stage to show up MainWindow ...";
+				}
+
 			};
-			
-			
-			aCallBackFunc.setDescription("Call new Stage to show up MainWindow ...");
+ 
+			//super.setPrimaryScene(JFXApplicationScene.create("StartupScreens", null, aCallBackFunc));
 
-			super.setPrimaryScene(JFXApplicationScene.createScene("StartupScreens", null, aCallBackFunc));
-
+			Parent aSplitMenu = JFXApplicationCustomControlSplitMenuHBox.create();
+			
+			JFXApplicationScene aScene = new JFXApplicationScene(aSplitMenu); 
+			primaryStage.setHeight(480);
+			primaryStage.setWidth(640);
+			setPrimaryScene(aScene);
 			primaryStage.show();
 			primaryStage.centerOnScreen();
-
-		
-			// super.setSecondaryScene(JFXApplicationScene.createScene("MainWindow", null,
-			// null )); ...
+			JFXApplicationCustomControlSplitMenuHBox asplitMenuUserData = (JFXApplicationCustomControlSplitMenuHBox)aSplitMenu.getUserData();
+			System.out.println("Data :: "+String.valueOf(asplitMenuUserData));
+			asplitMenuUserData.setSlideMenuOnLeft(true);
 
 		} catch (Exception evERRINSTANTIATE) {
 			JFXApplicationLogger.getLogger().logError(this.getClass(), evERRINSTANTIATE);

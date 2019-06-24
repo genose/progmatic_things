@@ -386,7 +386,7 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 
 			if (throwedEvent instanceof JFXApplicationException) {
 				aEnclavedThrowable = ((JFXApplicationException) throwedEvent).getEncapsuledEventException();
-
+if(aEnclavedThrowable != null) {
 				sPreviousCause = String.format(LOGGERFORMAT.LOG_EXCEPTION_WITHSTACK.getValue(),
 						String.valueOf(aEnclavedThrowable.getClass()),
 						String.valueOf(aEnclavedThrowable.getClass()),
@@ -394,6 +394,15 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 						String.valueOf(aEnclavedThrowable.getCause()),
 						JFXApplicationException.doFormattedStackTrace(aEnclavedThrowable.getStackTrace()),
 						String.valueOf(callStackInfo));
+}else {
+	sPreviousCause = String.format(LOGGERFORMAT.LOG_EXCEPTION_WITHSTACK.getValue(),
+			String.valueOf(sPreviousCause),
+			String.valueOf(sPreviousCause),
+			String.valueOf(sPreviousCause),
+			String.valueOf(sPreviousCause),
+			sPreviousCause,
+			String.valueOf(callStackInfo));
+}
 			}
 
 			aStackTraceList = throwedEvent.getStackTrace();

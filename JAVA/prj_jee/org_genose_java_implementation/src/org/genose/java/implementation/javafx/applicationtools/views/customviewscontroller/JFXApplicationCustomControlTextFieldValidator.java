@@ -23,7 +23,7 @@ import javafx.scene.paint.Color;
  * @author xenon
  *
  */
-public class JFXApplicationControlTextFieldValidator {
+public class JFXApplicationCustomControlTextFieldValidator {
 
 	/* ********************** */
 	final static String EMPTY_FIELD_ERROR = "";
@@ -64,7 +64,7 @@ public class JFXApplicationControlTextFieldValidator {
 	/**
 	 * 
 	 */
-	public JFXApplicationControlTextFieldValidator() {
+	public JFXApplicationCustomControlTextFieldValidator() {
 		super();
 	}
 

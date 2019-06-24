@@ -45,7 +45,7 @@ public class StartupScreens implements JFXApplicationViewInvokableInterface {
 		
 
 			
-			JFXApplicationScene.createScene("MainWindow", null, new JFXApplicationCallback() {
+			JFXApplicationScene.create("MainWindow", null, new JFXApplicationCallback() {
 				
 				@Override
 				public Object apply(Object arg0) {

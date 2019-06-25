@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-
+import org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlSplitMenuHBox;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -46,10 +46,10 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 		try {
 			Thread aThread = Thread.currentThread();
 			if(aThread != null) {
-				if(aThread.isDaemon())
+				//if(aThread.isDaemon())
 					return aThread.getStackTrace();
-				else
-					System.out.println("ERROR CANT FETCH CURRENT THREAD WHILE FETCHING THREAD STACK ... ");
+			//	else
+			//		System.out.println("ERROR CANT FETCH CURRENT THREAD WHILE FETCHING THREAD STACK ... ");
 			}else {
 				System.out.println("ERROR CANT FETCH CURRENT THREAD ... ");
 			}
@@ -57,8 +57,10 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 		} catch (Exception evERRSTACKTRACE) {
 			System.out.println("ERROR WHILE FETCHING THREAD STACK ... "+evERRSTACKTRACE);
 		}
-		StackTraceElement[] aStackElement = null;
-		aStackElement[0] = new StackTraceElement(JFXApplicationHelper.class.getName(), "getStackTrace", null, 1);
+		String sFilejName = JFXApplicationHelper.class.getCanonicalName();
+		StackTraceElement[] aStackElement = { new StackTraceElement(JFXApplicationHelper.class.getName(), "getStackTrace", sFilejName, 1)};
+		
+		
 		return aStackElement;
 	}
 	/* ****************************************************** */
@@ -126,10 +128,12 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 	}
 	
 	
-	public static String packageToPath( Object  aObjectClass) 
+	public static String packageToPath( Class<?>  aObjectClass) 
 	{
 		try {
-			Class localClass = aObjectClass.getClass();
+		
+			String sClasName = aObjectClass.getCanonicalName();
+			Class<?> localClass = Class.forName(sClasName);
 
 			String systemPathSeparator = String.valueOf(File.separatorChar);
 			String packageNamed = localClass.getPackageName();
@@ -145,14 +149,6 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 		return null;
 	}
 
-	public static Object create( Class<?>  aClass) {
-		String sDesignFile = String.format("%s%s", aClass.getSimpleName(), JFXApplication.JFXFILETYPE.FILETYPE_FXML.getValue());
-		Class aRefeneceClass = aClass.getClass();
-		ClassLoader aClassLoader = aRefeneceClass.getClassLoader();
-		java.net.URL aUrlDesignFile = aRefeneceClass.getResource(sDesignFile);
-		
-		
-		return null;
-	}
+	 
 
 }

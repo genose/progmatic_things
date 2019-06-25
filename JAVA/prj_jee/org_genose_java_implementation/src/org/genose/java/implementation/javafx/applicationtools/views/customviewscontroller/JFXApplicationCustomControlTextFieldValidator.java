@@ -6,6 +6,7 @@ package org.genose.java.implementation.javafx.applicationtools.views.customviews
 import java.util.regex.Matcher;
 import java.util.regex.PatternSyntaxException;
 
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesignObjectLoad;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.tools.NumericRange;
 
@@ -23,7 +24,7 @@ import javafx.scene.paint.Color;
  * @author xenon
  *
  */
-public class JFXApplicationCustomControlTextFieldValidator {
+public class JFXApplicationCustomControlTextFieldValidator extends TextField implements JFXApplicationDesignObjectLoad{
 
 	/* ********************** */
 	final static String EMPTY_FIELD_ERROR = "";

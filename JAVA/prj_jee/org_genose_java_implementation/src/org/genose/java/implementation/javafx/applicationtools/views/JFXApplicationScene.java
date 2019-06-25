@@ -121,7 +121,7 @@ public class JFXApplicationScene extends Scene implements JFXApplicationDesignOb
 	 * https://docs.oracle.com/javafx/2/best_practices/jfxpub-best_practices.htm
 	 * 
 	 */
-	static public JFXApplicationScene create(String argModuleName, String argModuleNameFile,
+	public static JFXApplicationScene create(String argModuleName, String argModuleNameFile,
 			JFXApplicationCallback aFuncCallback) throws JFXApplicationException {
 
 		FXMLLoader aRootNodeLoader = null;

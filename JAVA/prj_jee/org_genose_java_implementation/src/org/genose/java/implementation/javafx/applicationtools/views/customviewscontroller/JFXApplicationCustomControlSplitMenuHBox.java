@@ -3,6 +3,7 @@
  */
 package org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller;
 
+import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.Objects;
 import java.util.Observable;
@@ -12,9 +13,12 @@ import javax.management.RuntimeErrorException;
 import javax.swing.border.TitledBorder;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationClassHelper;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesignObjectLoad;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationRuntimeException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,7 +40,7 @@ import javafx.scene.layout.AnchorPane;
  * @author 59013-36-18
  *
  */
-public class JFXApplicationCustomControlSplitMenuHBox extends AnchorPane implements Initializable {
+public class JFXApplicationCustomControlSplitMenuHBox extends AnchorPane implements Initializable, JFXApplicationDesignObjectLoad {
 
 	@FXML
 	private AnchorPane vRootAnchorPanel = null;
@@ -62,7 +66,7 @@ public class JFXApplicationCustomControlSplitMenuHBox extends AnchorPane impleme
 
 	private ObservableList<TitledPane> vMenuPanels = FXCollections.emptyObservableList();
 
-	private static final String message = "Something went wront with design consistantcy .... check FXML / Controller version ...";
+	private static final String message = JFXApplicationException.ERROR_MESSAGE_DESIGNLOAD;
 
 	/**
 	 * 
@@ -106,11 +110,11 @@ public class JFXApplicationCustomControlSplitMenuHBox extends AnchorPane impleme
 			}
 		});
 		vButtonSliderMode.setOnAction(new EventHandler<ActionEvent>() {
-			
+
 			@Override
 			public void handle(ActionEvent arg0) {
 				setSlideMenuOnLeft(!bSlideMenuOnLeft);
-				
+
 			}
 		});
 	}
@@ -120,20 +124,19 @@ public class JFXApplicationCustomControlSplitMenuHBox extends AnchorPane impleme
 	 */
 	@FXML
 	void toggleMenuPanel() {
-		AnchorPane aRefToAnchorPaneSlider =  ((bSlideMenuOnLeft)?vLeftChildPanel : vRightChildPanel);
+		AnchorPane aRefToAnchorPaneSlider = ((bSlideMenuOnLeft) ? vLeftChildPanel : vRightChildPanel);
 		Double dPaneWidth = aRefToAnchorPaneSlider.getWidth();
-		
+
 		if (dPaneWidth > aRefToAnchorPaneSlider.getMinWidth()) {
-		 
-				aRefToAnchorPaneSlider.setMaxWidth(aRefToAnchorPaneSlider.getMinWidth());
-	 
-			
+
+			aRefToAnchorPaneSlider.setMaxWidth(aRefToAnchorPaneSlider.getMinWidth());
+
 			vButtonSlider.setText("=");
 			vButtonSlider.getTooltip().setText("Ouvrir le panel");
 		} else {
-		 
-				aRefToAnchorPaneSlider.setMaxWidth(vRootAnchorPanel.getMaxWidth() - vRootAnchorPanel.getMinWidth());
-		 
+
+			aRefToAnchorPaneSlider.setMaxWidth(vRootAnchorPanel.getMaxWidth() - vRootAnchorPanel.getMinWidth());
+
 			vButtonSlider.setText("X");
 			vButtonSlider.getTooltip().setText("Fermer le panel");
 
@@ -189,6 +192,7 @@ public class JFXApplicationCustomControlSplitMenuHBox extends AnchorPane impleme
 	 * @param bSlideMenuToLeft , set the disposition of toggle menu
 	 */
 	public void setSlideMenuOnLeft(boolean bSlideMenuToLeft) {
+
 		bSlideMenuOnLeft = bSlideMenuToLeft;
 
 		Objects.requireNonNull(vRootAnchorPanel, message);
@@ -206,20 +210,19 @@ public class JFXApplicationCustomControlSplitMenuHBox extends AnchorPane impleme
 
 				// the tab have a dynamic max via toggle
 				Double dMinRigth = vRightChildPanel.getMinWidth();
-				// fixed value ... so we need to store it 
+				// fixed value ... so we need to store it
 				Double dMaxLeft = vLeftChildPanel.getMaxWidth();
 				Double dMinLeft = vLeftChildPanel.getMinWidth();
 
-				
 				vLeftChildPanel = (AnchorPane) vSplitRootPanel.getItems().get(1);
 				// this is button toggle
 				vRightChildPanel = (AnchorPane) vSplitRootPanel.getItems().get(0);
-				
+
 				// swap value once we swapped refs ...
-				vLeftChildPanel.setMinWidth( dMinRigth );
-				vRightChildPanel.setMinWidth( dMinLeft );
-				vRightChildPanel.setMaxWidth( dMaxLeft );
-				
+				vLeftChildPanel.setMinWidth(dMinRigth);
+				vRightChildPanel.setMinWidth(dMinLeft);
+				vRightChildPanel.setMaxWidth(dMaxLeft);
+
 				vSplitRootPanel.getItems().clear();
 				vSplitRootPanel.getItems().add(vLeftChildPanel);
 				vSplitRootPanel.getItems().add(vRightChildPanel);
@@ -227,24 +230,23 @@ public class JFXApplicationCustomControlSplitMenuHBox extends AnchorPane impleme
 
 		} else {
 			if (((Integer) vSplitRootPanel.getItems().get(0).getUserData()).intValue() != 0) {
-				
+
 				// the tab have a dynamic max via toggle
 				Double dMinRigth = vRightChildPanel.getMinWidth();
-				// fixed value ... so we need to store it 
+				// fixed value ... so we need to store it
 				Double dMaxLeft = vLeftChildPanel.getMaxWidth();
 				Double dMinLeft = vLeftChildPanel.getMinWidth();
 
-				
 				// this is button toggle
 				vLeftChildPanel = (AnchorPane) vSplitRootPanel.getItems().get(1);
 
 				vRightChildPanel = (AnchorPane) vSplitRootPanel.getItems().get(0);
-				
+
 				// swap value once we swapped refs ...
-				vLeftChildPanel.setMinWidth( dMinRigth );
-				vRightChildPanel.setMinWidth( dMinLeft );
-				vRightChildPanel.setMaxWidth( dMaxLeft );
-				
+				vLeftChildPanel.setMinWidth(dMinRigth);
+				vRightChildPanel.setMinWidth(dMinLeft);
+				vRightChildPanel.setMaxWidth(dMaxLeft);
+
 				vSplitRootPanel.getItems().clear();
 				vSplitRootPanel.getItems().add(vLeftChildPanel);
 				vSplitRootPanel.getItems().add(vRightChildPanel);
@@ -252,49 +254,14 @@ public class JFXApplicationCustomControlSplitMenuHBox extends AnchorPane impleme
 		}
 
 	}
+	/**
+	 * Dynamicly create a class controller .... and load associated FXML File ...
+	 * @return
+	 */
 
 	public static Parent create() {
-		try {
-			
-			AnchorPane aParentRootNode = new AnchorPane();
-			JFXApplicationCustomControlSplitMenuHBox aRefeneceClass = (new JFXApplicationCustomControlSplitMenuHBox());
-			String sClassPath = JFXApplicationHelper.packageToPath(aRefeneceClass);
-			String sDesignFile = String.format("%s%s", JFXApplicationCustomControlSplitMenuHBox.class.getSimpleName(),
-					JFXApplication.JFXFILETYPE.FILETYPE_FXML.getValue());
-
-			ClassLoader aClassLoader = aRefeneceClass.getClass().getClassLoader();
-			java.net.URL aUrlDesignFile = aRefeneceClass.getClass().getResource(sDesignFile);
-			if (aUrlDesignFile != null) {
-				FXMLLoader aRootNodeLoader = new FXMLLoader(aUrlDesignFile);
-				Object oFXMLRootNode = aRootNodeLoader.getRoot();
-
-				if (oFXMLRootNode == null) {
-					System.out.println(" Root is Null  or Dynamic root ...");
-					aRootNodeLoader.setRoot(aParentRootNode);
-					// aRootNodeLoader.setController(aRefeneceClass);
-
-				}
-				Node aRootNode = aRootNodeLoader.load();
-				JFXApplicationCustomControlSplitMenuHBox aController = (JFXApplicationCustomControlSplitMenuHBox) aRootNodeLoader
-						.getController();
-				// aRootNodeLoader.setController(aController);
-				
-				aParentRootNode.setUserData(aController);
-
-				return aParentRootNode;
-
-			} else {
-				JFXApplicationLogger.getLogger().logError(aRefeneceClass.getClass(), null,
-						String.format("Unable to load : %s ", sDesignFile));
-			}
-
-		} catch (Exception evERRObjectCreateLoad) {
-			JFXApplicationLogger.getLogger().logError(JFXApplicationDesignObjectLoad.class, evERRObjectCreateLoad);
-		}
-		return null;
-
-		// return(JFXApplicationCustomControlSplitMenuHBox)
-		// JFXApplicationHelper.create(JFXApplicationCustomControlSplitMenuHBox.class);
+		return JFXApplicationDesignObjectLoad.create(null);
 	}
+
 
 }

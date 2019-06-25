@@ -6,3 +6,5 @@
 1561365464990	Rename field 'vLeftChildPane'
 1561365471714	Rename field 'vRightChildPane'
 1561375024361	Extract interface 'JFXApplicationDesignObjectLoad'
+1561400303752	Rename local variable 'sClasName'
+1561408663014	Rename local variable 'iIndexSatck'

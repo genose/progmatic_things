@@ -37,6 +37,7 @@ public class JFXApplicationException extends Exception {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static final String ERROR_MESSAGE_DESIGNLOAD = "Something went wront with design consistantcy .... check FXML / Controller version ...";
 	private Throwable aEncapsuledThrowable = null;
 	private static Alert aFatalErrorAlert = null;
 

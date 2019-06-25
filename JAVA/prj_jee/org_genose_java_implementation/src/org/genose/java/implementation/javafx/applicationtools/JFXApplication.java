@@ -9,12 +9,17 @@ import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFX
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationStage;
 
-import javafx.application.Application;
+import javafx.application.Application; 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+/*
+ * https://stackoverflow.com/questions/53453212/how-to-deploy-a-javafx-11-desktop-application-with-a-jre
+ * https://medium.com/azulsystems/using-jlink-to-build-java-runtimes-for-non-modular-applications-9568c5e70ef4
+ */
 
 public class JFXApplication extends Application {
 	/**

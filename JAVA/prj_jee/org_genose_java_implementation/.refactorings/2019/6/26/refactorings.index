@@ -8,3 +8,6 @@
 1561375024361	Extract interface 'JFXApplicationDesignObjectLoad'
 1561400303752	Rename local variable 'sClasName'
 1561408663014	Rename local variable 'iIndexSatck'
+1561448281313	Rename method 'HUMANDEFINITION'
+1561465545426	Rename field 'cFormatInfoLabel'
+1561465825492	Rename field 'cTooltipTextField'

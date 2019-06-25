@@ -3,35 +3,22 @@
  */
 package org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller;
 
-import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.Objects;
-import java.util.Observable;
 import java.util.ResourceBundle;
 
-import javax.management.RuntimeErrorException;
-import javax.swing.border.TitledBorder;
-
-import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
-import org.genose.java.implementation.javafx.applicationtools.JFXApplicationClassHelper;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesignObjectLoad;
-import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
-import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
-import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationRuntimeException;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;

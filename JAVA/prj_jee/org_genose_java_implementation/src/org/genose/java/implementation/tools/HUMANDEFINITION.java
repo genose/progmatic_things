@@ -109,4 +109,36 @@ public enum HUMANDEFINITION {
 		}
 		return null;
 	}
+	/**
+	 * 
+	 * @return
+	 */
+	public String getValue(String sKeyValue) {
+			/* ************************************ */
+			if(sKeyValue == null) return null;
+			/* ************************************ */
+			if(String.valueOf(sKeyValue).isEmpty()) return null;
+			/* ************************************ */
+			if (String.valueOf(enumDefMap.get(sKeyValue))
+					.compareToIgnoreCase(REPRESENTATION_ABBREGED_ENUM) == 0)
+				return String.valueOf(enumDefMap.get(REPRESENTATION_ABBREGED_ENUM));
+			/* ************************************ */
+			if (String.valueOf(sKeyValue)
+					.compareToIgnoreCase(REPRESENTATION_ABBREGED_STRING) == 0)
+				return String.valueOf(enumDefMap.get(REPRESENTATION_ABBREGED_STRING));
+			/* ************************************ */
+			if (String.valueOf(sKeyValue)
+					.compareToIgnoreCase(REPRESENTATION_ABBREGED_ENUM) == 0)
+				return String.valueOf(enumDefMap.get(REPRESENTATION_ABBREGED_ENUM));
+			/* ************************************ */
+			if (String.valueOf(sKeyValue)
+					.compareToIgnoreCase(REPRESENTATION_ADMINISTRATIVE_STYLE) == 0)
+				return String.valueOf(enumDefMap.get(REPRESENTATION_ADMINISTRATIVE_STYLE));
+			/* ************************************ */
+			if (String.valueOf(sKeyValue)
+					.compareToIgnoreCase(REPRESENTATION_ADMINISTRATIVE_SEX) == 0)
+				return String.valueOf(enumDefMap.get(REPRESENTATION_ADMINISTRATIVE_SEX));
+			/* ************************************ */
+		return null;
+	}
 }

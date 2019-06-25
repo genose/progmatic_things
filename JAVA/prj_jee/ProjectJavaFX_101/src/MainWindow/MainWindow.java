@@ -17,7 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Window;
 
 public class MainWindow extends Window {
-
+ 
 	@FXML
 	private javafx.scene.control.TextArea consoleLogTextField;
 	
@@ -146,7 +146,7 @@ public class MainWindow extends Window {
 	 */
 	
 	@FXML
-	public void validerReponsePressed(ActionEvent ev_source) {
+	public void validerReponsePressed(ActionEvent ev_source) { 
 
 		System.out.println(getClass()+" :: "+ev_source.getSource());
 		

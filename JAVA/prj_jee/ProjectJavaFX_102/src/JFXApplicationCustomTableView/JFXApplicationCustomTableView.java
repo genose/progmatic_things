@@ -30,9 +30,9 @@ import javafx.scene.layout.StackPane;
  * @param <S>
  * 
  */
-public class JFXApplicationCustomTableView<S, T> extends TableView implements Initializable, JFXApplicationDesignObjectLoad {
+public class JFXApplicationCustomTableView<S, T> extends TableView<Object> implements Initializable, JFXApplicationDesignObjectLoad {
 // https://o7planning.org/fr/11079/tutoriel-javafx-tableview
-	private final static String message = JFXApplicationException.ERROR_MESSAGE_DESIGNLOAD;
+ 
 	@FXML
 	private TableView<T> pRootTableView = null;
 
@@ -83,7 +83,7 @@ public class JFXApplicationCustomTableView<S, T> extends TableView implements In
 	 * 
 	 */
 	private void doInit() {
-		Objects.requireNonNull(pRootTableView, message);
+		Objects.requireNonNull(pRootTableView, JFXApplicationException.ERROR_MESSAGE_DESIGNLOAD);
 	}
 	
 	/**

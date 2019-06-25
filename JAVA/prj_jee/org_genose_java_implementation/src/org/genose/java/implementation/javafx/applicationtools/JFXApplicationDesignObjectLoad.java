@@ -34,14 +34,15 @@ public abstract interface JFXApplicationDesignObjectLoad {
 
 			if (aObjectClasscontrollerToCreate != null) {
 				sAclassEnclosing = String.valueOf(
-						JFXApplicationClassHelper.invokeMethod(aObjectClasscontrollerToCreate, "getCononicalName"));
+						JFXApplicationClassHelper.invokeMethod(aObjectClasscontrollerToCreate, "getCanonicalName"));
 			} else {
 				int iIndexStack = 0;
 				for (StackTraceElement aStackTraceElement : aStackTrace) { 
-					System.out.println(String.format("%d :: %s", iIndexStack, aStackTraceElement.getClassName()));
+				
 					if (aStackTraceElement.getClassName().compareToIgnoreCase(sCurrentExecutionClass) == 0) {
 
 						sAclassEnclosing = aStackTrace[(iIndexStack+1)].getClassName();
+						System.out.println(String.format("%d :: %s :: select (%s)", iIndexStack, aStackTraceElement.getClassName(), sAclassEnclosing));
 						break;
 					}
 					iIndexStack ++;
@@ -86,10 +87,21 @@ public abstract interface JFXApplicationDesignObjectLoad {
 					Constructor<?>[] aConstructorListForRootNode = aRefeneceClassForRootNode.getConstructors();
 
 					if (aConstructorListForRootNode.length > 0) {
-						aParentRootNode = aConstructorListForRootNode[0].newInstance();
+						
+						for (Constructor<?> aConstructorFound : aConstructorListForRootNode) {
+							if(aConstructorFound.getParameterCount() == 0) {
+								aParentRootNode = aConstructorFound.newInstance();
+								break;
+							}
+						}
 					}
-
-					aRootNodeLoader.setRoot(aParentRootNode);
+					
+					if(aParentRootNode != null) {
+						aRootNodeLoader.setRoot(aParentRootNode);
+						
+					}else {
+						throw new JFXApplicationRuntimeException("Cant obtain dynamic (default) constructor definition for " + sAclassEnclosing);
+					}
 
 				}
 				aRootNode = aRootNodeLoader.load();

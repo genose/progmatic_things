@@ -8,12 +8,15 @@ import javax.print.DocFlavor.URL;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationCallback;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationClassHelper;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesignObjectLoad;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
 import org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlSplitMenuHBox;
+import org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlTextFieldValidator;
 
+import JFXApplicationCustomTableView.JFXApplicationCustomTableView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -21,7 +24,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class Main extends JFXApplication {
+public class Main extends JFXApplication { 
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -61,17 +64,17 @@ public class Main extends JFXApplication {
  
 			//super.setPrimaryScene(JFXApplicationScene.create("StartupScreens", null, aCallBackFunc));
 
-			Parent aSplitMenu = JFXApplicationCustomControlSplitMenuHBox.create();
+			Parent aSplitMenu = JFXApplicationDesignObjectLoad.create(JFXApplicationCustomControlTextFieldValidator.class);
 			
 			JFXApplicationScene aScene = new JFXApplicationScene(aSplitMenu); 
 			primaryStage.setHeight(480);
 			primaryStage.setWidth(640);
-			setPrimaryScene(aScene);
+			setPrimaryScene(aScene); 
 			primaryStage.show();
 			primaryStage.centerOnScreen();
-			JFXApplicationCustomControlSplitMenuHBox asplitMenuUserData = (JFXApplicationCustomControlSplitMenuHBox)aSplitMenu.getUserData();
-			System.out.println("Data :: "+String.valueOf(asplitMenuUserData));
-			asplitMenuUserData.setSlideMenuOnLeft(true);
+		//	JFXApplicationCustomControlSplitMenuHBox asplitMenuUserData = (JFXApplicationCustomControlSplitMenuHBox)aSplitMenu.getUserData();
+			// System.out.println("Data :: "+String.valueOf(asplitMenuUserData));
+		//	asplitMenuUserData.setSlideMenuOnLeft(true);
 
 		} catch (Exception evERRINSTANTIATE) {
 			JFXApplicationLogger.getLogger().logError(this.getClass(), evERRINSTANTIATE);

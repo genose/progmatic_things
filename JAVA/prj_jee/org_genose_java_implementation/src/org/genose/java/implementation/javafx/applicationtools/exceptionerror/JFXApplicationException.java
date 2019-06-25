@@ -40,7 +40,7 @@ public class JFXApplicationException extends Exception {
 	public static final String ERROR_MESSAGE_DESIGNLOAD = "Something went wront with design consistantcy .... check FXML / Controller version ...";
 	private Throwable aEncapsuledThrowable = null;
 	private static Alert aFatalErrorAlert = null;
-
+ 
 	/**
 	 * 
 	 */

@@ -121,6 +121,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 
 		} catch (Exception evERRObjectCreateLoad) {
 			JFXApplicationLogger.getLogger().logError(JFXApplicationDesignObjectLoad.class, evERRObjectCreateLoad);
+			throw new RuntimeException( evERRObjectCreateLoad);
 		}
 		return null;
 

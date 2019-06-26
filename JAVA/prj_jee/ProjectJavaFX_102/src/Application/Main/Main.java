@@ -1,10 +1,5 @@
 package Application.Main;
 
-import java.lang.reflect.Method;
-import java.util.function.Function;
-
-import javax.print.DocFlavor.URL;
-
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationCallback;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationClassHelper;
@@ -13,21 +8,14 @@ import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelp
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
-import org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlSplitMenuHBox;
 import org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlTextFieldValidator;
 
-import JFXApplicationCustomTableView.JFXApplicationCustomTableView;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 public class Main extends JFXApplication { 
-
 	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage primaryStage) throws Exception { 
 
 		try {
 

@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 /*
  * https://stackoverflow.com/questions/53453212/how-to-deploy-a-javafx-11-desktop-application-with-a-jre
  * https://medium.com/azulsystems/using-jlink-to-build-java-runtimes-for-non-modular-applications-9568c5e70ef4
+ * jlink --module-path /usr/local/lib/javafx-sdk-12.0.1/lib:/usr/local/lib/javafx-jmods-12.0.1:/Library/Java/JavaVirtualMachines/jdk-12.0.1.jdk/Contents/Home/jmods/ --add-modules java.se.jmods,javafx.base.jmod,javafx.controls.jmod,javafx.fxml.jmod,javafx.graphics.jmod,javafx.media.jmod,javafx.swing.jmod,javafx.web.jmod --output /usr/local/lib/javafx12_jdk
  */
 
 public class JFXApplication extends Application {

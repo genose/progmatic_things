@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="javafx.scene.layout.BorderStroke"/>
     <fullyQualifiedTypeName name="javafx.scene.layout.BorderStrokeStyle"/>
     <fullyQualifiedTypeName name="javafx.scene.layout.BorderWidths"/>
     <fullyQualifiedTypeName name="javax.swing.border.TitledBorder"/>
@@ -8,7 +7,6 @@
     <fullyQualifiedTypeName name="java.util.Observable"/>
     <fullyQualifiedTypeName name="javax.management.RuntimeErrorException"/>
     <fullyQualifiedTypeName name="javafx.scene.control.TitledPane"/>
-    <fullyQualifiedTypeName name="java.lang.RuntimeException"/>
     <fullyQualifiedTypeName name="javafx.scene.control.SplitPane"/>
     <fullyQualifiedTypeName name="java.lang.Class"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplication.JFXFILETYPE"/>
@@ -45,7 +43,6 @@
     <fullyQualifiedTypeName name="javafx.scene.layout.GridPane"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplication"/>
     <fullyQualifiedTypeName name="javafx.geometry.Point2D"/>
-    <fullyQualifiedTypeName name="java.lang.Override"/>
     <fullyQualifiedTypeName name="javafx.event.Event"/>
     <fullyQualifiedTypeName name="javafx.util.Duration"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlTextFieldValidator"/>
@@ -60,4 +57,7 @@
     <fullyQualifiedTypeName name="javafx.scene.control.ComboBox"/>
     <fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
     <fullyQualifiedTypeName name="javafx.collections.FXCollections"/>
+    <fullyQualifiedTypeName name="java.lang.Override"/>
+    <fullyQualifiedTypeName name="java.lang.RuntimeException"/>
+    <fullyQualifiedTypeName name="javafx.application.Application"/>
 </qualifiedTypeNameHistroy>

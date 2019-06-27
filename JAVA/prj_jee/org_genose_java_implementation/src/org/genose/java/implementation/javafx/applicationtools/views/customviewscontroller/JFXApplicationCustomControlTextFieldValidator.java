@@ -148,7 +148,25 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 		}
 	}
 	/* ************************************************************ */
-
+/*  **********************************************************
+ * 1 >> 1 pour les hommes,2 pour les femmes,
+ * 			3 ou 7 pour les personnes étrangères de sexe masculin en cours d'immatriculation en France,
+ * 			4 ou 8 pour les personnes étrangères de sexe féminin en cours d'immatriculation en France
+ * 	2 et 3 >>Deux derniers chiffres de l'année de naissance (ce qui donne l’année à un siècle près)
+ * 4 et 5 >> 01 (janvier) à 12 (décembre)
+ * 					20 ou entre 30 et 42 ou entre 50 et 99, pour un mois non connu
+ * 	6 et 7 >> Département de naissance:
+ * 					1 à 95 et 2A ou 2B pour la Corse (naissances après le 1er janvier 1976)
+ * 					96 à 98 pour les naissances hors métropole.
+ * 					99 pour les naissances à l’étranger
+ * 	8, 9 et 10 >> CodeINSEEde la commune de naissance
+							Dernier chiffre du code DOM-TOM et 2 chiffres du code INSEE de la commune pour les naissances hors métropole.
+							Ou code du pays de naissance pour les naissances à l’étranger
+* 11, 12 et 13 >> Numérod’ordre de la naissance dans le mois et la commune (ou le pays)
+* 14 et 15 >> Complément à 97 du NIR modulo 97, 
+* 						ou l’on remplace pour la Corse 2A par 19 et 2B par 18
+ * Exemples : (1 62 06 62 765 118   clef 08), (1 62 06 2A 765 118   clef 05), (1 62 06 2B 765 118   clef 32)
+ */
 	public enum NIRFRNUMBER_VALIDATOR_DESCRIPTION {
 
 		NIR_POS_1(1), NIR_POS_2(2), NIR_POS_3(3), NIR_POS_4(4), NIR_POS_5(5), NIR_POS_6(6), NIR_POS_7(7), NIR_POS_8(8),

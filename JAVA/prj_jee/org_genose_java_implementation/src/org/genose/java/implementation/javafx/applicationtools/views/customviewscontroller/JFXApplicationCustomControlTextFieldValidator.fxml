@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?> 
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -55,7 +55,7 @@
             </Label>
             <TextField fx:id="cControledTextField" maxWidth="200.0" minWidth="120.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <tooltip>
-                  <Tooltip fx:id="cTooltipTextField" anchorLocation="CONTENT_BOTTOM_RIGHT" height="80.0" text="Empty Tooltip ..." width="80.0">
+                  <Tooltip fx:id="cTooltipTextField" anchorLocation="CONTENT_TOP_RIGHT" anchorX="0.0" anchorY="0.0" autoFix="false" consumeAutoHidingEvents="false" contentDisplay="GRAPHIC_ONLY" height="80.0" hideOnEscape="false" text="Empty Tooltip ..." width="80.0" x="20.0" y="20.0">
                      <font>
                         <Font size="16.0" />
                      </font>

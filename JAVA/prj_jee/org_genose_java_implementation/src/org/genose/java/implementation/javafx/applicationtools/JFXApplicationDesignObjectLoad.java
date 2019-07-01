@@ -6,6 +6,7 @@ import java.lang.reflect.Constructor;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationRuntimeException;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
+import org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlComboxBoxAutoFill;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,41 +22,51 @@ public abstract interface JFXApplicationDesignObjectLoad {
 
 	/**
 	 * 
-	 * @return dynamic Object type in User Data ...
+	 * @param <T>
+	 * @return dynamic Object<T<Controller>> type in User Data ...
 	 */
-	public static Parent create(Class<?> aObjectClasscontrollerToCreate) {
+	public static <T> Parent create(Class<T> aObjectClassControllerWhichBeCreated) {
 		try {
 
 			String sCurrentExecutionClass = JFXApplicationDesignObjectLoad.class.getCanonicalName();
 
-			StackTraceElement[] aStackTrace = JFXApplicationHelper.getStackTrace();
+			StackTraceElement[] aStackTraceElementsList = JFXApplicationHelper.getStackTrace();
 
-			String sAclassEnclosing = null;
+			String sEnclosingClassName = null;
 
-			if (aObjectClasscontrollerToCreate != null) {
-				sAclassEnclosing = String.valueOf(
-						JFXApplicationClassHelper.invokeMethod(aObjectClasscontrollerToCreate, "getCanonicalName"));
+			Object oFXMLRootNode = null;
+			Object aParentRootNode = null;
+			Object aController = null;
+			Node aRootNode = null;
+			
+			
+			
+			if (aObjectClassControllerWhichBeCreated != null) {
+				sEnclosingClassName = String.valueOf(JFXApplicationClassHelper
+						.invokeMethod(aObjectClassControllerWhichBeCreated, "getCanonicalName"));
 			} else {
 				int iIndexStack = 0;
-				for (StackTraceElement aStackTraceElement : aStackTrace) { 
-				
-					if (aStackTraceElement.getClassName().compareToIgnoreCase(sCurrentExecutionClass) == 0) {
+				for (StackTraceElement aStackTraceElement : aStackTraceElementsList) {
 
-						sAclassEnclosing = aStackTrace[(iIndexStack+1)].getClassName();
-						System.out.println(String.format("%d :: %s :: select (%s)", iIndexStack, aStackTraceElement.getClassName(), sAclassEnclosing));
+					if (aStackTraceElement.getClassName().compareToIgnoreCase(sCurrentExecutionClass) == 0) {
+						// take another index, because index at n+0 is the method call and index n+1 is
+						// the class element which call of current wizardy came from
+						sEnclosingClassName = aStackTraceElementsList[(iIndexStack + 1)].getClassName();
+						System.out.println(String.format("%d :: %s :: select (%s)", iIndexStack,
+								aStackTraceElement.getClassName(), sEnclosingClassName));
 						break;
 					}
-					iIndexStack ++;
+					iIndexStack++;
 				}
 			}
- 						 
-			Class<?> aRefeneceClass = Class.forName(sAclassEnclosing);
+
+			Class<?> aRefeneceClass = Class.forName(sEnclosingClassName);
 			Constructor<?>[] aConstructorList = aRefeneceClass.getConstructors();
 			Object oObjectRef = null;
 			if (aConstructorList.length > 0) {
 				oObjectRef = aConstructorList[0].newInstance();
-			}else {
-				throw new JFXApplicationRuntimeException("Cant class constructor for " + sAclassEnclosing);
+			} else {
+				throw new JFXApplicationRuntimeException("Cant class constructor for " + sEnclosingClassName);
 			}
 
 			String sDesignFile = String.format("%s%s", oObjectRef.getClass().getSimpleName(),
@@ -63,68 +74,80 @@ public abstract interface JFXApplicationDesignObjectLoad {
 
 			ClassLoader aClassLoader = oObjectRef.getClass().getClassLoader();
 			if (aClassLoader == null) {
-				throw new JFXApplicationRuntimeException("Cant find class loader definition for " + sAclassEnclosing);
+				throw new JFXApplicationRuntimeException(
+						"Cant find class loader definition for " + sEnclosingClassName);
 			}
 			java.net.URL aUrlDesignFile = oObjectRef.getClass().getResource(sDesignFile);
 
-			Object aParentRootNode = null;
-			Object aController = null;
-			Node aRootNode = null;
+		
 			if (aUrlDesignFile != null) {
 				FXMLLoader aRootNodeLoader = new FXMLLoader(aUrlDesignFile);
-				Object oFXMLRootNode = aRootNodeLoader.getRoot();
+				
+				if (aRootNodeLoader != null) {
+					
+				
+					
+					oFXMLRootNode = aRootNodeLoader.getRoot();
+					
+					if (oFXMLRootNode == null) {
+						System.out.println(" Root is Null  or Dynamic root ...");
 
-				if (oFXMLRootNode == null) {
-					System.out.println(" Root is Null  or Dynamic root ...");
-
-					aController = aRootNodeLoader.getController();
-					if (aController == null) {
-						aController = aRefeneceClass.getSuperclass();
-					}
-					Object sclassnameforrootnode = JFXApplicationClassHelper.invokeMethod(aController,
-							"getCanonicalName");
-					Class<?> aRefeneceClassForRootNode = Class.forName(String.valueOf(sclassnameforrootnode));
-					Constructor<?>[] aConstructorListForRootNode = aRefeneceClassForRootNode.getConstructors();
-
-					if (aConstructorListForRootNode.length > 0) {
+						aController = aRootNodeLoader.getController();
+						if (aController == null) {
+							aController = aRefeneceClass.getSuperclass();
 						
-						for (Constructor<?> aConstructorFound : aConstructorListForRootNode) {
-							if(aConstructorFound.getParameterCount() == 0) {
-								aParentRootNode = aConstructorFound.newInstance();
-								break;
+						Object sclassnameforrootnode = JFXApplicationClassHelper.invokeMethod(aController,
+								"getCanonicalName");
+						Class<?> aRefeneceClassForRootNode = Class.forName(String.valueOf(sclassnameforrootnode));
+						Constructor<?>[] aConstructorListForRootNode = aRefeneceClassForRootNode.getConstructors();
+
+						if (aConstructorListForRootNode.length > 0) {
+
+							for (Constructor<?> aConstructorFound : aConstructorListForRootNode) {
+								if (aConstructorFound.getParameterCount() == 0) {
+									aParentRootNode = aConstructorFound.newInstance();
+									break;
+								}
 							}
 						}
+}
+						if (aParentRootNode != null) {
+							aRootNodeLoader.setRoot(aParentRootNode);
+
+						} else {
+							throw new JFXApplicationRuntimeException(
+									"Cant obtain dynamic (default) constructor definition for " + sEnclosingClassName);
+						}
+
 					}
-					
-					if(aParentRootNode != null) {
-						aRootNodeLoader.setRoot(aParentRootNode);
-						
-					}else {
-						throw new JFXApplicationRuntimeException("Cant obtain dynamic (default) constructor definition for " + sAclassEnclosing);
-					}
 
-				}
-				aRootNode = aRootNodeLoader.load();
+					aRootNode = aRootNodeLoader.load();
 
-				if (aRootNode != null) {
-					((Parent) aParentRootNode).setUserData(aRootNodeLoader.getController());
-				} else {
-					throw new JFXApplicationRuntimeException("Cant load definition for " + sAclassEnclosing);
-				}
-
-				return ((Parent) aParentRootNode);
-
+					if ((aRootNode != null) && (aParentRootNode != null)) {
+						((Parent) aParentRootNode).setUserData(aRootNodeLoader.getController());
+					} else {
+						throw new JFXApplicationRuntimeException("Cant load definition for " + sEnclosingClassName);
+					} 
+				} 
+				
+			
 			} else {
-				JFXApplicationLogger.getLogger().logError(aRefeneceClass.getClass(), null,
-						String.format("Unable to load : %s ", sDesignFile));
+				JFXApplicationLogger.getLogger().logError(aRefeneceClass.getClass(), new JFXApplicationRuntimeException(
+						String.format("Cant obtain FXLOADER definition for %s  %n Expected Class %s", aUrlDesignFile, sEnclosingClassName )));
 			}
-
+			// may be NULL 
+			return ((Parent) aParentRootNode);
 		} catch (Exception evERRObjectCreateLoad) {
 			JFXApplicationLogger.getLogger().logError(JFXApplicationDesignObjectLoad.class, evERRObjectCreateLoad);
-			throw new RuntimeException( evERRObjectCreateLoad);
+			throw new RuntimeException(evERRObjectCreateLoad);
 		}
-		return null;
+		
 
+	}
+
+	public static <T> Object createFromTypeController(Class <T> aclass, T tt){
+		Object aObject = new Object();
+		return aObject;
 	}
 
 }

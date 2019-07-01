@@ -60,6 +60,7 @@ public class Main extends JFXApplication {
 			setPrimaryScene(aScene); 
 			primaryStage.show();
 			primaryStage.centerOnScreen();
+			((JFXApplicationCustomControlTextFieldValidator)aSplitMenu.getUserData()).setValidationType(JFXApplicationCustomControlTextFieldValidator.FIELDTYPEVALIDATOR.NIRFRNUMBER); 
 		//	JFXApplicationCustomControlSplitMenuHBox asplitMenuUserData = (JFXApplicationCustomControlSplitMenuHBox)aSplitMenu.getUserData();
 			// System.out.println("Data :: "+String.valueOf(asplitMenuUserData));
 		//	asplitMenuUserData.setSlideMenuOnLeft(true);

@@ -151,7 +151,7 @@ this.promptTextProperty()
 			filteredList.addAll(originalItems);
 
 			this.aTooltipAutoFillIndication
-					.setText(String.format(" (%d) match avail %n Precise your search ...  ", originalItems.size(), sFilter));
+					.setText(String.format(" (%d) match avail %n Precise your search ...  ", originalItems.size()));
 				if(originalItems.size()<20) {
 					this.show();
 				}

@@ -304,9 +304,9 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 	/* ********************** */
 
 	HashMap<String, String> aValidationMap = new HashMap<>();
-	private String sOldValueForcControledTextField = "";
+	private String sOldValueForControledTextField = "";
 
-	private String sNewValueForcControledTextField = "";
+	private String sNewValueForControledTextField = "";
 
 	private String sComboBoxFieldValidatorSelectedValue = "";
 
@@ -374,15 +374,23 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 							System.out.println("ov " + ov);
 							System.out.println(" t : " + t);
 							System.out.println(" t1 : " + sNewSelectedValue);
+							if (sNewSelectedValue == null) {
+								System.out.println(" newvalue is null ... ");
+								return;
+							}
 							sComboBoxFieldValidatorSelectedValue = sNewSelectedValue;
 							aComboBoxFieldValidator.setFilter("");
-							if (bShouldShowTooltipTextField) {
-								tooltipHide();
-								bShouldShowTooltipTextField = (!bShouldShowTooltipTextField);
-								sNewValueForcControledTextField = sComboBoxFieldValidatorSelectedValue;
-								
-								cControledTextField.setEditable(true);
-							}
+							aComboBoxFieldValidator.setValue(aComboBoxFieldValidator.getItems().get(0));
+							// if (bShouldShowTooltipTextField) {
+							tooltipHide();
+							// bShouldShowTooltipTextField = (!bShouldShowTooltipTextField);
+							sNewValueForControledTextField = "";
+							cControledTextField.setText(sComboBoxFieldValidatorSelectedValue);
+							cControledTextField.selectPositionCaret(sComboBoxFieldValidatorSelectedValue.length());
+							// }
+
+							cControledTextField.setEditable(true);
+							cControledTextField.requestFocus();
 						}
 					});
 
@@ -440,7 +448,8 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 			cControledTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				@Override
 				public void handle(KeyEvent arg0) {
-
+					iCarretPosition = cControledTextField.getCaretPosition();
+					sOldValueForControledTextField = cControledTextField.getText();
 					onKeyDownValidate(arg0);
 
 				}
@@ -451,7 +460,7 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 				public void handle(KeyEvent arg0) {
 
 					if (bShouldUpdateControllerTextFieldValue) {
-						cControledTextField.setText(sNewValueForcControledTextField);
+						cControledTextField.setText(sNewValueForControledTextField);
 						cControledTextField.selectPositionCaret(iCarretPosition);
 					}
 					bShouldUpdateControllerTextFieldValue = false;
@@ -564,23 +573,21 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 		/*
 		 * if (ev.getCode().values().length > 1) { return; }
 		 */
-		iCarretPosition = cControledTextField.getCaretPosition();
-		sOldValueForcControledTextField = cControledTextField.getText();
 
 		if (((FIELDTYPEVALIDATOR) eValidatorType).equalsEnum(FIELDTYPEVALIDATOR.NOVALIDATION)) {
 			// whetever, do default handle
 
-			if (iCarretPosition >= sOldValueForcControledTextField.length()) {
-				sNewValueForcControledTextField = String.format("%s%s", sOldValueForcControledTextField, ev.getText());
-				iCarretPosition = sNewValueForcControledTextField.length();
+			if (iCarretPosition >= sOldValueForControledTextField.length()) {
+				sNewValueForControledTextField = String.format("%s%s", sOldValueForControledTextField, ev.getText());
+				iCarretPosition = sNewValueForControledTextField.length();
 			} else if (iCarretPosition > 0) {
-				sNewValueForcControledTextField = String.format("%s%s%s",
-						sOldValueForcControledTextField.substring(0, iCarretPosition), ev.getText(),
-						sOldValueForcControledTextField.substring(iCarretPosition,
-								sOldValueForcControledTextField.length()));
+				sNewValueForControledTextField = String.format("%s%s%s",
+						sOldValueForControledTextField.substring(0, iCarretPosition), ev.getText(),
+						sOldValueForControledTextField.substring(iCarretPosition,
+								sOldValueForControledTextField.length()));
 
 			} else {
-				sNewValueForcControledTextField = String.format("%s%s", ev.getText(), sOldValueForcControledTextField);
+				sNewValueForControledTextField = String.format("%s%s", ev.getText(), sOldValueForControledTextField);
 				// take the same position
 				iCarretPosition = 1;
 			}
@@ -605,22 +612,22 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 			 * sOldValueForcControledTextField; }
 			 */
 		} else if (((FIELDTYPEVALIDATOR) eValidatorType).equalsEnum(FIELDTYPEVALIDATOR.UPPERCASE)) {
-			sNewValueForcControledTextField = String.format("%s%s", sOldValueForcControledTextField, ev.getText())
+			sNewValueForControledTextField = String.format("%s%s", sOldValueForControledTextField, ev.getText())
 					.toUpperCase();
 		} else if (((FIELDTYPEVALIDATOR) eValidatorType).equalsEnum(FIELDTYPEVALIDATOR.LOWERCASE)) {
-			sNewValueForcControledTextField = String.format("%s%s", sOldValueForcControledTextField, ev.getText())
+			sNewValueForControledTextField = String.format("%s%s", sOldValueForControledTextField, ev.getText())
 					.toLowerCase();
 		} else if (((FIELDTYPEVALIDATOR) eValidatorType).equalsEnum(FIELDTYPEVALIDATOR.TELEPHONE)) {
 			// whetever, do default handle
-			sNewValueForcControledTextField = sOldValueForcControledTextField;
+			sNewValueForControledTextField = sOldValueForControledTextField;
 		} else if (((FIELDTYPEVALIDATOR) eValidatorType).equalsEnum(FIELDTYPEVALIDATOR.EMAIL)) {
 			// whetever, do default handle
-			sNewValueForcControledTextField = sOldValueForcControledTextField;
+			sNewValueForControledTextField = sOldValueForControledTextField;
 		}
 		// cControledTextField.requestFocus();
 		System.out.println(" ev getEventType : " + ev.getEventType().getClass() + " :: " + ev + " ;; "
-				+ sOldValueForcControledTextField);
-		// bShouldUpdateControllerTextFieldValue = true;
+				+ sOldValueForControledTextField);
+
 	}
 
 	/**

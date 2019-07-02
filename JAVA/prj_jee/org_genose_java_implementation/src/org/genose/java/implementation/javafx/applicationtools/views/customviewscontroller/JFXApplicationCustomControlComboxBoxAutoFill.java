@@ -103,7 +103,17 @@ public class JFXApplicationCustomControlComboxBoxAutoFill<T> extends ComboBox<T>
 		this.setPrefHeight(20.0);
 		this.autosize();
 		this.setVisibleRowCount(20);
-
+		this.getEditor().setOnKeyReleased(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent arg0) {
+				 
+				// System.out.println(" anchor Combox keyevent "+arg0);
+				// aComboBoxFieldValidator.requestFocus();
+				// 
+				handleOnKeyPressed(arg0);
+				
+			}
+		});
 		/*
 		 * aButtonValidateChoice.setOnMouseClicked(new EventHandler<MouseEvent>() {
 		 * 
@@ -139,22 +149,25 @@ public class JFXApplicationCustomControlComboxBoxAutoFill<T> extends ComboBox<T>
 
 		ObservableList<T> filteredList = FXCollections.observableArrayList();
 		KeyCode code = e.getCode();
+		
+		if (code == KeyCode.BACK_SPACE && sFilter.length() > 0) {
+			sFilter = sFilter.substring(0, sFilter.length() - 1);
+		}else
+		if (code == KeyCode.ESCAPE) {
+			sFilter = "";
+			this.getEditor().setText(sFilter);
+		}else if (code.isLetterKey() || code.isDigitKey()) {
+			sFilter  += e.getText();
+		}
+		
 		if (code.isModifierKey() || code.isArrowKey())
 			return;
 		e.consume();
 		
 		String sCurrentText = this.getEditor().getText();
-		System.out.println(" text "+sCurrentText);
-		if (code.isLetterKey() || code.isDigitKey()) {
-			sFilter =  sCurrentText; // :: += e.getText();
-		}
-		if (code == KeyCode.BACK_SPACE && sFilter.length() > 0) {
-			sFilter = sFilter.substring(0, sFilter.length() - 1);
-			this.getItems().setAll(originalItems);
-		}
-		if (code == KeyCode.ESCAPE) {
-			sFilter = "";
-		}
+		System.out.println(" text "+sCurrentText+" :: "+e.getText());
+		
+	 
 		//this.getEditor().setText(sFilter);
 		if (sFilter.length() == 0) {
 			filteredList.addAll(originalItems);
@@ -218,7 +231,7 @@ public class JFXApplicationCustomControlComboxBoxAutoFill<T> extends ComboBox<T>
 		}
 		if (isEditable()) {
 
-			this.getEditor().setText(sFilter);
+			//this.getEditor().setText(sFilter);
 			this.getEditor().selectPositionCaret(sFilter.length());
 		}
 

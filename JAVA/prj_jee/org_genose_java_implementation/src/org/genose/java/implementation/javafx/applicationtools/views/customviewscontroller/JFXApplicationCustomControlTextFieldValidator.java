@@ -368,17 +368,7 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 			aComboBoxFieldValidator.setOriginalItems(aListOfItems);
 			aComboBoxFieldValidator.setEditable(true);
 			EventHandler<KeyEvent> eEventKey = (EventHandler<KeyEvent>) aComboBoxFieldValidator.getEditor().getOnKeyPressed();
-			aComboBoxFieldValidator.getEditor().setOnKeyReleased(new EventHandler<KeyEvent>() {
-				@Override
-				public void handle(KeyEvent arg0) {
-					 
-					// System.out.println(" anchor Combox keyevent "+arg0);
-					// aComboBoxFieldValidator.requestFocus();
-					// 
-					aComboBoxFieldValidator.handleOnKeyPressed(arg0);
-					
-				}
-			});
+	
 			// aComboBox.setValue("12");
 			/* aComboBoxFieldValidator.valueProperty()
 					.addListener((ChangeListener<? super String>) new ChangeListener<String>() {

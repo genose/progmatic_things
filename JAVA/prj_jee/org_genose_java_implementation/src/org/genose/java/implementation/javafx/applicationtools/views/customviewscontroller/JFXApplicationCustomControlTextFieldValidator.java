@@ -21,6 +21,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -312,6 +313,7 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 
 	private boolean bShouldUpdateControllerTextFieldValue = false;
 	private boolean bShouldShowTooltipTextField = false;
+	private boolean bShouldRestoreControllerTextFieldValue = false;
 
 	JFXApplicationCustomControlComboxBoxAutoFill<String> aComboBoxFieldValidator = null;
 
@@ -364,40 +366,73 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 			aComboBoxFieldValidator = new JFXApplicationCustomControlComboxBoxAutoFill<String>();
 			// aComboBox.setOpaqueInsets(new Insets(20, 10, 20, 10));
 			aComboBoxFieldValidator.setOriginalItems(aListOfItems);
-			aComboBoxFieldValidator.setEditable(false);
+			aComboBoxFieldValidator.setEditable(true);
+			EventHandler<KeyEvent> eEventKey = (EventHandler<KeyEvent>) aComboBoxFieldValidator.getEditor().getOnKeyPressed();
+			aComboBoxFieldValidator.getEditor().setOnKeyReleased(new EventHandler<KeyEvent>() {
+				@Override
+				public void handle(KeyEvent arg0) {
+					 
+					// System.out.println(" anchor Combox keyevent "+arg0);
+					// aComboBoxFieldValidator.requestFocus();
+					// 
+					aComboBoxFieldValidator.handleOnKeyPressed(arg0);
+					
+				}
+			});
 			// aComboBox.setValue("12");
-
-			aComboBoxFieldValidator.valueProperty()
+			/* aComboBoxFieldValidator.valueProperty()
 					.addListener((ChangeListener<? super String>) new ChangeListener<String>() {
 						@Override
-						public void changed(ObservableValue ov, String t, String sNewSelectedValue) {
-							System.out.println("ov " + ov);
-							System.out.println(" t : " + t);
+						public void changed(ObservableValue ov, String sCurrentValue, String sNewSelectedValue) {
+							System.out.println("******** \n ov " + ov);
+							System.out.println(" t : " + sCurrentValue);
 							System.out.println(" t1 : " + sNewSelectedValue);
-							if (sNewSelectedValue == null) {
+							System.out.println(" previous : " + sComboBoxFieldValidatorSelectedValue);
+							if (!cTooltipTextField.isShowing()) {
+								System.out.println(" .... Tooltip is hidden !!");
+								return;
+							}
+							if ((sNewSelectedValue == null) || (sNewSelectedValuesEmpty())) {
 								System.out.println(" newvalue is null ... ");
 								return;
 							}
-							sComboBoxFieldValidatorSelectedValue = sNewSelectedValue;
-							aComboBoxFieldValidator.setFilter("");
-							aComboBoxFieldValidator.setValue(aComboBoxFieldValidator.getItems().get(0));
-							// if (bShouldShowTooltipTextField) {
-							tooltipHide();
-							// bShouldShowTooltipTextField = (!bShouldShowTooltipTextField);
-							sNewValueForControledTextField = "";
-							cControledTextField.setText(sComboBoxFieldValidatorSelectedValue);
-							cControledTextField.selectPositionCaret(sComboBoxFieldValidatorSelectedValue.length());
-							// }
 
-							cControledTextField.setEditable(true);
-							cControledTextField.requestFocus();
+							
+							// aComboBoxFieldValidator.setValue(aComboBoxFieldValidator.getItems().get(0));
+							if (cTooltipTextField.isShowing()) {
+								tooltipHide();
+								
+								sComboBoxFieldValidatorSelectedValue = sNewSelectedValue;
+								aComboBoxFieldValidator.setFilter("");
+								
+								// bShouldShowTooltipTextField = (!bShouldShowTooltipTextField);
+								sNewValueForControledTextField = "";
+								cControledTextField.setText(sComboBoxFieldValidatorSelectedValue);
+								// cControledTextField.selectPositionCaret(sComboBoxFieldValidatorSelectedValue.length());
+
+								cControledTextField.setEditable(true);
+								cControledTextField.requestFocus();
+							}
+
 						}
-					});
+					});*/
 
 			aAnchorPane.getChildren().add(aComboBoxFieldValidator);
 			// aAnchorPane.getChildren().add(aButtonValidateChoice);
 
 			aAnchorPane.setMaxHeight(120.0);
+
+			aAnchorPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+				@Override
+
+				public void handle(KeyEvent arg0) {
+					arg0.consume();
+					// System.out.println(" anchor Combox keyevent "+arg0);
+					aComboBoxFieldValidator.requestFocus();
+					aComboBoxFieldValidator.handleOnKeyPressed(arg0);
+
+				}
+			});
 
 			cTooltipTextField.setGraphic(aAnchorPane);
 			cTooltipTextField.setWidth(160.0);
@@ -445,11 +480,25 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 			});
 
 			/* ************************************************************* */
+			cControledTextField.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+
+				public void handle(ActionEvent arg0) {
+					System.out.println(" key typed .... ");
+
+				}
+			});
 			cControledTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				@Override
 				public void handle(KeyEvent arg0) {
+					arg0.consume();
 					iCarretPosition = cControledTextField.getCaretPosition();
 					sOldValueForControledTextField = cControledTextField.getText();
+
+					System.out.println(" ******** \n " + this.getClass().getSimpleName() + " \n :: ev getEventType : "
+							+ arg0.getEventType().getClass() + " \n :: " + arg0 + " \n ;; "
+							+ sOldValueForControledTextField);
+
 					onKeyDownValidate(arg0);
 
 				}
@@ -458,12 +507,20 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 			cControledTextField.setOnKeyReleased(new EventHandler<KeyEvent>() {
 				@Override
 				public void handle(KeyEvent arg0) {
+					arg0.consume();
+
+					System.out.println(" ******** \n " + this.getClass().getSimpleName()
+							+ " \n :: ev release getEventType : " + arg0.getEventType().getClass() + " \n :: " + arg0
+							+ " \n ;; " + cControledTextField.getText());
 
 					if (bShouldUpdateControllerTextFieldValue) {
 						cControledTextField.setText(sNewValueForControledTextField);
 						cControledTextField.selectPositionCaret(iCarretPosition);
+					} else if (bShouldRestoreControllerTextFieldValue) {
+						cControledTextField.setText(sOldValueForControledTextField);
 					}
 					bShouldUpdateControllerTextFieldValue = false;
+
 				}
 
 			});
@@ -595,15 +652,24 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 
 		} else if (((FIELDTYPEVALIDATOR) eValidatorType).equalsEnum(FIELDTYPEVALIDATOR.NIRFRNUMBER)) {
 
+			cControledTextField.setEditable(false);
+
 			// cControledTextField.setTooltip(null);
 			cTooltipTextField.setAutoHide(false);
 
-			cControledTextField.setEditable(false);
 			bShouldShowTooltipTextField = true;
-			tooltipShow();
+			if (!cTooltipTextField.isShowing()) {
+				tooltipShow();
+
+			}
+
+			cTooltipTextField.getGraphic().requestFocus();
 			aComboBoxFieldValidator.requestFocus();
-			// aComboBoxFieldValidator.setFilter(ev.getText());
+
 			aComboBoxFieldValidator.handleOnKeyPressed(ev);
+			// aComboBoxFieldValidator.getParent().requestFocus();
+			// aComboBoxFieldValidator.setFilter(ev.getText());
+
 			System.out.println(" return keyevent");
 			/*
 			 * if (validate()) { // tooltipHide(); sNewValueForcControledTextField =
@@ -625,8 +691,6 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 			sNewValueForControledTextField = sOldValueForControledTextField;
 		}
 		// cControledTextField.requestFocus();
-		System.out.println(" ev getEventType : " + ev.getEventType().getClass() + " :: " + ev + " ;; "
-				+ sOldValueForControledTextField);
 
 	}
 

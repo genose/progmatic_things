@@ -102,6 +102,8 @@ public class JFXApplicationCustomControlComboxBoxAutoFill<T> extends ComboBox<T>
 		this.setPrefWidth(120.0);
 		this.setPrefHeight(20.0);
 		this.autosize();
+		this.setVisibleRowCount(20);
+
 		/*
 		 * aButtonValidateChoice.setOnMouseClicked(new EventHandler<MouseEvent>() {
 		 * 
@@ -111,34 +113,40 @@ public class JFXApplicationCustomControlComboxBoxAutoFill<T> extends ComboBox<T>
 		 * 
 		 * } });
 		 */
-		
-		/* ************************************************************* */
-		/*this.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent arg0) {
 
-				handleOnKeyPressed(arg0);
+		/* ************************************************************* */
+		/*
+		 * this.setOnKeyReleased(new EventHandler<KeyEvent>() {
+		 * 
+		 * @Override public void handle(KeyEvent arg0) {
+		 * 
+		 * handleOnKeyPressed(arg0);
+		 * 
+		 * } });
+		 */
+		this.promptTextProperty().addListener((ChangeListener<String>) new ChangeListener<T>() {
+			@Override
+			public void changed(ObservableValue ov, T t, T sNewSelectedValue) {
+				System.out.println(" combobox ov " + ov);
+				System.out.println(" t : " + t);
+				System.out.println(" t1 : " + sNewSelectedValue);
 
 			}
-		});*/
-this.promptTextProperty()
-.addListener((ChangeListener<String>) new ChangeListener<T>() {
-	@Override
-	public void changed(ObservableValue ov, T t, T sNewSelectedValue) {
-		System.out.println(" combobox ov " + ov);
-		System.out.println(" t : " + t);
-		System.out.println(" t1 : " + sNewSelectedValue);
-		
-	}
-});
+		});
 	}
 
 	public void handleOnKeyPressed(KeyEvent e) {
+
 		ObservableList<T> filteredList = FXCollections.observableArrayList();
 		KeyCode code = e.getCode();
-
+		if (code.isModifierKey() || code.isArrowKey())
+			return;
+		e.consume();
+		
+		String sCurrentText = this.getEditor().getText();
+		System.out.println(" text "+sCurrentText);
 		if (code.isLetterKey() || code.isDigitKey()) {
-			sFilter += e.getText();
+			sFilter =  sCurrentText; // :: += e.getText();
 		}
 		if (code == KeyCode.BACK_SPACE && sFilter.length() > 0) {
 			sFilter = sFilter.substring(0, sFilter.length() - 1);
@@ -147,27 +155,26 @@ this.promptTextProperty()
 		if (code == KeyCode.ESCAPE) {
 			sFilter = "";
 		}
+		//this.getEditor().setText(sFilter);
 		if (sFilter.length() == 0) {
 			filteredList.addAll(originalItems);
 
 			this.aTooltipAutoFillIndication
 					.setText(String.format(" (%d) match avail %n Precise your search ...  ", originalItems.size()));
-				if(originalItems.size()<20) {
-					this.show();
-				}
+			if (originalItems.size() < 20) {
+				this.show();
+			}
 		} else {
 			Stream<T> itens = originalItems.stream();
 			String txtUsr = sFilter.toLowerCase();
 
 			itens.filter(el -> el.toString().toLowerCase().contains(txtUsr)).forEach(filteredList::add);
 
-
 			this.getParent().requestFocus();
 			this.requestFocus();
 
 			this.hide();
-
-		
+			this.aTooltipAutoFillIndication.hide();
 
 			if (filteredList.isEmpty()) {
 
@@ -185,13 +192,37 @@ this.promptTextProperty()
 		}
 
 		Window stage = this.getScene().getWindow();
-		double posX = stage.getX() + this.getBoundsInParent().getMinX() + this.getWidth();
+		double posX = stage.getX() + this.getBoundsInParent().getMinX() + this.getWidth() + 40;
 		double posY = stage.getY() + this.getBoundsInParent().getMinY();
 		this.aTooltipAutoFillIndication.show(stage, posX, posY);
-		
-		// System.out.println("filter :(" + sFilter + ") elements .... " + filteredList);
 
-		this.getItems().setAll(filteredList);
+		System.out.println(" ******** \n filter :(" + sFilter + ") elements .... " + filteredList);
+		if (!this.getItems().equals(filteredList)) {
+			// System.out.println(" >>>> Update::Clear combo list ... \n ******** \n ");
+			// this.getItems().clear();
+			System.out.println(" >>>> Update::SetAll combo list ... \n ******** \n ");
+			this.getItems().setAll(filteredList);
+		}
+
+		// this.getSelectionModel().clearSelection();
+		// this.getSelectionModel().select(null);
+		if ((filteredList.size() == 1) && ((sFilter.length() == 0) || (code == KeyCode.ENTER))) {
+			System.out.println(" >>>> Update::First combo list ... \n ******** \n ");
+			this.getSelectionModel().selectFirst();
+		} else if ((filteredList.size() > 1) && (this.getSelectionModel().getSelectedItem() != null)
+				&& (code == KeyCode.ENTER)) {
+			int iSelectedIndex = this.getSelectionModel().getSelectedIndex();
+			System.out.println(" >>>> Update::Select once  combo list ... \n ******** \n ");
+			this.getSelectionModel().select(null);
+			this.getSelectionModel().select(iSelectedIndex);
+		}
+		if (isEditable()) {
+
+			this.getEditor().setText(sFilter);
+			this.getEditor().selectPositionCaret(sFilter.length());
+		}
+
+		System.out.println(" >>>> END :: Update combo list ... \n ******** \n ");
 	}
 
 	public void handleOnHiding(Event e) {
@@ -209,7 +240,7 @@ this.promptTextProperty()
 
 	public void setFilter(String text) {
 		sFilter = text;
-		
+
 	}
 
 }

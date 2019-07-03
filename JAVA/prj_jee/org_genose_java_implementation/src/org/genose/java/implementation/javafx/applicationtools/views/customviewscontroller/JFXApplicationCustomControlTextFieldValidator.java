@@ -418,7 +418,7 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 				public void handle(KeyEvent arg0) {
 					arg0.consume();
 					// System.out.println(" anchor Combox keyevent "+arg0);
-					aComboBoxFieldValidator.requestFocus();
+					
 					aComboBoxFieldValidator.handleOnKeyPressed(arg0);
 
 				}
@@ -654,8 +654,6 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 			}
 
 			cTooltipTextField.getGraphic().requestFocus();
-			aComboBoxFieldValidator.requestFocus();
-
 			aComboBoxFieldValidator.handleOnKeyPressed(ev);
 			// aComboBoxFieldValidator.getParent().requestFocus();
 			// aComboBoxFieldValidator.setFilter(ev.getText());

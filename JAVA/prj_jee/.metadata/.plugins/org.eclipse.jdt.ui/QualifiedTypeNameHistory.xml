@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene"/>
     <fullyQualifiedTypeName name="java.util.Arrays"/>
     <fullyQualifiedTypeName name="java.lang.ClassLoader"/>
     <fullyQualifiedTypeName name="javafx.scene.control.SplitPane.Divider"/>
@@ -57,7 +56,8 @@
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlComboxBoxAutoFill"/>
     <fullyQualifiedTypeName name="javafx.event.Event"/>
     <fullyQualifiedTypeName name="javafx.event.ActionEvent"/>
-    <fullyQualifiedTypeName name="javafx.event.EventHandler"/>
     <fullyQualifiedTypeName name="java.lang.Override"/>
     <fullyQualifiedTypeName name="java.lang.Object"/>
+    <fullyQualifiedTypeName name="javafx.event.EventHandler"/>
+    <fullyQualifiedTypeName name="javafx.event.EventType"/>
 </qualifiedTypeNameHistroy>

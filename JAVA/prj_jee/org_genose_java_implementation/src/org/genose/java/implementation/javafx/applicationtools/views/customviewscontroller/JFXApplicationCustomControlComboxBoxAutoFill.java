@@ -20,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -48,6 +49,8 @@ public class JFXApplicationCustomControlComboxBoxAutoFill<T> extends ComboBox<T>
 	private ComboBox<T> aComboxBoxAutofilleable = null;
 	private ObservableList<T> originalItems = FXCollections.observableArrayList();
 	String sFilter = "";
+
+	KeyCode aKeyCode = null;
 
 	public JFXApplicationCustomControlComboxBoxAutoFill() {
 		super();
@@ -103,15 +106,25 @@ public class JFXApplicationCustomControlComboxBoxAutoFill<T> extends ComboBox<T>
 		this.setPrefHeight(20.0);
 		this.autosize();
 		this.setVisibleRowCount(20);
+
+		this.getEditor().setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent evKeyEvent) {
+
+				System.out.println(" ********  \n anchored Combox keyevent " + evKeyEvent);
+				handleOnKeyPressed(evKeyEvent);
+
+			}
+		});
 		this.getEditor().setOnKeyReleased(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent arg0) {
-				 
+
 				// System.out.println(" anchor Combox keyevent "+arg0);
 				// aComboBoxFieldValidator.requestFocus();
-				// 
-				handleOnKeyPressed(arg0);
-				
+				//
+				handleOnKeyReleased(arg0);
+
 			}
 		});
 		/*
@@ -134,43 +147,40 @@ public class JFXApplicationCustomControlComboxBoxAutoFill<T> extends ComboBox<T>
 		 * 
 		 * } });
 		 */
-		this.promptTextProperty().addListener((ChangeListener<String>) new ChangeListener<T>() {
-			@Override
-			public void changed(ObservableValue ov, T t, T sNewSelectedValue) {
-				System.out.println(" combobox ov " + ov);
-				System.out.println(" t : " + t);
-				System.out.println(" t1 : " + sNewSelectedValue);
 
-			}
-		});
 	}
 
-	public void handleOnKeyPressed(KeyEvent e) {
+	public void handleOnKeyPressed(KeyEvent evKeyEvent) {
 
-		ObservableList<T> filteredList = FXCollections.observableArrayList();
-		KeyCode code = e.getCode();
-		
-		if (code == KeyCode.BACK_SPACE && sFilter.length() > 0) {
-			sFilter = sFilter.substring(0, sFilter.length() - 1);
-		}else
-		if (code == KeyCode.ESCAPE) {
-			sFilter = "";
-			this.getEditor().setText(sFilter);
-		}else if (code.isLetterKey() || code.isDigitKey()) {
-			sFilter  += e.getText();
-		}
-		
-		if (code.isModifierKey() || code.isArrowKey())
+		// this.requestFocus();
+
+		aKeyCode = evKeyEvent.getCode();
+
+		if (aKeyCode.isModifierKey() || aKeyCode.isArrowKey())
 			return;
+
+		if (aKeyCode == KeyCode.BACK_SPACE && sFilter.length() > 0) {
+			sFilter = sFilter.substring(0, sFilter.length() - 1);
+		} else if (aKeyCode == KeyCode.ESCAPE) {
+			sFilter = "";
+			getEditor().setText(sFilter);
+		} else if (aKeyCode.isLetterKey() || aKeyCode.isDigitKey()) {
+			sFilter += evKeyEvent.getText();
+		}
+
+	}
+
+	private void handleOnKeyReleased(KeyEvent e) {
+
+		ObservableList<T> oFilteredList = FXCollections.observableArrayList();
+
 		e.consume();
-		
+
 		String sCurrentText = this.getEditor().getText();
-		System.out.println(" text "+sCurrentText+" :: "+e.getText());
-		
-	 
-		//this.getEditor().setText(sFilter);
+		System.out.println(" text " + sCurrentText + " :: " + e.getText());
+
 		if (sFilter.length() == 0) {
-			filteredList.addAll(originalItems);
+			oFilteredList.addAll(originalItems);
 
 			this.aTooltipAutoFillIndication
 					.setText(String.format(" (%d) match avail %n Precise your search ...  ", originalItems.size()));
@@ -179,24 +189,25 @@ public class JFXApplicationCustomControlComboxBoxAutoFill<T> extends ComboBox<T>
 			}
 		} else {
 			Stream<T> itens = originalItems.stream();
-			String txtUsr = sFilter.toLowerCase();
+			String sFilterLowerCaseReference = sFilter.toLowerCase();
 
-			itens.filter(el -> el.toString().toLowerCase().contains(txtUsr)).forEach(filteredList::add);
+			itens.filter(el -> el.toString().toLowerCase().contains(sFilterLowerCaseReference))
+					.forEach(oFilteredList::add);
 
-			this.getParent().requestFocus();
-			this.requestFocus();
+			//this.getParent().requestFocus();
+			//this.requestFocus();
 
 			this.hide();
 			this.aTooltipAutoFillIndication.hide();
 
-			if (filteredList.isEmpty()) {
+			if (oFilteredList.isEmpty()) {
 
 				this.aTooltipAutoFillIndication
 						.setText(String.format("No match for : (%s) %n Correct your search to continue ... ", sFilter));
 
 			} else {
-				this.aTooltipAutoFillIndication.setText(String
-						.format(" (%d) match for : (%s) %n Select a value in the list ", filteredList.size(), sFilter));
+				this.aTooltipAutoFillIndication.setText(String.format(
+						" (%d) match for : (%s) %n Select a value in the list ", oFilteredList.size(), sFilter));
 				// show the list ...
 				this.show();
 
@@ -209,31 +220,33 @@ public class JFXApplicationCustomControlComboxBoxAutoFill<T> extends ComboBox<T>
 		double posY = stage.getY() + this.getBoundsInParent().getMinY();
 		this.aTooltipAutoFillIndication.show(stage, posX, posY);
 
-		System.out.println(" ******** \n filter :(" + sFilter + ") elements .... " + filteredList);
-		if (!this.getItems().equals(filteredList)) {
+		System.out.println(" ******** \n filter :(" + sFilter + ") elements .... " + oFilteredList);
+		if (!this.getItems().equals(oFilteredList)) {
 			// System.out.println(" >>>> Update::Clear combo list ... \n ******** \n ");
 			// this.getItems().clear();
 			System.out.println(" >>>> Update::SetAll combo list ... \n ******** \n ");
-			this.getItems().setAll(filteredList);
+			this.getItems().setAll(oFilteredList);
 		}
 
 		// this.getSelectionModel().clearSelection();
 		// this.getSelectionModel().select(null);
-		if ((filteredList.size() == 1) && ((sFilter.length() == 0) || (code == KeyCode.ENTER))) {
+		if ((oFilteredList.size() == 1) && ((sFilter.length() == 0) || (aKeyCode == KeyCode.ENTER))) {
 			System.out.println(" >>>> Update::First combo list ... \n ******** \n ");
 			this.getSelectionModel().selectFirst();
-		} else if ((filteredList.size() > 1) && (this.getSelectionModel().getSelectedItem() != null)
-				&& (code == KeyCode.ENTER)) {
+		} else if ((oFilteredList.size() > 1) && (this.getSelectionModel().getSelectedItem() != null)
+				&& (aKeyCode == KeyCode.ENTER)) {
 			int iSelectedIndex = this.getSelectionModel().getSelectedIndex();
 			System.out.println(" >>>> Update::Select once  combo list ... \n ******** \n ");
 			this.getSelectionModel().select(null);
 			this.getSelectionModel().select(iSelectedIndex);
-		}
-		if (isEditable()) {
+		}	// 
+		this.getEditor().setText(sFilter);
+		if (isEditable() && (aKeyCode.isArrowKey())) {
 
-			//this.getEditor().setText(sFilter);
+		
 			this.getEditor().selectPositionCaret(sFilter.length());
-		}
+
+		}else
 
 		System.out.println(" >>>> END :: Update combo list ... \n ******** \n ");
 	}

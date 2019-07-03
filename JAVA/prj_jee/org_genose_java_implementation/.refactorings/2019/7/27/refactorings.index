@@ -1,3 +1,6 @@
 1561988247250	Rename field 'sNewValueForcControledTextField'
 1561988262866	Rename field 'sNewValueForontroledTextField'
 1561988497419	Rename field 'sOldValueForcControledTextField'
+1562087379160	Rename field 'code'
+1562087511221	Rename local variable 'txtUsr'
+1562087535025	Rename local variable 'filteredList'

@@ -13,8 +13,8 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='ARTICLE' and xtype='U')
 ------------------------------------------------------------*/
 CREATE TABLE tickets(
 	id_ticket    INT IDENTITY (1,1) NOT NULL ,
-	annee        DATETIME  NOT NULL ,
-	DATE_VENTE   DATETIME NOT NULL  ,
+	annee        DATE  NOT NULL DEFAULT(GETDATE()),
+	DATE_VENTE   DATETIME NOT NULL  DEFAULT(GETDATE()),
 	CONSTRAINT tickets_PK PRIMARY KEY (id_ticket)
 );
 
@@ -89,8 +89,8 @@ CREATE TABLE article(
 	NOM_ARTICLE varchar(50) not null DEFAULT('NOUVEL ARTICLE'), 
 
 	prix_achat     FLOAT  NOT NULL check (CONVERT(DECIMAL(18,2), prix_achat) > 0.00),
-	volume         INT  NOT NULL DEFAULT (0) check (volume >= 0.00),
-	titrage        FLOAT  NOT NULL DEFAULT (0.0) check (CONVERT(DECIMAL(18,2), titrage) > 0.00) ,
+	volume         INT  NOT NULL DEFAULT (0) check ((volume = 33) or (volume = 75) ),
+	titrage        FLOAT  NOT NULL DEFAULT (0.0) check ( (titrage> 0.00) and (titrage between 0.50 and 27.00) ),
 	id_type        INT  NOT NULL CONSTRAINT article_typebiere_FK FOREIGN KEY (id_type) REFERENCES typebiere(id_type),
 	id_couleur     INT  NOT NULL CONSTRAINT article_couleur0_FK FOREIGN KEY (id_couleur) REFERENCES couleur(id_couleur),
 	id_marque      INT  NOT NULL CONSTRAINT article_marque1_FK FOREIGN KEY (id_marque) REFERENCES marque(id_marque),

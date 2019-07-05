@@ -1,0 +1,1 @@
+INDEX VERSION 1.131+C:\Users\59013-36-18\Desktop\Talend\TOS_DI-20190620_1446-V7.2.1\workspace\.metadata\.plugins\org.eclipse.jdt.core

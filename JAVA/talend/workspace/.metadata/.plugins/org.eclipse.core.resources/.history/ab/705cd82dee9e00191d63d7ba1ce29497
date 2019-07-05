@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:TalendProperties="http://www.talend.org/properties">
+  <TalendProperties:Property xmi:id="_2X2y4p5AEemFV9_w661v-A" id="_MLS78J4_EemFV9_w661v-A" label="localhost_MSSQLServer" purpose="create a connection to database" description="connection to localhost MSSQLServer" version="0.1" statusCode="DEV" item="_2X2y5J5AEemFV9_w661v-A" displayName="localhost_MSSQLServer">
+    <author href="../../talend.project#_L9dVgJ2VEemFV9_w661v-A"/>
+    <additionalProperties xmi:id="_2X_80J5AEemFV9_w661v-A" key="created_product_fullname" value="Talend Open Studio for Data Integration"/>
+    <additionalProperties xmi:id="_2X_80Z5AEemFV9_w661v-A" key="created_product_version" value="7.2.1.20190620_1446"/>
+    <additionalProperties xmi:id="_2X_80p5AEemFV9_w661v-A" key="created_date" value="2019-07-04T11:48:17.565+0200"/>
+    <additionalProperties xmi:id="_2X_8055AEemFV9_w661v-A" key="modified_product_fullname" value="Talend Open Studio for Data Integration"/>
+    <additionalProperties xmi:id="_2X_81J5AEemFV9_w661v-A" key="modified_product_version" value="7.2.1.20190620_1446"/>
+    <additionalProperties xmi:id="_2X_81Z5AEemFV9_w661v-A" key="modified_date" value="2019-07-05T08:28:59.211+0200"/>
+  </TalendProperties:Property>
+  <TalendProperties:ItemState xmi:id="_2X2y455AEemFV9_w661v-A" path="" locked="true" lockDate="2019-07-05T08:28:59.211+0200">
+    <locker href="../../talend.project#_L9dVgJ2VEemFV9_w661v-A"/>
+  </TalendProperties:ItemState>
+  <TalendProperties:DatabaseConnectionItem xmi:id="_2X2y5J5AEemFV9_w661v-A" property="_2X2y4p5AEemFV9_w661v-A" state="_2X2y455AEemFV9_w661v-A" typeName="Microsoft SQL Server">
+    <connection href="localhost_MSSQLServer_0.1.item#_2XtB4J5AEemFV9_w661v-A"/>
+  </TalendProperties:DatabaseConnectionItem>
+</xmi:XMI>

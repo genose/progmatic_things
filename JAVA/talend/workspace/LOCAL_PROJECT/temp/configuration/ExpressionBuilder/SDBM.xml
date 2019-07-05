@@ -1,0 +1,14 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<expression:EMFExpression xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:expression="http:///expression.ecore" id="tMap_1=>" expression="StringHandling.FTRIM(row1.NOM_FABRICANT )">
+  <variables name="row1.ID_ARTICLE" value="null" talendType="id_Integer" nullable="true"/>
+  <variables name="row1.NOM_ARTICLE" value="null" talendType="id_String" nullable="true"/>
+  <variables name="row1.PRIX_ACHAT" value="null" talendType="id_Float" nullable="true"/>
+  <variables name="row1.VOLUME" value="null" talendType="id_Float" nullable="true"/>
+  <variables name="row1.TITRAGE" value="null" talendType="id_Integer" nullable="true"/>
+  <variables name="row1.NOM_COULEUR" value="null" talendType="id_String" nullable="true"/>
+  <variables name="row1.NOM_TYPE" value="null" talendType="id_String" nullable="true"/>
+  <variables name="row1.NOM_MARQUE" value="null" talendType="id_String" nullable="true"/>
+  <variables name="row1.NOM_FABRICANT" value="null" talendType="id_String" nullable="true"/>
+  <variables name="row1.NOM_PAYS" value="null" talendType="id_String" nullable="true"/>
+  <variables name="row1.NOM_CONTINENT" value="null" talendType="id_String" nullable="true"/>
+</expression:EMFExpression>

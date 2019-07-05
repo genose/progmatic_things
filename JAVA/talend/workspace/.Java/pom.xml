@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.talend.temp.project</groupId>
+  <artifactId>.Java</artifactId>
+  <version>7.2.1</version>
+  <dependencies>
+    <dependency>
+      <groupId>org.talend.libraries</groupId>
+      <artifactId>talend_file_enhanced_20070724</artifactId>
+      <version>6.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.talend.libraries</groupId>
+      <artifactId>talendcsv</artifactId>
+      <version>6.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.example.local_project.code</groupId>
+      <artifactId>routines</artifactId>
+      <version>7.2.1</version>
+    </dependency>
+  </dependencies>
+</project>

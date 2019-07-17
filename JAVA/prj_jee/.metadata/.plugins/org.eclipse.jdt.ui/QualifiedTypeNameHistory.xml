@@ -10,7 +10,6 @@
     <fullyQualifiedTypeName name="javafx.scene.control.TextField"/>
     <fullyQualifiedTypeName name="com.sun.org.apache.bcel.internal.generic.ISTORE"/>
     <fullyQualifiedTypeName name="javafx.scene.control.TableColumn"/>
-    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationClassHelper"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper"/>
     <fullyQualifiedTypeName name="javafx.scene.Parent"/>
     <fullyQualifiedTypeName name="javafx.scene.control.TableView"/>
@@ -27,7 +26,6 @@
     <fullyQualifiedTypeName name="java.lang.RuntimeException"/>
     <fullyQualifiedTypeName name="javafx.application.Application"/>
     <fullyQualifiedTypeName name="java.lang.Exception"/>
-    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger"/>
     <fullyQualifiedTypeName name="javafx.scene.input.MouseEvent"/>
     <fullyQualifiedTypeName name="javafx.fxml.Initializable"/>
     <fullyQualifiedTypeName name="javafx.fxml.FXML"/>
@@ -35,7 +33,6 @@
     <fullyQualifiedTypeName name="javafx.scene.control.Button"/>
     <fullyQualifiedTypeName name="javafx.scene.control.Tooltip"/>
     <fullyQualifiedTypeName name="java.util.Objects"/>
-    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException"/>
     <fullyQualifiedTypeName name="javafx.scene.input.KeyEvent"/>
     <fullyQualifiedTypeName name="javafx.scene.input.KeyCode"/>
     <fullyQualifiedTypeName name="java.util.stream.Stream"/>
@@ -51,7 +48,6 @@
     <fullyQualifiedTypeName name="javafx.stage.WindowEvent"/>
     <fullyQualifiedTypeName name="javafx.util.Duration"/>
     <fullyQualifiedTypeName name="javafx.scene.control.ContentDisplay"/>
-    <fullyQualifiedTypeName name="java.lang.String"/>
     <fullyQualifiedTypeName name="java.awt.List"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlComboxBoxAutoFill"/>
     <fullyQualifiedTypeName name="javafx.event.Event"/>
@@ -60,4 +56,8 @@
     <fullyQualifiedTypeName name="java.lang.Object"/>
     <fullyQualifiedTypeName name="javafx.event.EventHandler"/>
     <fullyQualifiedTypeName name="javafx.event.EventType"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationClassHelper"/>
 </qualifiedTypeNameHistroy>

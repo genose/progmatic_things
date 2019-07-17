@@ -41,11 +41,9 @@ public class StartupScreens implements JFXApplicationViewInvokableInterface {
 	 */
 	@FXML
 	public void doStart() {
-		try {
+	//	try {
 		
-
-			
-			JFXApplicationScene.create("MainWindow", null, new JFXApplicationCallback() {
+			JFXApplicationCallback aCallback=	new JFXApplicationCallback() {
 				
 				@Override
 				public Object apply(Object arg0) {
@@ -55,17 +53,23 @@ public class StartupScreens implements JFXApplicationViewInvokableInterface {
 					JFXApplication.getJFXApplicationSingleton().getPrimaryStage().show();
 					return arg0;
 				}
-			});
+				@Override
+				public String getDescription() {
+					return "Nobody somebody...";
+				}
+			};
 			
+		//	JFXApplicationScene.create("MainWindow", null, aCallback );
+			
+ 
+JFXApplicationLogger.getLogger().logInfo(this.getClass(), String.valueOf(getClass().getEnclosingMethod()));
 
-
-
-
+/*
 		} catch (JFXApplicationException evERRDOSTART) {
 			JFXApplicationLogger.getLogger().logError(this.getClass(), evERRDOSTART);
 
 			JFXApplicationException.raiseToFront(this.getClass(), evERRDOSTART, true);
-		}
+		}*/
 
 	}
 

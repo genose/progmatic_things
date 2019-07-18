@@ -33,26 +33,49 @@ public class JFXApplicationClassHelper {
 	public static Boolean respondsTo(Object aObjectToTest, String aMethodName) {
 		Method methodToFind = null;
 		Class<?> aClassToTest = aObjectToTest.getClass();
+		Class<?> aClassToTestSuperclass = aObjectToTest.getClass().getSuperclass();
+		boolean bMethodCanReachObject = false;
+		/*
+		 * try { // ******************************************************* methodToFind
+		 * = aClassToTest.getMethod(aMethodName, (Class<?>[]) null);
+		 * 
+		 * } catch (NoSuchMethodException | SecurityException evERRREFLECT) {
+		 */
 		try {
 			// *******************************************************
-			methodToFind = aClassToTest.getMethod(aMethodName, (Class<?>[]) null);
-		} catch (NoSuchMethodException | SecurityException evERRREFLECT) {
-			try {
-				// *******************************************************
-				Method[] aDeclaredMethod = aClassToTest.getMethods();
-				// *******************************************************
-				for (int i = 0; i < aDeclaredMethod.length; i++) {
-					int iStringCompare = String.valueOf(aDeclaredMethod[i]).compareToIgnoreCase(aMethodName);
-					if (iStringCompare == 0) {
-						return true;
+			Method[] aDeclaredMethod = aClassToTest.getMethods();
+			
+			JFXApplicationLogger.getLogger().logInfo("[Object ("+aObjectToTest+")%n findind ("+aMethodName+") %nrespondsTo Got list %n(" + Arrays.toString(aDeclaredMethod).replaceAll(",", "\n") + ")]");
+			// *******************************************************
+			for (int i = 0; i < aDeclaredMethod.length; i++) {
+				String sCurrentFoundMethod = aDeclaredMethod[i].getName();
+				int iStringCompare = String.valueOf(sCurrentFoundMethod).compareToIgnoreCase(aMethodName);
+				if (iStringCompare == 0) {
+					bMethodCanReachObject =  aDeclaredMethod[i].canAccess(aObjectToTest);
+					JFXApplicationLogger.getLogger().logInfo("[Object  ("+aObjectToTest+") %n respondsTo (" + aMethodName + ")] %n canAccess : "+bMethodCanReachObject);
+					
+					if (!bMethodCanReachObject) {
+						JFXApplicationLogger.getLogger().logError(JFXApplicationClassHelper.class,
+								"This context Can t reach method : " + aMethodName+"%n on Object : "+aObjectToTest+"%n class : "+aClassToTest+"%n super : "+aClassToTestSuperclass);
 					}
+					
+					return bMethodCanReachObject;
 				}
-
-			} catch (Exception evERRRESPONDSTO) {
-				JFXApplicationLogger.getLogger().logError(JFXApplicationClassHelper.class, evERRRESPONDSTO);
-				return false;
 			}
+
+		} catch (Exception evERRRESPONDSTO) {
+			JFXApplicationLogger.getLogger().logError(JFXApplicationClassHelper.class, evERRRESPONDSTO);
+			return false;
 		}
+		/* } */
+		if (methodToFind != null)
+			bMethodCanReachObject = methodToFind.canAccess(aClassToTest);
+		if (!bMethodCanReachObject) {
+			JFXApplicationLogger.getLogger().logError(JFXApplicationClassHelper.class,
+					"This context Can t reach method : " + aMethodName);
+			return false;
+		}
+
 		return (methodToFind != null);
 	}
 
@@ -66,10 +89,9 @@ public class JFXApplicationClassHelper {
 	 */
 	public static Object invokeMethod(Object aObjectToIntrospect, String sInvokeMethodName) {
 
-		
 		boolean aMethodCanReachObject = false;
 		String sEnclosureType = "";
-				
+
 		if ((aObjectToIntrospect == null) || (sInvokeMethodName == null)
 				|| (String.valueOf(sInvokeMethodName).length() < 2)) {
 			String sMessageToRaise = String.format("Can't call unnamed method (%s) on Object (%s)  ", sInvokeMethodName,
@@ -91,72 +113,72 @@ public class JFXApplicationClassHelper {
 			Boolean bIsEnclosedOrOverriten = (aObjectToIntrospect.getClass().getEnclosingClass() != null)
 					&& (aObjectToIntrospect.getClass().getEnclosingMethod() != null)
 					&& (aObjectToIntrospect.getClass().getEnclosingClass() != null);
-			sEnclosureType = (bIsEnclosedOrOverriten)?"Enclosed Object":"";
+			sEnclosureType = (bIsEnclosedOrOverriten) ? "Enclosed Object" : "";
 			String sClassInfos = String.format(
-					"*********************************************** "
-							+ "%n Should Invoke : %s "
-							+ "%n Class : %s "
-							+ "%n Got Method count :   %s "
-							+ "%n IsEnclosed / Anonymous : %b %n %s %n   " 
-							+ "%n Super Class : %s"
-							+ "%n Super Got Method count :   %s " 
+					"*********************************************** " + "%n Should Invoke : %s " + "%n Class : %s "
+							+ "%n Got Method count :   %s " + "%n IsEnclosed / Anonymous : %b %n %s %n   "
+							+ "%n Super Class : %s" + "%n Super Got Method count :   %s "
 							+ "%n IsEnclosed / Anonymous : %b %n %s "
 							+ "%n *********************************************** %n",
-					sInvokeMethodName,
-					aObjectToIntrospect.toString(),
-					String.valueOf(aMethodList.length),
-					bIsEnclosedOrOverriten, 
-					String.format(" ****************************************** %n  enclosed by class : %s %n enclosed in method : %s %n ******************************************",
-					aObjectToIntrospect.getClass().getEnclosingClass(), 
-							aObjectToIntrospect.getClass().getEnclosingMethod()  ),
+					sInvokeMethodName, aObjectToIntrospect.toString(), String.valueOf(aMethodList.length),
+					bIsEnclosedOrOverriten,
+					String.format(
+							" ****************************************** %n  enclosed by class : %s %n enclosed in method : %s %n ******************************************",
+							aObjectToIntrospect.getClass().getEnclosingClass(),
+							aObjectToIntrospect.getClass().getEnclosingMethod()),
 
-					aObjectToIntrospectSuperClass, 
-					String.valueOf(aMethodListSuperClass.length),
-					false,
-						String.format(" ****************************************** %n  enclosed by class : %s %n enclosed in method : %s %n ******************************************",
-					aObjectToIntrospectSuperClass.getClass().getEnclosingClass(), 
-							aObjectToIntrospectSuperClass.getClass().getEnclosingMethod()  )	 
-							
-					);
+					aObjectToIntrospectSuperClass, String.valueOf(aMethodListSuperClass.length), false,
+					String.format(
+							" ****************************************** %n  enclosed by class : %s %n enclosed in method : %s %n ******************************************",
+							aObjectToIntrospectSuperClass.getClass().getEnclosingClass(),
+							aObjectToIntrospectSuperClass.getClass().getEnclosingMethod())
+
+			);
 			JFXApplicationLogger.getLogger().logInfo(sClassInfos);
 			// sonarlint says extract to method ... i say NO !!
 			try {
 				Method aclassmethod = aObjectToIntrospect.getClass().getMethod(sInvokeMethodName);
 				if (aclassmethod != null) {
 					Class<?> aReturnType = aclassmethod.getReturnType();
-					  aMethodCanReachObject = aclassmethod.canAccess(aObjectToIntrospect);
-					  if(aMethodCanReachObject) {
-						  if (aReturnType != null && (aReturnType.toGenericString().equalsIgnoreCase("void"))) {
-								JFXApplicationLogger.getLogger().logInfo("[Object getMethod ("+sEnclosureType+":"+(aObjectToIntrospect.getClass())+")] " + sInvokeMethodName
-										+ " Return Method Type :  void :: " + aReturnType.toGenericString());
-								aclassmethod.invoke(aObjectToIntrospect);
-								return null;
-							} else if (aReturnType != null) {
-							JFXApplicationLogger.getLogger().logInfo("[Object getMethod ("+sEnclosureType+":"+(aObjectToIntrospect.getClass())+")] " + sInvokeMethodName
-									+ " Return Method Type : " + aReturnType.toGenericString());
-							return aclassmethod.invoke(aObjectToIntrospect);
-						} else  {
+					aMethodCanReachObject = aclassmethod.canAccess(aObjectToIntrospect);
+					if (aMethodCanReachObject) {
+						if (aReturnType != null && (aReturnType.toGenericString().equalsIgnoreCase("void"))) {
 							JFXApplicationLogger.getLogger()
-									.logInfo("[Object getMethod ("+sEnclosureType+":"+(aObjectToIntrospect.getClass())+")] " 
-							+ sInvokeMethodName + " Return Method Type : is NULL ");
+									.logInfo("[Object getMethod (" + sEnclosureType + ":"
+											+ (aObjectToIntrospect.getClass()) + ")] " + sInvokeMethodName
+											+ " Return Method Type :  void :: " + aReturnType.toGenericString());
+							aclassmethod.invoke(aObjectToIntrospect);
+							return null;
+						} else if (aReturnType != null) {
+							JFXApplicationLogger.getLogger()
+									.logInfo("[Object getMethod (" + sEnclosureType + ":"
+											+ (aObjectToIntrospect.getClass()) + ")] " + sInvokeMethodName
+											+ "%n Return Method Type : " + aReturnType.toGenericString());
+							return aclassmethod.invoke(aObjectToIntrospect);
+						} else {
+							JFXApplicationLogger.getLogger()
+									.logInfo("[Object getMethod (" + sEnclosureType + ":"
+											+ (aObjectToIntrospect.getClass()) + ")] " + sInvokeMethodName
+											+ "%n Return Method Type : is NULL ");
 							aclassmethod.invoke(aObjectToIntrospect);
 							return null;
 						}
-					  }else {
-						  JFXApplicationLogger.getLogger().logError(JFXApplicationClassHelper.class, "Unreacheable Method Call ("+aclassmethod.getName()+")" );
-						  return null;
-					  }
+					} else {
+						JFXApplicationLogger.getLogger().logError(JFXApplicationClassHelper.class,
+								"Unreacheable Method Call (" + aclassmethod.getName() + ")");
+						return null;
+					}
 				}
 
 			} catch (Exception throwedEvent) {
 				JFXApplicationLogger.getLogger().logError(JFXApplicationHelper.class, throwedEvent,
-						" WARNING : Can t find ["+sEnclosureType+":"+"Object Method[" + sInvokeMethodName + "]] ... Retry with introspect ...");
+						" WARNING : Can t find [" + sEnclosureType + ":" + "Object Method[" + sInvokeMethodName
+								+ "]] ... Retry with introspect ...");
 			}
-			
 
 			// Following should rarely be reached ...
 			// it find by Insensitive case methods name ...
-		
+
 			/* ********************************** */
 			for (Method mMethodFound : aArrayMethodList) {
 
@@ -165,19 +187,19 @@ public class JFXApplicationClassHelper {
 					JFXApplicationLogger.getLogger().logInfo(
 							"Class : " + aObjectToIntrospect.toString() + "%n Got Method : " + mMethodFound.getName());
 					Class<?> aReturnType = mMethodFound.getReturnType();
-					  aMethodCanReachObject = mMethodFound.canAccess(aObjectToIntrospect);
-					JFXApplicationLogger.getLogger().logInfo(String.format("[Object Introspect] canreach object : %b", aMethodCanReachObject)); 
-					
-					if(!aMethodCanReachObject)
-					{
-						throw new JFXApplicationException("Unreacheable Method Call ("+mMethodFound.getName()+")" );
+					aMethodCanReachObject = mMethodFound.canAccess(aObjectToIntrospect);
+					JFXApplicationLogger.getLogger()
+							.logInfo(String.format("[Object Introspect] canreach object : %b", aMethodCanReachObject));
+
+					if (!aMethodCanReachObject) {
+						throw new JFXApplicationException("Unreacheable Method Call (" + mMethodFound.getName() + ")");
 					}
-					
+
 					if (aReturnType != null && aReturnType.toGenericString().equalsIgnoreCase("void")) {
 						JFXApplicationLogger.getLogger().logInfo("[Object Introspect] " + sInvokeMethodName
 								+ " Return Method Type : " + aReturnType.toGenericString());
-						 mMethodFound.invoke(aObjectToIntrospect);
-						 return null;
+						mMethodFound.invoke(aObjectToIntrospect);
+						return null;
 					} else if (aReturnType != null) {
 						JFXApplicationLogger.getLogger().logInfo("[Object Introspect] " + sInvokeMethodName
 								+ " Return Method Type : " + aReturnType.toGenericString());

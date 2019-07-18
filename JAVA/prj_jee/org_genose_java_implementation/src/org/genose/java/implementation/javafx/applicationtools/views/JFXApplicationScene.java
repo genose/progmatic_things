@@ -282,7 +282,7 @@ public class JFXApplicationScene extends Scene implements JFXApplicationDesignOb
 								
 								aTimerTaskCallback.setCallback(aFuncCallback, aSceneNode);
 								aTimerTaskCallback.setUserDatas(null);
-								aTimerTaskCallback.setupDelayFromCallback();
+								
 								aTimerTaskCallback.schedule();
 								
 				

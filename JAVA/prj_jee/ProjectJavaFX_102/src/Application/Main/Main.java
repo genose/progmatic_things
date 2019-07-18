@@ -13,7 +13,7 @@ import org.genose.java.implementation.javafx.applicationtools.views.customviewsc
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
-public class Main extends JFXApplication { 
+public class Main extends JFXApplication {  
 	@Override
 	public void start(Stage primaryStage) throws Exception { 
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.util.Arrays"/>
     <fullyQualifiedTypeName name="java.lang.ClassLoader"/>
     <fullyQualifiedTypeName name="javafx.scene.control.SplitPane.Divider"/>
     <fullyQualifiedTypeName name="javafx.scene.Node"/>
@@ -18,7 +17,6 @@
     <fullyQualifiedTypeName name="java.lang.Enum"/>
     <fullyQualifiedTypeName name="javafx.scene.layout.GridPane"/>
     <fullyQualifiedTypeName name="javafx.geometry.Point2D"/>
-    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlSplitMenuHBox"/>
     <fullyQualifiedTypeName name="javafx.scene.layout.AnchorPane"/>
     <fullyQualifiedTypeName name="java.awt.Button"/>
     <fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
@@ -57,7 +55,9 @@
     <fullyQualifiedTypeName name="javafx.event.EventHandler"/>
     <fullyQualifiedTypeName name="javafx.event.EventType"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
-    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationClassHelper"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlSplitMenuHBox"/>
 </qualifiedTypeNameHistroy>

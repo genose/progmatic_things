@@ -63,24 +63,27 @@ public class JFXApplicationScheduledTask extends java.util.TimerTask {
 		}
 		// https://stackoverflow.com/questions/21083945/how-to-avoid-not-on-fx-application-thread-currentthread-javafx-application-th
 		Platform.runLater(() -> {
-			
-			try {
-			Object oCallBackResult = aFuncCallback.apply(oObjectArg0);
-			String sCallbackDescription = "[NULL DESCRIPTION]";
-			if (JFXApplicationClassHelper.respondsTo(aFuncCallback, JFXApplicationCallback.CALLBACK_DESCRIPTION)) {
-				sCallbackDescription = String.format("[%s]", (String) JFXApplicationClassHelper
-						.invokeMethod(aFuncCallback, JFXApplicationCallback.CALLBACK_DESCRIPTION));
-			}
 
-			JFXApplicationLogger.getLogger().logInfo(getClass(), String.format("Callback (%s) returned %s",
-					sCallbackDescription, ((oCallBackResult == null) ? "[Null]" : oCallBackResult)));
-			}catch(Exception evERRPlanifiedRunnable) {
- 
+			try {
+				Object oCallBackResult = aFuncCallback.apply(oObjectArg0);
+				String sCallbackDescription = "[NULL DESCRIPTION]";
+				if (JFXApplicationClassHelper.respondsTo(aFuncCallback, JFXApplicationCallback.CALLBACK_DESCRIPTION)) {
+					Object aDescription = JFXApplicationClassHelper.invokeMethod(aFuncCallback,
+							JFXApplicationCallback.CALLBACK_DESCRIPTION);
+
+					sCallbackDescription = String.format("[%s]", (String) aDescription);
+				}
+
+				JFXApplicationLogger.getLogger().logInfo(getClass(), String.format("Callback (%s) returned %s",
+						sCallbackDescription, ((oCallBackResult == null) ? "[Null]" : oCallBackResult)));
+			} catch (Exception evERRPlanifiedRunnable) {
+
 				String sMessageFailInvokeable = "Something went wrong when running callback   ...";
-				JFXApplicationLogger.getLogger().logError(this.getClass(), evERRPlanifiedRunnable,  sMessageFailInvokeable);
+				JFXApplicationLogger.getLogger().logError(this.getClass(), evERRPlanifiedRunnable,
+						sMessageFailInvokeable);
 				JFXApplicationException.raiseToFront(this.getClass(), new JFXApplicationException(
 						sMessageFailInvokeable, evERRPlanifiedRunnable, JFXApplicationHelper.getStackTrace()), true);
-				
+
 			}
 		});
 
@@ -96,6 +99,8 @@ public class JFXApplicationScheduledTask extends java.util.TimerTask {
 			return;
 		}
 		this.aTimerCallBack.purge();
+		setupDelayFromCallback();
+		
 		if (iTimerRepeatDelay > 50) {
 			this.aTimerCallBack.schedule(this, iTimerDelayAfterScheduleLaunchCalled, iTimerRepeatDelay);
 
@@ -191,10 +196,10 @@ public class JFXApplicationScheduledTask extends java.util.TimerTask {
 		try {
 
 			if (this.aFuncCallback != null) {
-				
-				setDelayBeforeSchedule( this.aFuncCallback.getCallbackDelayAfter());
-				setDelayRepeatSchedule( this.aFuncCallback.getCallbackRepeatDelayAfter());
-				
+
+				setDelayBeforeSchedule(this.aFuncCallback.getCallbackDelayAfter());
+				setDelayRepeatSchedule(this.aFuncCallback.getCallbackRepeatDelayAfter());
+
 				if (JFXApplicationClassHelper.respondsTo(this.aFuncCallback,
 						JFXApplicationCallback.CALLBACK_DELAYAFTER_SETUP)) {
 					int iDelay = (Integer) JFXApplicationClassHelper.invokeMethod(this.aFuncCallback,
@@ -205,7 +210,7 @@ public class JFXApplicationScheduledTask extends java.util.TimerTask {
 				if (JFXApplicationClassHelper.respondsTo(this.aFuncCallback,
 						JFXApplicationCallback.CALLBACK_DELAYREPEATAFTER_SETUP)) {
 					int iDelay = (Integer) JFXApplicationClassHelper.invokeMethod(this.aFuncCallback,
-							JFXApplicationCallback.CALLBACK_DELAYREPEATAFTER_SETUP); 
+							JFXApplicationCallback.CALLBACK_DELAYREPEATAFTER_SETUP);
 					setDelayRepeatSchedule(iDelay);
 				}
 			}

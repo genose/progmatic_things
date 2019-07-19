@@ -45,13 +45,15 @@ public class JFXApplicationClassHelper {
 			// *******************************************************
 			Method[] aDeclaredMethod = aClassToTest.getMethods();
 			
-			JFXApplicationLogger.getLogger().logInfo("[Object ("+aObjectToTest+")%n findind ("+aMethodName+") %nrespondsTo Got list %n(" + Arrays.toString(aDeclaredMethod).replaceAll(",", "\n") + ")]");
 			// *******************************************************
 			for (int i = 0; i < aDeclaredMethod.length; i++) {
 				String sCurrentFoundMethod = aDeclaredMethod[i].getName();
 				int iStringCompare = String.valueOf(sCurrentFoundMethod).compareToIgnoreCase(aMethodName);
 				if (iStringCompare == 0) {
 					bMethodCanReachObject =  aDeclaredMethod[i].canAccess(aObjectToTest);
+					JFXApplicationLogger.getLogger().logInfo("[Object ("+aObjectToTest+")%n findind ("+aMethodName+") %nrespondsTo Got list %n(" + Arrays.toString(aDeclaredMethod).replaceAll(",", "\n") + ")]");
+					
+					
 					JFXApplicationLogger.getLogger().logInfo("[Object  ("+aObjectToTest+") %n respondsTo (" + aMethodName + ")] %n canAccess : "+bMethodCanReachObject);
 					
 					if (!bMethodCanReachObject) {

@@ -73,7 +73,7 @@ public class JFXApplicationScheduledTask extends java.util.TimerTask {
 
 					sCallbackDescription = String.format("[%s]", (String) aDescription);
 				}
-
+  
 				JFXApplicationLogger.getLogger().logInfo(getClass(), String.format("Callback (%s) returned %s",
 						sCallbackDescription, ((oCallBackResult == null) ? "[Null]" : oCallBackResult)));
 			} catch (Exception evERRPlanifiedRunnable) {

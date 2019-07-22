@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.lang.ClassLoader"/>
     <fullyQualifiedTypeName name="javafx.scene.control.SplitPane.Divider"/>
     <fullyQualifiedTypeName name="javafx.scene.Node"/>
     <fullyQualifiedTypeName name="java.lang.StackTraceElement"/>
@@ -9,7 +8,6 @@
     <fullyQualifiedTypeName name="javafx.scene.control.TextField"/>
     <fullyQualifiedTypeName name="com.sun.org.apache.bcel.internal.generic.ISTORE"/>
     <fullyQualifiedTypeName name="javafx.scene.control.TableColumn"/>
-    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper"/>
     <fullyQualifiedTypeName name="javafx.scene.Parent"/>
     <fullyQualifiedTypeName name="javafx.scene.control.TableView"/>
     <fullyQualifiedTypeName name="JFXApplicationCustomTableView.JFXApplicationCustomTableView"/>
@@ -36,7 +34,6 @@
     <fullyQualifiedTypeName name="java.util.stream.Stream"/>
     <fullyQualifiedTypeName name="javafx.stage.Window"/>
     <fullyQualifiedTypeName name="java.beans.DesignMode"/>
-    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesignObjectLoad"/>
     <fullyQualifiedTypeName name="javafx.scene.control.ComboBox"/>
     <fullyQualifiedTypeName name="javafx.geometry.Insets"/>
     <fullyQualifiedTypeName name="javafx.beans.value.ObservableValue"/>
@@ -49,15 +46,18 @@
     <fullyQualifiedTypeName name="java.awt.List"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlComboxBoxAutoFill"/>
     <fullyQualifiedTypeName name="javafx.event.Event"/>
-    <fullyQualifiedTypeName name="javafx.event.ActionEvent"/>
     <fullyQualifiedTypeName name="java.lang.Override"/>
     <fullyQualifiedTypeName name="java.lang.Object"/>
     <fullyQualifiedTypeName name="javafx.event.EventHandler"/>
     <fullyQualifiedTypeName name="javafx.event.EventType"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger"/>
-    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationClassHelper"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException"/>
     <fullyQualifiedTypeName name="java.util.Arrays"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlSplitMenuHBox"/>
+    <fullyQualifiedTypeName name="javafx.event.ActionEvent"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationClassHelper"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationObjectValue"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesignObjectLoad"/>
 </qualifiedTypeNameHistroy>

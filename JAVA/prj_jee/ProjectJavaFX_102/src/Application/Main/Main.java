@@ -51,7 +51,7 @@ public class Main extends JFXApplication {
 			};
  
 			//
-			super.setPrimaryScene(JFXApplicationScene.create("StartupScreens", null, aCallBackFunc));
+			super.setPrimaryScene(JFXApplicationDesignObjectLoad.create("StartupScreens", null, aCallBackFunc));
 
 			Parent aSplitMenu = JFXApplicationDesignObjectLoad.create(JFXApplicationCustomControlTextFieldValidator.class);
 			

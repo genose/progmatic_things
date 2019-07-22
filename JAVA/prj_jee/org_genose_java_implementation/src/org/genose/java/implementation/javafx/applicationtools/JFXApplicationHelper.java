@@ -33,10 +33,9 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 		Locale locale = new Locale("en", "UK");
 		ResourceBundle bundle = ResourceBundle.getBundle("strings", locale);
 
-		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("ui/main.fxml"), bundle);  
+		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("ui/main.fxml"), bundle);
 	}
 
-	
 	/* ****************************************************** */
 	/**
 	 * 
@@ -45,30 +44,32 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 	public static StackTraceElement[] getStackTrace() {
 		try {
 			Thread aThread = Thread.currentThread();
-			if(aThread != null) {
-				//if(aThread.isDaemon())
-					return aThread.getStackTrace();
-			//	else
-			//		System.out.println("ERROR CANT FETCH CURRENT THREAD WHILE FETCHING THREAD STACK ... ");
-			}else {
+			if (aThread != null) {
+				// if(aThread.isDaemon())
+				return aThread.getStackTrace();
+				// else
+				// System.out.println("ERROR CANT FETCH CURRENT THREAD WHILE FETCHING THREAD
+				// STACK ... ");
+			} else {
 				System.out.println("ERROR CANT FETCH CURRENT THREAD ... ");
 			}
-				
+
 		} catch (Exception evERRSTACKTRACE) {
-			System.out.println("ERROR WHILE FETCHING THREAD STACK ... "+evERRSTACKTRACE);
+			System.out.println("ERROR WHILE FETCHING THREAD STACK ... " + evERRSTACKTRACE);
 		}
 		String sFilejName = JFXApplicationHelper.class.getCanonicalName();
-		StackTraceElement[] aStackElement = { new StackTraceElement(JFXApplicationHelper.class.getName(), "getStackTrace", sFilejName, 1)};
-		
-		
+		StackTraceElement[] aStackElement = {
+				new StackTraceElement(JFXApplicationHelper.class.getName(), "getStackTrace", sFilejName, 1) };
+
 		return aStackElement;
 	}
+
 	/* ****************************************************** */
-	private StackTraceElement getLastStackTrace()
-	{
+	private StackTraceElement getLastStackTrace() {
 		StackTraceElement[] aStackTrace = Thread.currentThread().getStackTrace();
-		return aStackTrace[aStackTrace.length -1];
+		return aStackTrace[aStackTrace.length - 1];
 	}
+
 	/* ****************************************************** */
 	public static String getApplicationBundlePath() {
 		try {
@@ -81,7 +82,6 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 					.replaceAll("[^\\*]", "");
 
 			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\" + systemPathSeparator);
-			 
 
 			return localRunnablePathRelative;
 		} catch (Exception evErrPath) {
@@ -89,7 +89,7 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @param sApplicationPath
 	 * @param aPathInBundle
@@ -126,12 +126,10 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 
 		return sBasePath;
 	}
-	
-	
-	public static String packageToPath( Class<?>  aObjectClass) 
-	{
+
+	public static String packageToPath(Class<?> aObjectClass) {
 		try {
-		
+
 			String sClasName = aObjectClass.getCanonicalName();
 			Class<?> localClass = Class.forName(sClasName);
 
@@ -148,7 +146,5 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 		}
 		return null;
 	}
-
-	 
 
 }

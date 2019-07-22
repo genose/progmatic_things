@@ -314,6 +314,12 @@ public class JFXApplication extends Application {
 			if (aUrlClass != null) {
 				return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
 						"/");
+			}else {
+				 aUrlClass = localClass.getResource(systemPathSeparator);
+				 if (aUrlClass != null) {
+						return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
+								"/");
+					}
 			}
 
 		} catch (Exception evErrPath) {
@@ -399,7 +405,12 @@ public class JFXApplication extends Application {
 		singletonInstanceCheck();
 		synchronized (JFXApplication.class) {
 			if (aPrimaryStage != null) {
-				aPrimaryStage.setScene(jfxApplicationScene);
+				if(jfxApplicationScene != null) {
+					aPrimaryStage.setScene(jfxApplicationScene);
+				}else {
+					JFXApplicationException.raiseToFront(this.getClass(),
+							new JFXApplicationException("Try to Set Null Scene to Primary stage window ..."), true);
+				}
 			} else {
 				JFXApplicationException.raiseToFront(this.getClass(),
 						new JFXApplicationException("Primary stage window is null ..."), true);
@@ -414,6 +425,8 @@ public class JFXApplication extends Application {
 	 */
 	public void setSecondaryScene(JFXApplicationScene ajfxApplicationScene) {
 		getLogger().logInfo("setSecondary() ... ");
+		JFXApplicationException.raiseToFront(this.getClass(),
+				new JFXApplicationException("Unimplemented ..."), true);
 	}
 
 	/**

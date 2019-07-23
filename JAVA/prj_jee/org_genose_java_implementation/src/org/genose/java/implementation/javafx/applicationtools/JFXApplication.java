@@ -311,6 +311,7 @@ public class JFXApplication extends Application {
 
 			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\" + systemPathSeparator + "]", "../");
 			URL aUrlClass = localClass.getResource(localRunnablePathRelative);
+			
 			if (aUrlClass != null) {
 				return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
 						"/");
@@ -341,14 +342,29 @@ public class JFXApplication extends Application {
 			Class localClass = JFXApplication.getJFXApplicationSingleton().getClass();
 
 			String systemPathSeparator = String.valueOf(File.separatorChar);
-			String packageNamed = localClass.getPackageName();
-			String localPackagePath = String.valueOf(packageNamed);
-			String localRunnablePathRelative = String.valueOf("." + packageNamed).replaceAll("[.]", "*")
-					.replaceAll("[^\\*]", "");
+			String sLocalClassPackageName = localClass.getPackageName();
+
+			Boolean bAnnonPackageName = String.valueOf(sLocalClassPackageName).isEmpty();
+			
+			String localPackagePath = String.valueOf(sLocalClassPackageName);
+			String localRunnablePathRelative = ((bAnnonPackageName) ? "." : String.valueOf("." + sLocalClassPackageName).replaceAll("[.]", "*")
+					.replaceAll("[^\\*]", ""));
 
 			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\" + systemPathSeparator);
-
-			return localRunnablePathRelative;
+			URL aUrlClass = localClass.getResource(localRunnablePathRelative);
+			if(aUrlClass != null && !bAnnonPackageName ) { 
+				return localRunnablePathRelative;
+			}else {
+				aUrlClass = localClass.getResource("");
+				String slocalPathUnamedModule = aUrlClass.getPath();
+				slocalPathUnamedModule = slocalPathUnamedModule.substring(0, slocalPathUnamedModule.lastIndexOf("/") );
+				 if (aUrlClass != null) {
+					 slocalPathUnamedModule =  ".." + systemPathSeparator+slocalPathUnamedModule.substring(slocalPathUnamedModule.lastIndexOf("/"),slocalPathUnamedModule.length())+ "" + systemPathSeparator;
+					 slocalPathUnamedModule = slocalPathUnamedModule.replaceAll("/", "");
+						return slocalPathUnamedModule;
+					}
+				
+			}
 		} catch (Exception evErrPath) {
 			JFXApplicationLogger.getLogger().logError(JFXApplication.class.getClass(), evErrPath);
 		}
@@ -368,6 +384,8 @@ public class JFXApplication extends Application {
 			File localClassPath = null;
 			if (aPath != null) {
 				Class localClass = JFXApplication.getJFXApplicationSingleton().getClass();
+				String sLocalClassPackageName = localClass.getPackageName();
+				Boolean bAnnonPackageName = String.valueOf(sLocalClassPackageName).isEmpty();
 				String systemPathSeparator = String.valueOf(File.separatorChar);
 				localClassPath = new java.io.File(String.valueOf(aPath));
 

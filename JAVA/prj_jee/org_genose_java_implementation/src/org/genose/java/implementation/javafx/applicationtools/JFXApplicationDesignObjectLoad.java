@@ -141,7 +141,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 					Object oControllerView = aRootNodeLoader.getController();
 					
 					if(oControllerView == null) {
-						JFXApplicationLogger.getLogger().logError(aSceneNode.getClass(), String.format(" Loaded controler is null ... for (%s) of type (%s) :: (%s)", sRequestedSceneFile, aRootNode.getScene(), aRootNode.getClass()));
+						JFXApplicationLogger.getLogger().logError(aSceneNode.getClass(), String.format("Warning : Loaded controler is null ... for (%s) of type (%s) :: (%s)", sRequestedSceneFile, aRootNode.getScene(), aRootNode.getClass()));
 					}
 					aSceneNode.setRootController(oControllerView);
 					aSceneNode.setUserData( aRootNodeLoader );

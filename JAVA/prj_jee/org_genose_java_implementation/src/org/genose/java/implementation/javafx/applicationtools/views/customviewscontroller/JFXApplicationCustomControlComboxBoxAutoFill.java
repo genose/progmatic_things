@@ -26,6 +26,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -98,7 +99,15 @@ public class JFXApplicationCustomControlComboxBoxAutoFill<T> extends ComboBox<T>
 		this.aTooltipAutoFillIndication.setHideDelay(new Duration(0));
 
 		this.aComboxBoxAutofilleable = this;
-
+		this.aComboxBoxAutofilleable.getSelectionModel().selectedItemProperty().addListener( (ObservableValue<? extends T> arg0, T arg1, T arg2) -> {
+				// TODO Auto-generated method stub
+			System.out.println(" Values : "+arg0.getClass());
+				System.out.println(" Values : "+arg0);
+				System.out.println(" Values : 1"+arg1);
+				System.out.println(" Values : 2"+arg2);
+			}
+			
+		);
 //this.setTooltip(this.aTooltipAutoFillIndication );
 		//
 		this.setTooltip(null);

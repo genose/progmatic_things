@@ -31,7 +31,7 @@ public class MainWindow implements JFXApplicationViewsHierarchy {
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
 
-		tirroirButton.setText("X");
+		tirroirButton.setText("*");
 		 
 		
 	}

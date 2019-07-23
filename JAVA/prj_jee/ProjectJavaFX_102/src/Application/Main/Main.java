@@ -50,15 +50,14 @@ public class Main extends JFXApplication {
 
 			};
  
-			//
-			super.setPrimaryScene(JFXApplicationDesignObjectLoad.create("StartupScreens", null, aCallBackFunc));
+			// super.setPrimaryScene(JFXApplicationDesignObjectLoad.create("StartupScreens", null, aCallBackFunc));
 
 			Parent aSplitMenu = JFXApplicationDesignObjectLoad.create(JFXApplicationCustomControlTextFieldValidator.class);
 			
 			JFXApplicationScene aScene = new JFXApplicationScene(aSplitMenu); 
 			primaryStage.setHeight(480);
 			primaryStage.setWidth(640);
-			//setPrimaryScene(aScene); 
+			setPrimaryScene(aScene); 
 			primaryStage.show();
 			primaryStage.centerOnScreen();
 			// ((JFXApplicationCustomControlTextFieldValidator)aSplitMenu.getUserData()).setValidationType(JFXApplicationCustomControlTextFieldValidator.FIELDTYPEVALIDATOR.NIRFRNUMBER); 

@@ -20,36 +20,48 @@ import javafx.scene.Scene;
 
 public abstract interface JFXApplicationDesignObjectLoad {
 
-	static public JFXApplicationScene create(String argModuleName, String argModuleNameFile,
+	public static JFXApplicationScene create(String argModuleName, String argModuleNameFile,
 			JFXApplicationCallback aFuncCallback) throws JFXApplicationException {
 
+		return (JFXApplicationScene) JFXApplicationDesignObjectLoad.create(argModuleName, argModuleNameFile,
+				aFuncCallback, false);
+
+	}
+
+	public static <T> Object create(String argModuleName, String argModuleNameFile,
+			JFXApplicationCallback aFuncCallback, Boolean bReturnOnlyDesignNode) throws JFXApplicationException {
 
 		FXMLLoader aRootNodeLoader = null;
 		Parent aRootNode = null;
+		Object oFXMLRootNode = null;
+		Object aParentRootNode = null;
+		Object aController = null;
+		
 		JFXApplicationScene aSceneNode = null;
 
 		Class aClassReference = JFXApplication.getJFXApplicationSingleton().getClass();
 		String sApplicationPath = JFXApplication.getApplicationBundlePath();
 		String sApplicationAbsPath = JFXApplication.getApplicationRunnablePathAbsolute();
 		Boolean bModuleAsMVC = false;
-		 
+
 		/* ****************************************************************** */
 		// formatting path as
 		// [APP_ROOT]/src/[ARGUMENT]/[MVC_STYLE(Controller;View;Ressources)]/[ARGUMENT].[FILEEXT]
 		/* ****************************************************************** */
 		// check out entry point of this Module
 		/* ****************************************************************** */
-		 
+
 		String sBasePath = null;
 
-		sBasePath = JFXApplicationHelper.resolveModulePathInsenstiveCase(sApplicationPath, JFXApplication.JFXFILETYPE.DIR_APPSRC.getValue(),
-				sApplicationPath);
+		sBasePath = JFXApplicationHelper.resolveModulePathInsenstiveCase(sApplicationPath,
+				JFXApplication.JFXFILETYPE.DIR_APPSRC.getValue(), sApplicationPath);
 
 		/* ****************************************************************** */
 		/* ****************************************************************** */
 		// check out module folder in this Module
 		/* ****************************************************************** */
-		sBasePath = JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePath, argModuleName, ((argModuleName == null)?sBasePath: null) );
+		sBasePath = JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePath, argModuleName,
+				((argModuleName == null) ? sBasePath : null));
 
 		/* ****************************************************************** */
 		if (sBasePath == null) {
@@ -83,8 +95,8 @@ public abstract interface JFXApplicationDesignObjectLoad {
 		// Module/views
 		/* ****************************************************************** */
 		String sRequestedSceneViewsFolder = JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePathModuleAsset,
-				JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(),
-				JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePath, JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(), sBasePath));
+				JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(), JFXApplicationHelper.resolveModulePathInsenstiveCase(
+						sBasePath, JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(), sBasePath));
 		/* ****************************************************************** */
 		/* ****************************************************************** */
 		// check out specific FXML in this Module ;;
@@ -93,11 +105,12 @@ public abstract interface JFXApplicationDesignObjectLoad {
 		String sRequestedSceneFile = ((argModuleNameFile != null)
 				? argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_FXML.getValue()
 				: argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FXML.getValue());
-		sRequestedSceneFile = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedSceneViewsFolder, sRequestedSceneFile, null);
+		sRequestedSceneFile = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedSceneViewsFolder,
+				sRequestedSceneFile, null);
 
 		if (sRequestedSceneFile == null) {
-			throw new JFXApplicationException(
-					aClassReference.getName() + " can t find interface GUI componement for " + argModuleName);
+			throw new JFXApplicationException(aClassReference.getName() + " can t find interface GUI componement ("
+					+ String.valueOf(argModuleNameFile) + ") for " + argModuleName);
 		}
 		/* ****************************************************************** */
 		/* ****************************************************************** */
@@ -108,7 +121,8 @@ public abstract interface JFXApplicationDesignObjectLoad {
 		String sRequestedSceneCSS = ((argModuleNameFile != null)
 				? argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_FCSS.getValue()
 				: argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FCSS.getValue());
-		sRequestedSceneCSS = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedRessourcesDir, sRequestedSceneFile, null);
+		sRequestedSceneCSS = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedRessourcesDir,
+				sRequestedSceneFile, null);
 		/* ****************************************************************** */
 		/* ****************************************************************** */
 		// check out for PNG icon ;;
@@ -117,18 +131,31 @@ public abstract interface JFXApplicationDesignObjectLoad {
 		String sRequestedSceneIcon = ((argModuleNameFile != null)
 				? argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_PNG.getValue()
 				: argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_PNG.getValue());
-		sRequestedSceneIcon = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedRessourcesDir, sRequestedSceneIcon, null);
+		sRequestedSceneIcon = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedRessourcesDir,
+				sRequestedSceneIcon, null);
 		/* ****************************************************************** */
 		// :: https://stackoverflow.com/questions/10121991/javafx-application-icon
 		// https://stackoverflow.com/questions/34941411/how-to-get-controller-of-scene-in-javafx8
 		if (JFXApplication.getJFXApplicationSingleton().getPrimaryStage() != null) {
 
 			try {
-				URL aUrlRequestedScenePath = aClassReference.getResource(sRequestedSceneFile);
-				if (aUrlRequestedScenePath != null) {
+				URL aUrlRequestedDesignPath = aClassReference.getResource(sRequestedSceneFile);
+				if (aUrlRequestedDesignPath != null) {
+					System.out.println(" Try Loading : "+aUrlRequestedDesignPath);
+					aRootNodeLoader = new FXMLLoader(aUrlRequestedDesignPath);
 
-					aRootNodeLoader = new FXMLLoader(aUrlRequestedScenePath);
+					oFXMLRootNode = aRootNodeLoader.getRoot();
 
+					if (oFXMLRootNode == null) {
+						System.out.println(" Root is Null  or Dynamic root ...");
+
+						aController = aRootNodeLoader.getController();
+						if (aController == null) {
+							System.out.println(" Root Controller is Null  or Dynamic root ..."); 
+						}
+					}
+					
+					
 					aRootNode = aRootNodeLoader.load();
 
 				} else {
@@ -136,22 +163,37 @@ public abstract interface JFXApplicationDesignObjectLoad {
 				}
 
 				if (aRootNode != null) {
-					aSceneNode = new JFXApplicationScene(aRootNode);
 
 					Object oControllerView = aRootNodeLoader.getController();
-					
-					if(oControllerView == null) {
-						JFXApplicationLogger.getLogger().logError(aSceneNode.getClass(), String.format("Warning : Loaded controler is null ... for (%s) of type (%s) :: (%s)", sRequestedSceneFile, aRootNode.getScene(), aRootNode.getClass()));
+
+					if (oControllerView == null) {
+						JFXApplicationLogger.getLogger().logError(aRootNode.getClass(),
+								String.format("Warning : Loaded controler is null ... for (%s) of type (%s) :: (%s)",
+										sRequestedSceneFile, aRootNode.getScene(), aRootNode.getClass()));
 					}
-					aSceneNode.setRootController(oControllerView);
-					aSceneNode.setUserData( aRootNodeLoader );
+
+					if (bReturnOnlyDesignNode) {
+
+						aRootNode.setUserData(oControllerView);
+
+					} else {
+						aSceneNode = new JFXApplicationScene(aRootNode);
+						aSceneNode.setRootController(oControllerView);
+						aSceneNode.setUserData(aRootNodeLoader);
+						// Setup icon
+						if ((sRequestedSceneIcon != null)
+								&& JFXApplicationClassHelper.respondsTo(aSceneNode, "setIcon")) {
+							aSceneNode.setIcon(sRequestedSceneIcon);
+						}
+					}
+
 					if (sRequestedSceneCSS != null) {
 						String aURLforCSS = aClassReference.getResource("application.css").toExternalForm();
-						((Scene) aSceneNode).getStylesheets().add(aURLforCSS); 
-					}
-					// Setup icon
-					if ((sRequestedSceneIcon != null) && JFXApplicationClassHelper.respondsTo(aSceneNode, "setIcon")) {
-						aSceneNode.setIcon(sRequestedSceneIcon);
+						if (bReturnOnlyDesignNode) {
+							(aRootNode).getStylesheets().add(aURLforCSS);
+						} else {
+							((Scene) aSceneNode).getStylesheets().add(aURLforCSS);
+						}
 					}
 
 				} else {
@@ -160,40 +202,37 @@ public abstract interface JFXApplicationDesignObjectLoad {
 				}
 
 			} catch (IOException evERRLOADFXML) {
-				String sFormattedErrorCause = String.format("Unable to load requested file (%s) %n ;; cause of returned error ",
-						sRequestedSceneFile);
-				JFXApplicationLogger.getLogger()
-						.logError(JFXApplicationScene.class, evERRLOADFXML, sFormattedErrorCause);
+				String sFormattedErrorCause = String.format(
+						"Unable to load requested file (%s : %s : %s) %n ;; cause of returned error ", argModuleName, argModuleNameFile, sRequestedSceneFile);
+				JFXApplicationLogger.getLogger().logError(JFXApplicationScene.class, evERRLOADFXML,
+						sFormattedErrorCause);
 				JFXApplicationException.raiseToFront(JFXApplicationScene.class, evERRLOADFXML, true);
 			}
 
 		} else {
 			JFXApplicationException.raiseToFront(JFXApplicationScene.class, new JFXApplicationInvalidParameterException(
-					" No Primary Stage for this Application ... %n Ensure you called super([Stage.class]) on your Main() "), true);
+					" No Primary Stage for this Application ... %n Ensure you called super([Stage.class]) on your Main() "),
+					true);
 		}
 		/* ******************************** */
 		try {
 
 			if (aFuncCallback != null) {
-				
-				
-							
-								JFXApplicationScheduledTask aTimerTaskCallback = new JFXApplicationScheduledTask();
-								
-								aTimerTaskCallback.setCallback(aFuncCallback, aSceneNode);
-								aTimerTaskCallback.setUserDatas(null);
-								
-								aTimerTaskCallback.schedule();
-								
-				
-				
+
+				JFXApplicationScheduledTask aTimerTaskCallback = new JFXApplicationScheduledTask();
+
+				aTimerTaskCallback.setCallback(aFuncCallback, ((bReturnOnlyDesignNode) ? aRootNode : aSceneNode));
+				aTimerTaskCallback.setUserDatas(null);
+
+				aTimerTaskCallback.schedule();
+
 			}
 
 		} catch (Exception evErrCallBack) {
 			JFXApplication.getJFXApplicationSingleton().getLogger().logError(aClassReference, evErrCallBack);
 			throw evErrCallBack;
 		}
-		return aSceneNode;
+		return ((bReturnOnlyDesignNode) ? aRootNode : aSceneNode);
 	}
 
 	/**
@@ -214,9 +253,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 			Object aParentRootNode = null;
 			Object aController = null;
 			Node aRootNode = null;
-			
-			
-			
+
 			if (aObjectClassControllerWhichBeCreated != null) {
 				sEnclosingClassName = String.valueOf(JFXApplicationClassHelper
 						.invokeMethod(aObjectClassControllerWhichBeCreated, "getCanonicalName"));
@@ -255,38 +292,35 @@ public abstract interface JFXApplicationDesignObjectLoad {
 			}
 			java.net.URL aUrlDesignFile = oObjectRef.getClass().getResource(sDesignFile);
 
-		
 			if (aUrlDesignFile != null) {
 				FXMLLoader aRootNodeLoader = new FXMLLoader(aUrlDesignFile);
-				
+
 				if (aRootNodeLoader != null) {
-					
-				
-					
+
 					oFXMLRootNode = aRootNodeLoader.getRoot();
-					
+
 					if (oFXMLRootNode == null) {
 						System.out.println(" Root is Null  or Dynamic root ...");
 
 						aController = aRootNodeLoader.getController();
 						if (aController == null) {
 							aController = aRefeneceClass.getSuperclass();
-						
-						Object sclassnameforrootnode = JFXApplicationClassHelper.invokeMethod(aController,
-								"getCanonicalName");
-						Class<?> aRefeneceClassForRootNode = Class.forName(String.valueOf(sclassnameforrootnode));
-						Constructor<?>[] aConstructorListForRootNode = aRefeneceClassForRootNode.getConstructors();
 
-						if (aConstructorListForRootNode.length > 0) {
+							Object sclassnameforrootnode = JFXApplicationClassHelper.invokeMethod(aController,
+									"getCanonicalName");
+							Class<?> aRefeneceClassForRootNode = Class.forName(String.valueOf(sclassnameforrootnode));
+							Constructor<?>[] aConstructorListForRootNode = aRefeneceClassForRootNode.getConstructors();
 
-							for (Constructor<?> aConstructorFound : aConstructorListForRootNode) {
-								if (aConstructorFound.getParameterCount() == 0) {
-									aParentRootNode = aConstructorFound.newInstance();
-									break;
+							if (aConstructorListForRootNode.length > 0) {
+
+								for (Constructor<?> aConstructorFound : aConstructorListForRootNode) {
+									if (aConstructorFound.getParameterCount() == 0) {
+										aParentRootNode = aConstructorFound.newInstance();
+										break;
+									}
 								}
 							}
 						}
-}
 						if (aParentRootNode != null) {
 							aRootNodeLoader.setRoot(aParentRootNode);
 
@@ -303,25 +337,25 @@ public abstract interface JFXApplicationDesignObjectLoad {
 						((Parent) aParentRootNode).setUserData(aRootNodeLoader.getController());
 					} else {
 						throw new JFXApplicationRuntimeException("Cant load definition for " + sEnclosingClassName);
-					} 
-				} 
-				
-			
+					}
+				}
+
 			} else {
-				JFXApplicationLogger.getLogger().logError(aRefeneceClass.getClass(), new JFXApplicationRuntimeException(
-						String.format("Cant obtain FXLOADER definition for %s  %n Expected Class %s", aUrlDesignFile, sEnclosingClassName )));
+				JFXApplicationLogger.getLogger().logError(aRefeneceClass.getClass(),
+						new JFXApplicationRuntimeException(
+								String.format("Cant obtain FXLOADER definition for %s  %n Expected Class %s",
+										aUrlDesignFile, sEnclosingClassName)));
 			}
-			// may be NULL 
+			// may be NULL
 			return ((Parent) aParentRootNode);
 		} catch (Exception evERRObjectCreateLoad) {
 			JFXApplicationLogger.getLogger().logError(JFXApplicationDesignObjectLoad.class, evERRObjectCreateLoad);
 			throw new RuntimeException(evERRObjectCreateLoad);
 		}
-		
 
 	}
 
-	public static <T> Object createFromTypeController(Class <T> aclass, T tt){
+	public static <T> Object createFromTypeController(Class<T> aclass, T tt) {
 		Object aObject = new Object();
 		return aObject;
 	}

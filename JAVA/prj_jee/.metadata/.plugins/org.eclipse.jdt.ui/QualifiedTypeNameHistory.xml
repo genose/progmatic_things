@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="javafx.geometry.Point2D"/>
-    <fullyQualifiedTypeName name="javafx.scene.layout.AnchorPane"/>
-    <fullyQualifiedTypeName name="java.awt.Button"/>
-    <fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
-    <fullyQualifiedTypeName name="javafx.collections.FXCollections"/>
-    <fullyQualifiedTypeName name="java.lang.RuntimeException"/>
-    <fullyQualifiedTypeName name="javafx.application.Application"/>
-    <fullyQualifiedTypeName name="javafx.scene.input.MouseEvent"/>
-    <fullyQualifiedTypeName name="javafx.fxml.Initializable"/>
-    <fullyQualifiedTypeName name="javafx.fxml.FXML"/>
-    <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplication"/>
-    <fullyQualifiedTypeName name="javafx.scene.control.Button"/>
-    <fullyQualifiedTypeName name="javafx.scene.control.Tooltip"/>
-    <fullyQualifiedTypeName name="java.util.Objects"/>
-    <fullyQualifiedTypeName name="javafx.scene.input.KeyEvent"/>
     <fullyQualifiedTypeName name="javafx.scene.input.KeyCode"/>
     <fullyQualifiedTypeName name="java.util.stream.Stream"/>
     <fullyQualifiedTypeName name="javafx.stage.Window"/>
@@ -43,15 +28,9 @@
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.JFXApplicationClassHelper"/>
     <fullyQualifiedTypeName name="org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationObjectValue"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
-    <fullyQualifiedTypeName name="java.sql.Connection"/>
-    <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="java.lang.Override"/>
     <fullyQualifiedTypeName name="java.sql.ResultSet"/>
     <fullyQualifiedTypeName name="java.lang.Boolean"/>
-    <fullyQualifiedTypeName name="dao.Couleur"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
-    <fullyQualifiedTypeName name="dao.DAO"/>
-    <fullyQualifiedTypeName name="dao.SDBMConnect"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
     <fullyQualifiedTypeName name="dao.CouleurDAO"/>
     <fullyQualifiedTypeName name="java.lang.Exception"/>
@@ -60,4 +39,25 @@
     <fullyQualifiedTypeName name="javafx.scene.Parent"/>
     <fullyQualifiedTypeName name="javafx.scene.control.SingleSelectionModel"/>
     <fullyQualifiedTypeName name="javafx.beans.value.ChangeListener"/>
+    <fullyQualifiedTypeName name="dao.continent"/>
+    <fullyQualifiedTypeName name="org.genose.java.implementation.tools.NumericRange"/>
+    <fullyQualifiedTypeName name="dao.MainWindowDAO"/>
+    <fullyQualifiedTypeName name="javafx.scene.Node"/>
+    <fullyQualifiedTypeName name="javafx.scene.Scene"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.TableView"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="java.lang.Float"/>
+    <fullyQualifiedTypeName name="dao.Pays"/>
+    <fullyQualifiedTypeName name="dao.Couleur"/>
+    <fullyQualifiedTypeName name="dao.Marque"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.Label"/>
+    <fullyQualifiedTypeName name="dao.TypeBiere"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.ToolBar"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.TitledPane"/>
+    <fullyQualifiedTypeName name="javax.swing.plaf.basic.BasicInternalFrameTitlePane.TitlePaneLayout"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="dao.SDBMConnect"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="dao.Continent"/>
+    <fullyQualifiedTypeName name="dao.DAO"/>
 </qualifiedTypeNameHistroy>

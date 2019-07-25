@@ -1,8 +1,12 @@
-package dao;
+package MainWindow.assets.dao;
 
 import java.util.ArrayList;
 
 import org.genose.java.implementation.tools.NumericRange;
+
+import metier.Continent;
+
+
 
 public class MainWindowDAO {
 

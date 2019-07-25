@@ -3,14 +3,17 @@ package MainWindow.assets.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import dao.Continent;
-import dao.Couleur;
-import dao.Pays;
-import dao.TypeBiere;
+
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import metier.Continent;
+import metier.Couleur;
+import metier.Pays;
+import metier.TypeBiere;
+import service.ServiceArticle;
 
 public class MainWindowRecherche {
 
@@ -59,5 +62,19 @@ public class MainWindowRecherche {
         assert tSliderRangePrix != null : "fx:id=\"tSliderRangePrix\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
         assert tTextFieldRangePrix != null : "fx:id=\"tTextFieldRangePrix\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
 
+        ServiceArticle serviceArticle = new ServiceArticle();
+		tComboBoxCouleur.setItems(serviceArticle.getCouleurFiltre());
+		tComboBoxContinent.setItems(serviceArticle.getContinentFiltre());
+		tComboBoxPays.setItems(serviceArticle.getPaysFiltre());
+		tComboBoxContinent.valueProperty().addListener((obs, oldValue, newValue) -> {
+			tComboBoxPays.valueProperty().setValue(null);
+			if (newValue.getId() == 0) {
+				tComboBoxPays.setItems(serviceArticle.getPaysFiltre());
+			} else {
+					// comboPays.getSelectionModel().select(null);
+				tComboBoxPays.setItems(FXCollections.observableArrayList(newValue.getListe()));
+			}
+		});
+        
     }
 }

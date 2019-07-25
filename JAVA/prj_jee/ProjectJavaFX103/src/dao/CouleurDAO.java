@@ -9,10 +9,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import dao.objectInterface.DAO;
+import metier.Couleur;
+
 public class CouleurDAO extends DAO<Couleur> {
 
-	private ResultSet rs = null;
-	private PreparedStatement pStmt = null;
+
 
 	/**
 	 * ***********
@@ -30,20 +32,21 @@ public class CouleurDAO extends DAO<Couleur> {
 	 * 
 	 * 
 	 */
-	public ArrayList<Couleur> getAll() {
-		ArrayList<Couleur> liste = new ArrayList<Couleur>();
-		try {
+	@Override
+	public Couleur getByID(int id) {
 
-			Statement stmt = connexion.createStatement();
+		String strCmd = "SELECT id_couleur ,nom_couleur from couleur  where id_couleur = ?";
+		Couleur aCouleur = new Couleur();
+		ResultSet rs = null;
+		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
+ 
+			pStmt.setInt(1, id);
 
-			String strCmd = "SELECT id_couleur ,nom_couleur from couleur order by nom_couleur";
-			rs = stmt.executeQuery(strCmd);
-
-			while (rs.next()) {
-				liste.add(new Couleur(rs.getInt(1), rs.getString(2)));
+			rs = pStmt.executeQuery();
+			if (rs.next()) {
+				aCouleur.setId(rs.getInt(1));
+				aCouleur.setLibelle(rs.getString(2));
 			}
-
-			return liste;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,19 +57,14 @@ public class CouleurDAO extends DAO<Couleur> {
 					rs.close();
 					rs = null;
 				}
-
-				if (pStmt != null) {
-					pStmt.close();
-					pStmt = null;
-				}
+ 
 			} catch (SQLException e) {
 
 				e.printStackTrace();
 			}
 		}
-		return (new ArrayList<Couleur>());
+		return aCouleur;
 	}
-
 	/**
 	 * ***********
 	 * 
@@ -74,22 +72,17 @@ public class CouleurDAO extends DAO<Couleur> {
 	 * 
 	 */
 	@Override
-	public Couleur getByID(int id) {
+	public ArrayList<Couleur> getAll() {
+		ResultSet rs = null;
+		ArrayList<Couleur> liste = new ArrayList<Couleur>();
+		String strCmd = "SELECT id_couleur ,nom_couleur from couleur order by nom_couleur";
+		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
+			rs = stmt.executeQuery(strCmd);
 
-		try {
-
-			String strCmd = "SELECT id_couleur ,nom_couleur from couleur order by nom_couleur where id_couleur = ?";
-
-			PreparedStatement pStmt = connexion.prepareStatement(strCmd);
-
-			pStmt.setInt(1, id);
-
-			rs = pStmt.executeQuery();
-			if (rs.next()) {
-				return new Couleur(rs.getInt(1), rs.getString(2));
-			} else {
-				return (new Couleur());
+			while (rs.next()) {
+				liste.add(new Couleur(rs.getInt(1), rs.getString(2)));
 			}
+ 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,17 +94,14 @@ public class CouleurDAO extends DAO<Couleur> {
 					rs = null;
 				}
 
-				if (pStmt != null) {
-					pStmt.close();
-					pStmt = null;
-				}
 			} catch (SQLException e) {
 
 				e.printStackTrace();
 			}
 		}
-		return (new Couleur());
+		return liste;
 	}
+
 
 	/**
 	 * ***********
@@ -121,36 +111,30 @@ public class CouleurDAO extends DAO<Couleur> {
 	 */
 	@Override
 	public ArrayList<Couleur> select(Couleur obj) {
-		try {
-
-			ArrayList<Couleur> liste = new ArrayList<Couleur>();
-
-			String strCmd = "SELECT id_couleur ,nom_couleur from couleur where ";
-
-			if (obj.getId() != null && obj.getId() > 0)
-				strCmd = String.format("%s%s", strCmd, " id_couleur = ? ");
-			else if (obj.getLibelle() != null && !obj.getLibelle().isEmpty())
-				strCmd = String.format("%s%s", strCmd, " nom_couleur like ? ");
-			else
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
-			System.out.println(" Query : " + strCmd);
-
-			strCmd = String.format("%s%s", strCmd, "order by nom_couleur ");
-			System.out.println(" Query : " + strCmd);
-			PreparedStatement pStmt = connexion.prepareStatement(strCmd);
+		ResultSet rs = null;
+		String strCmd = "SELECT id_couleur ,nom_couleur from couleur where ";
+		ArrayList<Couleur> liste = new ArrayList<>();
+		
+		if (obj.getId() != null && obj.getId() > 0)
+			strCmd = String.format("%s%s", strCmd, " id_couleur = ? ");
+		else if (obj.getLibelle() != null && !obj.getLibelle().isEmpty())
+			strCmd = String.format("%s%s", strCmd, " nom_couleur like ? ");
+		else
+			throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+		System.out.println(" Query : " + strCmd);
+	
+		try (	PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
 
 			if (obj.getId() != null && (obj.getId() > 0))
 				pStmt.setInt(1, ((Couleur) obj).getId());
-			else 
-				pStmt.setString(1, "%"+((Couleur) obj).getLibelle()+"%");
+			else
+				pStmt.setString(1, "%" + ((Couleur) obj).getLibelle() + "%");
 
 			rs = pStmt.executeQuery();
 
 			while (rs.next()) {
 				liste.add(new Couleur(rs.getInt(1), rs.getString(2)));
 			}
-
-			return liste;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -161,18 +145,14 @@ public class CouleurDAO extends DAO<Couleur> {
 					rs.close();
 					rs = null;
 				}
-
-				if (pStmt != null) {
-					pStmt.close();
-					pStmt = null;
-				}
+ 
 			} catch (SQLException e) {
 
 				e.printStackTrace();
 			}
 		}
 
-		return (new ArrayList<Couleur>());
+		return liste;
 	}
 
 	/**
@@ -184,79 +164,26 @@ public class CouleurDAO extends DAO<Couleur> {
 	@Override
 	public Integer insert(Couleur obj) {
 
-		try {
-			String strCmd = "insert into Couleur (nom_couleur) values ?";
-
-			PreparedStatement pStmt = connexion.prepareStatement(strCmd);
-
-			pStmt.setString(1, ((Couleur) obj).getLibelle());
-			rs = pStmt.executeQuery();
-
-			return rs.getRow();
-
+		String strCmd = "insert into Couleur (nom_couleur) values ?";
+		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+			
+			pStmt.setString(1, obj.getLibelle());
+			int affectedRows = pStmt.executeUpdate();
+ 
+			try (ResultSet generatedKeys = pStmt.getGeneratedKeys()) {
+	            if (generatedKeys.next()) {
+	               return generatedKeys.getInt(1);
+	            }
+	            else {
+	                throw new SQLException("Creating ("+this.getClass().getSimpleName()+") failed, no ID obtained.");
+	            }
+	        }
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-					rs = null;
-				}
-
-				if (pStmt != null) {
-					pStmt.close();
-					pStmt = null;
-				}
-			} catch (SQLException e) {
-
-				e.printStackTrace();
-			}
+			
 		}
 		return 0;
-	}
-
-	/**
-	 * ***********
-	 * 
-	 * 
-	 * 
-	 */
-	@Override
-	public boolean delete(Couleur obj) {
-
-		try {
-
-			String strCmd = "delete from Couleur where id_couleur = ? ";
-			PreparedStatement pStmt = connexion.prepareStatement(strCmd);
-
-			pStmt.setInt(1, ((Couleur) obj).getId());
-
-			rs = pStmt.executeQuery();
-
-			return pStmt.getUpdateCount() > 0;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-					rs = null;
-				}
-
-				if (pStmt != null) {
-					pStmt.close();
-					pStmt = null;
-				}
-			} catch (SQLException e) {
-
-				e.printStackTrace();
-			}
-		}
-		return false;
-
 	}
 
 	/**
@@ -267,45 +194,49 @@ public class CouleurDAO extends DAO<Couleur> {
 	 */
 	@Override
 	public Integer update(Couleur obj) {
+ 
+		String strCmd = "update Couleur set nom_couleur = ? where id_couleur = ? ";
+		try ( PreparedStatement pStmt = connexion.prepareStatement(strCmd) ){
 
-		try {
+			pStmt.setString(1, obj.getLibelle());
+			pStmt.setInt(2, obj.getId());
 
-			String strCmd = "update Couleur set nom_couleur = ? where id_couleur = ? ";
-			PreparedStatement pStmt = connexion.prepareStatement(strCmd);
-
-			pStmt.setString(1, ((Couleur) obj).getLibelle());
-			pStmt.setInt(2, ((Couleur) obj).getId());
-
-			pStmt.executeQuery();
+			pStmt.executeUpdate();
 
 			return pStmt.getUpdateCount();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-					rs = null;
-				}
-
-				if (pStmt != null) {
-					pStmt.close();
-					pStmt = null;
-				}
-			} catch (SQLException e) {
-
-				e.printStackTrace();
-			}
-		}
+		}  
 		return 0;
 	}
 
 	/**
+	 * ***********
 	 * 
-	 * @param args
+	 * 
+	 * 
 	 */
+	@Override
+	public Integer delete(Couleur obj) {
+
+		String strCmd = "delete from Couleur where id_couleur = ? ";
+		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+			pStmt.setInt(1, obj.getId());
+
+			pStmt.executeUpdate();
+
+			return pStmt.getUpdateCount();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} 
+		return 0;
+
+	}
+
 	public static void main(String[] args) {
 		System.out.println(" Test Couleur ...");
 		SDBMConnect aBDDConnexion = new SDBMConnect();

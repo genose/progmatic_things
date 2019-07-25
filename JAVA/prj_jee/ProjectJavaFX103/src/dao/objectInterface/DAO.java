@@ -1,4 +1,4 @@
-package dao;
+package dao.objectInterface;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -16,10 +16,11 @@ public abstract class DAO<T> {
 	protected Connection connexion;
 
 	public abstract T  getByID(int id);
+	public abstract ArrayList<T>  getAll();
 	public abstract ArrayList<T>  select(T obj);
 	public abstract Integer insert(T obj);
 	public abstract Integer update(T obj);
-	public abstract boolean delete(T obj);
+	public abstract Integer delete(T obj);
 
  
 	}

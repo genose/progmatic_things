@@ -9,8 +9,8 @@ import org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesi
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
 
-import dao.Article;
-import dao.MainWindowDAO;
+import metier.Article;
+import MainWindow.assets.dao.MainWindowDAO;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;

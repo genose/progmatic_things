@@ -2,7 +2,7 @@ package dao;
 
 import java.util.ArrayList;
 
-public class Continent {
+public class Continent implements DAOObject {
 
 	private Integer idContinent = null;
 	private String nomContinent = null;
@@ -31,7 +31,7 @@ public class Continent {
 		super();
 		this.idContinent = idContinent;
 		this.nomContinent = nomContinent;
-		this.aListePays =  new ArrayList<Pays>();
+		this.aListePays =  new ArrayList<>();
 	}
 	
 	/**
@@ -42,7 +42,7 @@ public class Continent {
 		super();
 		this.idContinent = 0;
 		this.nomContinent = null;
-		this.aListePays =  new ArrayList<Pays>();
+		this.aListePays =  new ArrayList<>();
 	}
 
 
@@ -51,45 +51,41 @@ public class Continent {
 	/**
 	 * @return the idContinent
 	 */
-	public int getIdContinent() {
+ 
+	public int getId() {
 		return idContinent;
 	}
 
 	/**
 	 * @param idContinent the idContinent to set
 	 */
-	public void setIdContinent(int idContinent) {
+	
+	public void setId(int idContinent) {
 		this.idContinent = idContinent;
 	}
 
 	/**
 	 * @return the nomContinent
 	 */
-	public String getNomContinent() {
+	
+	public String getLibelle() {
 		return nomContinent;
 	}
 
-	/**
-	 * @param nomContinent the nomContinent to set
-	 */
-	public void setNomContinent(String nomContinent) {
-		this.nomContinent = nomContinent;
+
+ 
+	public Boolean setLibelle(String sLibelle) {
+		return this.nomContinent == null;
+	}
+ 
+	public ArrayList<Pays> getListe() {
+		return this.aListePays;
 	}
 
-	/**
-	 * @return the aListePays
-	 */
-	public ArrayList<Pays> getListePays() {
-		return aListePays;
+ 
+	public Boolean setListe(ArrayList<Pays> aListeObject) {
+		return this.aListePays == aListeObject;
 	}
-
-	/**
-	 * @param aListePays the aListePays to set
-	 */
-	public void setListePays(ArrayList<Pays> aListePays) {
-		this.aListePays = aListePays;
-	}
-	
-	
+ 
 	
 }

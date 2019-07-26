@@ -35,7 +35,8 @@ public class ArticleDAO extends DAO<Article> {
 
 			while (rs.next())
 			{
-				article = new Article(rs.getInt(1), rs.getString(2), rs.getFloat(5), rs.getFloat(3));
+		 
+				article = new Article(rs.getInt("id_article"), rs.getString(2), rs.getFloat(5), rs.getFloat(3));
 				article.setMarque(
 						new Marque(rs.getInt(11), rs.getString(7),
 							new Fabricant(rs.getInt(16), rs.getString(17)),

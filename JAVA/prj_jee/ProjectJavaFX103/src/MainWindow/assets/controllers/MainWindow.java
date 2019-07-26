@@ -17,7 +17,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 
 public class MainWindow {
     private MainWindowDAO aMainWindowDAO = null;

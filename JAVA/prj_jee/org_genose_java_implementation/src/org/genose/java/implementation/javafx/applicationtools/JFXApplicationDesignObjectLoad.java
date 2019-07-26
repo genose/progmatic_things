@@ -52,15 +52,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 		/* ****************************************************************** */
 
 		String sBasePath = null;
-		/* ****************************************************************** */
-		sBasePath = JFXApplication.applicationPathExist(sApplicationPath)? sApplicationPath : "";
 
-		/* ****************************************************************** */
-		if (sBasePath == null) {
-			throw new JFXApplicationException(String
-					.valueOf(JFXApplicationScene.class.getName() + " can t determine path for :: " + argModuleName));
-		}
-		/* ****************************************************************** */
 		sBasePath = JFXApplicationHelper.resolveModulePathInsenstiveCase(sApplicationPath,
 				JFXApplication.JFXFILETYPE.DIR_APPSRC.getValue(), sApplicationPath);
 

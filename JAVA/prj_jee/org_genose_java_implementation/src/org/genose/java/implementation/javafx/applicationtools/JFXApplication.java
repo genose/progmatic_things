@@ -313,12 +313,12 @@ public class JFXApplication extends Application {
 			URL aUrlClass = localClass.getResource(localRunnablePathRelative);
 			
 			if (aUrlClass != null) {
-				return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
+				return aUrlClass.getPath()/* .replaceFirst("[/]", "")*/.replaceFirst(localPackagePath, "").replaceAll("[//]",
 						"/");
 			}else {
 				 aUrlClass = localClass.getResource(systemPathSeparator);
 				 if (aUrlClass != null) {
-						return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
+						return aUrlClass.getPath()/*.replaceFirst("[/]", "")*/.replaceFirst(localPackagePath, "").replaceAll("[//]",
 								"/");
 					}
 			}
@@ -360,7 +360,7 @@ public class JFXApplication extends Application {
 				slocalPathUnamedModule = slocalPathUnamedModule.substring(0, slocalPathUnamedModule.lastIndexOf("/") );
 				 if (aUrlClass != null) {
 					 slocalPathUnamedModule =  ".." + systemPathSeparator+slocalPathUnamedModule.substring(slocalPathUnamedModule.lastIndexOf("/"),slocalPathUnamedModule.length())+ "" + systemPathSeparator;
-					 slocalPathUnamedModule = slocalPathUnamedModule.replaceAll("/", "");
+					 slocalPathUnamedModule = slocalPathUnamedModule.replaceAll("//", "/");
 						return slocalPathUnamedModule;
 					}
 				

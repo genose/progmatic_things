@@ -14,7 +14,7 @@ public class Main extends JFXApplication {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
-			super.start(primaryStage);
+			// super.start(primaryStage);
 
 			super.setPrimaryScene(JFXApplicationDesignObjectLoad.create("MainWindow", null, null));
 

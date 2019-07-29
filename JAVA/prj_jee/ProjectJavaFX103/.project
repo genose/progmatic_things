@@ -3,6 +3,7 @@
 	<name>ProjectJavaFX103</name>
 	<comment></comment>
 	<projects>
+		<project>org_genose_java_implementation</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

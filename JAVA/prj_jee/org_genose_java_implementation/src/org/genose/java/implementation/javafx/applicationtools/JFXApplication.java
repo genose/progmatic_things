@@ -352,10 +352,12 @@ public class JFXApplication extends Application {
 
 			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\" + systemPathSeparator);
 			URL aUrlClass = localClass.getResource(localRunnablePathRelative);
-			if(aUrlClass != null && !bAnnonPackageName ) { 
+			if(aUrlClass != null) { 
 				return localRunnablePathRelative;
 			}else {
-				aUrlClass = localClass.getResource("");
+				 
+				
+				aUrlClass = localClass.getResource(".");
 				String slocalPathUnamedModule = aUrlClass.getPath();
 				slocalPathUnamedModule = slocalPathUnamedModule.substring(0, slocalPathUnamedModule.lastIndexOf("/") );
 				 if (aUrlClass != null) {

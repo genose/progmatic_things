@@ -1,14 +1,59 @@
 package metier;
 
+import java.util.Objects;
+
 import dao.objectInterface.DAOObject;
-import metier.Continent;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+ 
 
 public class Pays implements DAOObject {
-
 	
-	private Integer id_pays = null;
-	private String nom_pays = null;
-	private Continent id_continent = null;
+	public static final String fieldEntityName = "Pays";
+
+	public static final String fieldID = "id_pays";
+	public static final String fieldLibelle = "nom_pays";
+	
+	private IntegerProperty id_pays = null;
+	private StringProperty nom_pays = null;
+	private ObjectProperty<Continent> id_continent = null;
+	
+	/**
+	 * @param idPays
+	 * @param nomPays
+	 * @param aContinent
+	 */
+	public Pays(IntegerProperty idPays, StringProperty nomPays, Continent aContinent) {
+		super();
+		Objects.requireNonNull(idPays, sERRMESSAGEDAOOBJECT_PARAM);
+		Objects.requireNonNull(nomPays, sERRMESSAGEDAOOBJECT_PARAM);
+		this.id_pays= new SimpleIntegerProperty();
+		this.nom_pays= new SimpleStringProperty();
+		this.id_continent = new SimpleObjectProperty<>();
+		
+		id_pays.set(idPays.get());
+		nom_pays.set(nomPays.get());
+		id_continent.set(aContinent);
+	}
+	/**
+	 * @param idPays
+	 * @param nomPays
+	 */
+	public Pays(IntegerProperty idPays, StringProperty nomPays) {
+		super();
+		Objects.requireNonNull(idPays, sERRMESSAGEDAOOBJECT_PARAM);
+		Objects.requireNonNull(nomPays, sERRMESSAGEDAOOBJECT_PARAM);
+		this.id_pays= new SimpleIntegerProperty();
+		this.nom_pays= new SimpleStringProperty();
+		this.id_continent = new SimpleObjectProperty<>();
+		
+		id_pays.set(idPays.get());
+		nom_pays.set(nomPays.get());
+	}
 	
 	/**
 	 * @param idPays
@@ -17,9 +62,13 @@ public class Pays implements DAOObject {
 	 */
 	public Pays(Integer idPays, String nomPays, Continent aContinent) {
 		super();
-		id_pays = idPays;
-		nom_pays = nomPays;
-		id_continent = aContinent;
+		this.id_pays= new SimpleIntegerProperty();
+		this.nom_pays= new SimpleStringProperty();
+		this.id_continent = new SimpleObjectProperty<>();
+		
+		id_pays.set(idPays);
+		nom_pays.set(nomPays);
+		id_continent.set(aContinent);
 	}
 	/**
 	 * @param idPays
@@ -27,24 +76,64 @@ public class Pays implements DAOObject {
 	 */
 	public Pays(Integer idPays, String nomPays) {
 		super();
-		id_pays = idPays;
-		nom_pays = nomPays;
+		this.id_pays= new SimpleIntegerProperty();
+		this.nom_pays= new SimpleStringProperty();
+		this.id_continent = new SimpleObjectProperty<>();
+		
+		id_pays.set(idPays);
+		nom_pays.set(nomPays);
+	}
+	public Pays() {
+		super();
+		this.id_pays= new SimpleIntegerProperty();
+		this.nom_pays= new SimpleStringProperty();
+		this.id_continent = new SimpleObjectProperty<>();
+		
+		id_pays.set(0);
+		
 	}
 	@Override
 	public Integer getId() {
-		return id_pays;
+		return id_pays.get();
 	}
 	@Override
 	public void setId(Integer idKey) {
-		id_pays = idKey;
+		Objects.requireNonNull(idKey, sERRMESSAGEDAOOBJECT_PARAM);
+		id_pays.set(idKey);
 	}
 	@Override
-	public String getLibelle() {
-		return nom_pays;
+	public final String getLibelle() {
+		return nom_pays.get();
 	}
 	@Override
 	public Boolean setLibelle(String sLibelle) {
-		return (nom_pays) != null;
+
+		Objects.requireNonNull(sLibelle, sERRMESSAGEDAOOBJECT_PARAM);
+		nom_pays.set(sLibelle);
+		return (nom_pays != null);
+	}
+	@Override
+	public IntegerProperty getPropertyId() {
+
+		return id_pays;
+	}
+	@Override
+	public void setPropertyId(IntegerProperty idKey) {
+
+		Objects.requireNonNull(idKey, sERRMESSAGEDAOOBJECT_PARAM);
+		id_pays = idKey;
+		
+	}
+	@Override
+	public StringProperty getPropertyLibelle() { 
+		return nom_pays;
+	}
+	@Override
+	public Boolean setPropertyLibelle(StringProperty sLibelle) {
+
+		Objects.requireNonNull(sLibelle, sERRMESSAGEDAOOBJECT_PARAM);
+		nom_pays = sLibelle;
+		return nom_pays != null;
 	}
 	
 	

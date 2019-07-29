@@ -2,6 +2,8 @@ package service;
 
 import java.util.ArrayList;
 
+import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
+
 import dao.DaoFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,8 +29,50 @@ public class ServiceArticle
 	private ObservableList<Article> articleFiltre;
 	private SortedList<Article> articleSorted;
 
+	static ServiceArticle pServiceArticleSingleton = null;
+	
+	/*
+	 * *****************************************************************************
+	 */
+	/**
+	 * create a singleton
+	 */
+	private void singletonInstanceCreate() {
+		synchronized (ServiceArticle.class) {
+			if (pServiceArticleSingleton != null)
+				throw new UnsupportedOperationException(
+						getClass() + " is singleton but constructor called more than once");
+			pServiceArticleSingleton = this;
+		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	private static synchronized void singletonInstanceCheck() {
+		synchronized (ServiceArticle.class) {
+			if (pServiceArticleSingleton == null)
+				throw new UnsupportedOperationException(" singleton is null");
+		}
+	}
+
+	
+	/* ****************************************************** */
+	/**
+	 * 
+	 * @return
+	 */
+	public static ServiceArticle getServiceArticleSingleton() {
+		singletonInstanceCheck();
+		return pServiceArticleSingleton;
+	}
+
+	
 	public ServiceArticle()
 	{
+		super();
+		singletonInstanceCreate();
 		couleurFiltre = FXCollections.observableArrayList(DaoFactory.getCouleurDAO().getAll());
 		couleurFiltre.add(0, new Couleur(0, "Couleur"));
 		continentFiltre = FXCollections.observableArrayList(DaoFactory.getContinentDAO().getAll());

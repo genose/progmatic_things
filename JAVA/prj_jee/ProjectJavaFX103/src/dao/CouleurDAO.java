@@ -11,9 +11,9 @@ import java.util.Objects;
 
 import dao.objectInterface.DAO;
 import metier.Couleur;
+ 
 
 public class CouleurDAO extends DAO<Couleur> {
-
 
 
 	/**
@@ -35,17 +35,24 @@ public class CouleurDAO extends DAO<Couleur> {
 	@Override
 	public Couleur getByID(int id) {
 
-		String strCmd = "SELECT id_couleur ,nom_couleur from couleur  where id_couleur = ?";
-		Couleur aCouleur = new Couleur();
+		String strCmd = "SELECT "+Couleur.fieldID+" ,"+Couleur.fieldLibelle+" from "+Couleur.fieldEntityName+"  where "+Couleur.fieldID+" = ?";
+		Couleur aResult = new Couleur();
 		ResultSet rs = null;
 		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
  
-			pStmt.setInt(1, id);
+
+			if (id > 0) {
+				pStmt.setInt(1, id);
+			} else {
+				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+			
+			}
+
 
 			rs = pStmt.executeQuery();
 			if (rs.next()) {
-				aCouleur.setId(rs.getInt(1));
-				aCouleur.setLibelle(rs.getString(2));
+				aResult.setId(rs.getInt(Couleur.fieldID));
+				aResult.setLibelle(rs.getString(Couleur.fieldLibelle));
 			}
 
 		} catch (Exception e) {
@@ -63,7 +70,7 @@ public class CouleurDAO extends DAO<Couleur> {
 				e.printStackTrace();
 			}
 		}
-		return aCouleur;
+		return aResult;
 	}
 	/**
 	 * ***********
@@ -74,13 +81,13 @@ public class CouleurDAO extends DAO<Couleur> {
 	@Override
 	public ArrayList<Couleur> getAll() {
 		ResultSet rs = null;
-		ArrayList<Couleur> liste = new ArrayList<Couleur>();
-		String strCmd = "SELECT id_couleur ,nom_couleur from couleur order by nom_couleur";
+		ArrayList<Couleur> liste = new ArrayList<>();
+		String strCmd = "SELECT "+Couleur.fieldID+", "+Couleur.fieldLibelle+" from "+Couleur.fieldEntityName+" order by "+Couleur.fieldLibelle;
 		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
 			rs = stmt.executeQuery(strCmd);
 
 			while (rs.next()) {
-				liste.add(new Couleur(rs.getInt(1), rs.getString(2)));
+				liste.add(new Couleur(rs.getInt(Couleur.fieldID), rs.getString(Couleur.fieldLibelle)));
 			}
  
 
@@ -111,14 +118,17 @@ public class CouleurDAO extends DAO<Couleur> {
 	 */
 	@Override
 	public ArrayList<Couleur> select(Couleur obj) {
+	
+		Objects.requireNonNull(obj, sERRMESSAGEDAO_PARAM);
+		
 		ResultSet rs = null;
-		String strCmd = "SELECT id_couleur ,nom_couleur from couleur where ";
+		String strCmd = "SELECT "+Couleur.fieldID+" ,"+Couleur.fieldLibelle+" from "+Couleur.fieldEntityName+" where ";
 		ArrayList<Couleur> liste = new ArrayList<>();
 		
 		if (obj.getId() != null && obj.getId() > 0)
-			strCmd = String.format("%s%s", strCmd, " id_couleur = ? ");
+			strCmd = String.format("%s%s", strCmd, " "+Couleur.fieldID+" = ? ");
 		else if (obj.getLibelle() != null && !obj.getLibelle().isEmpty())
-			strCmd = String.format("%s%s", strCmd, " nom_couleur like ? ");
+			strCmd = String.format("%s%s", strCmd, " "+Couleur.fieldLibelle+" like ? ");
 		else
 			throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
 		System.out.println(" Query : " + strCmd);
@@ -126,14 +136,14 @@ public class CouleurDAO extends DAO<Couleur> {
 		try (	PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
 
 			if (obj.getId() != null && (obj.getId() > 0))
-				pStmt.setInt(1, ((Couleur) obj).getId());
+				pStmt.setInt(1, obj.getId());
 			else
-				pStmt.setString(1, "%" + ((Couleur) obj).getLibelle() + "%");
+				pStmt.setString(1, "%" +  obj.getLibelle() + "%");
 
 			rs = pStmt.executeQuery();
 
 			while (rs.next()) {
-				liste.add(new Couleur(rs.getInt(1), rs.getString(2)));
+				liste.add(new Couleur(rs.getInt(Couleur.fieldID), rs.getString(Couleur.fieldLibelle)));
 			}
 
 		} catch (Exception e) {
@@ -155,86 +165,79 @@ public class CouleurDAO extends DAO<Couleur> {
 		return liste;
 	}
 
-	/**
-	 * ***********
-	 * 
-	 * 
-	 * 
-	 */
 	@Override
 	public Integer insert(Couleur obj) {
-
-		String strCmd = "insert into Couleur (nom_couleur) values ?";
+		
+		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj.getLibelle(),sERRMESSAGEDAO_PARAM);
+		
+		String strCmd = "insert into " + Couleur.fieldEntityName + " (" + Couleur.fieldLibelle + ")   values ?";
 		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
-			
-			pStmt.setString(1, obj.getLibelle());
+
+			setOrNull(pStmt,1, Objects.toString(obj.getLibelle(), "NULL Libelle"));
 			int affectedRows = pStmt.executeUpdate();
- 
+
 			try (ResultSet generatedKeys = pStmt.getGeneratedKeys()) {
-	            if (generatedKeys.next()) {
-	               return generatedKeys.getInt(1);
-	            }
-	            else {
-	                throw new SQLException("Creating ("+this.getClass().getSimpleName()+") failed, no ID obtained.");
-	            }
-	        }
-			
+				if (generatedKeys.next()) {
+					return generatedKeys.getInt(1);
+				} else {
+					throw new SQLException(
+							"Creating (" + this.getClass().getSimpleName() + ") failed, no ID obtained.");
+				}
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 		}
 		return 0;
 	}
 
-	/**
-	 * ***********
-	 * 
-	 * 
-	 * 
-	 */
 	@Override
 	public Integer update(Couleur obj) {
- 
-		String strCmd = "update Couleur set nom_couleur = ? where id_couleur = ? ";
-		try ( PreparedStatement pStmt = connexion.prepareStatement(strCmd) ){
+		
+		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj.getLibelle(),sERRMESSAGEDAO_PARAM);
+		
+		String strCmd = "update " + Couleur.fieldEntityName + " set " + Couleur.fieldLibelle + " = ? where "
+				+ Couleur.fieldID + " = ?";
+		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
-			pStmt.setString(1, obj.getLibelle());
-			pStmt.setInt(2, obj.getId());
+			if (obj.getId() > 0) {
+				pStmt.setInt(1, obj.getId());
+			} else
+				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
 
+			setOrNull(pStmt,1, Objects.toString(obj.getLibelle(), "NULL Libelle"));
 			pStmt.executeUpdate();
 
 			return pStmt.getUpdateCount();
-
 		} catch (Exception e) {
 			e.printStackTrace();
-
-		}  
+		}
 		return 0;
 	}
 
-	/**
-	 * ***********
-	 * 
-	 * 
-	 * 
-	 */
 	@Override
 	public Integer delete(Couleur obj) {
-
-		String strCmd = "delete from Couleur where id_couleur = ? ";
+		
+		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
+		
+		String strCmd = "delete from "+Couleur.fieldEntityName+" where "+Couleur.fieldID+" = ?";
 		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
-			pStmt.setInt(1, obj.getId());
 
-			pStmt.executeUpdate();
+			if (obj.getId() > 0) {
+				pStmt.setInt(1, obj.getId());
+			} else {
+				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+			}
+			pStmt.executeUpdate(strCmd);
 
 			return pStmt.getUpdateCount();
-
 		} catch (Exception e) {
 			e.printStackTrace();
-
-		} 
+		}
 		return 0;
-
 	}
 
 	public static void main(String[] args) {

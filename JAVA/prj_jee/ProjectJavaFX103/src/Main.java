@@ -6,8 +6,9 @@ import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelp
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 
-
 import javafx.stage.Stage;
+
+ 
 
 public class Main extends JFXApplication {
 

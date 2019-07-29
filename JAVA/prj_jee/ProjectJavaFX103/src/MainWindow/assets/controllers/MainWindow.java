@@ -10,10 +10,14 @@ import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFX
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
 
 import metier.Article;
+import metier.Marque;
+import service.ServiceArticle;
 import MainWindow.assets.dao.MainWindowDAO;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
@@ -34,7 +38,20 @@ public class MainWindow {
     private TitledPane rSearchPanel;
 
     @FXML
-    private TableView<?> tTableViewListeArticle;
+    private TableView<Article> tTableViewListeArticle;
+ 
+	@FXML
+	private TableColumn<Article, Integer> tTableViewColumnId;
+	@FXML
+	private TableColumn<Article, String> tTableViewColumnArt;
+	@FXML
+	private TableColumn<Article, Marque> tTableViewColumnMarque;
+	@FXML
+	private TableColumn<Article, Float> tTableViewColumnTitrage;
+	@FXML
+	private TableColumn<Article, Float> tTableViewColumnPrix;
+
+	private ServiceArticle serviceArticle = null;
 
     @FXML
     void initialize() {
@@ -42,8 +59,9 @@ public class MainWindow {
         assert rSearchPanel != null : "fx:id=\"rSearchPanel\" was not injected: check your FXML file 'MainWindow.fxml'.";
         assert tTableViewListeArticle != null : "fx:id=\"tTableViewListeArticle\" was not injected: check your FXML file 'MainWindow.fxml'.";
 
-        // rSearchPanel.getChildren().add( aSearchPanelContent );
+       
         aMainWindowDAO = new MainWindowDAO();
+        serviceArticle = new ServiceArticle();
         try {
 			Node aSearchPanelContent =  (Node) JFXApplicationDesignObjectLoad.create(this.getClass().getSimpleName(), this.getClass().getSimpleName()+"Recherche" , null, true);
 			Node aDetailPanelContent =  (Node) JFXApplicationDesignObjectLoad.create(this.getClass().getSimpleName(), this.getClass().getSimpleName()+"Detail" , null, true);
@@ -59,7 +77,17 @@ public class MainWindow {
 			e.printStackTrace();
 		}
         
-   
+        tTableViewListeArticle.setItems(serviceArticle.getArticleFiltre());
+        tTableViewColumnId.setCellValueFactory(
+				(CellDataFeatures<Article, Integer> feature) -> feature.getValue().getPropertyId().asObject());
+        tTableViewColumnArt.setCellValueFactory(
+				(CellDataFeatures<Article, String> feature) -> feature.getValue().getPropertyLibelle());
+        tTableViewColumnMarque.setCellValueFactory(
+				(CellDataFeatures<Article, Marque> feature) -> feature.getValue().getPropertyMarque());
+        tTableViewColumnTitrage.setCellValueFactory(
+				(CellDataFeatures<Article, Float> feature) -> feature.getValue().getPropertyTitrage().asObject());
+        tTableViewColumnPrix.setCellValueFactory(
+				(CellDataFeatures<Article, Float> feature) -> feature.getValue().getPropertyPrix().asObject());
         
         
     }

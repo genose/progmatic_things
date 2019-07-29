@@ -3,7 +3,6 @@ package MainWindow.assets.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -49,7 +48,7 @@ public class MainWindowRecherche {
 
     @FXML // fx:id="tTextFieldRangePrix"
     private TextField tTextFieldRangePrix; // Value injected by FXMLLoader
-
+    private ServiceArticle serviceArticle =  null;
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert tComboBoxCouleur != null : "fx:id=\"tComboBoxCouleur\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
@@ -62,7 +61,8 @@ public class MainWindowRecherche {
         assert tSliderRangePrix != null : "fx:id=\"tSliderRangePrix\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
         assert tTextFieldRangePrix != null : "fx:id=\"tTextFieldRangePrix\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
 
-        ServiceArticle serviceArticle = new ServiceArticle();
+        serviceArticle =  ServiceArticle.getServiceArticleSingleton();
+        
 		tComboBoxCouleur.setItems(serviceArticle.getCouleurFiltre());
 		tComboBoxContinent.setItems(serviceArticle.getContinentFiltre());
 		tComboBoxPays.setItems(serviceArticle.getPaysFiltre());

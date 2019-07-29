@@ -4,8 +4,13 @@
 package metier;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import dao.objectInterface.DAOObjectChained;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * @author 59013-36-18
@@ -13,16 +18,22 @@ import dao.objectInterface.DAOObjectChained;
  */
 public class Fabricant implements DAOObjectChained<Fabricant, Marque> {
 
-	private Integer id_fabriquant = null;
-	private String nom_fabriquant = null;
+	public static final String fieldEntityName = "Fabricant";
+
+	public static final String fieldID = "id_Fabricant";
+	public static final String fieldLibelle = "nom_Fabricant";
+
+	private IntegerProperty id_fabriquant = null;
+	private StringProperty nom_fabriquant = null;
 	private ArrayList<Marque> aListeMarque = new ArrayList<>();
-	
+
 	/**
 	 * 
 	 */
 	public Fabricant() {
-		id_fabriquant = 0;
-		nom_fabriquant = null;
+		this.id_fabriquant = new SimpleIntegerProperty();
+		this.nom_fabriquant = new SimpleStringProperty();
+		this.id_fabriquant.set(0);
 		aListeMarque = new ArrayList<>();
 	}
 
@@ -30,31 +41,55 @@ public class Fabricant implements DAOObjectChained<Fabricant, Marque> {
 	 * @param id_fabriquant
 	 * @param nom_fabriquant
 	 */
-	public Fabricant(Integer id_fabriquant, String nom_fabriquant) {
+	public Fabricant(Integer idFabriquant, String nomFabriquant) {
 		super();
-		this.id_fabriquant = id_fabriquant;
-		this.nom_fabriquant = nom_fabriquant;
+		this.id_fabriquant = new SimpleIntegerProperty();
+		this.nom_fabriquant = new SimpleStringProperty();
+
+		this.id_fabriquant.set(idFabriquant);
+		this.nom_fabriquant.set(nomFabriquant);
+	}
+	
+	/**
+	 * @param id_fabriquant
+	 * @param nom_fabriquant
+	 */
+	public Fabricant(IntegerProperty idFabriquant, StringProperty nomFabriquant) {
+		super();
+		Objects.requireNonNull(idFabriquant, sERRMESSAGEDAOOBJECT_PARAM);
+		Objects.requireNonNull(nomFabriquant, sERRMESSAGEDAOOBJECT_PARAM);
+		this.id_fabriquant = new SimpleIntegerProperty();
+		this.nom_fabriquant = new SimpleStringProperty();
+
+		this.id_fabriquant.set(idFabriquant.get());
+		this.nom_fabriquant.set(nomFabriquant.get());
 	}
 
 	@Override
 	public Integer getId() {
-		return null;
+		return id_fabriquant.get();
 	}
 
 	@Override
 	public void setId(Integer idKey) {
-		id_fabriquant = idKey;
-		
+
+		Objects.requireNonNull(idKey, sERRMESSAGEDAOOBJECT_PARAM);
+
+		id_fabriquant.set(idKey);
+
 	}
 
 	@Override
 	public String getLibelle() {
-		return nom_fabriquant;
+		return nom_fabriquant.get();
 	}
 
 	@Override
 	public Boolean setLibelle(String sLibelle) {
-		return (nom_fabriquant = sLibelle) != null;
+
+		Objects.requireNonNull(sLibelle, sERRMESSAGEDAOOBJECT_PARAM);
+		nom_fabriquant.set(sLibelle);
+		return (nom_fabriquant != null);
 	}
 
 	@Override
@@ -64,7 +99,37 @@ public class Fabricant implements DAOObjectChained<Fabricant, Marque> {
 
 	@Override
 	public Boolean setListe(ArrayList<Marque> aListeObject) {
-		return (aListeMarque = aListeObject) != null;
+
+		Objects.requireNonNull(aListeObject, sERRMESSAGEDAOOBJECT_PARAM);
+		aListeMarque = aListeObject;
+		return (aListeMarque != null);
+	}
+
+	@Override
+	public IntegerProperty getPropertyId() {
+		return id_fabriquant;
+	}
+
+	@Override
+	public void setPropertyId(IntegerProperty idKey) {
+
+		Objects.requireNonNull(idKey, sERRMESSAGEDAOOBJECT_PARAM);
+		id_fabriquant = idKey;
+
+	}
+
+	@Override
+	public StringProperty getPropertyLibelle() {
+
+		return nom_fabriquant;
+	}
+
+	@Override
+	public Boolean setPropertyLibelle(StringProperty sLibelle) {
+
+		Objects.requireNonNull(sLibelle, sERRMESSAGEDAOOBJECT_PARAM);
+		nom_fabriquant = sLibelle;
+		return nom_fabriquant != null;
 	}
 
 }

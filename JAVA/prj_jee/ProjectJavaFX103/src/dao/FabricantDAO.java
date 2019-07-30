@@ -77,7 +77,7 @@ public class FabricantDAO extends DAO<Fabricant> {
 		ArrayList<Fabricant> liste = new ArrayList<>();
 		String strCmd = "SELECT "+Fabricant.fieldID+", "+Fabricant.fieldLibelle+" from "+Fabricant.fieldEntityName+" order by "+Fabricant.fieldLibelle;
 		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
-			rs = stmt.executeQuery(strCmd);
+			rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				liste.add(new Fabricant(rs.getInt(Fabricant.fieldID), rs.getString(Fabricant.fieldLibelle)));

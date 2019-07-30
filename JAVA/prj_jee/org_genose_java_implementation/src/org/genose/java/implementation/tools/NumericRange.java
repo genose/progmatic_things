@@ -21,6 +21,26 @@ public class NumericRange {
 		this.high = Double.valueOf(high);
 	}
 
+	public Double min()
+	{
+		return this.low;
+	}
+	
+	public void setMin(Double dMinValue)
+	{
+		this.low = dMinValue;
+	}
+	
+	public Double max()
+	{
+		return this.high;
+	}
+	
+	public void setMax(Double dMaxValue)
+	{
+		this.high = dMaxValue;
+	}
+	
 	public boolean contains(Integer number) {
 		return (Double.valueOf(number).compareTo(low) >= 0) && (Double.valueOf(number).compareTo(high) <= 0);
 	}

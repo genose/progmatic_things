@@ -10,6 +10,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
+
 import dao.objectInterface.DAO;
 import metier.Article;
 import metier.Continent;
@@ -18,6 +20,7 @@ import metier.Fabricant;
 import metier.Marque;
 import metier.Pays;
 import metier.TypeBiere;
+import service.ArticleSearch;
 
 public class ArticleDAO extends DAO<Article> {
 
@@ -29,10 +32,21 @@ public class ArticleDAO extends DAO<Article> {
 	public ArrayList<Article> getAll() {
 		ResultSet rs = null;
 		ArrayList<Article> liste = new ArrayList<>();
-		try (Statement stmt = connexion.createStatement()) {
+		String strCmd = "select " + Article.fieldID + ", " + Article.fieldLibelle + ", " + Article.fieldPrix + ", "
+				+ Article.fieldTitrage + ", " + TypeBiere.fieldID + ", " + TypeBiere.fieldLibelle + ", " +
+				// *****************************************
+				Couleur.fieldID + ", " + Couleur.fieldLibelle + ", " +
+				// *****************************************
+				Article.fieldVolume + ", " +
+				// *****************************************
+				Pays.fieldID + ", " + Pays.fieldLibelle + ", " + Continent.fieldID + ", " + Continent.fieldLibelle
+				+ ", " + Fabricant.fieldID + ", " + Fabricant.fieldLibelle + ", " +
 
-			String strCmd = "select * from VueArticle";
-			rs = stmt.executeQuery(strCmd);
+				Marque.fieldID + ", " + Marque.fieldLibelle + " from VueArticle";
+		System.out.println(this.getClass().getSimpleName() + " :: " + strCmd);
+		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
+
+			rs = stmt.executeQuery();
 			Article aResult = new Article();
 
 			while (rs.next()) {
@@ -129,6 +143,7 @@ public class ArticleDAO extends DAO<Article> {
 
 	@Override
 	public ArrayList<Article> select(Article obj) {
+		Objects.requireNonNull(obj, sERRMESSAGEDAO_PARAM);
 		ResultSet rs = null;
 		ArrayList<Article> liste = new ArrayList<>();
 		String strCmd = "{call sp_ArticleQBE(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) } ";
@@ -200,6 +215,79 @@ public class ArticleDAO extends DAO<Article> {
 			}
 		}
 		return liste;
+	}
+
+	public ArticleSearch select(ArticleSearch obj) {
+		Objects.requireNonNull(obj, sERRMESSAGEDAO_PARAM);
+		ResultSet rs = null;
+
+		String strCmd = "{call sp_ArticleQBE(?, ?, ?, ?, ?, ?, ?, ?) } ";
+		try (CallableStatement cStmt = connexion.prepareCall(strCmd)) {
+
+			setOrNull(cStmt, 1, obj.getLibelle());
+			// ******************************************
+			setOrNull(cStmt, 2, obj.getLibelle());
+			// ******************************************
+			setOrNull(cStmt, 3, obj.getCriteriaPrixRange());
+			// ******************************************
+			setOrNull(cStmt, 4, obj.getCriteriaVolume());
+			// ******************************************
+			setOrNull(cStmt, 5, obj.getTitrage());
+			// ******************************************
+			// Objects.requireNonNull(obj.getMarque(), sERRMESSAGEDAO_PARAM);
+			setOrNull(cStmt, 6, obj.getCriteriaMarque());
+			// ******************************************
+			// Objects.requireNonNull(obj.getCouleur(), sERRMESSAGEDAO_PARAM);
+			setOrNull(cStmt, 7, obj.getCriteriaCouleur());
+			// ******************************************
+			// Objects.requireNonNull(obj.getType(), sERRMESSAGEDAO_PARAM);
+			setOrNull(cStmt, 8, obj.getCriteriaType());
+			// ******************************************
+
+			rs = cStmt.executeQuery();
+			if (rs.next()) {
+				do {
+					Article aResult = new Article();
+					aResult.setId(rs.getInt(Article.fieldID));
+					aResult.setLibelle(rs.getString(Article.fieldLibelle));
+					aResult.setPrix(rs.getFloat(Article.fieldPrix));
+					aResult.setTitrage(rs.getFloat(Article.fieldTitrage));
+					aResult.setType(new TypeBiere(rs.getInt(TypeBiere.fieldID), rs.getString(TypeBiere.fieldLibelle)));
+					// *****************************************
+					aResult.setCouleur(new Couleur(rs.getInt(Couleur.fieldID), rs.getString(Couleur.fieldLibelle)));
+					// *****************************************
+					aResult.setVolume(rs.getInt(Article.fieldVolume));
+					// *****************************************
+					Continent aContinent = new Continent(rs.getInt(Continent.fieldID),
+							rs.getString(Continent.fieldLibelle));
+					Pays aPays = new Pays(rs.getInt(Pays.fieldID), rs.getString(Pays.fieldLibelle), aContinent);
+
+					Fabricant aFabricant = new Fabricant(rs.getInt(Fabricant.fieldID),
+							rs.getString(Fabricant.fieldLibelle));
+
+					Marque aMarque = new Marque(rs.getInt(Marque.fieldID), rs.getString(Marque.fieldLibelle), aPays,
+							aFabricant);
+
+					aResult.setMarque(aMarque);
+					// *****************************************
+
+					obj.getResultArticle().add(aResult);
+				} while (rs.next());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JFXApplicationException.raiseToFront(this.getClass(), e, true);
+		} finally {
+
+			try {
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return obj;
 	}
 
 	@Override

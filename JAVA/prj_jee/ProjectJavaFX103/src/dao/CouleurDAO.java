@@ -84,7 +84,7 @@ public class CouleurDAO extends DAO<Couleur> {
 		ArrayList<Couleur> liste = new ArrayList<>();
 		String strCmd = "SELECT "+Couleur.fieldID+", "+Couleur.fieldLibelle+" from "+Couleur.fieldEntityName+" order by "+Couleur.fieldLibelle;
 		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
-			rs = stmt.executeQuery(strCmd);
+			rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				liste.add(new Couleur(rs.getInt(Couleur.fieldID), rs.getString(Couleur.fieldLibelle)));

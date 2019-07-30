@@ -13,6 +13,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.AnchorPane;
+import metier.Couleur;
+import metier.Marque;
+import metier.TypeBiere;
 
 public class MainWindowDetail {
 
@@ -30,13 +33,13 @@ public class MainWindowDetail {
     private TextField tTextFieldNom; // Value injected by FXMLLoader
 
     @FXML // fx:id="tComboBoxType"
-    private ComboBox<?> tComboBoxType; // Value injected by FXMLLoader
+    private ComboBox<TypeBiere> tComboBoxType; // Value injected by FXMLLoader
 
     @FXML // fx:id="tComboBoxCouleur"
-    private ComboBox<?> tComboBoxCouleur; // Value injected by FXMLLoader
+    private ComboBox<Couleur> tComboBoxCouleur; // Value injected by FXMLLoader
 
     @FXML // fx:id="tComboBoxMarque"
-    private ComboBox<?> tComboBoxMarque; // Value injected by FXMLLoader
+    private ComboBox<Marque> tComboBoxMarque; // Value injected by FXMLLoader
 
     @FXML // fx:id="tLabelType"
     private Label tLabelType; // Value injected by FXMLLoader

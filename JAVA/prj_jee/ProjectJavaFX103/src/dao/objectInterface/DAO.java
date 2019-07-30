@@ -9,6 +9,8 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import org.genose.java.implementation.tools.NumericRange;
+
 public abstract class DAO<T> {
  public static final String sERRMESSAGEDAO = "ERROR : Impossible d'utiliser une connexion NULL ";
  public static final String sERRMESSAGEDAO_PARAM = "ERROR : Parametre invalide ";
@@ -66,6 +68,43 @@ public abstract class DAO<T> {
 				aStatementArg.setFloat(iArgFieldPosition, fValue);
 			}
 			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	};
+
+	public boolean setOrNull( PreparedStatement aStatementArg, int iArgFieldPosition, ArrayList<?> aValue) {
+		try {
+			aStatementArg.setNull( iArgFieldPosition, Types.VARCHAR);
+			/* *******
+			if ((aValue == null ) || (aValue.isEmpty()) ) {
+				
+				aStatementArg.setNull( iArgFieldPosition, Types.VARCHAR);
+				
+			} else {
+				aStatementArg.setString(iArgFieldPosition, aValue.toString());
+			}
+			return true;
+			************************* */
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	};
+	public boolean setOrNull( PreparedStatement aStatementArg, int iArgFieldPosition, NumericRange aValue) {
+		try {
+			aStatementArg.setNull( iArgFieldPosition, Types.VARCHAR);
+			/* *******
+			if ((aValue == null ) || (aValue.isEmpty()) ) {
+				
+				aStatementArg.setNull( iArgFieldPosition, Types.VARCHAR);
+				
+			} else {
+				aStatementArg.setString(iArgFieldPosition, aValue.toString());
+			}
+			return true;
+			 ************************* */
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

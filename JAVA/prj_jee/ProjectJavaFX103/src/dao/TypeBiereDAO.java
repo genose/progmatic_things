@@ -72,7 +72,7 @@ public class TypeBiereDAO extends DAO<TypeBiere> {
 		String strCmd = "SELECT " + TypeBiere.fieldID + ", " + TypeBiere.fieldLibelle + " from "
 				+ TypeBiere.fieldEntityName + " order by " + TypeBiere.fieldLibelle;
 		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
-			rs = stmt.executeQuery(strCmd);
+			rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				liste.add(new TypeBiere(rs.getInt(TypeBiere.fieldID), rs.getString(TypeBiere.fieldLibelle)));

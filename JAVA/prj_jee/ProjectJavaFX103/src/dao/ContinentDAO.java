@@ -58,13 +58,14 @@ public class ContinentDAO extends DAO<Continent> {
 	public ArrayList<Continent> getAll() {
 		ResultSet rs = null;
 		ArrayList<Continent> liste = new ArrayList<>();
-		String strCmd = "select " + "conti." + Continent.fieldID + "," + "conti." + Continent.fieldLibelle + "," + " "
-				+ Pays.fieldID + " ," + " " + Pays.fieldLibelle + " from  " + Continent.fieldEntityName + " join "
+		String strCmd = "select " + "conti." + Continent.fieldID + ", " + "conti." + Continent.fieldLibelle + ", " + " "
+				+ Pays.fieldID + " ," + " " + Pays.fieldLibelle + " from  " + Continent.fieldEntityName + " conti  join "
 				+ Pays.fieldEntityName + " pay on pay." + Pays.fieldID + " = conti." + Continent.fieldID + " "
 				+ "order by " + Continent.fieldLibelle + ", " + Pays.fieldLibelle;
+		System.out.println(this.getClass().getSimpleName() + " :: "+strCmd);
 		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
 
-			rs = stmt.executeQuery(strCmd);
+			rs = stmt.executeQuery();
 			if (rs.next()) {
 				// ajoute un continent avant de pouvoir l'utiliser ...
 				liste.add(new Continent(rs.getInt(Continent.fieldID), rs.getString(Continent.fieldLibelle)));

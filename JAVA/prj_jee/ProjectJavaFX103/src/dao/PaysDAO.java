@@ -76,7 +76,7 @@ public class PaysDAO extends DAO<Pays>{
 		ArrayList<Pays> liste = new ArrayList<>();
 		String strCmd = "SELECT "+Pays.fieldID+", "+Pays.fieldLibelle+" from "+Pays.fieldEntityName+" order by "+Pays.fieldLibelle;
 		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
-			rs = stmt.executeQuery(strCmd);
+			rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				liste.add(new Pays(rs.getInt(Pays.fieldID), rs.getString(Pays.fieldLibelle)));

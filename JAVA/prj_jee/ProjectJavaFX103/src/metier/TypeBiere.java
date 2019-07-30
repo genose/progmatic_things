@@ -10,7 +10,7 @@ import javafx.beans.property.StringProperty;
 
 public class TypeBiere implements DAOObject {
 
-	public static final String fieldEntityName = "Type";
+	public static final String fieldEntityName = "TypeBiere";
 
 	public static final String fieldID = "id_type";
 	public static final String fieldLibelle = "nom_type";

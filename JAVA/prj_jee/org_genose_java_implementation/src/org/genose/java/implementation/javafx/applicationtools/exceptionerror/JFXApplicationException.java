@@ -132,7 +132,6 @@ public class JFXApplicationException extends Exception {
 		try {
 			if (JFXApplicationException.aFatalErrorAlert == null) {
 				
-				JFXApplicationException.aFatalErrorAlert = new Alert(AlertType.CONFIRMATION);
 				
 				if(throwedEvent == null) {
 					 throwedEvent = new JFXApplicationException("raiseToFront was Called for a certain reason ..." , throwedEvent, JFXApplicationHelper.getStackTrace());
@@ -140,6 +139,7 @@ public class JFXApplicationException extends Exception {
 				
 				JFXApplicationLogger.getLogger().logError(JFXApplicationException.class, throwedEvent, "Error while finding to forward error to frontend ...");
 
+				JFXApplicationException.aFatalErrorAlert = new Alert(AlertType.CONFIRMATION);
 				javafx.scene.control.Button aButton = new javafx.scene.control.Button();
 
 				Stage aStageForError = new Stage(StageStyle.UNDECORATED);

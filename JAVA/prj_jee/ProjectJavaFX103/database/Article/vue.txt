@@ -1,0 +1,201 @@
+USE [DBFinal]
+GO
+
+/****** Object:  View [dbo].[VueArticle]    Script Date: 26/07/2019 09:52:11 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE VIEW [dbo].[VueArticle]
+AS
+SELECT        dbo.ARTICLE.ID_ARTICLE, dbo.ARTICLE.NOM_ARTICLE, dbo.ARTICLE.PRIX_ACHAT, dbo.ARTICLE.VOLUME, dbo.ARTICLE.TITRAGE, dbo.COULEUR.NOM_COULEUR, dbo.MARQUE.NOM_MARQUE, dbo.PAYS.NOM_PAYS, 
+                         dbo.CONTINENT.NOM_CONTINENT, dbo.TYPEBIERE.NOM_TYPE, dbo.MARQUE.ID_MARQUE, dbo.PAYS.ID_PAYS, dbo.CONTINENT.ID_CONTINENT, dbo.TYPEBIERE.ID_TYPE, dbo.COULEUR.ID_COULEUR, 
+                         dbo.FABRICANT.ID_FABRICANT, dbo.FABRICANT.NOM_FABRICANT
+FROM            dbo.ARTICLE INNER JOIN
+                         dbo.MARQUE ON dbo.ARTICLE.ID_MARQUE = dbo.MARQUE.ID_MARQUE INNER JOIN
+                         dbo.PAYS ON dbo.MARQUE.ID_PAYS = dbo.PAYS.ID_PAYS INNER JOIN
+                         dbo.CONTINENT ON dbo.PAYS.ID_CONTINENT = dbo.CONTINENT.ID_CONTINENT LEFT OUTER JOIN
+                         dbo.FABRICANT ON dbo.MARQUE.ID_FABRICANT = dbo.FABRICANT.ID_FABRICANT LEFT OUTER JOIN
+                         dbo.TYPEBIERE ON dbo.ARTICLE.ID_TYPE = dbo.TYPEBIERE.ID_TYPE LEFT OUTER JOIN
+                         dbo.COULEUR ON dbo.ARTICLE.ID_COULEUR = dbo.COULEUR.ID_COULEUR
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane1', @value=N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
+Begin DesignProperties = 
+   Begin PaneConfigurations = 
+      Begin PaneConfiguration = 0
+         NumPanes = 4
+         Configuration = "(H (1[55] 4[26] 2[12] 3) )"
+      End
+      Begin PaneConfiguration = 1
+         NumPanes = 3
+         Configuration = "(H (1 [50] 4 [25] 3))"
+      End
+      Begin PaneConfiguration = 2
+         NumPanes = 3
+         Configuration = "(H (1 [50] 2 [25] 3))"
+      End
+      Begin PaneConfiguration = 3
+         NumPanes = 3
+         Configuration = "(H (4 [30] 2 [40] 3))"
+      End
+      Begin PaneConfiguration = 4
+         NumPanes = 2
+         Configuration = "(H (1 [56] 3))"
+      End
+      Begin PaneConfiguration = 5
+         NumPanes = 2
+         Configuration = "(H (2 [66] 3))"
+      End
+      Begin PaneConfiguration = 6
+         NumPanes = 2
+         Configuration = "(H (4 [50] 3))"
+      End
+      Begin PaneConfiguration = 7
+         NumPanes = 1
+         Configuration = "(V (3))"
+      End
+      Begin PaneConfiguration = 8
+         NumPanes = 3
+         Configuration = "(H (1[56] 4[18] 2) )"
+      End
+      Begin PaneConfiguration = 9
+         NumPanes = 2
+         Configuration = "(H (1 [75] 4))"
+      End
+      Begin PaneConfiguration = 10
+         NumPanes = 2
+         Configuration = "(H (1[66] 2) )"
+      End
+      Begin PaneConfiguration = 11
+         NumPanes = 2
+         Configuration = "(H (4 [60] 2))"
+      End
+      Begin PaneConfiguration = 12
+         NumPanes = 1
+         Configuration = "(H (1) )"
+      End
+      Begin PaneConfiguration = 13
+         NumPanes = 1
+         Configuration = "(V (4))"
+      End
+      Begin PaneConfiguration = 14
+         NumPanes = 1
+         Configuration = "(V (2))"
+      End
+      ActivePaneConfig = 0
+   End
+   Begin DiagramPane = 
+      Begin Origin = 
+         Top = 0
+         Left = 0
+      End
+      Begin Tables = 
+         Begin Table = "ARTICLE"
+            Begin Extent = 
+               Top = 22
+               Left = 55
+               Bottom = 152
+               Right = 264
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "MARQUE"
+            Begin Extent = 
+               Top = 156
+               Left = 368
+               Bottom = 286
+               Right = 577
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "PAYS"
+            Begin Extent = 
+               Top = 167
+               Left = 655
+               Bottom = 280
+               Right = 864
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "CONTINENT"
+            Begin Extent = 
+               Top = 187
+               Left = 958
+               Bottom = 283
+               Right = 1167
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "FABRICANT"
+            Begin Extent = 
+               Top = 353
+               Left = 622
+               Bottom = 449
+               Right = 831
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "TYPEBIERE"
+            Begin Extent = 
+               Top = 15
+               Left = 431
+               Bottom = 111
+               Right = 640
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "COULEUR"
+            Begin Extent = 
+               Top = 295
+               Left = 19
+               Bottom = 391
+               Right = 228
+            End
+            DisplayFlags ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'VueArticle'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane2', @value=N'= 280
+            TopColumn = 0
+         End
+      End
+   End
+   Begin SQLPane = 
+   End
+   Begin DataPane = 
+      Begin ParameterDefaults = ""
+      End
+   End
+   Begin CriteriaPane = 
+      Begin ColumnWidths = 11
+         Column = 1440
+         Alias = 900
+         Table = 1170
+         Output = 720
+         Append = 1400
+         NewValue = 1170
+         SortType = 1350
+         SortOrder = 1410
+         GroupBy = 1350
+         Filter = 1350
+         Or = 1350
+         Or = 1350
+         Or = 1350
+      End
+   End
+End
+' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'VueArticle'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=2 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'VueArticle'
+GO
+
+

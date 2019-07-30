@@ -76,7 +76,7 @@ public class MarqueDAO extends DAO<Marque> {
 		ArrayList<Marque> liste = new ArrayList<>();
 		String strCmd = "SELECT "+Marque.fieldID+", "+Marque.fieldLibelle+" from "+Marque.fieldEntityName+" order by "+Marque.fieldLibelle;
 		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
-			rs = stmt.executeQuery(strCmd);
+			rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				liste.add(new Marque(rs.getInt(Marque.fieldID), rs.getString(Marque.fieldLibelle)));

@@ -16,14 +16,14 @@ import javafx.beans.property.StringProperty;
 public class Article implements DAOObject
 {
 	
-	private IntegerProperty id_article;
-	private StringProperty nom_article;
-	private FloatProperty prix;
-	private FloatProperty titrage;
-	private IntegerProperty volume;
-	private ObjectProperty<Couleur> id_couleur;
-	private ObjectProperty<TypeBiere> id_type;
-	private ObjectProperty<Marque> id_marque;
+	protected IntegerProperty id_article;
+	protected StringProperty nom_article;
+	protected FloatProperty prix;
+	protected FloatProperty titrage;
+	protected IntegerProperty volume;
+	protected ObjectProperty<Couleur> id_couleur;
+	protected ObjectProperty<TypeBiere> id_type;
+	protected ObjectProperty<Marque> id_marque;
 
 	public static final String fieldEntityName = "Article";
 	public static final String fieldID = "id_article";
@@ -32,7 +32,7 @@ public class Article implements DAOObject
 	public static final  String fieldType = "id_type";
 	public static final String fieldTitrage = "titrage";
 	public static final String fieldVolume = "volume";
-	public static final String fieldPrix = "prix";
+	public static final String fieldPrix = "prix_achat";
 	public static final String fieldMarque = "id_marque";
 	
 	/**

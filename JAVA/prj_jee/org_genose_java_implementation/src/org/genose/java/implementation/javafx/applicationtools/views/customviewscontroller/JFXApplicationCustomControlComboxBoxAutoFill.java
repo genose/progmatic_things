@@ -101,13 +101,11 @@ public class JFXApplicationCustomControlComboxBoxAutoFill<T> extends ComboBox<T>
 		this.aComboxBoxAutofilleable = this;
 		this.aComboxBoxAutofilleable.getSelectionModel().selectedItemProperty().addListener( (ObservableValue<? extends T> arg0, T arg1, T arg2) -> {
 				// TODO Auto-generated method stub
-			System.out.println(" Values : "+arg0.getClass());
+				System.out.println(" Values : "+arg0.getClass());
 				System.out.println(" Values : "+arg0);
 				System.out.println(" Values : 1"+arg1);
 				System.out.println(" Values : 2"+arg2);
-			}
-			
-		);
+			} );
 //this.setTooltip(this.aTooltipAutoFillIndication );
 		//
 		this.setTooltip(null);

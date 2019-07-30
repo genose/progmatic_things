@@ -3,32 +3,29 @@ package service;
 import java.util.ArrayList;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
+import org.genose.java.implementation.tools.NumericRange;
 
 import dao.DaoFactory;
+import javafx.beans.value.WritableObjectValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
-import javafx.util.Callback;
 import metier.Article;
 import metier.Continent;
 import metier.Couleur;
 import metier.Fabricant;
 import metier.Marque;
 import metier.Pays;
-import metier.TypeBiere;
+import metier.TypeBiere; 
 
 
 public class ServiceArticle
 {
-	private ObservableList<Couleur> couleurFiltre;
-	private ObservableList<Continent> continentFiltre;
-	private ObservableList<Pays> paysFiltre;
-	private ObservableList<Marque> marqueFiltre;
-	private ObservableList<TypeBiere> typeFiltre;
-	private ObservableList<Fabricant> fabricantFiltre;
-	private ObservableList<Article> articleFiltre;
-	private SortedList<Article> articleSorted;
-
+	
+	private SortedList<Article> articleSorted = null;
+	private ArrayList<Article> articleFiltre = null;
+	private static ArticleSearch pArticleSearchCriteria = null;
+	
 	static ServiceArticle pServiceArticleSingleton = null;
 	
 	/*
@@ -73,63 +70,95 @@ public class ServiceArticle
 	{
 		super();
 		singletonInstanceCreate();
-		couleurFiltre = FXCollections.observableArrayList(DaoFactory.getCouleurDAO().getAll());
-		couleurFiltre.add(0, new Couleur(0, "Couleur"));
-		continentFiltre = FXCollections.observableArrayList(DaoFactory.getContinentDAO().getAll());
-		continentFiltre.add(0, new Continent(0, "Continent"));
-		paysFiltre = FXCollections.observableArrayList(DaoFactory.getPaysDAO().getAll());
-		paysFiltre.add(0, new Pays(0, "Pays"));
-		marqueFiltre = FXCollections.observableArrayList(DaoFactory.getMarqueDAO().getAll());
-		marqueFiltre.add(0, new Marque(0, "Marque"));
-		typeFiltre = FXCollections.observableArrayList(DaoFactory.getTypeDAO().getAll());
-		typeFiltre.add(0, new TypeBiere(0, "Type"));
-		fabricantFiltre = FXCollections.observableArrayList(DaoFactory.getFabricantDAO().getAll());
-		fabricantFiltre.add(0, new Fabricant(0, "Fabricant"));
-		articleFiltre = FXCollections.observableArrayList(DaoFactory.getArticleDAO().getAll());
-//		articleFiltre.add(0,new Article(0,"Article"));
-		articleSorted = new SortedList<Article>(articleFiltre);
+		
+		pArticleSearchCriteria = new ArticleSearch();
+		
+		pArticleSearchCriteria.setCriteriaCouleur(DaoFactory.getCouleurDAO().getAll());
+		
+		pArticleSearchCriteria.setCriteriaType(DaoFactory.getTypeDAO().getAll());
+		
+		pArticleSearchCriteria.setCriteriaPays(DaoFactory.getPaysDAO().getAll());
+		
+		pArticleSearchCriteria.setCriteriaContinent(DaoFactory.getContinentDAO().getAll());
+		
+		pArticleSearchCriteria.setCriteriaFabricant(DaoFactory.getFabricantDAO().getAll());
+		
+		pArticleSearchCriteria.setCriteriaMarque(DaoFactory.getMarqueDAO().getAll());
+		
+		articleFiltre = DaoFactory.getArticleDAO().getAll();
+
+		articleSorted = new SortedList<Article>( (ObservableList<? extends Article>) DaoFactory.getArticleDAO().select(pArticleSearchCriteria));
 	}
 
 	public ObservableList<Couleur> getCouleurFiltre()
 	{
-		return couleurFiltre;
+		return FXCollections.observableArrayList(pArticleSearchCriteria.getCriteriaCouleur());
 	}
 
 	public ObservableList<Continent> getContinentFiltre()
 	{
-		return continentFiltre;
+		return FXCollections.observableArrayList(pArticleSearchCriteria.getCriteriaContinent());
 	}
 
 	public ObservableList<Pays> getPaysFiltre()
 	{
-		return paysFiltre;
+		return  FXCollections.observableArrayList(pArticleSearchCriteria.getCriteriaPays());
 	}
 
 	public ObservableList<Marque> getMarqueFiltre()
 	{
-		return marqueFiltre;
+		return  FXCollections.observableArrayList(pArticleSearchCriteria.getCriteriaMarque());
 	}
 
 	public ObservableList<TypeBiere> getTypeFiltre()
 	{
-		return typeFiltre;
+		return  FXCollections.observableArrayList(pArticleSearchCriteria.getCriteriaType());
 	}
 
 	public ObservableList<Fabricant> getFabricantFiltre()
 	{
-		return fabricantFiltre;
+		return  FXCollections.observableArrayList(pArticleSearchCriteria.getCriteriaFabricant());
 	}
 
 	public ObservableList<Article> getArticleFiltre()
 	{
-		return articleFiltre;
+		return  FXCollections.observableArrayList(articleFiltre);
 	}
 
 	public SortedList<Article> getArticleSorted()
 	{
 		return articleSorted;
 	}
-	
+
+
+	public NumericRange getPrixFiltre() {
+
+		return pArticleSearchCriteria.getCriteriaPrixRange();
+	}
+
+
+	public NumericRange getTitrageFiltre() {
+		return pArticleSearchCriteria.getCriteriaTitrageRange();
+	}
+
+
+	public void search() {
+
+		articleSorted = new SortedList<Article>( (ObservableList<? extends Article>) DaoFactory.getArticleDAO().select(pArticleSearchCriteria));
+		
+	}
+
+
+	public  ArticleSearch getArticleSearch() { 
+		return pArticleSearchCriteria;
+	}
+
+
+	public void refresh() {
+		articleSorted = new SortedList<Article>( (ObservableList<? extends Article>) DaoFactory.getArticleDAO().select(pArticleSearchCriteria));
+	}
+
+ 
 	
 
 }

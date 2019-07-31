@@ -48,4 +48,10 @@ public class NumericRange {
 	public boolean contains(Double number) {
 		return (number.compareTo(low) >= 0) && (number.compareTo(high) <= 0);
 	}
+
+
+	public Boolean isEmpty() {
+		return (low == 0) && (high == 0);
+		
+	}
 }

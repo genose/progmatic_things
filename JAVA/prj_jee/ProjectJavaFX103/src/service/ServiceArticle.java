@@ -1,9 +1,12 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.tools.NumericRange;
+import org.genose.java.implementation.tools.refreshableObject;
 
 import dao.DaoFactory;
 import javafx.beans.value.WritableObjectValue;
@@ -19,11 +22,11 @@ import metier.Pays;
 import metier.TypeBiere; 
 
 
-public class ServiceArticle
+public class ServiceArticle implements refreshableObject<Article>
 {
 	
 	private SortedList<Article> articleSorted = null;
-	private ArrayList<Article> articleFiltre = null;
+	private ObservableList<Article> articleFiltred = null;
 	private static ArticleSearch pArticleSearchCriteria = null;
 	
 	static ServiceArticle pServiceArticleSingleton = null;
@@ -71,23 +74,29 @@ public class ServiceArticle
 		super();
 		singletonInstanceCreate();
 		
-		pArticleSearchCriteria = new ArticleSearch();
-		
-		pArticleSearchCriteria.setCriteriaCouleur(DaoFactory.getCouleurDAO().getAll());
-		
-		pArticleSearchCriteria.setCriteriaType(DaoFactory.getTypeDAO().getAll());
-		
-		pArticleSearchCriteria.setCriteriaPays(DaoFactory.getPaysDAO().getAll());
-		
-		pArticleSearchCriteria.setCriteriaContinent(DaoFactory.getContinentDAO().getAll());
-		
-		pArticleSearchCriteria.setCriteriaFabricant(DaoFactory.getFabricantDAO().getAll());
-		
-		pArticleSearchCriteria.setCriteriaMarque(DaoFactory.getMarqueDAO().getAll());
-		
-		articleFiltre = DaoFactory.getArticleDAO().getAll();
+		try {
+			pArticleSearchCriteria = new ArticleSearch();
+			
+			pArticleSearchCriteria.setCriteriaCouleur(DaoFactory.getCouleurDAO().getAll());
+			
+			pArticleSearchCriteria.setCriteriaType(DaoFactory.getTypeDAO().getAll());
+			
+			pArticleSearchCriteria.setCriteriaPays(DaoFactory.getPaysDAO().getAll());
+			
+			pArticleSearchCriteria.setCriteriaContinent(DaoFactory.getContinentDAO().getAll());
+			
+			pArticleSearchCriteria.setCriteriaFabricant(DaoFactory.getFabricantDAO().getAll());
+			
+			pArticleSearchCriteria.setCriteriaMarque(DaoFactory.getMarqueDAO().getAll());
+			
+			articleFiltred = FXCollections.observableArrayList(DaoFactory.getArticleDAO().getAll());
+			
+			articleSorted = new SortedList<Article>(getArticleFiltred());
+			
+		} catch (Exception e) {
 
-		articleSorted = new SortedList<Article>( (ObservableList<? extends Article>) DaoFactory.getArticleDAO().select(pArticleSearchCriteria));
+			e.printStackTrace();
+		}
 	}
 
 	public ObservableList<Couleur> getCouleurFiltre()
@@ -120,9 +129,9 @@ public class ServiceArticle
 		return  FXCollections.observableArrayList(pArticleSearchCriteria.getCriteriaFabricant());
 	}
 
-	public ObservableList<Article> getArticleFiltre()
+	public ObservableList<Article> getArticleFiltred()
 	{
-		return  FXCollections.observableArrayList(articleFiltre);
+		return   articleFiltred;
 	}
 
 	public SortedList<Article> getArticleSorted()
@@ -154,8 +163,18 @@ public class ServiceArticle
 	}
 
 
-	public void refresh() {
-		articleSorted = new SortedList<Article>( (ObservableList<? extends Article>) DaoFactory.getArticleDAO().select(pArticleSearchCriteria));
+	@Override
+	public Boolean refresh() {
+		articleFiltred.clear();
+		 articleFiltred.setAll(DaoFactory.getArticleDAO().select(pArticleSearchCriteria));
+		 
+		return articleSorted.isEmpty();
+	}
+
+
+	@Override
+	public Boolean refresh(Article arg0) {
+		return false;
 	}
 
  

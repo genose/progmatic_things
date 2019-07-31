@@ -10,12 +10,15 @@ import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicati
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationStage;
 
+import MainWindow.assets.controllers.MainWindow;
+import MainWindow.assets.controllers.MainWindowDetail;
 import dao.DaoFactory;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
+import javafx.scene.Node;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -31,7 +34,8 @@ import service.ServiceArticle;
 public class ArticleDialog extends AnchorPane {
 
 	private Article aArticle = null;
-
+	MainWindowDetail  aWindowDetailArticle = null;
+	Stage ArticleDialogStage = null;
 	private static JFXApplicationScene aArticleDialogScene = null;
 	public static void articleDialogCreate() {
 		try {
@@ -54,11 +58,20 @@ public class ArticleDialog extends AnchorPane {
 		try {
 
 			aArticle = argArticle;
-			Stage ArticleDialogStage = new Stage();
+			
+			JFXApplicationScene aDetailPanelContent = JFXApplicationDesignObjectLoad.create(
+					MainWindow.class.getSimpleName(),
+					MainWindowDetail.class.getSimpleName(), null);
+			MainWindowDetail aController  =(MainWindowDetail) aDetailPanelContent.getRootController();
+		 
+			aController.setEditable(true);
+			aController.refresh(argArticle);
+			
+			ArticleDialogStage = new Stage();
 	 
-			ArticleDialogStage.setScene(this.getScene());
+			ArticleDialogStage.setScene(aDetailPanelContent);
 			ArticleDialogStage.initModality(Modality.WINDOW_MODAL);
-
+			
 			ArticleDialogStage.setHeight(480);
 			ArticleDialogStage.setWidth(640);
 			ArticleDialogStage.centerOnScreen();
@@ -123,6 +136,10 @@ public class ArticleDialog extends AnchorPane {
 			aArticle = null;
 		}
 		return false;
+	}
+	public void close() {
+ArticleDialogStage.close();
+		
 	}
 	
 

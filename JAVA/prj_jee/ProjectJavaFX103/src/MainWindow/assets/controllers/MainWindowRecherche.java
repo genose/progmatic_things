@@ -1,7 +1,10 @@
 package MainWindow.assets.controllers;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
+
+import org.genose.java.implementation.tools.refreshableObject;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -10,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import metier.Article;
 import metier.Continent;
 import metier.Couleur;
 import metier.Fabricant;
@@ -18,7 +22,7 @@ import metier.Pays;
 import metier.TypeBiere;
 import service.ServiceArticle;
 
-public class MainWindowRecherche {
+public class MainWindowRecherche implements refreshableObject<Article> {
 
 	@FXML // ResourceBundle that was given to the FXMLLoader
 	private ResourceBundle resources;
@@ -62,18 +66,20 @@ public class MainWindowRecherche {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
-		assert tComboBoxCouleur != null : "fx:id=\"tComboBoxCouleur\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
-		assert tComboBoxPays != null : "fx:id=\"tComboBoxPays\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
-		assert tComboBoxContinent != null : "fx:id=\"tComboBoxContinent\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
-		assert tComboxBoxType != null : "fx:id=\"tComboxBoxType\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
-		assert tSliderRangeTitrage != null : "fx:id=\"tSliderRangeTitrage\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
-		assert tTextFieldNom != null : "fx:id=\"tTextFieldNom\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
-		assert tTextFieldRangeTitrage != null : "fx:id=\"tTextFieldRangeTitrage\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
-		assert tSliderRangePrix != null : "fx:id=\"tSliderRangePrix\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
-		assert tTextFieldRangePrix != null : "fx:id=\"tTextFieldRangePrix\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.";
+		Objects.requireNonNull( tComboBoxFabricant, "fx:id=\"tComboBoxFabricant\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.");
+		Objects.requireNonNull( tComboBoxMarque, "fx:id=\"tComboBoxMarque\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.");
+		Objects.requireNonNull( tComboBoxCouleur, "fx:id=\"tComboBoxCouleur\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.");
+		Objects.requireNonNull( tComboBoxPays, "fx:id=\"tComboBoxPays\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.");
+		Objects.requireNonNull( tComboBoxContinent, "fx:id=\"tComboBoxContinent\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.");
+		Objects.requireNonNull( tComboxBoxType, "fx:id=\"tComboxBoxType\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.");
+		Objects.requireNonNull( tSliderRangeTitrage, "fx:id=\"tSliderRangeTitrage\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.");
+		Objects.requireNonNull( tTextFieldNom, "fx:id=\"tTextFieldNom\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.");
+		Objects.requireNonNull( tTextFieldRangeTitrage, "fx:id=\"tTextFieldRangeTitrage\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.");
+		Objects.requireNonNull( tSliderRangePrix, "fx:id=\"tSliderRangePrix\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.");
+		Objects.requireNonNull( tTextFieldRangePrix, "fx:id=\"tTextFieldRangePrix\" was not injected: check your FXML file 'MainWindowRecherche.fxml'.");
 
 		aServiceArticle = ServiceArticle.getServiceArticleSingleton();
-
+ 
 		/* ***************** initialise search GUI ************************* */
 
 		/*
@@ -87,9 +93,9 @@ public class MainWindowRecherche {
 		 */
 		tComboBoxCouleur.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue<? extends Couleur> arg0, Couleur arg1, Couleur arg2) -> {
-					
-					if(arg2 == null) return;
 
+					if (arg2 == null)
+						return;
 
 					System.out.println(" Values : " + arg2.getClass());
 					System.out.println(" Values : " + arg0);
@@ -108,9 +114,9 @@ public class MainWindowRecherche {
 		 */
 		tComboxBoxType.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue<? extends TypeBiere> arg0, TypeBiere arg1, TypeBiere arg2) -> {
-					
-					if(arg2 == null) return;
 
+					if (arg2 == null)
+						return;
 
 					System.out.println(" Values : " + arg2.getClass());
 					System.out.println(" Values : " + arg0);
@@ -129,30 +135,9 @@ public class MainWindowRecherche {
 		 */
 		tComboBoxContinent.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue<? extends Continent> arg0, Continent arg1, Continent arg2) -> {
-					
-					if(arg2 == null) return;
 
-
-					System.out.println(" Values : " + arg2.getClass());
-					System.out.println(" Values : " + arg0);
-					System.out.println(" Values : 1" + arg1);
-					System.out.println(" Values : 2" + arg2);
-
-					aServiceArticle.getArticleSearch().getCriteriaContinent().clear();
-					aServiceArticle.getArticleSearch().getCriteriaContinent().add(arg2);
-					aServiceArticle.search();
-					refresh();
-				});
-
-		/*
-		 * *****************************************************************************
-		 * ***************
-		 */
-		tComboBoxContinent.getSelectionModel().selectedItemProperty()
-				.addListener((ObservableValue<? extends Continent> arg0, Continent arg1, Continent arg2) -> {
-					
-					if(arg2 == null) return;
-
+					if (arg2 == null)
+						return;
 
 					System.out.println(" Values : " + arg2.getClass());
 					System.out.println(" Values : " + arg0);
@@ -171,9 +156,9 @@ public class MainWindowRecherche {
 		 */
 		tComboBoxPays.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue<? extends Pays> arg0, Pays arg1, Pays arg2) -> {
-					
-					if(arg2 == null) return;
 
+					if (arg2 == null)
+						return;
 
 					System.out.println(" Values : " + arg2.getClass());
 					System.out.println(" Values : " + arg0);
@@ -186,15 +171,17 @@ public class MainWindowRecherche {
 					refresh();
 				});
 
+	 
+
 		/*
 		 * *****************************************************************************
 		 * ***************
 		 */
 		tComboBoxMarque.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue<? extends Marque> arg0, Marque arg1, Marque arg2) -> {
-					
-					if(arg2 == null) return;
 
+					if (arg2 == null)
+						return;
 
 					System.out.println(" Values : " + arg2.getClass());
 					System.out.println(" Values : " + arg0);
@@ -213,8 +200,9 @@ public class MainWindowRecherche {
 		 */
 		tComboBoxFabricant.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue<? extends Fabricant> arg0, Fabricant arg1, Fabricant arg2) -> {
-					
-					if(arg2 == null) return;
+
+					if (arg2 == null)
+						return;
 
 					System.out.println(" Values : " + arg2.getClass());
 					System.out.println(" Values : " + arg0);
@@ -230,7 +218,8 @@ public class MainWindowRecherche {
 		refresh();
 	}
 
-	protected boolean refresh() {
+	@Override
+	public Boolean refresh() {
 
 		tComboBoxCouleur.valueProperty().setValue(null);
 		tComboxBoxType.valueProperty().setValue(null);
@@ -271,6 +260,11 @@ public class MainWindowRecherche {
 
 		/* ***************************************************************** */
 
+		return false;
+	}
+
+	@Override
+	public Boolean refresh(Article arg0) {
 		return false;
 	}
 }

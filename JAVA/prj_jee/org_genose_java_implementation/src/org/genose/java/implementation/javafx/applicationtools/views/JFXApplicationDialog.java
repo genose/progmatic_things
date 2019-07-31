@@ -26,7 +26,7 @@ public class JFXApplicationDialog {
 		aArticleDialogAlert.setContentText(sMessage);
 
 		// Set content for Dialog Pane
-		aArticleDialogAlert.getDialogPane().setContentText("Text ...");
+		aArticleDialogAlert.getDialogPane().setContentText(sMessage);
 
 		Optional<ButtonType> aOptionButtonSelected = aArticleDialogAlert.showAndWait();
 
@@ -36,5 +36,27 @@ public class JFXApplicationDialog {
 
 		System.out.println("Confirm return : " + bReturnValue);
 		return bReturnValue;
+	}
+
+	public static boolean showAlertDialog(String sMessage) {
+		Boolean bReturnValue = false;
+		Alert aArticleDialogAlert = new Alert(AlertType.WARNING);
+
+		aArticleDialogAlert.setTitle("Attention ...");
+		aArticleDialogAlert.setHeaderText("Hoho ");
+		aArticleDialogAlert.setContentText(sMessage);
+
+		// Set content for Dialog Pane
+		aArticleDialogAlert.getDialogPane().setContentText(sMessage);
+
+		Optional<ButtonType> aOptionButtonSelected = aArticleDialogAlert.showAndWait();
+
+		if(!aOptionButtonSelected.isEmpty()) {
+			bReturnValue = 	(aOptionButtonSelected.get() == ButtonType.OK) ;
+		}
+
+		System.out.println("Alert return : " + bReturnValue);
+		return bReturnValue;
+		
 	}
 }

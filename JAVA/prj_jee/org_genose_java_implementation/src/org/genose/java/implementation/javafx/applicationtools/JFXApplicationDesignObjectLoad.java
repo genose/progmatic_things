@@ -201,12 +201,12 @@ public abstract interface JFXApplicationDesignObjectLoad {
 							new JFXApplicationException(" can't obtain to load " + sRequestedSceneFile), true);
 				}
 
-			} catch (IOException evERRLOADFXML) {
+			} catch (Exception evERRLOADFXML) {
 				String sFormattedErrorCause = String.format(
 						"Unable to load requested file (%s : %s : %s) %n ;; cause of returned error ", argModuleName, argModuleNameFile, sRequestedSceneFile);
-				JFXApplicationLogger.getLogger().logError(JFXApplicationScene.class, evERRLOADFXML,
-						sFormattedErrorCause);
+				 
 				JFXApplicationException.raiseToFront(JFXApplicationScene.class, evERRLOADFXML, true);
+				throw new JFXApplicationException( evERRLOADFXML);
 			}
 
 		} else {

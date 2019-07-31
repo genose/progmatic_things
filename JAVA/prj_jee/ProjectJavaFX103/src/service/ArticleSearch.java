@@ -161,8 +161,10 @@ public class ArticleSearch extends Article {
 	}
 	
 	public void clearCriteria() {
+		aNumericRangePrix.setMin(0.0);
 		aNumericRangePrix.setMax(0.0);
 		aNumericRangeTitrage.setMin(0.0);
+		aNumericRangeTitrage.setMax(0.0);
 		
 		couleurFiltre.clear();
 		continentFiltre.clear();
@@ -176,6 +178,22 @@ public class ArticleSearch extends Article {
 	
 	public ArrayList<Article> getResultArticle() {
 		return articleFiltre;
+	}
+	
+	public boolean isEmpty() {
+
+		aNumericRangePrix.isEmpty();
+		aNumericRangeTitrage.isEmpty();
+		
+		couleurFiltre.isEmpty();
+		continentFiltre.isEmpty();
+		paysFiltre.isEmpty();
+		marqueFiltre.isEmpty();
+		typeFiltre.isEmpty();
+		fabricantFiltre.isEmpty();
+		articleFiltre.isEmpty();
+		
+		return false;
 	}
 
 

@@ -180,6 +180,11 @@ public class Article implements DAOObject
 		this.volume.set(volume);
 	}
 
+	public ObjectProperty<Couleur> getPropertyCouleur()
+	{
+		return id_couleur;
+	}
+	
 	public Couleur getCouleur()
 	{
 		return id_couleur.get();
@@ -202,6 +207,12 @@ public class Article implements DAOObject
 		this.id_type.set(aType);
 	}
 
+	public ObjectProperty<TypeBiere> getPropertyTypeBiere() {
+		 
+		return id_type;
+	}
+
+	
 	public final FloatProperty getPropertyPrix()
 	{
 		return this.prix;
@@ -256,6 +267,7 @@ public class Article implements DAOObject
 		return "Article [id=" + id_article + ", nom=" + nom_article + ", prix=" + prix + ", titrage=" + titrage + ", volume=" + volume
 				+ ", couleur=" + id_couleur + ", type=" + id_type + ", marque=" + id_marque + "]";
 	}
+
 
 }
 

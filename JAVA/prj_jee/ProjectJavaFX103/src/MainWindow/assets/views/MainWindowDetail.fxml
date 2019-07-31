@@ -36,7 +36,7 @@
             <Label text="Nom" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Type" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Couleur" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="tTextFieldNom" disable="true" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <TextField fx:id="tTextFieldNom" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <ComboBox fx:id="tComboBoxType" editable="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <ComboBox fx:id="tComboBoxCouleur" editable="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
             <Label text="Marque" GridPane.columnIndex="1" GridPane.rowIndex="4" />
@@ -50,14 +50,14 @@
         <items>
             <MenuButton fx:id="tMenuButtonAction" mnemonicParsing="false" text="Edition">
               <items>
-                <MenuItem fx:id="tMenuButtonEdit" mnemonicParsing="false" text="Modifier/Enregistrer" />
+                <MenuItem fx:id="tMenuButtonEdit" mnemonicParsing="false" onAction="#edit" text="Modifier/Enregistrer" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                 <MenuItem fx:id="tMenuButtonPrint" mnemonicParsing="false" text="Imprimer" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Supprimer" />
+                  <MenuItem mnemonicParsing="false" onAction="#delete" text="Supprimer" />
               </items>
             </MenuButton>
-            <Button fx:id="tToolbarButtonCancel" mnemonicParsing="false" text="Annuler">
+            <Button fx:id="tToolbarButtonCancel" mnemonicParsing="false" onAction="#cancel" text="Annuler">
                <opaqueInsets>
                   <Insets right="20.0" />
                </opaqueInsets>

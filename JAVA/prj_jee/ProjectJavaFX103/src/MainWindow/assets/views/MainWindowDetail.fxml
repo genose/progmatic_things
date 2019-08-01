@@ -30,6 +30,7 @@
           <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -39,11 +40,11 @@
             <TextField fx:id="tTextFieldNom" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <ComboBox fx:id="tComboBoxType" editable="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <ComboBox fx:id="tComboBoxCouleur" editable="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Label text="Marque" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ComboBox fx:id="tComboBoxMarque" editable="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Label text="Marque" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ComboBox fx:id="tComboBoxMarque" editable="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
             <Label fx:id="tLabelType" text="Label type biere" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <Label fx:id="tLabelCouleur" text="Label " GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Label fx:id="tLabelMarque" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Label fx:id="tLabelMarque" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="5" />
          </children>
       </GridPane>
       <ToolBar fx:id="tToolbarDetail" layoutX="14.0" layoutY="517.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

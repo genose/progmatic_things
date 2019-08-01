@@ -35,7 +35,7 @@
             <ComboBox fx:id="tComboBoxPays" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Label text="Continent" GridPane.columnIndex="4" GridPane.rowIndex="1" />
             <ComboBox fx:id="tComboBoxContinent" editable="true" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-            <ComboBox fx:id="tComboxBoxType" editable="true" GridPane.columnIndex="2" />
+            <ComboBox fx:id="tComboBoxType" editable="true" GridPane.columnIndex="2" />
             <Label text="Type" GridPane.columnIndex="1" />
             <ComboBox fx:id="tComboBoxMarque" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <ComboBox fx:id="tComboBoxFabricant" editable="true" GridPane.columnIndex="5" GridPane.rowIndex="2" />

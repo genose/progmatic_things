@@ -14,6 +14,8 @@ public class Couleur implements DAOObject {
 	
 	public static final String fieldID = "id_couleur";
 	public static final String fieldLibelle = "nom_couleur";
+
+
 	
 	private IntegerProperty id_couleur;
 	private StringProperty nom_couleur;

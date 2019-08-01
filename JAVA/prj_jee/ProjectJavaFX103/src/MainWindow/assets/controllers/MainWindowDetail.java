@@ -14,11 +14,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 import metier.Article;
 import metier.Couleur;
 import metier.Marque;
@@ -125,11 +129,116 @@ public class MainWindowDetail implements refreshableObject<Article> {
 		tLabelMarque.setVisible(!bEditable);
 		/* ************************************************ */
 		if(bEditable) {
-			
+
+	        /* ********************************************************************* */
 			tComboBoxCouleur.setItems(FXCollections.observableArrayList( DaoFactory.getCouleurDAO().getAll()) );
+			tComboBoxCouleur.getItems().add(0, new Couleur(0, Couleur.sDEFAULTSELECTCOMBOXLIBELLE) );
+			tComboBoxCouleur.getSelectionModel().select(0);
+			tComboBoxCouleur.setCellFactory(new Callback<ListView<Couleur>, ListCell<Couleur>>() {
+	            @Override
+	            public ListCell<Couleur> call(ListView<Couleur> l){
+	                return new ListCell<Couleur>(){
+	                    @Override
+	                    protected void updateItem(Couleur item, boolean empty) {
+	                        super.updateItem(item, empty);
+	                        if (item == null || empty) {
+	                            setGraphic(null);
+	                        } else {
+	                            setText(item.getLibelle());
+	                        }
+	                    }
+	                } ;
+	            }
+	        });
+	        //selected value showed in combo box
+	        tComboBoxCouleur.setConverter(new StringConverter<Couleur>() {
+	              @Override
+	              public String toString(Couleur arg0) {
+	                if (arg0 == null){
+	                  return null;
+	                } else {
+	                  return arg0.getLibelle();
+	                }
+	              }
+
+	            @Override
+	            public Couleur fromString(String userId) {
+	                return null;
+	            }
+	        });
+	        /* ********************************************************************* */
 			tComboBoxType.setItems(FXCollections.observableArrayList( DaoFactory.getTypeDAO().getAll()) );
+			tComboBoxType.getItems().add(0, new TypeBiere(0, Couleur.sDEFAULTSELECTCOMBOXLIBELLE) );
+			tComboBoxType.getSelectionModel().select(0);
+			tComboBoxType.setCellFactory(new Callback<ListView<TypeBiere>, ListCell<TypeBiere>>() {
+	            @Override
+	            public ListCell<TypeBiere> call(ListView<TypeBiere> l){
+	                return new ListCell<TypeBiere>(){
+	                    @Override
+	                    protected void updateItem(TypeBiere item, boolean empty) {
+	                        super.updateItem(item, empty);
+	                        if (item == null || empty) {
+	                            setGraphic(null);
+	                        } else {
+	                            setText(item.getLibelle());
+	                        }
+	                    }
+	                } ;
+	            }
+	        });
+	        //selected value showed in combo box
+	        tComboBoxType.setConverter(new StringConverter<TypeBiere>() {
+	              @Override
+	              public String toString(TypeBiere arg0) {
+	                if (arg0 == null){
+	                  return null;
+	                } else {
+	                  return arg0.getLibelle();
+	                }
+	              }
+
+	            @Override
+	            public TypeBiere fromString(String arg0) {
+	                return null;
+	            }
+	        });
+	        /* ********************************************************************* */
 			tComboBoxMarque.setItems(FXCollections.observableArrayList( DaoFactory.getMarqueDAO().getAll()) );
-			
+			tComboBoxMarque.getItems().add(0, new Marque(0, Marque.sDEFAULTSELECTCOMBOXLIBELLE) );
+			tComboBoxMarque.getSelectionModel().select(0);
+			tComboBoxMarque.setCellFactory(new Callback<ListView<Marque>, ListCell<Marque>>() {
+	            @Override
+	            public ListCell<Marque> call(ListView<Marque> l){
+	                return new ListCell<Marque>(){
+	                    @Override
+	                    protected void updateItem(Marque item, boolean empty) {
+	                        super.updateItem(item, empty);
+	                        if (item == null || empty) {
+	                            setGraphic(null);
+	                        } else {
+	                            setText(item.getLibelle());
+	                        }
+	                    }
+	                } ;
+	            }
+	        });
+	        //selected value showed in combo box
+	        tComboBoxMarque.setConverter(new StringConverter<Marque>() {
+	              @Override
+	              public String toString(Marque arg0) {
+	                if (arg0 == null){
+	                  return null;
+	                } else {
+	                  return arg0.getLibelle();
+	                }
+	              }
+
+	            @Override
+	            public Marque fromString(String arg0) {
+	                return null;
+	            }
+	        });
+	        /* ********************************************************************* */
 		}
 		
 		
@@ -144,13 +253,14 @@ public class MainWindowDetail implements refreshableObject<Article> {
 	}
 	@FXML
 	public void add() {
-		aArticle = new Article(0, "");
-		ArticleDialog aDialogArticle = new ArticleDialog();
+		aArticle = new Article();
+		aDialogArticle = new ArticleDialog();
 		aDialogArticle.update(aArticle);
 	}
 	
 	@FXML
 	public void edit() {
+		aArticle  = Objects.requireNonNullElse(aArticle, new Article());
 		 aDialogArticle = new ArticleDialog();
 		aDialogArticle.update(aArticle);
 		tComboBoxCouleur.getSelectionModel().select( aArticle.getCouleur() );
@@ -159,15 +269,15 @@ public class MainWindowDetail implements refreshableObject<Article> {
 	}
 	@Override
 	public Boolean refresh(Article argArticle) {
-		aArticle  = Objects.requireNonNullElse(argArticle, new Article(0, ""));
+		aArticle  = Objects.requireNonNullElse(argArticle, new Article());
 
 		tTextFieldNom.setText(aArticle.getLibelle());
 
-		tLabelType.setText(Objects.requireNonNullElse(aArticle.getType(), new TypeBiere(0, "")).getLibelle());
+		tLabelType.setText(Objects.requireNonNullElse(aArticle.getType(), new TypeBiere()).getLibelle());
 
-		tLabelCouleur.setText(Objects.requireNonNullElse(aArticle.getType(), new Couleur(0, "")).getLibelle());
+		tLabelCouleur.setText(Objects.requireNonNullElse(aArticle.getCouleur(), new Couleur()).getLibelle());
 
-		tLabelMarque.setText(Objects.requireNonNullElse(aArticle.getType(), new Marque(0, "")).getLibelle());
+		tLabelMarque.setText(Objects.requireNonNullElse(aArticle.getMarque(), new Marque()).getLibelle());
 		return true;
 	}
 
@@ -175,6 +285,7 @@ public class MainWindowDetail implements refreshableObject<Article> {
 	public Boolean refresh() {
 		return false;
 	}
+	
 	public void cancel() {
 		aDialogArticle.close();
 	}

@@ -47,10 +47,10 @@ public class ArticleDAO extends DAO<Article> {
 		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
 
 			rs = stmt.executeQuery();
-			Article aResult = new Article();
+			Article aResult = null;
 
 			while (rs.next()) {
-
+				aResult = new Article();
 				aResult.setId(rs.getInt(Article.fieldID));
 				aResult.setLibelle(rs.getString(Article.fieldLibelle));
 				aResult.setPrix(rs.getFloat(Article.fieldPrix));
@@ -59,7 +59,7 @@ public class ArticleDAO extends DAO<Article> {
 				// *****************************************
 				aResult.setCouleur(new Couleur(rs.getInt(Couleur.fieldID), rs.getString(Couleur.fieldLibelle)));
 				// *****************************************
-				aResult.setVolume(rs.getInt(Article.fieldVolume));
+				aResult.setVolume(rs.getFloat(Article.fieldVolume));
 				// *****************************************
 				Pays aPays = new Pays(rs.getInt(Pays.fieldID), rs.getString(Pays.fieldLibelle),
 						new Continent(rs.getInt(Continent.fieldID), rs.getString(Continent.fieldLibelle)));
@@ -114,7 +114,7 @@ public class ArticleDAO extends DAO<Article> {
 				// *****************************************
 				aResult.setCouleur(new Couleur(rs.getInt(Couleur.fieldID), rs.getString(Couleur.fieldLibelle)));
 				// *****************************************
-				aResult.setVolume(rs.getInt(Article.fieldVolume));
+				aResult.setVolume(rs.getFloat(Article.fieldVolume));
 				// *****************************************
 				Pays aPays = new Pays(rs.getInt(Pays.fieldID), rs.getString(Pays.fieldLibelle),
 						new Continent(rs.getInt(Continent.fieldID), rs.getString(Continent.fieldLibelle)));
@@ -187,7 +187,7 @@ public class ArticleDAO extends DAO<Article> {
 					// *****************************************
 					aResult.setCouleur(new Couleur(rs.getInt(Couleur.fieldID), rs.getString(Couleur.fieldLibelle)));
 					// *****************************************
-					aResult.setVolume(rs.getInt(Article.fieldVolume));
+					aResult.setVolume(rs.getFloat(Article.fieldVolume));
 					// *****************************************
 					Pays aPays = new Pays(rs.getInt(Pays.fieldID), rs.getString(Pays.fieldLibelle),
 							new Continent(rs.getInt(Continent.fieldID), rs.getString(Continent.fieldLibelle)));
@@ -221,7 +221,7 @@ public class ArticleDAO extends DAO<Article> {
 		Objects.requireNonNull(obj, sERRMESSAGEDAO_PARAM);
 		ResultSet rs = null;
 
-		String strCmd = "{call sp_ArticleQBE(?, ?, ?, ?, ?, ?, ?, ?) } ";
+		String strCmd = "{call sp_ArticleQBE(?, ?, ?, ?, ?, ?, ?, ?,?,?,?) } ";
 		try (CallableStatement cStmt = connexion.prepareCall(strCmd)) {
 
 			setOrNull(cStmt, 1, obj.getLibelle());
@@ -234,14 +234,20 @@ public class ArticleDAO extends DAO<Article> {
 			// ******************************************
 			setOrNull(cStmt, 5, obj.getTitrage());
 			// ******************************************
-			// Objects.requireNonNull(obj.getMarque(), sERRMESSAGEDAO_PARAM);
-			setOrNull(cStmt, 6, obj.getCriteriaMarque());
-			// ******************************************
 			// Objects.requireNonNull(obj.getCouleur(), sERRMESSAGEDAO_PARAM);
-			setOrNull(cStmt, 7, obj.getCriteriaCouleur());
+			setOrNull(cStmt, 6, obj.getCriteriaCouleur());
 			// ******************************************
 			// Objects.requireNonNull(obj.getType(), sERRMESSAGEDAO_PARAM);
-			setOrNull(cStmt, 8, obj.getCriteriaType());
+			setOrNull(cStmt, 7, obj.getCriteriaType());
+			// ******************************************
+			// Objects.requireNonNull(obj.getMarque(), sERRMESSAGEDAO_PARAM);
+			setOrNull(cStmt, 8, obj.getCriteriaMarque());
+			// ******************************************
+			setOrNull(cStmt, 9, obj.getCriteriaFabricant()());
+			// ******************************************
+			// ******************************************
+			setOrNull(cStmt, 10, obj.getCriteriaPays());
+			setOrNull(cStmt, 11, obj.getCriteriaContinent());
 			// ******************************************
 
 			rs = cStmt.executeQuery();
@@ -256,7 +262,7 @@ public class ArticleDAO extends DAO<Article> {
 					// *****************************************
 					aResult.setCouleur(new Couleur(rs.getInt(Couleur.fieldID), rs.getString(Couleur.fieldLibelle)));
 					// *****************************************
-					aResult.setVolume(rs.getInt(Article.fieldVolume));
+					aResult.setVolume(rs.getFloat(Article.fieldVolume));
 					// *****************************************
 					Continent aContinent = new Continent(rs.getInt(Continent.fieldID),
 							rs.getString(Continent.fieldLibelle));

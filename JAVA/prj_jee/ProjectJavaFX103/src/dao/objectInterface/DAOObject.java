@@ -6,6 +6,7 @@ import javafx.beans.property.StringProperty;
 public abstract interface DAOObject
 {
 	 public static final String sERRMESSAGEDAOOBJECT_PARAM = "ERROR : Parametre invalide ";
+	public static final String sDEFAULTSELECTCOMBOXLIBELLE = "Choisir ...";
 	public abstract Integer getId();
 	public abstract void setId(Integer idKey);
 	public abstract String getLibelle() ;

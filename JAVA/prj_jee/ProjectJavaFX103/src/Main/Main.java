@@ -5,6 +5,7 @@ import org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesi
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
+import org.json.JSONArray; 
 
 import javafx.stage.Stage;
 
@@ -14,7 +15,7 @@ public class Main extends JFXApplication {
 	public void start(Stage primaryStage) throws Exception {
 		try {
 			super.start(primaryStage);
-
+ 
 			JFXApplicationScene  aScene = JFXApplicationDesignObjectLoad.create("MainWindow", null, null);
 			super.setPrimaryScene(aScene);
 

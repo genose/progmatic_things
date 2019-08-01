@@ -23,6 +23,7 @@ public class Fabricant implements DAOObjectChained<Fabricant, Marque> {
 	public static final String fieldID = "id_Fabricant";
 	public static final String fieldLibelle = "nom_Fabricant";
 
+
 	private IntegerProperty id_fabriquant = null;
 	private StringProperty nom_fabriquant = null;
 	private ArrayList<Marque> aListeMarque = new ArrayList<>();

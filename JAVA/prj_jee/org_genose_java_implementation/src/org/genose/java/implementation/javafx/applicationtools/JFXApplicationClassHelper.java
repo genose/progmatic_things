@@ -136,7 +136,7 @@ public class JFXApplicationClassHelper {
 							aObjectToIntrospectSuperClass.getClass().getEnclosingMethod())
 
 			);
-			JFXApplicationLogger.getLogger().logInfo(sClassInfos);
+			// JFXApplicationLogger.getLogger().logInfo(sClassInfos);
 			// sonarlint says extract to method ... i say NO !!
 			try {
 				Method aclassmethod = aObjectToIntrospect.getClass().getMethod(sInvokeMethodName);
@@ -173,9 +173,9 @@ public class JFXApplicationClassHelper {
 				}
 
 			} catch (Exception throwedEvent) {
-				JFXApplicationLogger.getLogger().logError(JFXApplicationHelper.class, throwedEvent,
+				/* JFXApplicationLogger.getLogger().logError(JFXApplicationHelper.class, throwedEvent,
 						" WARNING : Can t find [" + sEnclosureType + ":" + "Object Method[" + sInvokeMethodName
-								+ "]] ... Retry with introspect ...");
+								+ "]] ... Retry with introspect ..."); */
 			}
 
 			// Following should rarely be reached ...

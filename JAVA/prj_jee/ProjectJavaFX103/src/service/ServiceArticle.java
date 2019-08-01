@@ -153,7 +153,14 @@ public class ServiceArticle implements refreshableObject<Article>
 
 	public void search() {
 
-		articleSorted = new SortedList<Article>( (ObservableList<? extends Article>) DaoFactory.getArticleDAO().select(pArticleSearchCriteria));
+		if((articleFiltred == null)) {
+			articleFiltred = (ObservableList<Article>) new ArrayList<Article>();
+		}
+		System.out.println("Result count "+articleFiltred.size());
+		articleFiltred.clear();
+		DaoFactory.getArticleDAO().select(pArticleSearchCriteria);
+		articleFiltred = FXCollections.observableArrayList(pArticleSearchCriteria.getResultArticle());
+		articleSorted = new SortedList<Article>(   articleFiltred);
 		
 	}
 

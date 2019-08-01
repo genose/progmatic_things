@@ -12,6 +12,7 @@ import metier.Fabricant;
 import metier.Marque;
 import metier.Pays;
 import metier.TypeBiere;
+import metier.VolumeBiere;
 
 /**
  * 
@@ -25,7 +26,7 @@ public class ArticleSearch extends Article {
 
 	private NumericRange aNumericRangePrix;
 	private NumericRange aNumericRangeTitrage;
-	private NumericRange aNumericRangeVolume;
+	private ArrayList<VolumeBiere> volumeFiltre;
 	
 	private ArrayList<Couleur> couleurFiltre;
 	private ArrayList<Continent> continentFiltre;
@@ -42,7 +43,7 @@ public class ArticleSearch extends Article {
 		super();
 		aNumericRangePrix = new NumericRange(0, 0);
 		aNumericRangeTitrage = new NumericRange(0, 0);
-		aNumericRangeVolume = new NumericRange(0, 0);
+		volumeFiltre = new ArrayList<>();
 		
 		couleurFiltre =new ArrayList<>();
 		continentFiltre=new ArrayList<>();
@@ -59,7 +60,7 @@ public class ArticleSearch extends Article {
 		super(0, nom);
 		aNumericRangePrix = new NumericRange(0, 0);
 		aNumericRangeTitrage = new NumericRange(0, 0);
-		aNumericRangeVolume = new NumericRange(0, 0);
+		volumeFiltre = new ArrayList<>();
 		couleurFiltre =new ArrayList<>();
 		continentFiltre=new ArrayList<>();
 		paysFiltre=new ArrayList<>();
@@ -107,9 +108,9 @@ public class ArticleSearch extends Article {
 	}
 	
 	
-	public NumericRange getCriteriaVolume() {
+	public ArrayList<VolumeBiere> getCriteriaVolume() {
 
-		return aNumericRangeVolume;
+		return volumeFiltre;
 	}
 	
 	public void setCriteriaPrixRange(NumericRange aRange) {
@@ -122,9 +123,9 @@ public class ArticleSearch extends Article {
 		aNumericRangeTitrage.setMax(aRange.max());
 	}
 	
-	public void setCriteriaVolumeRange(NumericRange aRange) {
-		aNumericRangeVolume.setMin(aRange.min());
-		aNumericRangeVolume.setMax(aRange.max());
+	public void setCriteriaVolume(VolumeBiere aVolume) {
+		volumeFiltre.clear();
+		volumeFiltre.add(aVolume);
 	}
 	
 	public void setCriteriaCouleur(ArrayList<Couleur> aArgList) {
@@ -161,10 +162,12 @@ public class ArticleSearch extends Article {
 	}
 	
 	public void clearCriteria() {
+		nom_article.set("");
 		aNumericRangePrix.setMin(0.0);
 		aNumericRangePrix.setMax(0.0);
 		aNumericRangeTitrage.setMin(0.0);
 		aNumericRangeTitrage.setMax(0.0);
+		volumeFiltre.clear();
 		
 		couleurFiltre.clear();
 		continentFiltre.clear();
@@ -182,18 +185,19 @@ public class ArticleSearch extends Article {
 	
 	public boolean isEmpty() {
 
-		aNumericRangePrix.isEmpty();
-		aNumericRangeTitrage.isEmpty();
+		return nom_article.get().isEmpty() && aNumericRangePrix.isEmpty() &&
+		aNumericRangeTitrage.isEmpty() && 
+		volumeFiltre.isEmpty() &&
 		
-		couleurFiltre.isEmpty();
-		continentFiltre.isEmpty();
-		paysFiltre.isEmpty();
-		marqueFiltre.isEmpty();
-		typeFiltre.isEmpty();
-		fabricantFiltre.isEmpty();
+		couleurFiltre.isEmpty() && 
+		continentFiltre.isEmpty() && 
+		paysFiltre.isEmpty() && 
+		marqueFiltre.isEmpty() && 
+		typeFiltre.isEmpty() && 
+		fabricantFiltre.isEmpty() &&
 		articleFiltre.isEmpty();
 		
-		return false;
+		
 	}
 
 

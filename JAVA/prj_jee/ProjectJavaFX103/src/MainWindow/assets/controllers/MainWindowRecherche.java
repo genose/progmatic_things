@@ -9,6 +9,9 @@ import org.genose.java.implementation.tools.refreshableObject;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
@@ -90,7 +93,7 @@ public class MainWindowRecherche implements refreshableObject<Article> {
 		 * ***************** initialise Event responder on search GUI
 		 * *************************
 		 */
-		
+		refresh();	
 		/* ********************************************************************* */
 		tTextFieldNom.setText("");
 		/* ********************************************************************* */
@@ -112,24 +115,25 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 		 * *****************************************************************************
 		 * ***************
 		 */
-		tComboBoxCouleur.getSelectionModel().selectedItemProperty()
-				.addListener((ObservableValue<? extends Couleur> arg0, Couleur arg1, Couleur arg2) -> {
-
-					if (arg2 == null)
-						return;
-
-					System.out.println(" Values : " + arg2.getClass());
-					System.out.println(" Values : " + arg0);
-					System.out.println(" Values : 1" + arg1);
-					System.out.println(" Values : 2" + arg2);
-
+		tComboBoxCouleur.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (arg0 == null)
+					return;
+				ComboBox<Couleur> aComboBox = (ComboBox<Couleur>)arg0.getSource();
+				Couleur objSelected = aComboBox.getSelectionModel().getSelectedItem();
+				System.out.println(" :: "+objSelected);
+				 
 					aServiceArticle.getArticleSearch().getCriteriaCouleur().clear();
-					aServiceArticle.getArticleSearch().getCriteriaCouleur().add(arg2);
+					aServiceArticle.getArticleSearch().getCriteriaCouleur().add(objSelected);
 					aServiceArticle.search();
-					refresh();
-				});
-		tComboBoxCouleur.getItems().add(0, new Couleur(0, Couleur.sDEFAULTSELECTCOMBOXLIBELLE) );
-		tComboBoxCouleur.getSelectionModel().select(0);
+				 
+		 
+			}
+		});
+		 
+		
 		tComboBoxCouleur.setCellFactory(new Callback<ListView<Couleur>, ListCell<Couleur>>() {
             @Override
             public ListCell<Couleur> call(ListView<Couleur> l){
@@ -167,24 +171,24 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 		 * *****************************************************************************
 		 * ***************
 		 */
-		tComboBoxType.getSelectionModel().selectedItemProperty()
-				.addListener((ObservableValue<? extends TypeBiere> arg0, TypeBiere arg1, TypeBiere arg2) -> {
-
-					if (arg2 == null)
-						return;
-
-					System.out.println(" Values : " + arg2.getClass());
-					System.out.println(" Values : " + arg0);
-					System.out.println(" Values : 1" + arg1);
-					System.out.println(" Values : 2" + arg2);
-
+		tComboBoxType.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (arg0 == null)
+					return;
+				ComboBox<TypeBiere> aComboBox = (ComboBox<TypeBiere>)arg0.getSource();
+				TypeBiere objSelected = aComboBox.getSelectionModel().getSelectedItem();
+				System.out.println(" :: "+objSelected);
+				 
 					aServiceArticle.getArticleSearch().getCriteriaType().clear();
-					aServiceArticle.getArticleSearch().getCriteriaType().add(arg2);
+					aServiceArticle.getArticleSearch().getCriteriaType().add(objSelected);
 					aServiceArticle.search();
-					refresh();
-				});
-		tComboBoxType.getItems().add(0, new TypeBiere(0, TypeBiere.sDEFAULTSELECTCOMBOXLIBELLE) );
-		tComboBoxType.getSelectionModel().select(0);
+		 
+		 
+			}
+		});
+
+
 		tComboBoxType.setCellFactory(new Callback<ListView<TypeBiere>, ListCell<TypeBiere>>() {
             @Override
             public ListCell<TypeBiere> call(ListView<TypeBiere> l){
@@ -222,24 +226,25 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 		 * *****************************************************************************
 		 * ***************
 		 */
-		tComboBoxContinent.getSelectionModel().selectedItemProperty()
-				.addListener((ObservableValue<? extends Continent> arg0, Continent arg1, Continent arg2) -> {
-
-					if (arg2 == null)
-						return;
-
-					System.out.println(" Values : " + arg2.getClass());
-					System.out.println(" Values : " + arg0);
-					System.out.println(" Values : 1" + arg1);
-					System.out.println(" Values : 2" + arg2);
-
+		tComboBoxContinent.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (arg0 == null)
+					return;
+				ComboBox<Continent> aComboBox = (ComboBox<Continent>)arg0.getSource();
+				Continent objSelected = aComboBox.getSelectionModel().getSelectedItem();
+				System.out.println(" :: "+objSelected);
+				 
 					aServiceArticle.getArticleSearch().getCriteriaContinent().clear();
-					aServiceArticle.getArticleSearch().getCriteriaContinent().add(arg2);
+					aServiceArticle.getArticleSearch().getCriteriaContinent().add(objSelected);
 					aServiceArticle.search();
-					refresh();
-				});
-		tComboBoxContinent.getItems().add(0, new Continent(0, Continent.sDEFAULTSELECTCOMBOXLIBELLE) );
-		tComboBoxContinent.getSelectionModel().select(0);
+			 
+		 
+			}
+		});
+
+
 		tComboBoxContinent.setCellFactory(new Callback<ListView<Continent>, ListCell<Continent>>() {
             @Override
             public ListCell<Continent> call(ListView<Continent> l){
@@ -277,25 +282,25 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 		 * *****************************************************************************
 		 * ***************
 		 */
-		tComboBoxPays.getSelectionModel().selectedItemProperty()
-				.addListener((ObservableValue<? extends Pays> arg0, Pays arg1, Pays arg2) -> {
-
-					if (arg2 == null)
-						return;
-
-					System.out.println(" Values : " + arg2.getClass());
-					System.out.println(" Values : " + arg0);
-					System.out.println(" Values : 1" + arg1);
-					System.out.println(" Values : 2" + arg2);
-
+		tComboBoxPays.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (arg0 == null)
+					return;
+				ComboBox<Pays> aComboBox = (ComboBox<Pays>)arg0.getSource();
+				Pays objSelected = aComboBox.getSelectionModel().getSelectedItem();
+				System.out.println(" :: "+objSelected);
+				 
 					aServiceArticle.getArticleSearch().getCriteriaPays().clear();
-					aServiceArticle.getArticleSearch().getCriteriaPays().add(arg2);
+					aServiceArticle.getArticleSearch().getCriteriaPays().add(objSelected);
 					aServiceArticle.search();
-					refresh();
-				});
+			 
+		 
+			}
+		});
 
-		tComboBoxPays.getItems().add(0, new Pays(0, Pays.sDEFAULTSELECTCOMBOXLIBELLE) );
-		tComboBoxPays.getSelectionModel().select(0);
+
 		tComboBoxPays.setCellFactory(new Callback<ListView<Pays>, ListCell<Pays>>() {
             @Override
             public ListCell<Pays> call(ListView<Pays> l){
@@ -334,24 +339,24 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 		 * *****************************************************************************
 		 * ***************
 		 */
-		tComboBoxMarque.getSelectionModel().selectedItemProperty()
-				.addListener((ObservableValue<? extends Marque> arg0, Marque arg1, Marque arg2) -> {
-
-					if (arg2 == null)
-						return;
-
-					System.out.println(" Values : " + arg2.getClass());
-					System.out.println(" Values : " + arg0);
-					System.out.println(" Values : 1" + arg1);
-					System.out.println(" Values : 2" + arg2);
-
+		tComboBoxMarque.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (arg0 == null)
+					return;
+				ComboBox<Marque> aComboBox = (ComboBox<Marque>)arg0.getSource();
+				Marque objSelected = aComboBox.getSelectionModel().getSelectedItem();
+				System.out.println(" :: "+objSelected);
+				 
 					aServiceArticle.getArticleSearch().getCriteriaMarque().clear();
-					aServiceArticle.getArticleSearch().getCriteriaMarque().add(arg2);
+					aServiceArticle.getArticleSearch().getCriteriaMarque().add(objSelected);
 					aServiceArticle.search();
-					refresh();
-				});
-		tComboBoxMarque.getItems().add(0, new Marque(0, Marque.sDEFAULTSELECTCOMBOXLIBELLE) );
-		tComboBoxMarque.getSelectionModel().select(0);
+			 
+		 
+			}
+		});
+
 		tComboBoxMarque.setCellFactory(new Callback<ListView<Marque>, ListCell<Marque>>() {
             @Override
             public ListCell<Marque> call(ListView<Marque> l){
@@ -389,24 +394,23 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 		 * *****************************************************************************
 		 * ***************
 		 */
-		tComboBoxFabricant.getSelectionModel().selectedItemProperty()
-				.addListener((ObservableValue<? extends Fabricant> arg0, Fabricant arg1, Fabricant arg2) -> {
-
-					if (arg2 == null)
-						return;
-
-					System.out.println(" Values : " + arg2.getClass());
-					System.out.println(" Values : " + arg0);
-					System.out.println(" Values : 1" + arg1);
-					System.out.println(" Values : 2" + arg2);
-
+		tComboBoxFabricant.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (arg0 == null)
+					return;
+				ComboBox<Fabricant> aComboBox = (ComboBox<Fabricant>)arg0.getSource();
+				Fabricant objSelected = aComboBox.getSelectionModel().getSelectedItem();
+				System.out.println(" :: "+objSelected);
+				 
 					aServiceArticle.getArticleSearch().getCriteriaFabricant().clear();
-					aServiceArticle.getArticleSearch().getCriteriaFabricant().add(arg2);
+					aServiceArticle.getArticleSearch().getCriteriaFabricant().add(objSelected);
 					aServiceArticle.search();
-					refresh();
-				});
-		tComboBoxFabricant.getItems().add(0, new Fabricant(0, Fabricant.sDEFAULTSELECTCOMBOXLIBELLE) );
-		tComboBoxFabricant.getSelectionModel().select(0);
+					 
+		 
+			}
+		});
 		tComboBoxFabricant.setCellFactory(new Callback<ListView<Fabricant>, ListCell<Fabricant>>() {
             @Override
             public ListCell<Fabricant> call(ListView<Fabricant> l){
@@ -440,7 +444,7 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
             }
         });
         /* ********************************************************************* */
-		refresh();
+
 	}
 
 	@Override
@@ -456,14 +460,22 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 		tComboBoxFabricant.valueProperty().setValue(null);
 
 		/* ***************************************************************** */
+		
 		tComboBoxCouleur.setItems(aServiceArticle.getCouleurFiltre());
+		tComboBoxCouleur.getSelectionModel().selectFirst();
+		
 		tComboBoxType.setItems(aServiceArticle.getTypeFiltre());
+		tComboBoxCouleur.getSelectionModel().selectFirst();
 
 		tComboBoxContinent.setItems(aServiceArticle.getContinentFiltre());
+		tComboBoxCouleur.getSelectionModel().selectFirst();
 		tComboBoxPays.setItems(aServiceArticle.getPaysFiltre());
+		tComboBoxCouleur.getSelectionModel().selectFirst();
 
 		tComboBoxMarque.setItems(aServiceArticle.getMarqueFiltre());
+		tComboBoxCouleur.getSelectionModel().selectFirst();
 		tComboBoxFabricant.setItems(aServiceArticle.getFabricantFiltre());
+		tComboBoxCouleur.getSelectionModel().selectFirst();
 
 		/* ***************************************************************** */
 		tSliderRangePrix.setMin(aServiceArticle.getPrixFiltre().min());
@@ -473,7 +485,7 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 		tSliderRangeTitrage.setMax(aServiceArticle.getTitrageFiltre().max());
 
 		/* ***************************************************************** */
-
+/* 
 		tComboBoxCouleur.getItems().add(0, new Couleur(0, "Couleur"));
 		tComboBoxType.getItems().add(0, new TypeBiere(0, "Type"));
 
@@ -482,6 +494,7 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 
 		tComboBoxMarque.getItems().add(0, new Marque(0, "Marque"));
 		tComboBoxFabricant.getItems().add(0, new Fabricant(0, "Fabricant"));
+		*/
 
 		/* ***************************************************************** */
 

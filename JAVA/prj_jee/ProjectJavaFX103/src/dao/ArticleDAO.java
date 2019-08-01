@@ -8,11 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 
 import dao.objectInterface.DAO;
+import dao.objectInterface.DAOObject;
 import metier.Article;
 import metier.Continent;
 import metier.Couleur;
@@ -20,6 +23,7 @@ import metier.Fabricant;
 import metier.Marque;
 import metier.Pays;
 import metier.TypeBiere;
+import metier.VolumeBiere;
 import service.ArticleSearch;
 
 public class ArticleDAO extends DAO<Article> {
@@ -223,34 +227,64 @@ public class ArticleDAO extends DAO<Article> {
 
 		String strCmd = "{call sp_ArticleQBE(?, ?, ?, ?, ?, ?, ?, ?,?,?,?) } ";
 		try (CallableStatement cStmt = connexion.prepareCall(strCmd)) {
-
-			setOrNull(cStmt, 1, obj.getLibelle());
+			HashMap<String, String> aMappingForJSON = new HashMap<>();
+			setOrNull(cStmt, 1, obj.getId());
 			// ******************************************
 			setOrNull(cStmt, 2, obj.getLibelle());
 			// ******************************************
 			setOrNull(cStmt, 3, obj.getCriteriaPrixRange());
 			// ******************************************
-			setOrNull(cStmt, 4, obj.getCriteriaVolume());
+			aMappingForJSON.clear();
+			aMappingForJSON.put(VolumeBiere.fieldID, VolumeBiere.accessorFieldID);
+			aMappingForJSON.put(VolumeBiere.fieldLibelle, VolumeBiere.accessorFieldLibelle);
+			
+			setOrNull(cStmt, 4, obj.getCriteriaVolume(), aMappingForJSON);
 			// ******************************************
-			setOrNull(cStmt, 5, obj.getTitrage());
+			setOrNull(cStmt, 5, obj.getCriteriaTitrageRange());
 			// ******************************************
 			// Objects.requireNonNull(obj.getCouleur(), sERRMESSAGEDAO_PARAM);
-			setOrNull(cStmt, 6, obj.getCriteriaCouleur());
+			aMappingForJSON.clear();
+			aMappingForJSON.put(Couleur.fieldID, Couleur.accessorFieldID);
+			aMappingForJSON.put(Couleur.fieldLibelle, Couleur.accessorFieldLibelle);
+			
+			setOrNull(cStmt, 6, obj.getCriteriaCouleur(),aMappingForJSON);
 			// ******************************************
 			// Objects.requireNonNull(obj.getType(), sERRMESSAGEDAO_PARAM);
-			setOrNull(cStmt, 7, obj.getCriteriaType());
+			aMappingForJSON.clear();
+			aMappingForJSON.put(TypeBiere.fieldID, TypeBiere.accessorFieldID);
+			aMappingForJSON.put(TypeBiere.fieldLibelle, TypeBiere.accessorFieldLibelle);
+			
+			setOrNull(cStmt, 7, obj.getCriteriaType(),aMappingForJSON);
 			// ******************************************
-			// Objects.requireNonNull(obj.getMarque(), sERRMESSAGEDAO_PARAM);
-			setOrNull(cStmt, 8, obj.getCriteriaMarque());
+			aMappingForJSON.clear();
+			aMappingForJSON.put(Marque.fieldID, Marque.accessorFieldID);
+			aMappingForJSON.put(Marque.fieldLibelle, Marque.accessorFieldLibelle);
+			
+			setOrNull(cStmt, 8, obj.getCriteriaMarque(), aMappingForJSON);
 			// ******************************************
-			setOrNull(cStmt, 9, obj.getCriteriaFabricant()());
+			aMappingForJSON.clear();
+			aMappingForJSON.put(Fabricant.fieldID, Fabricant.accessorFieldID);
+			aMappingForJSON.put(Fabricant.fieldLibelle, Fabricant.accessorFieldLibelle);
+			
+			setOrNull(cStmt, 9, obj.getCriteriaFabricant(), aMappingForJSON);
 			// ******************************************
-			// ******************************************
-			setOrNull(cStmt, 10, obj.getCriteriaPays());
-			setOrNull(cStmt, 11, obj.getCriteriaContinent());
+			aMappingForJSON.clear();
+			aMappingForJSON.put(Pays.fieldID, Pays.accessorFieldID);
+			aMappingForJSON.put(Pays.fieldLibelle, Pays.accessorFieldLibelle);
+			
+			setOrNull(cStmt, 10, obj.getCriteriaPays(), aMappingForJSON);
+			// ******************************************	
+		
+			aMappingForJSON.clear();
+			aMappingForJSON.put(Continent.fieldID, Continent.accessorFieldID);
+			aMappingForJSON.put(Continent.fieldLibelle, Continent.accessorFieldLibelle);
+			
+			setOrNull(cStmt, 11, obj.getCriteriaContinent(), aMappingForJSON);
 			// ******************************************
 
 			rs = cStmt.executeQuery();
+			obj.getResultArticle().clear();
+			
 			if (rs.next()) {
 				do {
 					Article aResult = new Article();
@@ -279,6 +313,8 @@ public class ArticleDAO extends DAO<Article> {
 
 					obj.getResultArticle().add(aResult);
 				} while (rs.next());
+			}else {
+				System.out.println(" no resultset ... ");
 			}
 
 		} catch (Exception e) {

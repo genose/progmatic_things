@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org_genose_java_implementation"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JAVAFX12Libs">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -18,5 +17,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="mssql-jdbc-7.2.2.jre11.jar"/>
+	<classpathentry kind="lib" path="/org_genose_java_implementation/src/org.json.jar"/>
+	<classpathentry kind="lib" path="/org_genose_java_implementation/org.genose.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

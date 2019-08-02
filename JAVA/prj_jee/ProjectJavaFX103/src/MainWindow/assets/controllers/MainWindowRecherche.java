@@ -123,6 +123,7 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 					return;
 				ComboBox<Couleur> aComboBox = (ComboBox<Couleur>)arg0.getSource();
 				Couleur objSelected = aComboBox.getSelectionModel().getSelectedItem();
+				if(objSelected == null )return;
 				System.out.println(" :: "+objSelected);
 				 
 					aServiceArticle.getArticleSearch().getCriteriaCouleur().clear();
@@ -178,6 +179,7 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 					return;
 				ComboBox<TypeBiere> aComboBox = (ComboBox<TypeBiere>)arg0.getSource();
 				TypeBiere objSelected = aComboBox.getSelectionModel().getSelectedItem();
+				if(objSelected == null )return;
 				System.out.println(" :: "+objSelected);
 				 
 					aServiceArticle.getArticleSearch().getCriteriaType().clear();
@@ -234,6 +236,7 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 					return;
 				ComboBox<Continent> aComboBox = (ComboBox<Continent>)arg0.getSource();
 				Continent objSelected = aComboBox.getSelectionModel().getSelectedItem();
+				if(objSelected == null )return;
 				System.out.println(" :: "+objSelected);
 				 
 					aServiceArticle.getArticleSearch().getCriteriaContinent().clear();
@@ -290,6 +293,7 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 					return;
 				ComboBox<Pays> aComboBox = (ComboBox<Pays>)arg0.getSource();
 				Pays objSelected = aComboBox.getSelectionModel().getSelectedItem();
+				if(objSelected == null )return;
 				System.out.println(" :: "+objSelected);
 				 
 					aServiceArticle.getArticleSearch().getCriteriaPays().clear();
@@ -347,6 +351,7 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 					return;
 				ComboBox<Marque> aComboBox = (ComboBox<Marque>)arg0.getSource();
 				Marque objSelected = aComboBox.getSelectionModel().getSelectedItem();
+				if(objSelected == null )return;
 				System.out.println(" :: "+objSelected);
 				 
 					aServiceArticle.getArticleSearch().getCriteriaMarque().clear();
@@ -402,6 +407,7 @@ tTextFieldRangeTitrage.setText( String.format("%5.02f-%5.02f", tSliderRangeTitra
 					return;
 				ComboBox<Fabricant> aComboBox = (ComboBox<Fabricant>)arg0.getSource();
 				Fabricant objSelected = aComboBox.getSelectionModel().getSelectedItem();
+				if(objSelected == null )return;
 				System.out.println(" :: "+objSelected);
 				 
 					aServiceArticle.getArticleSearch().getCriteriaFabricant().clear();

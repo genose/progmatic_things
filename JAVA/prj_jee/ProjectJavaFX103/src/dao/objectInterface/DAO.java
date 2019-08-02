@@ -111,8 +111,7 @@ public abstract class DAO<T> {
 	public boolean setOrNull(PreparedStatement aStatementArg, int iArgFieldPosition, ArrayList<?> aValue,
 			Map<String, String> argJSONMethodMapping) {
 		try {
-		 
-		 
+
 			if ((aValue == null) || (aValue.isEmpty())) {
 
 				aStatementArg.setNull(iArgFieldPosition, Types.VARCHAR);
@@ -126,17 +125,28 @@ public abstract class DAO<T> {
 						String aKeyForJSON = entry.getKey();
 						String aObjectMethodName = entry.getValue();
 						if (JFXApplicationClassHelper.respondsTo(aObjectValue, aObjectMethodName)) {
-
-							aValueForJSON.append(aKeyForJSON,
-									JFXApplicationClassHelper.invokeMethod(aObjectValue, aObjectMethodName));
+							Object aObjectInnerValue = JFXApplicationClassHelper.invokeMethod(aObjectValue,
+									aObjectMethodName);
+							if (aObjectInnerValue != null ) {
+								if (aObjectInnerValue.getClass() .equals(Integer.class.getClass())) {
+									aValueForJSON.append(aKeyForJSON,((Integer) aObjectInnerValue).intValue());
+								}else if (
+										aObjectInnerValue.getClass() .equals(Double.class.getClass()) ||
+										aObjectInnerValue.getClass() .equals(Float.class.getClass())
+										) {
+									aValueForJSON.append(aKeyForJSON,((Double) aObjectInnerValue).doubleValue());
+								}else {
+									aValueForJSON.append(aKeyForJSON,aObjectInnerValue);
+								}
+							}
 						}
 					}
 					aJSONarrayRepresentation.put(aValueForJSON);
 				}
 
-				System.out.println(" JSON Criteria ::  " +aJSONarrayRepresentation.toString());
+				System.out.println(" JSON Criteria ::  " + aJSONarrayRepresentation.toString());
 				aStatementArg.setString(iArgFieldPosition, aJSONarrayRepresentation.toString());
-			} 
+			}
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -152,7 +162,14 @@ public abstract class DAO<T> {
 				aStatementArg.setNull(iArgFieldPosition, Types.VARCHAR);
 
 			} else {
-				aStatementArg.setString(iArgFieldPosition, String.format("%s;%s", aValue.min(), aValue.max()));
+
+				JSONArray aJSONarrayRepresentation = new JSONArray();
+				JSONObject aValueForJSON = new JSONObject();
+				aValueForJSON.append("min", aValue.min());
+				aValueForJSON.append("max", aValue.max());
+
+				aJSONarrayRepresentation.put(aValueForJSON);
+				aStatementArg.setString(iArgFieldPosition, aJSONarrayRepresentation.toString());
 			}
 			return true;
 

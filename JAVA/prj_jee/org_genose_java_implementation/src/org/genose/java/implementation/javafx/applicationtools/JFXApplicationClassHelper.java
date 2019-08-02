@@ -51,10 +51,10 @@ public class JFXApplicationClassHelper {
 				int iStringCompare = String.valueOf(sCurrentFoundMethod).compareToIgnoreCase(aMethodName);
 				if (iStringCompare == 0) {
 					bMethodCanReachObject =  aDeclaredMethod[i].canAccess(aObjectToTest);
-					JFXApplicationLogger.getLogger().logInfo("[Object ("+aObjectToTest+")%n findind ("+aMethodName+") %nrespondsTo Got list %n(" + Arrays.toString(aDeclaredMethod).replaceAll(",", "\n") + ")]");
+				//	JFXApplicationLogger.getLogger().logInfo("[Object ("+aObjectToTest+")%n findind ("+aMethodName+") %nrespondsTo Got list %n(" + Arrays.toString(aDeclaredMethod).replaceAll(",", "\n") + ")]");
 					
 					
-					JFXApplicationLogger.getLogger().logInfo("[Object  ("+aObjectToTest+") %n respondsTo (" + aMethodName + ")] %n canAccess : "+bMethodCanReachObject);
+				//	JFXApplicationLogger.getLogger().logInfo("[Object  ("+aObjectToTest+") %n respondsTo (" + aMethodName + ")] %n canAccess : "+bMethodCanReachObject);
 					
 					if (!bMethodCanReachObject) {
 						JFXApplicationLogger.getLogger().logError(JFXApplicationClassHelper.class,

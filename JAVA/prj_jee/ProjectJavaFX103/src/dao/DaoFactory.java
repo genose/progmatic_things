@@ -12,7 +12,6 @@ import dao.PaysDAO;
 import dao.SDBMConnect;
 import dao.TypeBiereDAO;
 
-public class DaoFactory
 public class DaoFactory implements DAOProvider
 {
 	private static final Connection aConnexion = SDBMConnect.getConnexion();

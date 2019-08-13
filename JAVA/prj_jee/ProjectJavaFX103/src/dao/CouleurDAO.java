@@ -248,13 +248,13 @@ public class CouleurDAO extends DAO<Couleur> {
 				"Connection au server " + String.valueOf(SDBMConnect.getsConnectionHost()));
 		System.out.println(" Result : " + aBDDConnexion);
 
-		CouleurDAO aCouleurDAOTest = new CouleurDAO(aBDDConnexion.getInstance());
+		CouleurDAO aCouleurDAOTest = new CouleurDAO(aBDDConnexion.getConnexion());
 
 		Couleur aCouleur = new Couleur(0, "lon");
 		ArrayList<Couleur> aCouleurList = aCouleurDAOTest.select(aCouleur);
-		if (aCouleurList.isEmpty())
+		if (aCouleurList.isEmpty()) {
 			System.out.println("Aucune couleur trouve pour (" + aCouleur + ")");
-		else {
+		}else {
 			for (Couleur aCouleur1 : aCouleurList) {
 				System.out.println(" Couleur : " + aCouleur1.getLibelle());
 			}

@@ -7,10 +7,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
+import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationDialog;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -20,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
@@ -140,6 +143,7 @@ public class JFXApplicationException extends Exception {
 				JFXApplicationLogger.getLogger().logError(JFXApplicationException.class, throwedEvent, "Error while finding to forward error to frontend ...");
 
 				JFXApplicationException.aFatalErrorAlert = new Alert(AlertType.CONFIRMATION);
+				/* ******** 
 				javafx.scene.control.Button aButton = new javafx.scene.control.Button();
 
 				Stage aStageForError = new Stage(StageStyle.UNDECORATED);
@@ -168,7 +172,9 @@ public class JFXApplicationException extends Exception {
 				aStageForError.setTitle("JavaFX Error Alert (o7planning.org)");
 				aStageForError.setScene(scene);
 
-				// aStageForError.show();
+				 aStageForError.show();
+				 
+				 ******** */
 				/* ********************************* */
 				/* ********************************* */
 				/* ********************************* */
@@ -195,11 +201,28 @@ public class JFXApplicationException extends Exception {
 				aFatalErrorAlert.getDialogPane().setContent(dialogPaneContent);
 				aFatalErrorAlert.getDialogPane().setContentText("Text ...");
 
-				aFatalErrorAlert.showAndWait();
-
+				Optional<ButtonType> aOptionButtonSelected = aFatalErrorAlert.showAndWait();
+				
+				System.out.println(JFXApplicationException.class.getSimpleName()+" raisetofront : return : " + aOptionButtonSelected);
+				
 				JFXApplicationException.aFatalErrorAlert = null;
 
-				if (bFatalQuit) {
+				if(!aOptionButtonSelected.isEmpty()) {
+					if(aOptionButtonSelected.get() == ButtonType.OK) {
+						if (bFatalQuit) {
+							JFXApplicationDialog.showAlertDialog("Unrecoverable Error ... QUIT ");
+							JFXApplication.notityDramaticQuit();
+						}
+					}else if(aOptionButtonSelected.get() == ButtonType.CANCEL) {
+						if(JFXApplicationDialog.showConfirmDialog("Unrecoverable Error ... Should QUIT ")) {
+							JFXApplication.notityDramaticQuit();
+						}
+						
+					}
+				}else if (bFatalQuit) {
+					JFXApplicationDialog.showAlertDialog("Unrecoverable Error ... QUIT ");
+					JFXApplication.notityDramaticQuit();
+				}else if(JFXApplicationDialog.showConfirmDialog("Unrecoverable Error ... Should QUIT ")) {
 					JFXApplication.notityDramaticQuit();
 				}
 			} else {

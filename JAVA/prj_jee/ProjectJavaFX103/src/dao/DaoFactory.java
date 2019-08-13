@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.util.Objects;
 
 import dao.ArticleDAO;
 import dao.ContinentDAO;
@@ -12,42 +13,49 @@ import dao.SDBMConnect;
 import dao.TypeBiereDAO;
 
 public class DaoFactory
+public class DaoFactory implements DAOProvider
 {
-	private static final Connection connexion = SDBMConnect.getInstance();
+	private static final Connection aConnexion = SDBMConnect.getConnexion();
 
 	public static ContinentDAO getContinentDAO()
 	{
-		return new ContinentDAO(connexion);
+		Objects.requireNonNull(aConnexion, sERRMESSAGEDAONULLCONNECT);
+		return new ContinentDAO(aConnexion);
 	}
 
 	public static CouleurDAO getCouleurDAO()
 	{
-		return new CouleurDAO(connexion);
+		Objects.requireNonNull(aConnexion, sERRMESSAGEDAONULLCONNECT);
+		return new CouleurDAO(aConnexion);
 	}
 
 	public static PaysDAO getPaysDAO()
 	{
-		return new PaysDAO(connexion);
+		Objects.requireNonNull(aConnexion, sERRMESSAGEDAONULLCONNECT);
+		return new PaysDAO(aConnexion);
 	}
 
 	public static TypeBiereDAO getTypeDAO()
 	{
-		return new TypeBiereDAO(connexion);
+		Objects.requireNonNull(aConnexion, sERRMESSAGEDAONULLCONNECT);
+		return new TypeBiereDAO(aConnexion);
 	}
 
 	public static MarqueDAO getMarqueDAO()
 	{
-		return new MarqueDAO(connexion);
+		return new MarqueDAO(aConnexion);
 	}
 
 	public static FabricantDAO getFabricantDAO()
 	{
-		return new FabricantDAO(connexion);
+		Objects.requireNonNull(aConnexion, sERRMESSAGEDAONULLCONNECT);
+		return new FabricantDAO(aConnexion);
 	}
 	
 	public static ArticleDAO getArticleDAO()
 	{
-		return new ArticleDAO(connexion);
+		Objects.requireNonNull(aConnexion, sERRMESSAGEDAONULLCONNECT);
+		return new ArticleDAO(aConnexion);
 	}
 
 }

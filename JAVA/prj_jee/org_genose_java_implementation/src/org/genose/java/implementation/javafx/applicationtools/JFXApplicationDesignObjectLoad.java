@@ -36,7 +36,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 		Object oFXMLRootNode = null;
 		Object aParentRootNode = null;
 		Object aController = null;
-		
+
 		JFXApplicationScene aSceneNode = null;
 
 		Class aClassReference = JFXApplication.getJFXApplicationSingleton().getClass();
@@ -141,7 +141,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 			try {
 				URL aUrlRequestedDesignPath = aClassReference.getResource(sRequestedSceneFile);
 				if (aUrlRequestedDesignPath != null) {
-					System.out.println(" Try Loading : "+aUrlRequestedDesignPath);
+					System.out.println(" Try Loading : " + aUrlRequestedDesignPath);
 					aRootNodeLoader = new FXMLLoader(aUrlRequestedDesignPath);
 
 					oFXMLRootNode = aRootNodeLoader.getRoot();
@@ -151,17 +151,16 @@ public abstract interface JFXApplicationDesignObjectLoad {
 
 						aController = aRootNodeLoader.getController();
 						if (aController == null) {
-							System.out.println(" Root Controller is Null  or Dynamic root ..."); 
+							System.out.println(" Root Controller is Null  or Dynamic root ...");
 						}
 					}
-					
-					
+
 					aRootNode = aRootNodeLoader.load();
 
 				} else {
 					throw new JFXApplicationException(" can't find / load " + sRequestedSceneFile);
 				}
-
+				/* **************************************** */
 				if (aRootNode != null) {
 
 					Object oControllerView = aRootNodeLoader.getController();
@@ -203,10 +202,11 @@ public abstract interface JFXApplicationDesignObjectLoad {
 
 			} catch (Exception evERRLOADFXML) {
 				String sFormattedErrorCause = String.format(
-						"Unable to load requested file (%s : %s : %s) %n ;; cause of returned error ", argModuleName, argModuleNameFile, sRequestedSceneFile);
-				 
+						"Unable to load requested file (%s : %s : %s) %n ;; cause of returned error ", argModuleName,
+						argModuleNameFile, sRequestedSceneFile);
+
 				JFXApplicationException.raiseToFront(JFXApplicationScene.class, evERRLOADFXML, true);
-				throw new JFXApplicationException( evERRLOADFXML);
+				throw new JFXApplicationException(evERRLOADFXML);
 			}
 
 		} else {

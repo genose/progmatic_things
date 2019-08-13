@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.tools.NumericRange;
 import org.genose.java.implementation.tools.refreshableObject;
 
@@ -93,9 +94,10 @@ public class ServiceArticle implements refreshableObject<Article>
 			
 			articleSorted = new SortedList<Article>(getArticleFiltred());
 			
-		} catch (Exception e) {
+		} catch (Exception evERRLOADSERVICEARTICLE) {
 
-			e.printStackTrace();
+			evERRLOADSERVICEARTICLE.printStackTrace();
+			JFXApplicationException.raiseToFront(this.getClass(), evERRLOADSERVICEARTICLE, true);
 		}
 	}
 

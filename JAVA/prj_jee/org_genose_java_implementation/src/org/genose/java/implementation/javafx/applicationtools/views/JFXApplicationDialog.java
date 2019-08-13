@@ -19,16 +19,16 @@ public class JFXApplicationDialog {
 
 	public static boolean showConfirmDialog(String sMessage) {
 		Boolean bReturnValue = false;
-		Alert aArticleDialogAlert = new Alert(AlertType.CONFIRMATION);
+		Alert aModalDialogAlert = new Alert(AlertType.CONFIRMATION);
 
-		aArticleDialogAlert.setTitle("Attention ...");
-		aArticleDialogAlert.setHeaderText("Confirmer ");
-		aArticleDialogAlert.setContentText(sMessage);
+		aModalDialogAlert.setTitle("Attention ...");
+		aModalDialogAlert.setHeaderText("Confirmer ");
+		aModalDialogAlert.setContentText(sMessage);
 
 		// Set content for Dialog Pane
-		aArticleDialogAlert.getDialogPane().setContentText(sMessage);
+		aModalDialogAlert.getDialogPane().setContentText(sMessage);
 
-		Optional<ButtonType> aOptionButtonSelected = aArticleDialogAlert.showAndWait();
+		Optional<ButtonType> aOptionButtonSelected = aModalDialogAlert.showAndWait();
 
 		if(!aOptionButtonSelected.isEmpty()) {
 			bReturnValue = 	(aOptionButtonSelected.get() == ButtonType.OK) ;

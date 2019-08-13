@@ -5,14 +5,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Objects;
 
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
+
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 
-public class SDBMConnect {
+public class SDBMConnect implements DAOProvider {
 	// Declare the JDBC objects.
-	private static Connection connexion = null;
+	private static Connection aLServerConnexion = null;
+	private static SDBMConnect aServerInstanceConnexion = null;
 	private static String sConnectionHost = null;
-	public final String sERRMESSAGEDAO = "ERROR : Impossible d'utiliser une connexion NULL ";
-
+	
 	public SDBMConnect() {
 		try {
 			sConnectionHost = java.net.InetAddress.getLocalHost().getHostName();
@@ -36,35 +38,39 @@ public class SDBMConnect {
 			ds.setUser("javasdbm");
 
 			ds.setPassword("javasdbm");
-
-			connexion = ds.getConnection();
-			Objects.requireNonNull(connexion, sERRMESSAGEDAO);
+			aServerInstanceConnexion = this;
+			
+			aServerInstanceConnexion.aLServerConnexion = ds.getConnection();
+			Objects.requireNonNull(aLServerConnexion, sERRMESSAGEDAONULLCONNECT);
+			
 		}
 
 		// Handle any errors that may have occurred.
-		catch (Exception e) {
-			e.printStackTrace();
+		catch (Exception evERRSDBDCONNECTION) {
+			evERRSDBDCONNECTION.printStackTrace();
+			JFXApplicationException.raiseToFront(aServerInstanceConnexion.getClass(), evERRSDBDCONNECTION, true);
 		}
 	}
 
-	public static synchronized Connection getInstance() {
-		if (connexion == null)
-			new SDBMConnect();
-		return connexion;
+	public static synchronized SDBMConnect getInstance() {
+		if (aServerInstanceConnexion == null)
+			aServerInstanceConnexion = new SDBMConnect();
+		
+		return aServerInstanceConnexion;
 	}
 
 	/**
 	 * @return the connexion
 	 */
 	public static Connection getConnexion() {
-		return connexion;
+		return (aServerInstanceConnexion.getInstance()).aLServerConnexion;
 	}
 
 	/**
 	 * @param connexion the connexion to set
 	 */
 	public static void setConnexion(Connection connexion) {
-		SDBMConnect.connexion = connexion;
+		(aServerInstanceConnexion.getInstance()).aLServerConnexion = connexion;
 	}
 
 	/**
@@ -78,7 +84,7 @@ public class SDBMConnect {
 	 * @param sConnectionHost the sConnectionHost to set
 	 */
 	public static void setsConnectionHost(String sConnectionHost) {
-		SDBMConnect.sConnectionHost = sConnectionHost;
+		(aServerInstanceConnexion.getInstance()).sConnectionHost = sConnectionHost;
 	}
 
 	public static void main(String[] args) {
@@ -89,7 +95,7 @@ public class SDBMConnect {
 			Objects.requireNonNull(aBDDConnexion,
 					"Connection au server " + String.valueOf(SDBMConnect.sConnectionHost));
 			System.out.println(" Result : " + aBDDConnexion);
-			Connection aServerConnexion = aBDDConnexion.getInstance();
+			Connection aServerConnexion = aBDDConnexion.getConnexion();
 			System.out.println("Closed  ? " + aServerConnexion.isClosed());
 			aServerConnexion.close();
 		} catch (SQLException e) {

@@ -3,6 +3,17 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ProjectJavaFX_102" />
+        <module name="org.genose.java.implementation" />
+      </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="org.genose.java.implementation" target="12" />
+      <module name="ProjectJavaFX_102" target="12" />
+    </bytecodeTargetLevel>
   </component>
 </project>

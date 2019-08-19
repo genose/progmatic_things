@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" build-on-make="true" name="ProjectJavaFX_102">
+    <output-path>$PROJECT_DIR$/classes/artifacts/ProjectJavaFX_102</output-path>
+    <root id="root">
+      <element id="archive" name="ProjectJavaFX_102.jar">
+        <element id="module-output" name="ProjectJavaFX_102" />
+      </element>
+    </root>
+  </artifact>
+</component>

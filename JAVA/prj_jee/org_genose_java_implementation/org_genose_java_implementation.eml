@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component jdk="12.2" jdk_type="JavaSDK">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<excludeFolder url="file://$MODULE_DIR$/.refactorings"/>
+		<excludeFolder url="file://$MODULE_DIR$/bin/dummypackage"/>
+		<excludeFolder url="file://$MODULE_DIR$/bin/org"/>
+		<excludeFolder url="file://$MODULE_DIR$/src"/>
+	</contentEntry>
+	<lib name="org.json.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/src/org.json.jar!/"/>
+	</lib>
+</component>

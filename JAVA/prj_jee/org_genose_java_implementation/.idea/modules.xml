@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ProjectJavaFX_102.iml" filepath="$PROJECT_DIR$/ProjectJavaFX_102.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/org_genose_java_implementation.iml" filepath="$PROJECT_DIR$/.idea/org_genose_java_implementation.iml" />
     </modules>
   </component>
 </project>

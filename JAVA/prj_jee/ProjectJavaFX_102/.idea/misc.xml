@@ -4,7 +4,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/../org_genose_java_implementation/pom.xml" />
       </list>
     </option>
   </component>

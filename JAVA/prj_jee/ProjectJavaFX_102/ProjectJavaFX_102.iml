@@ -20,15 +20,14 @@
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="module" module-name="org.genose.java.implementation" exported="" />
-    <orderEntry type="library" exported="" name="Maven: org.json:json:20190722" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.openjfx:javafx-controls:12.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.openjfx:javafx-controls:win:12.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.openjfx:javafx-graphics:12.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.openjfx:javafx-graphics:win:12.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.openjfx:javafx-base:12.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.openjfx:javafx-base:win:12.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.openjfx:javafx-fxml:12.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.openjfx:javafx-fxml:win:12.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.genose.java:org.genose.java.implementation:1.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:12.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:12.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:12.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:12.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:12.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:12.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:12.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:12.0.2" level="project" />
   </component>
 </module>

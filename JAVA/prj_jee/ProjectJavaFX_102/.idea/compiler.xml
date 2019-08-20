@@ -8,7 +8,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ProjectJavaFX_102" />
-        <module name="org.genose.java.implementation" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

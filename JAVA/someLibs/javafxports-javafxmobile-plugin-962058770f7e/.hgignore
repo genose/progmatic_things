@@ -1,0 +1,6 @@
+syntax: glob
+
+.gradle
+build
+.nb-gradle
+.idea

@@ -1,0 +1,89 @@
+plugins {
+    id 'com.gradle.build-scan' version '2.1'
+    id 'java-gradle-plugin'
+    id 'com.github.hierynomus.license' version '0.15.0'
+    id 'com.gradle.plugin-publish' version '0.10.0'
+    id 'com.github.ben-manes.versions' version '0.20.0'
+    id 'maven-publish'
+}
+
+buildScan {
+    termsOfServiceUrl   = 'https://gradle.com/terms-of-service'
+    termsOfServiceAgree = 'yes'
+}
+
+group 'org.openjfx'
+version '0.0.9-SNAPSHOT'
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+repositories {
+    google()
+    mavenCentral()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+}
+
+dependencies {
+    implementation gradleApi()
+
+    implementation 'com.google.gradle:osdetector-gradle-plugin:1.6.1'
+    implementation 'org.javamodularity:moduleplugin:1.5.0'
+
+    testImplementation gradleTestKit()
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+gradlePlugin {
+    plugins {
+        javafxPlugin {
+            id = 'org.openjfx.javafxplugin'
+            displayName = 'JavaFX Gradle Plugin'
+            description = 'Plugin that makes it easy to work with JavaFX'
+            implementationClass = 'org.openjfx.gradle.JavaFXPlugin'
+        }
+    }
+}
+
+pluginBundle {
+    website = 'https://github.com/openjfx/javafx-gradle-plugin'
+    vcsUrl = 'https://github.com/openjfx/javafx-gradle-plugin'
+    tags = [ 'java', 'javafx' ]
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = project.group
+            artifactId = 'javafx-gradle-plugin'
+            version = project.version
+
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            if (project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')) {
+                credentials {
+                    username project.property('sonatypeUsername')
+                    password project.property('sonatypePassword')
+                }
+                url = "https://oss.sonatype.org/content/repositories/snapshots/"
+            }
+        }
+    }
+}
+
+license {
+    skipExistingHeaders = true
+    mapping {
+        java = 'SLASHSTAR_STYLE'
+    }
+}

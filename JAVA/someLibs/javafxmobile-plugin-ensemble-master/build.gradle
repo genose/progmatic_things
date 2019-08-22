@@ -1,0 +1,27 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+ 
+    dependencies {
+        classpath 'org.javafxports:javafxmobile-plugin:1.0.0-rc1'
+    }
+}
+
+apply plugin: 'javafxmobile'
+
+mainClassName='ensemble.EnsembleApp'
+
+repositories {
+    jcenter()
+}
+
+jfxmobile {
+    ios {
+        forceLinkClasses = ['ensemble.**.*']
+    }
+    android {
+        applicationPackage = 'org.javafxports.ensemble'
+        // manifest = file('src/main/AndroidManifest.xml')
+    }
+}

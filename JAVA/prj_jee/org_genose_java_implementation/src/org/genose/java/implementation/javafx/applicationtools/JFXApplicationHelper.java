@@ -80,7 +80,7 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 			String localPackagePath = String.valueOf(packageNamed);
 			String localRunnablePathRelative = String.valueOf("." + packageNamed).replaceAll("[.]", "*")
 					.replaceAll("[^\\*]", "");
-
+			System.out.println("path :: "+packageNamed+" :: "+localRunnablePathRelative );
 			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\" + systemPathSeparator);
 
 			return localRunnablePathRelative;

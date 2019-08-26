@@ -6,13 +6,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.net.URL;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        URL fileURL = getClass().getResource(getClass().getResource(".")+"/sample.fxml");
+        if(fileURL != null) {
+            Parent root = FXMLLoader.load(fileURL);
+            primaryStage.setTitle("Hello World");
+            primaryStage.setScene(new Scene(root, 300, 275));
+        }else{
+            System.out.println( " Error : file not found ... in "+(getClass().getResource(".")));
+        }
         primaryStage.show();
     }
 

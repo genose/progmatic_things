@@ -2,6 +2,7 @@ package Main;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesignObjectLoad;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
@@ -15,9 +16,10 @@ public class Main extends JFXApplication {
 	public void start(Stage primaryStage) throws Exception {
 		try {
 			super.start(primaryStage);
- 
+ System.out.println("Main :: "+ JFXApplicationHelper.getApplicationBundlePath());
+ System.out.println("path :: "+getClass().getResource("."));
 			JFXApplicationScene  aScene = JFXApplicationDesignObjectLoad.create("MainWindow", null, null);
-			super.setPrimaryScene(aScene);
+			//super.setPrimaryScene(aScene);
 
 			primaryStage.show();
 		} catch (Exception evERRINSTANTIATE) {

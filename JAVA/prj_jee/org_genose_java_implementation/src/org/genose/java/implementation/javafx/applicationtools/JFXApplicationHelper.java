@@ -5,12 +5,14 @@ package org.genose.java.implementation.javafx.applicationtools;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javafx.application.Application;
 import org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlSplitMenuHBox;
 
 import javafx.fxml.FXMLLoader;
@@ -74,22 +76,118 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 	public static String getApplicationBundlePath() {
 		try {
 			Class localClass = JFXApplicationHelper.class.getClass();
-
+			Application refApplication = null;
+			if(JFXApplication.singletonInstanceExists())
+			{
+				refApplication = JFXApplication.getJFXApplicationSingleton();
+				localClass = refApplication.getClass();
+			}
+			System.out.println("Library using Ref class APPMain as JFXApplication::"+String.valueOf(refApplication));
 			String systemPathSeparator = String.valueOf(File.separatorChar);
 			String packageNamed = localClass.getPackageName();
 			String localPackagePath = String.valueOf(packageNamed);
 			String localRunnablePathRelative = String.valueOf("." + packageNamed).replaceAll("[.]", "*")
 					.replaceAll("[^\\*]", "");
-			System.out.println("path :: "+packageNamed+" :: "+localRunnablePathRelative );
+			System.out.println("Librairy path :: "+packageNamed+" :: "+localRunnablePathRelative );
 			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\" + systemPathSeparator);
 
 			return localRunnablePathRelative;
 		} catch (Exception evErrPath) {
-			JFXApplicationLogger.getLogger().logError(JFXApplication.class.getClass(), evErrPath);
+			JFXApplicationLogger.getLogger().logError(JFXApplicationHelper.class.getClass(), evErrPath);
 		}
 		return null;
 	}
 
+	public static String getApplicationRunnablePathAbsolute() {
+
+		String systemPathSeparator = String.valueOf(File.separatorChar);
+		try {
+
+			Class localClass = JFXApplicationHelper.class.getClass();
+			Application refApplication = null;
+			if(JFXApplication.singletonInstanceExists())
+			{
+				refApplication = JFXApplication.getJFXApplicationSingleton();
+				localClass = refApplication.getClass();
+			}
+
+			String packageNamed = localClass.getPackageName();
+			String localPackagePath = String.valueOf(packageNamed);
+
+			String localRunnablePathRelative = String.valueOf(String.valueOf("." + localPackagePath)
+					.replaceAll("[.]", "\\" + systemPathSeparator).replaceAll("[^\\" + systemPathSeparator + "]", ""));
+
+			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\" + systemPathSeparator + "]", "../");
+			URL aUrlClass = localClass.getResource(localRunnablePathRelative);
+
+			if (aUrlClass != null) {
+				return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
+						"/");
+			}else {
+				aUrlClass = localClass.getResource(systemPathSeparator);
+				if (aUrlClass != null) {
+					return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
+							"/");
+				}
+			}
+
+		} catch (Exception evErrPath) {
+			JFXApplicationLogger.getLogger().logError(JFXApplication.class.getClass(), evErrPath);
+		}
+
+		return "/";
+
+	}
+	/**
+	 *
+	 * @param aPath
+	 * @return
+	 */
+	public static boolean applicationPathExist(String aPath) {
+
+		try {
+			File localClassPath = null;
+			if (aPath != null) {
+				Class localClass = JFXApplicationHelper.class.getClass();
+				Application refApplication = null;
+				if(JFXApplication.singletonInstanceExists())
+				{
+					refApplication = JFXApplication.getJFXApplicationSingleton();
+					localClass = refApplication.getClass();
+				}
+
+				System.out.println("Library using Ref class APPMain as JFXApplication::"+String.valueOf(refApplication));
+
+				String sLocalClassPackageName = localClass.getPackageName();
+				Boolean bAnnonPackageName = String.valueOf(sLocalClassPackageName).isEmpty();
+				String systemPathSeparator = String.valueOf(File.separatorChar);
+				localClassPath = new java.io.File(String.valueOf(aPath));
+
+				String documentPath = localClassPath.getAbsolutePath();
+				String documentPathRelative = localClassPath.getPath();
+
+				URL aPathUrl = localClass.getResource(documentPathRelative);
+				URL aPathUrlAlt = localClass.getResource(aPath);
+
+				boolean bPathIsValid = ((aPathUrl != null) && (aPathUrlAlt != null));
+
+				boolean bPathExist = localClassPath.exists();
+				boolean bPathUrlValid = (aPathUrl != null);
+				/*
+				 * JFXApplicationLogger.getLogger().logInfo(null, ((bPathIsValid) ? "" : "Not")
+				 * + " exist :: " + documentPath + " :: ");
+				 */
+				return bPathIsValid;
+
+			}
+		} catch (Exception evERRFILEEXISTS) {
+			JFXApplicationLogger.getLogger().logError(JFXApplication.getJFXApplicationSingleton().getClass(),
+					evERRFILEEXISTS);
+		}
+
+		return false;
+
+	}
 	/**
 	 * @param sApplicationPath
 	 * @param aPathInBundle
@@ -142,7 +240,7 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\" + systemPathSeparator);
 			return localRunnablePathRelative;
 		} catch (Exception evErrPath) {
-			JFXApplicationLogger.getLogger().logError(JFXApplication.class.getClass(), evErrPath);
+			JFXApplicationLogger.getLogger().logError(JFXApplicationHelper.class.getClass(), evErrPath);
 		}
 		return null;
 	}

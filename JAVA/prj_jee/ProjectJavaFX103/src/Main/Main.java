@@ -5,6 +5,7 @@ import org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesi
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
+import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationDialog;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
 import org.json.JSONArray; 
 
@@ -18,7 +19,9 @@ public class Main extends JFXApplication {
 			super.start(primaryStage);
  System.out.println("Main :: "+ JFXApplicationHelper.getApplicationBundlePath());
  System.out.println("path :: "+getClass().getResource("."));
-			JFXApplicationScene  aScene = JFXApplicationDesignObjectLoad.create("MainWindow", null, null);
+
+			JFXApplicationDialog.showAlertDialog("HelloWorld");
+// 			JFXApplicationScene  aScene = JFXApplicationDesignObjectLoad.create("MainWindow", null, null);
 			//super.setPrimaryScene(aScene);
 
 			primaryStage.show();

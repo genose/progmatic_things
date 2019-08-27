@@ -9,26 +9,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationDialog;
 
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.VBox;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+
 
 /**
  * @author 59013-36-18
@@ -142,7 +134,7 @@ public class JFXApplicationException extends Exception {
 				
 				JFXApplicationLogger.getLogger().logError(JFXApplicationException.class, throwedEvent, "Error while finding to forward error to frontend ...");
 
-				JFXApplicationException.aFatalErrorAlert = new Alert(AlertType.CONFIRMATION);
+				JFXApplicationException.aFatalErrorAlert = new Alert(Alert.AlertType.CONFIRMATION);
 				/* ******** 
 				javafx.scene.control.Button aButton = new javafx.scene.control.Button();
 
@@ -228,7 +220,7 @@ public class JFXApplicationException extends Exception {
 			} else {
 
 				JFXApplicationLogger.getLogger().logError(JFXApplicationException.class, aCauseMessage);
-				Platform.exit(); 
+				Platform.exit();
 			}
 		} catch (Exception evERRRAISETOFRONT) {
 			JFXApplicationException aEncapsulatedFatalError = new JFXApplicationException(

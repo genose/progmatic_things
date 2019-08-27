@@ -148,7 +148,10 @@ public class JFXApplication extends Application {
 		singletonInstanceCreate();
 		aLogger = new JFXApplicationLogger(getClass().getName());
 		aExceptionManager = new JFXApplicationException();
-		getLogger().logInfo(getClass(), "was instiated");
+		synchronized (JFXApplication.class){
+			getLogger().logInfo(getClass(), " Application class was instiated as :: "+String.valueOf(pJFXApplicationSingleton.getClass().getName()));
+
+		}
 	}
 
 	/*
@@ -159,13 +162,21 @@ public class JFXApplication extends Application {
 	 */
 	private void singletonInstanceCreate() {
 		synchronized (JFXApplication.class) {
-			if (pJFXApplicationSingleton != null)
-				throw new UnsupportedOperationException(
-						getClass() + " is singleton but constructor called more than once");
+			if (pJFXApplicationSingleton != null) {
+                throw new UnsupportedOperationException(
+                        getClass() + " is singleton but constructor called more than once");
+            }
+
 			pJFXApplicationSingleton = this;
 		}
 	}
 
+	public static synchronized boolean singletonInstanceExists(){
+		synchronized (JFXApplication.class) {
+			return (pJFXApplicationSingleton != null);
+
+		}
+	}
 	/**
 	 * 
 	 */
@@ -192,7 +203,10 @@ public class JFXApplication extends Application {
 	 * @param {{@link javafx.stage}
 	 */
 	public void setPrimaryStage(Stage primaryStage) {
-		singletonInstanceCheck();
+		if(!JFXApplication.singletonInstanceExists()) {
+			singletonInstanceCreate();
+		}
+
 		aPrimaryStage = primaryStage;
 	}
 
@@ -298,37 +312,7 @@ public class JFXApplication extends Application {
 	 */
 	public static String getApplicationRunnablePathAbsolute() {
 		singletonInstanceCheck();
-		String systemPathSeparator = String.valueOf(File.separatorChar);
-		try {
-
-			Class localClass = JFXApplication.getJFXApplicationSingleton().getClass();
-
-			String packageNamed = localClass.getPackageName();
-			String localPackagePath = String.valueOf(packageNamed);
-
-			String localRunnablePathRelative = String.valueOf(String.valueOf("." + localPackagePath)
-					.replaceAll("[.]", "\\" + systemPathSeparator).replaceAll("[^\\" + systemPathSeparator + "]", ""));
-
-			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\" + systemPathSeparator + "]", "../");
-			URL aUrlClass = localClass.getResource(localRunnablePathRelative);
-			
-			if (aUrlClass != null) {
-				return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
-						"/");
-			}else {
-				 aUrlClass = localClass.getResource(systemPathSeparator);
-				 if (aUrlClass != null) {
-						return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
-								"/");
-					}
-			}
-
-		} catch (Exception evErrPath) {
-			JFXApplicationLogger.getLogger().logError(JFXApplication.class.getClass(), evErrPath);
-		}
-
-		return "/";
-
+		return JFXApplicationHelper.getApplicationRunnablePathAbsolute();
 	}
 
 	/* ****************************************************** */
@@ -382,39 +366,7 @@ public class JFXApplication extends Application {
 	 */
 	public static boolean applicationPathExist(String aPath) {
 		singletonInstanceCheck();
-		try {
-			File localClassPath = null;
-			if (aPath != null) {
-				Class localClass = JFXApplication.getJFXApplicationSingleton().getClass();
-				String sLocalClassPackageName = localClass.getPackageName();
-				Boolean bAnnonPackageName = String.valueOf(sLocalClassPackageName).isEmpty();
-				String systemPathSeparator = String.valueOf(File.separatorChar);
-				localClassPath = new java.io.File(String.valueOf(aPath));
-
-				String documentPath = localClassPath.getAbsolutePath();
-				String documentPathRelative = localClassPath.getPath();
-
-				URL aPathUrl = localClass.getResource(documentPathRelative);
-				URL aPathUrlAlt = localClass.getResource(aPath);
-
-				boolean bPathIsValid = ((aPathUrl != null) && (aPathUrlAlt != null));
-
-				boolean bPathExist = localClassPath.exists();
-				boolean bPathUrlValid = (aPathUrl != null);
-				/*
-				 * JFXApplicationLogger.getLogger().logInfo(null, ((bPathIsValid) ? "" : "Not")
-				 * + " exist :: " + documentPath + " :: ");
-				 */
-				return bPathIsValid;
-
-			}
-		} catch (Exception evERRFILEEXISTS) {
-			JFXApplicationLogger.getLogger().logError(JFXApplication.getJFXApplicationSingleton().getClass(),
-					evERRFILEEXISTS);
-		}
-
-		return false;
-
+		return JFXApplicationHelper.applicationPathExist(aPath);
 	}
 
 	/**

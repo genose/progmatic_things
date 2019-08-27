@@ -6,6 +6,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javafx.application.Application;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationInvalidParameterException;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationRuntimeException;
@@ -39,7 +40,15 @@ public abstract interface JFXApplicationDesignObjectLoad {
 
 		JFXApplicationScene aSceneNode = null;
 
-		Class aClassReference = JFXApplication.getJFXApplicationSingleton().getClass();
+		Class aClassReference = JFXApplicationHelper.class.getClass();
+		Application refApplication = null;
+		if(JFXApplication.singletonInstanceExists())
+		{
+			refApplication = JFXApplication.getJFXApplicationSingleton();
+            aClassReference = refApplication.getClass();
+		}
+
+		System.out.println("Library using Ref class APPMain as JFXApplication::"+String.valueOf(refApplication));
 		String sApplicationPath = JFXApplication.getApplicationBundlePath();
 		String sApplicationAbsPath = JFXApplication.getApplicationRunnablePathAbsolute();
 		Boolean bModuleAsMVC = false;
@@ -94,9 +103,15 @@ public abstract interface JFXApplicationDesignObjectLoad {
 		// check out MVC View folder in this Module ;; Module/assets/views ... or ...
 		// Module/views
 		/* ****************************************************************** */
-		String sRequestedSceneViewsFolder = JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePathModuleAsset,
-				JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(), JFXApplicationHelper.resolveModulePathInsenstiveCase(
-						sBasePath, JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(), sBasePath));
+		String sRequestedSceneViewsFolder = JFXApplicationHelper.resolveModulePathInsenstiveCase(
+							sBasePathModuleAsset,
+							JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(),
+							sBasePath
+		);
+
+		sRequestedSceneViewsFolder = JFXApplicationHelper.resolveModulePathInsenstiveCase( sBasePath, JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(), sBasePath);
+
+		System.out.println(" MVC for ("+String.valueOf(sRequestedRessourcesDir)+") :: " +sRequestedSceneViewsFolder);
 		/* ****************************************************************** */
 		/* ****************************************************************** */
 		// check out specific FXML in this Module ;;
@@ -105,8 +120,10 @@ public abstract interface JFXApplicationDesignObjectLoad {
 		String sRequestedSceneFile = ((argModuleNameFile != null)
 				? argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_FXML.getValue()
 				: argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FXML.getValue());
+
 		sRequestedSceneFile = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedSceneViewsFolder,
 				sRequestedSceneFile, null);
+		System.out.println(" MVC FILE for ("+String.valueOf(sRequestedRessourcesDir)+") :: " +sRequestedSceneFile);
 
 		if (sRequestedSceneFile == null) {
 			throw new JFXApplicationException(aClassReference.getName() + " can t find interface GUI componement ("

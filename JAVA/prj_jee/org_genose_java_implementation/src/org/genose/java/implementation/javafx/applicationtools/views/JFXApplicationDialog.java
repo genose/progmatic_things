@@ -1,25 +1,16 @@
 package org.genose.java.implementation.javafx.applicationtools.views;
 
-import java.awt.event.ActionEvent;
-import java.util.Optional;
 
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.VBox;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+
+import java.util.Optional;
 
 public class JFXApplicationDialog {
 
 	public static boolean showConfirmDialog(String sMessage) {
 		Boolean bReturnValue = false;
-		Alert aModalDialogAlert = new Alert(AlertType.CONFIRMATION);
+		Alert aModalDialogAlert = new Alert(Alert.AlertType.CONFIRMATION);
 
 		aModalDialogAlert.setTitle("Attention ...");
 		aModalDialogAlert.setHeaderText("Confirmer ");
@@ -40,7 +31,7 @@ public class JFXApplicationDialog {
 
 	public static boolean showAlertDialog(String sMessage) {
 		Boolean bReturnValue = false;
-		Alert aArticleDialogAlert = new Alert(AlertType.WARNING);
+		Alert aArticleDialogAlert = new Alert(Alert.AlertType.WARNING);
 
 		aArticleDialogAlert.setTitle("Attention ...");
 		aArticleDialogAlert.setHeaderText("Hoho ");

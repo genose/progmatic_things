@@ -111,7 +111,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 
 		sRequestedSceneViewsFolder = JFXApplicationHelper.resolveModulePathInsenstiveCase( sBasePath, JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(), sBasePath);
 
-		System.out.println(" MVC for ("+String.valueOf(sRequestedRessourcesDir)+") :: " +sRequestedSceneViewsFolder);
+		System.out.println(" MVC for ("+aPathInBundle+"::"+String.valueOf(sRequestedRessourcesDir)+") :: " +sRequestedSceneViewsFolder);
 		/* ****************************************************************** */
 		/* ****************************************************************** */
 		// check out specific FXML in this Module ;;

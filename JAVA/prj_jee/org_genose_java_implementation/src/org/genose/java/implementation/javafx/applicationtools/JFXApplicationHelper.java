@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.genose.java.implementation.javafx.applicationtools;
 
@@ -24,225 +24,237 @@ import javafx.scene.Parent;
  */
 public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 
-	/**
-	 * 
-	 */
-	public JFXApplicationHelper() {
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     *
+     */
+    public JFXApplicationHelper() {
+        // TODO Auto-generated constructor stub
+    }
 
-	void loadBundleRessource() throws IOException {
-		Locale locale = new Locale("en", "UK");
-		ResourceBundle bundle = ResourceBundle.getBundle("strings", locale);
+    void loadBundleRessource() throws IOException {
+        Locale locale = new Locale("en", "UK");
+        ResourceBundle bundle = ResourceBundle.getBundle("strings", locale);
 
-		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("ui/main.fxml"), bundle);
-	}
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("ui/main.fxml"), bundle);
+    }
 
-	/* ****************************************************** */
-	/**
-	 * 
-	 * @return List<StackTraceElement>
-	 */
-	public static StackTraceElement[] getStackTrace() {
-		try {
-			Thread aThread = Thread.currentThread();
-			if (aThread != null) {
-				// if(aThread.isDaemon())
-				return aThread.getStackTrace();
-				// else
-				// System.out.println("ERROR CANT FETCH CURRENT THREAD WHILE FETCHING THREAD
-				// STACK ... ");
-			} else {
-				System.out.println("ERROR CANT FETCH CURRENT THREAD ... ");
-			}
+    /* ****************************************************** */
 
-		} catch (Exception evERRSTACKTRACE) {
-			System.out.println("ERROR WHILE FETCHING THREAD STACK ... " + evERRSTACKTRACE);
-		}
-		String sFilejName = JFXApplicationHelper.class.getCanonicalName();
-		StackTraceElement[] aStackElement = {
-				new StackTraceElement(JFXApplicationHelper.class.getName(), "getStackTrace", sFilejName, 1) };
+    /**
+     *
+     * @return List<StackTraceElement>
+     */
+    public static synchronized StackTraceElement[] getStackTrace() {
+        synchronized (Thread.class) {
+            String sFilejName = JFXApplicationHelper.class.getCanonicalName();
+            try {
 
-		return aStackElement;
-	}
+                StackTraceElement[] aStackElement = { new StackTraceElement(JFXApplicationHelper.class.getName(), "getStackTrace", sFilejName, 1)};
+                Thread aThread = Thread.currentThread();
+                int threadCnt = Thread.activeCount();
 
-	/* ****************************************************** */
-	private StackTraceElement getLastStackTrace() {
-		StackTraceElement[] aStackTrace = Thread.currentThread().getStackTrace();
-		return aStackTrace[aStackTrace.length - 1];
-	}
 
-	/* ****************************************************** */
-	public static String getApplicationBundlePath() {
-		try {
-			Class localClass = JFXApplicationHelper.class.getClass();
-			Application refApplication = null;
-			if(JFXApplication.singletonInstanceExists())
-			{
-				refApplication = JFXApplication.getJFXApplicationSingleton();
-				localClass = refApplication.getClass();
-			}
-			System.out.println("Library using Ref class APPMain as JFXApplication::"+String.valueOf(refApplication));
-			String systemPathSeparator = String.valueOf(File.separatorChar);
-			String packageNamed = localClass.getPackageName();
-			String localPackagePath = String.valueOf(packageNamed);
-			String localRunnablePathRelative = String.valueOf("." + packageNamed).replaceAll("[.]", "*")
-					.replaceAll("[^\\*]", "");
-			System.out.println("Librairy path :: "+packageNamed+" :: "+localRunnablePathRelative );
-			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\" + systemPathSeparator);
+                if (aThread != null) {
+                    // if(aThread.isDaemon())
+                    aStackElement = aThread.getStackTrace();
+                    // else
+                    // System.out.println("ERROR CANT FETCH CURRENT THREAD WHILE FETCHING THREAD
+                    // STACK ... ");
+                } else {
+                    System.out.println(">> ERROR CANT FETCH CURRENT THREAD ... ");
+                }
+                return aStackElement;
+            } catch (Exception evERRSTACKTRACE) {
+                System.out.println(">> ERROR WHILE FETCHING THREAD STACK ... :: thread count(" + Thread.activeCount() + ")  :::: ");
+                System.out.println("StackTrace :: " + evERRSTACKTRACE);
+            }
 
-			return localRunnablePathRelative;
-		} catch (Exception evErrPath) {
-			JFXApplicationLogger.getLogger().logError(JFXApplicationHelper.class.getClass(), evErrPath);
-		}
-		return null;
-	}
+            StackTraceElement[] aStackElement = { new StackTraceElement(JFXApplicationHelper.class.getName(), "getStackTrace", sFilejName, 1)};
 
-	public static String getApplicationRunnablePathAbsolute() {
 
-		String systemPathSeparator = String.valueOf(File.separatorChar);
-		try {
+            return aStackElement;
 
-			Class localClass = JFXApplicationHelper.class.getClass();
-			Application refApplication = null;
-			if(JFXApplication.singletonInstanceExists())
-			{
-				refApplication = JFXApplication.getJFXApplicationSingleton();
-				localClass = refApplication.getClass();
-			}
+        }
+    }
 
-			String packageNamed = localClass.getPackageName();
-			String localPackagePath = String.valueOf(packageNamed);
+    /* ****************************************************** */
+    private StackTraceElement getLastStackTrace() {
+        StackTraceElement[] aStackTrace = Thread.currentThread().getStackTrace();
+        return aStackTrace[aStackTrace.length - 1];
+    }
 
-			String localRunnablePathRelative = String.valueOf(String.valueOf("." + localPackagePath)
-					.replaceAll("[.]", "\\" + systemPathSeparator).replaceAll("[^\\" + systemPathSeparator + "]", ""));
+    /* ****************************************************** */
+    public static String getApplicationBundlePath() {
+        try {
+            Class localClass = JFXApplicationHelper.class.getClass();
+            Application refApplication = null;
+            if (JFXApplication.singletonInstanceExists()) {
+                refApplication = JFXApplication.getJFXApplicationSingleton();
+                localClass = refApplication.getClass();
+            }
+            System.out.println("Library using Ref class APPMain as JFXApplication::" + String.valueOf(refApplication));
+            String systemPathSeparator = String.valueOf(File.separatorChar);
+            String packageNamed = localClass.getPackageName();
+            String localPackagePath = String.valueOf(packageNamed);
+            String localRunnablePathRelative = String.valueOf("." + packageNamed).replaceAll("[.]", "*")
+                    .replaceAll("[^\\*]", "");
+            System.out.println("Librairy path :: " + packageNamed + " :: " + localRunnablePathRelative);
+            localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\" + systemPathSeparator);
 
-			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\" + systemPathSeparator + "]", "../");
-			URL aUrlClass = localClass.getResource(localRunnablePathRelative);
+            return localRunnablePathRelative;
+        } catch (Exception evErrPath) {
+            JFXApplicationLogger.getLogger().logError(JFXApplicationHelper.class.getClass(), evErrPath);
+        }
+        return null;
+    }
 
-			if (aUrlClass != null) {
-				return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
-						"/");
-			}else {
-				aUrlClass = localClass.getResource(systemPathSeparator);
-				if (aUrlClass != null) {
-					return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
-							"/");
-				}
-			}
+    public static String getApplicationRunnablePathAbsolute() {
 
-		} catch (Exception evErrPath) {
-			JFXApplicationLogger.getLogger().logError(JFXApplication.class.getClass(), evErrPath);
-		}
+        String systemPathSeparator = String.valueOf(File.separatorChar);
+        try {
 
-		return "/";
+            Class localClass = JFXApplicationHelper.class.getClass();
+            Application refApplication = null;
+            if (JFXApplication.singletonInstanceExists()) {
+                refApplication = JFXApplication.getJFXApplicationSingleton();
+                localClass = refApplication.getClass();
+            }
 
-	}
-	/**
-	 *
-	 * @param aPath
-	 * @return
-	 */
-	public static boolean applicationPathExist(String aPath) {
+            String packageNamed = localClass.getPackageName();
+            String localPackagePath = String.valueOf(packageNamed);
 
-		try {
-			File localClassPath = null;
-			if (aPath != null) {
-				Class localClass = JFXApplicationHelper.class.getClass();
-				Application refApplication = null;
-				if(JFXApplication.singletonInstanceExists())
-				{
-					refApplication = JFXApplication.getJFXApplicationSingleton();
-					localClass = refApplication.getClass();
-				}
+            String localRunnablePathRelative = String.valueOf(String.valueOf("." + localPackagePath)
+                    .replaceAll("[.]", "\\" + systemPathSeparator).replaceAll("[^\\" + systemPathSeparator + "]", ""));
 
-				System.out.println("Library using Ref class APPMain as JFXApplication::"+String.valueOf(refApplication));
+            localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\" + systemPathSeparator + "]", "../");
+            URL aUrlClass = localClass.getResource(localRunnablePathRelative);
 
-				String sLocalClassPackageName = localClass.getPackageName();
-				Boolean bAnnonPackageName = String.valueOf(sLocalClassPackageName).isEmpty();
-				String systemPathSeparator = String.valueOf(File.separatorChar);
-				localClassPath = new java.io.File(String.valueOf(aPath));
+            if (aUrlClass != null) {
+                return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
+                        "/");
+            } else {
+                aUrlClass = localClass.getResource(systemPathSeparator);
+                if (aUrlClass != null) {
+                    return aUrlClass.getPath().replaceFirst("[/]", "").replaceFirst(localPackagePath, "").replaceAll("[//]",
+                            "/");
+                }
+            }
 
-				String documentPath = localClassPath.getAbsolutePath();
-				String documentPathRelative = localClassPath.getPath();
+        } catch (Exception evErrPath) {
+            JFXApplicationLogger.getLogger().logError(JFXApplication.class.getClass(), evErrPath);
+        }
 
-				URL aPathUrl = localClass.getResource(documentPathRelative);
-				URL aPathUrlAlt = localClass.getResource(aPath);
+        return "/";
 
-				boolean bPathIsValid = ((aPathUrl != null) && (aPathUrlAlt != null));
+    }
 
-				boolean bPathExist = localClassPath.exists();
-				boolean bPathUrlValid = (aPathUrl != null);
-				/*
-				 * JFXApplicationLogger.getLogger().logInfo(null, ((bPathIsValid) ? "" : "Not")
-				 * + " exist :: " + documentPath + " :: ");
-				 */
-				return bPathIsValid;
+    /**
+     *
+     * @param aPath
+     * @return
+     */
+    public static boolean applicationPathExist(String aPath) {
 
-			}
-		} catch (Exception evERRFILEEXISTS) {
-			JFXApplicationLogger.getLogger().logError(JFXApplication.getJFXApplicationSingleton().getClass(),
-					evERRFILEEXISTS);
-		}
+        try {
+            File localClassPath = null;
+            if (aPath != null) {
+                Class localClass = JFXApplicationHelper.class.getClass();
+                Application refApplication = null;
+                if (JFXApplication.singletonInstanceExists()) {
+                    refApplication = JFXApplication.getJFXApplicationSingleton();
+                    localClass = refApplication.getClass();
+                }
 
-		return false;
+                System.out.println("Library using Ref class APPMain as JFXApplication::" + String.valueOf(refApplication));
 
-	}
-	/**
-	 * @param sApplicationPath
-	 * @param aPathInBundle
-	 * @return
-	 */
-	public static String resolveModulePathInsenstiveCase(String sApplicationPath, String sRequiredPathIn,
-			String sAltPathIfFail) {
-		String sBasePath = null;
-		if ((sApplicationPath != null) && (sRequiredPathIn != null)) {
-			Path aPathInBundle = Paths.get(sApplicationPath, sRequiredPathIn);
+                String sLocalClassPackageName = localClass.getPackageName();
+                Boolean bAnnonPackageName = String.valueOf(sLocalClassPackageName).isEmpty();
+                String systemPathSeparator = String.valueOf(File.separatorChar);
+                localClassPath = new java.io.File(String.valueOf(aPath));
 
-			sBasePath = ((JFXApplication.applicationPathExist(aPathInBundle.toString())) ? aPathInBundle.toString()
-					: null);
+                String documentPath = localClassPath.getAbsolutePath();
+                String documentPathRelative = localClassPath.getPath();
 
-			if (sBasePath == null) {
-				aPathInBundle = Paths.get(sApplicationPath, String.valueOf(sRequiredPathIn).toLowerCase());
+                URL aPathUrl = localClass.getResource(documentPathRelative);
+                URL aPathUrlAlt = localClass.getResource(aPath);
 
-				sBasePath = ((JFXApplication.applicationPathExist(aPathInBundle.toString())) ? aPathInBundle.toString()
-						: null);
-			}
+                boolean bPathIsValid = ((aPathUrl != null) && (aPathUrlAlt != null));
 
-			if (sBasePath == null) {
-				aPathInBundle = Paths.get(sApplicationPath, String.valueOf(sRequiredPathIn).toUpperCase());
+                boolean bPathExist = localClassPath.exists();
+                boolean bPathUrlValid = (aPathUrl != null);
+                /*
+                 * JFXApplicationLogger.getLogger().logInfo(null, ((bPathIsValid) ? "" : "Not")
+                 * + " exist :: " + documentPath + " :: ");
+                 */
+                return bPathIsValid;
 
-				sBasePath = ((JFXApplication.applicationPathExist(aPathInBundle.toString())) ? aPathInBundle.toString()
-						: null);
-			}
+            }
+        } catch (Exception evERRFILEEXISTS) {
+            JFXApplicationLogger.getLogger().logError(JFXApplication.getJFXApplicationSingleton().getClass(),
+                    evERRFILEEXISTS);
+        }
 
-		}
+        return false;
 
-		if (((sAltPathIfFail != null) && String.valueOf(sAltPathIfFail).length() > 1) && (sBasePath == null)) {
-			sBasePath = ((JFXApplication.applicationPathExist(sAltPathIfFail)) ? String.valueOf(sAltPathIfFail) : null);
-		}
+    }
 
-		return sBasePath;
-	}
+    /**
+     *
+     * @param sApplicationPath
+     * @param sRequiredPathIn
+     * @param sAltPathIfFail
+     * @return
+     */
+    public static String resolveModulePathInsenstiveCase(String sApplicationPath, String sRequiredPathIn,
+                                                         String sAltPathIfFail) {
+        String sBasePath = null;
+        if ((sApplicationPath != null) && (sRequiredPathIn != null)) {
+            Path aPathInBundle = Paths.get(sApplicationPath, sRequiredPathIn);
 
-	public static String packageToPath(Class<?> aObjectClass) {
-		try {
+            sBasePath = ((JFXApplication.applicationPathExist(aPathInBundle.toString())) ? aPathInBundle.toString()
+                    : null);
 
-			String sClasName = aObjectClass.getCanonicalName();
-			Class<?> localClass = Class.forName(sClasName);
+            if (sBasePath == null) {
+                aPathInBundle = Paths.get(sApplicationPath, String.valueOf(sRequiredPathIn).toLowerCase());
 
-			String systemPathSeparator = String.valueOf(File.separatorChar);
-			String packageNamed = localClass.getPackageName();
-			String localPackagePath = String.valueOf(packageNamed);
-			String localRunnablePathRelative = String.valueOf("." + packageNamed).replaceAll("[.]", "*")
-					.replaceAll("[^\\*]", "");
+                sBasePath = ((JFXApplication.applicationPathExist(aPathInBundle.toString())) ? aPathInBundle.toString()
+                        : null);
+            }
 
-			localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\" + systemPathSeparator);
-			return localRunnablePathRelative;
-		} catch (Exception evErrPath) {
-			JFXApplicationLogger.getLogger().logError(JFXApplicationHelper.class.getClass(), evErrPath);
-		}
-		return null;
-	}
+            if (sBasePath == null) {
+                aPathInBundle = Paths.get(sApplicationPath, String.valueOf(sRequiredPathIn).toUpperCase());
+
+                sBasePath = ((JFXApplication.applicationPathExist(aPathInBundle.toString())) ? aPathInBundle.toString()
+                        : null);
+            }
+
+        }
+
+        if (((sAltPathIfFail != null) && String.valueOf(sAltPathIfFail).length() > 1) && (sBasePath == null)) {
+            sBasePath = ((JFXApplication.applicationPathExist(sAltPathIfFail)) ? String.valueOf(sAltPathIfFail) : null);
+        }
+
+        return sBasePath;
+    }
+
+    public static String packageToPath(Class<?> aObjectClass) {
+        try {
+
+            String sClasName = aObjectClass.getCanonicalName();
+            Class<?> localClass = Class.forName(sClasName);
+
+            String systemPathSeparator = String.valueOf(File.separatorChar);
+            String packageNamed = localClass.getPackageName();
+            String localPackagePath = String.valueOf(packageNamed);
+            String localRunnablePathRelative = String.valueOf("." + packageNamed).replaceAll("[.]", "*")
+                    .replaceAll("[^\\*]", "");
+
+            localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\" + systemPathSeparator);
+            return localRunnablePathRelative;
+        } catch (Exception evErrPath) {
+            JFXApplicationLogger.getLogger().logError(JFXApplicationHelper.class.getClass(), evErrPath);
+        }
+        return null;
+    }
 
 }

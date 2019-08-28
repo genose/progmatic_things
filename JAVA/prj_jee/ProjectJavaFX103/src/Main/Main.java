@@ -20,9 +20,11 @@ public class Main extends JFXApplication {
  System.out.println("Main :: "+ JFXApplicationHelper.getApplicationBundlePath());
  System.out.println("path :: "+getClass().getResource("."));
 
-			JFXApplicationDialog.showAlertDialog("HelloWorld");
-// 			JFXApplicationScene  aScene = JFXApplicationDesignObjectLoad.create("MainWindow", null, null);
-			//super.setPrimaryScene(aScene);
+			//JFXApplicationDialog.showAlertDialog("HelloWorld");
+// 			JFXApplicationScene  aScene = JFXApplicationDesignObjectLoad.create("Main", "MainWindow", null);
+			JFXApplicationScene  aScene = JFXApplicationDesignObjectLoad.create("MainWindow", "MainWindow", null);
+
+			super.setPrimaryScene(aScene);
 
 			primaryStage.show();
 		} catch (Exception evERRINSTANTIATE) {
@@ -33,10 +35,13 @@ public class Main extends JFXApplication {
 
 	public static void main(String[] args) {
 		try {
-			launch(args);
+
+			// JFXApplicationException.raiseToFront(Main.class, null, true);
+			 launch(args);
 		} catch (Exception evERRMAIN) {
-			JFXApplicationLogger.getLogger().logError(Main.class.getClass(), evERRMAIN);
-			JFXApplicationException.raiseToFront(Main.class.getClass(), evERRMAIN, true);
+			//JFXApplicationLogger.getLogger().logError(Main.class.getClass(), evERRMAIN);
+			System.out.println("Main::FATAL ERROR : "+evERRMAIN);
+			// JFXApplicationException.raiseToFront(Main.class.getClass(), evERRMAIN, true);
 
 		}
 	}

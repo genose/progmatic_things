@@ -27,8 +27,9 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        System.out.println(" :: "+App.class.getResource(fxml + ".fxml"));
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        System.out.println(" App :: "+App.class.getResource("."));
+        System.out.println(" :: "+App.class.getResource("openjfx/"+fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("openjfx/"+fxml + ".fxml"));
         return fxmlLoader.load();
     }
 

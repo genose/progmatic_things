@@ -14,11 +14,11 @@
         <maven.compiler.target>12</maven.compiler.target>
     </properties>
     <dependencies>
-        <dependency>
+       <!-- <dependency>
             <groupId>org.genose.java</groupId>
             <artifactId>org.genose.java.implementation</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>

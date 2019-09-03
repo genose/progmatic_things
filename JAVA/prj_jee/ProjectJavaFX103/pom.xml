@@ -32,6 +32,18 @@
         </dependency>
     </dependencies>
     <build>
+        <resources>
+            <!-- this is for "normal" resources processing -->
+            <resource>
+                <directory>src/</directory>
+                <filtering>true</filtering><!-- you might still want to filter them -->
+                <excludes>
+                    <!-- we exclude the file from "normal" resource processing -->
+                    <exclude>**/*.java</exclude>
+                    <exclude>**/log4j.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -47,7 +59,34 @@
                 <version>0.0.3</version>
                 <configuration>
                     <mainClass>Main.Main</mainClass>
+                    <includePathExceptionsInClasspath>true</includePathExceptionsInClasspath>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>custom-resources</id>
+                        <!-- here the phase you need -->
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/*/views</directory>
+                                    <targetPath>${basedir}/blah</targetPath>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                            <includeEmptyDirs>true</includeEmptyDirs>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

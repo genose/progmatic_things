@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Maven: com.microsoft.sqlserver:mssql-jdbc:7.2.2.jre11">
+    <archive path="C:/Users/59013-36-18/.m2/repository/com/microsoft/sqlserver/mssql-jdbc/7.2.2.jre11/mssql-jdbc-7.2.2.jre11.jar" />
+  </library>
+  <library name="Maven: org.json:json:20190722">
+    <archive path="C:/Users/59013-36-18/.m2/repository/org/json/json/20190722/json-20190722.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-base:11.0.2">
+    <archive path="C:/Users/59013-36-18/.m2/repository/org/openjfx/javafx-base/11.0.2/javafx-base-11.0.2.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-base:win:11.0.2">
+    <archive path="C:/Users/59013-36-18/.m2/repository/org/openjfx/javafx-base/11.0.2/javafx-base-11.0.2-win.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-controls:11.0.2">
+    <archive path="C:/Users/59013-36-18/.m2/repository/org/openjfx/javafx-controls/11.0.2/javafx-controls-11.0.2.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-controls:win:11.0.2">
+    <archive path="C:/Users/59013-36-18/.m2/repository/org/openjfx/javafx-controls/11.0.2/javafx-controls-11.0.2-win.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-fxml:11.0.2">
+    <archive path="C:/Users/59013-36-18/.m2/repository/org/openjfx/javafx-fxml/11.0.2/javafx-fxml-11.0.2.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-fxml:win:11.0.2">
+    <archive path="C:/Users/59013-36-18/.m2/repository/org/openjfx/javafx-fxml/11.0.2/javafx-fxml-11.0.2-win.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-graphics:11.0.2">
+    <archive path="C:/Users/59013-36-18/.m2/repository/org/openjfx/javafx-graphics/11.0.2/javafx-graphics-11.0.2.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-graphics:win:11.0.2">
+    <archive path="C:/Users/59013-36-18/.m2/repository/org/openjfx/javafx-graphics/11.0.2/javafx-graphics-11.0.2-win.jar" />
+  </library>
+  <library name="mssql-jdbc-7.2.2.jre11" />
+  <library name="javafx-11.0.2">
+    <archive path="C:/java/javafx-sdk-11.0.2/lib/javafx-swt.jar" />
+    <archive path="C:/java/javafx-sdk-11.0.2/lib/javafx.base.jar" />
+    <archive path="C:/java/javafx-sdk-11.0.2/lib/javafx.controls.jar" />
+    <archive path="C:/java/javafx-sdk-11.0.2/lib/javafx.fxml.jar" />
+    <archive path="C:/java/javafx-sdk-11.0.2/lib/javafx.graphics.jar" />
+    <archive path="C:/java/javafx-sdk-11.0.2/lib/javafx.media.jar" />
+    <archive path="C:/java/javafx-sdk-11.0.2/lib/javafx.swing.jar" />
+    <archive path="C:/java/javafx-sdk-11.0.2/lib/javafx.web.jar" />
+  </library>
+  <library name="javafx-12.0.2">
+    <archive path="C:/java/javafx-sdk-12.0.2/lib/javafx-swt.jar" />
+    <archive path="C:/java/javafx-sdk-12.0.2/lib/javafx.base.jar" />
+    <archive path="C:/java/javafx-sdk-12.0.2/lib/javafx.controls.jar" />
+    <archive path="C:/java/javafx-sdk-12.0.2/lib/javafx.fxml.jar" />
+    <archive path="C:/java/javafx-sdk-12.0.2/lib/javafx.graphics.jar" />
+    <archive path="C:/java/javafx-sdk-12.0.2/lib/javafx.media.jar" />
+    <archive path="C:/java/javafx-sdk-12.0.2/lib/javafx.swing.jar" />
+    <archive path="C:/java/javafx-sdk-12.0.2/lib/javafx.web.jar" />
+  </library>
+  <library name="org.genose.java.implementation-1.0-SNAPSHOT">
+    <archive path="C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/org_genose_java_implementation/target/org.genose.java.implementation-1.0-SNAPSHOT.jar" />
+  </library>
+</eclipse-userlibraries>
+

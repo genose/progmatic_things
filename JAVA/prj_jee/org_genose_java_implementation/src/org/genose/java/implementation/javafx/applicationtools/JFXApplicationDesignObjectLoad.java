@@ -34,6 +34,11 @@ public abstract interface JFXApplicationDesignObjectLoad {
 	public static <T> Object create(String argModuleName, String argModuleNameFile,
 			JFXApplicationCallback aFuncCallback, Boolean bReturnOnlyDesignNode) throws JFXApplicationException {
 
+		if(JFXApplicationHelper.getApplicationMain() == null ){
+			throw new JFXApplicationException(" Unable to determine Main Class ....");
+		}
+
+
 		FXMLLoader aRootNodeLoader = null;
 		Parent aRootNode = null;
 		Object oFXMLRootNode = null;

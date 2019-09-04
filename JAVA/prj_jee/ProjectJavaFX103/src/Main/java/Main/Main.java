@@ -22,7 +22,7 @@ public class Main extends JFXApplication {
 
 			//JFXApplicationDialog.showAlertDialog("HelloWorld");
 // 			JFXApplicationScene  aScene = JFXApplicationDesignObjectLoad.create("Main", "MainWindow", null);
-			JFXApplicationScene  aScene = JFXApplicationDesignObjectLoad.create("MainWindow", "MainWindow", null);
+			JFXApplicationScene  aScene = JFXApplicationDesignObjectLoad.create("MainWindow", null, null);
 
 			super.setPrimaryScene(aScene);
 

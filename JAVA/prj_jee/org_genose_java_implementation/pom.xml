@@ -10,6 +10,7 @@
 
 
 
+<!-- https://stackoverflow.com/questions/4955635/how-to-add-local-jar-files-to-a-maven-project -->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

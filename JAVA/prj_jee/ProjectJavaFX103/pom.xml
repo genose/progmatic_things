@@ -30,12 +30,28 @@
             <artifactId>javafx-fxml</artifactId>
             <version>11.0.2</version>
         </dependency>
+        <!-- https://stackoverflow.com/questions/4955635/how-to-add-local-jar-files-to-a-maven-project -->
+        <dependency>
+            <groupId>org.genose.java</groupId>
+            <artifactId>org.genose.java.implementation</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../org_genose_java_implementation/target/org.genose.java.implementation-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>7.2.2.jre11</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
     <build>
         <resources>
             <!-- this is for "normal" resources processing -->
             <resource>
-                <directory>src/</directory>
+                <directory>src/main/java/</directory>
                 <filtering>true</filtering><!-- you might still want to filter them -->
                 <excludes>
                     <!-- we exclude the file from "normal" resource processing -->
@@ -62,6 +78,18 @@
                     <includePathExceptionsInClasspath>true</includePathExceptionsInClasspath>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <additionalClasspathElements>
+                        <!-- <additionalClasspathElement>${java.home}/lib/jfxrt.jar</additionalClasspathElement> -->
+                    </additionalClasspathElements>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-resources-plugin</artifactId>
@@ -75,7 +103,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <outputDirectory>${project.build.directory}/../</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${basedir}/*/views</directory>

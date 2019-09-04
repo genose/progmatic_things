@@ -84,6 +84,20 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
     }
 
     /* ****************************************************** */
+    public static Object getApplicationMain() {
+        Application refApplication = null;
+        Class localClass = null;
+        if (JFXApplication.singletonInstanceExists()) {
+            refApplication = JFXApplication.getJFXApplicationSingleton();
+            localClass = refApplication.getClass();
+        }else{
+            StackTraceElement[] aStackElement = JFXApplicationHelper.getStackTrace();
+            System.out.println(" ****** Stack trace :: "+aStackElement );
+        }
+        return refApplication;
+    }
+
+    /* ****************************************************** */
     public static String getApplicationBundlePath() {
         try {
             Class localClass = JFXApplicationHelper.class.getClass();
@@ -92,7 +106,7 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
                 refApplication = JFXApplication.getJFXApplicationSingleton();
                 localClass = refApplication.getClass();
             }
-            System.out.println("Library using Ref class APPMain as JFXApplication::" + String.valueOf(refApplication));
+            System.out.println(localClass.getPackageName()+" :: Library using Ref class APPMain as JFXApplication::" + String.valueOf(refApplication));
             String systemPathSeparator = String.valueOf(File.separatorChar);
             String packageNamed = localClass.getPackageName();
             String localPackagePath = String.valueOf(packageNamed);
@@ -165,7 +179,7 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
                     localClass = refApplication.getClass();
                 }
 
-                System.out.println("Library using Ref class APPMain as JFXApplication::" + String.valueOf(refApplication));
+               //  System.out.println(localClass.getPackageName()+" :: Library using Ref class APPMain as JFXApplication::" + String.valueOf(refApplication));
 
                 String sLocalClassPackageName = localClass.getPackageName();
                 Boolean bAnnonPackageName = String.valueOf(sLocalClassPackageName).isEmpty();

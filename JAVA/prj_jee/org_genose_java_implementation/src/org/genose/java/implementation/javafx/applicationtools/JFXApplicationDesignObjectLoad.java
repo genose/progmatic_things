@@ -5,8 +5,10 @@ import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 import javafx.application.Application;
+import javafx.stage.Stage;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationInvalidParameterException;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationRuntimeException;
@@ -48,7 +50,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
             aClassReference = refApplication.getClass();
 		}
 
-		System.out.println("Library using Ref class APPMain as JFXApplication::"+String.valueOf(refApplication));
+		//System.out.println("Library using Ref class APPMain as JFXApplication::"+String.valueOf(refApplication));
 		String sApplicationPath = JFXApplication.getApplicationBundlePath();
 		String sApplicationAbsPath = JFXApplication.getApplicationRunnablePathAbsolute();
 		Boolean bModuleAsMVC = false;
@@ -61,6 +63,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 		/* ****************************************************************** */
 
 		String sBasePath = null;
+		Path aPathInBundle = null;
 
 		sBasePath = JFXApplicationHelper.resolveModulePathInsenstiveCase(sApplicationPath,
 				JFXApplication.JFXFILETYPE.DIR_APPSRC.getValue(), sApplicationPath);
@@ -87,43 +90,63 @@ public abstract interface JFXApplicationDesignObjectLoad {
 		/* ****************************************************************** */
 		// check out assets folder in this Module ;; Module/assets
 		/* ****************************************************************** */
+		aPathInBundle = Paths.get(sBasePath, JFXApplication.JFXFILETYPE.DIR_ASSETS.getValue());
 		String sBasePathModuleAsset = JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePath,
 				JFXApplication.JFXFILETYPE.DIR_ASSETS.getValue(), null);
-		Path aPathInBundle = null;
+
+		System.out.println(" MVC "+JFXApplication.JFXFILETYPE.DIR_ASSETS.getValue()+" folder for ("+aPathInBundle+") "+JFXApplication.JFXFILETYPE.DIR_ASSETS.getValue()+" = "+String.valueOf(sBasePathModuleAsset));
+
+
+
 		/* ****************************************************************** */
 		/* ****************************************************************** */
 		// check out ressources folder in this Module ;; Module/Ressources
 		/* ****************************************************************** */
 		aPathInBundle = Paths.get(sBasePath, JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue());
-		String sRequestedRessourcesDir = JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePath,
+		String sRequestedRessourcesDir = JFXApplicationHelper.resolveModulePathInsenstiveCase(sBasePathModuleAsset,
 				JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue(), null);
 
+		if(sRequestedRessourcesDir == null){
+			aPathInBundle = Paths.get(sBasePath, JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue());
+			sRequestedRessourcesDir = JFXApplicationHelper.resolveModulePathInsenstiveCase(aPathInBundle.toString(),
+					JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue(), null);
+		}
+
+		System.out.println(" MVC "+JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()+" folder for ("+aPathInBundle+" ) "+JFXApplication.JFXFILETYPE.DIR_RESSOURCES.getValue()+" = "+String.valueOf(sRequestedRessourcesDir)+") ");
 		/* ****************************************************************** */
 		/* ****************************************************************** */
 		// check out MVC View folder in this Module ;; Module/assets/views ... or ...
 		// Module/views
 		/* ****************************************************************** */
+		aPathInBundle = Paths.get(sBasePath, JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue());
 		String sRequestedSceneViewsFolder = JFXApplicationHelper.resolveModulePathInsenstiveCase(
 							sBasePathModuleAsset,
 							JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(),
-							sBasePath
+							null
 		);
 
-		sRequestedSceneViewsFolder = JFXApplicationHelper.resolveModulePathInsenstiveCase( sBasePath, JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(), sBasePath);
+		if(sRequestedSceneViewsFolder == null){
+			sRequestedSceneViewsFolder = JFXApplicationHelper.resolveModulePathInsenstiveCase( sBasePath,
+					JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue(),
+					sBasePath);
 
-		System.out.println(" MVC for ("+aPathInBundle+"::"+String.valueOf(sRequestedRessourcesDir)+") :: " +sRequestedSceneViewsFolder);
+		}
+
+		System.out.println(" MVC "+JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue()+" folder for ("+aPathInBundle+") "+JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue()+" = "+String.valueOf(sRequestedSceneViewsFolder));
 		/* ****************************************************************** */
 		/* ****************************************************************** */
 		// check out specific FXML in this Module ;;
 		// Module/[assets/]views/[ModuleName;ModuleNameFile].fmxl
 		/* ****************************************************************** */
+
 		String sRequestedSceneFile = ((argModuleNameFile != null)
 				? argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_FXML.getValue()
 				: argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FXML.getValue());
 
 		sRequestedSceneFile = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedSceneViewsFolder,
 				sRequestedSceneFile, null);
-		System.out.println(" MVC FILE for ("+String.valueOf(sRequestedRessourcesDir)+") :: " +sRequestedSceneFile);
+
+		System.out.println(" MVC "+JFXApplication.JFXFILETYPE.DIR_VIEWS.getValue()+" FILE for ("+String.valueOf(aPathInBundle)+")  = " +String.valueOf(sRequestedSceneFile));
 
 		if (sRequestedSceneFile == null) {
 			throw new JFXApplicationException(aClassReference.getName() + " can t find interface GUI componement ("
@@ -140,16 +163,32 @@ public abstract interface JFXApplicationDesignObjectLoad {
 				: argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FCSS.getValue());
 		sRequestedSceneCSS = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedRessourcesDir,
 				sRequestedSceneFile, null);
+
+		if(sRequestedSceneCSS == null){
+			sRequestedSceneCSS = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedSceneViewsFolder,
+					sRequestedSceneFile, null);
+		}
+
+		System.out.println(" MVC "+JFXApplication.JFXFILETYPE.FILETYPE_FCSS.getValue()+" FILE for ("+String.valueOf(aPathInBundle)+")  = " +String.valueOf(sRequestedSceneCSS));
+
 		/* ****************************************************************** */
 		/* ****************************************************************** */
 		// check out for PNG icon ;;
 		// Module/[assets/]Ressources/[ModuleName;ModuleNameFile].png
 		/* ****************************************************************** */
 		String sRequestedSceneIcon = ((argModuleNameFile != null)
-				? argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_PNG.getValue()
-				: argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_PNG.getValue());
+				? argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_FPNG.getValue()
+				: argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FPNG.getValue());
 		sRequestedSceneIcon = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedRessourcesDir,
 				sRequestedSceneIcon, null);
+
+		if(sRequestedSceneCSS == null){
+			sRequestedSceneCSS = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedSceneViewsFolder,
+					sRequestedSceneFile, null);
+		}
+
+		System.out.println(" MVC "+JFXApplication.JFXFILETYPE.FILETYPE_FPNG.getValue()+" FILE for ("+String.valueOf(aPathInBundle)+")  = " +String.valueOf(sRequestedSceneIcon));
+
 		/* ****************************************************************** */
 		// :: https://stackoverflow.com/questions/10121991/javafx-application-icon
 		// https://stackoverflow.com/questions/34941411/how-to-get-controller-of-scene-in-javafx8
@@ -228,7 +267,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 
 		} else {
 			JFXApplicationException.raiseToFront(JFXApplicationScene.class, new JFXApplicationInvalidParameterException(
-					" No Primary Stage for this Application ... %n Ensure you called super([Stage.class]) on your Main() "),
+					" No Primary Stage for this Application ... %n Ensure you called super(["+ Stage.class.getSimpleName() +".class]) on your "+ Objects.requireNonNullElse(JFXApplicationHelper.getApplicationMain(), Object.class).getClass().getSimpleName()+"() "),
 					true);
 		}
 		/* ******************************** */

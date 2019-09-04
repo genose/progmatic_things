@@ -53,11 +53,17 @@ public class JFXApplication extends Application {
 	private static JFXApplicationException aExceptionManager;
 
 	public enum JFXFILETYPE {
-		DIR_ASSETS("Assets"), DIR_VIEWS("Views"), DIR_CONTROLLERS("Controllers"), DIR_RESSOURCES("Ressources"),
+		DIR_ASSETS("Assets"),
+		DIR_VIEWS("Views"),
+		DIR_CONTROLLERS("Controllers"),
+		DIR_RESSOURCES("Ressources"),
 		// ::
 		// https://stackoverflow.com/questions/10143392/javafx-2-and-internationalization
-		DIR_LOCALI18N("locali18n"), DIR_APPSRC("src"), FILETYPE_READEABLE_TEXT(".txt;.csv"), FILETYPE_FXML(".fxml"),
-		FILETYPE_FCSS(".fcss"), FILETYPE_PNG(".png");
+		DIR_LOCALI18N("locali18n"), DIR_APPSRC("src"),
+		FILETYPE_READEABLE_TEXT(".txt;.csv"),
+		FILETYPE_FXML(".fxml"),
+		FILETYPE_FCSS(".fcss"),
+		FILETYPE_FPNG(".png");
 
 		private String strValue;
 		private static java.util.HashMap<Object, Object> map = new java.util.HashMap<>();

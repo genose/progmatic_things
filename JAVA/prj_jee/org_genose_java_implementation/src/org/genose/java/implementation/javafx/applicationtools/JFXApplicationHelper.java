@@ -251,16 +251,21 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
         return sBasePath;
     }
 
+    public static String packageToPathRoot(Class<?> aObjectClass) {
+        return packageToPath(aObjectClass)+""+String.valueOf(aObjectClass.getPackageName()).replaceAll("[\\.]", "/");
+    }
+
     public static String packageToPath(Class<?> aObjectClass) {
         try {
 
-            String sClasName = aObjectClass.getCanonicalName();
-            Class<?> localClass = Class.forName(sClasName);
+            String sClassName = aObjectClass.getCanonicalName();
+            Class<?> localClass = Class.forName(sClassName);
 
             String systemPathSeparator = String.valueOf(File.separatorChar);
             String packageNamed = localClass.getPackageName();
             String localPackagePath = String.valueOf(packageNamed);
-            String localRunnablePathRelative = String.valueOf("." + packageNamed).replaceAll("[.]", "*")
+            System.out.println("******* package name "+localPackagePath+" :: "+aObjectClass.getName()+" :: "+localClass.getName());
+            String localRunnablePathRelative = String.valueOf("." + localPackagePath).replaceAll("[.]", "*")
                     .replaceAll("[^\\*]", "");
 
             localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\/" );

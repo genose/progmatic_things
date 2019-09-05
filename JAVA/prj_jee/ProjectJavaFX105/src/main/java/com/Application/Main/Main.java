@@ -6,15 +6,31 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
+import org.genose.java.implementation.net.GNSObjectSSHConnection;
 
 import java.net.URL;
+
+import static java.lang.Thread.sleep;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+
+        GNSObjectSSHConnection objectSSHConnection = new GNSObjectSSHConnection("SGBDConnection",
+                "10.1151.58.38", 0,
+                null, null,
+                "pi", "pi",
+                null) ;
+                objectSSHConnection.execShell("pwd");
+sleep(10000);
+objectSSHConnection.close();
+
+
+        /* *********************
         String fileName =  "sample";
-       String appPath =  JFXApplicationHelper.packageToPath(Main.class)+""+String.valueOf(Main.class.getCanonicalName()).replaceAll("[\\.]", "/");
+       String appPath =  JFXApplicationHelper.packageToPathRoot(Main.class);
         String filePathSTR = "/views/"+fileName + ".fxml";
 
         filePathSTR = appPath+""+filePathSTR;
@@ -36,7 +52,7 @@ public class Main extends Application {
         }else{
             System.out.println( " Error : file not found ... in "+(filePathSTR));
         }
-        primaryStage.show();
+        primaryStage.show();*/
     }
 
 

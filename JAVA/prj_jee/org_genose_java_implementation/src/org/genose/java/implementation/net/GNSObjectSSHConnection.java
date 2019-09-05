@@ -1,8 +1,11 @@
 package org.genose.java.implementation.net;
 
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
+import java.io.InputStream;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -24,15 +27,15 @@ public class GNSObjectSSHConnection {
     Integer iSSHPortForwarded = 0; // resulted SSH Port forwarding
     /* ********************************************************************** */
     private String sSSHHostRemotedService = null;
-    private int iSSHPortRemotedService;
+    private Integer iSSHPortRemotedService = null;
     /* ********************************************************************** */
     String sSSHUser = null;
     String sArgSSHPassword = null;
     /* ********************************************************************** */
     String sSSHPubliKeyFilePath = null;
     /* ********************************************************************** */
-    private JSch aSSHConnection = null;
-    private Session session = null;
+    private com.jcraft.jsch.JSch aSSHConnection = null;
+    private com.jcraft.jsch.Session session = null;
     private static Integer iSSHMAXConnection = 10;
     private static ArrayList<Session> sessionArrayList = null;
     private static ArrayList<GNSObjectSSHConnection> sshConnectionArrayList = null;
@@ -65,19 +68,20 @@ public class GNSObjectSSHConnection {
         if (iArgSSHPort == 0) {
             iArgSSHPort = SSH_DEFAULT_PORTNUMBER;
         }
-
+        sshConnectionArrayList = Objects.requireNonNullElse(sshConnectionArrayList, new ArrayList<GNSObjectSSHConnection>());
         if (sArgSSHPassword.isEmpty() && sArgSSHPubliKeyFilePath.isEmpty()) {
             throw new InvalidParameterException(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : SSH PUB FILE and Password cant be empty or null ");
         }
         try {
             if (!sArgSSHPubliKeyFilePath.isEmpty()) {
+                System.out.println("Attach pub key ["+sArgSSHPubliKeyFilePath+"]");
                 aSSHConnection.addIdentity(sArgSSHPubliKeyFilePath);
 
             }
         } catch (Exception evERREXCEPTION_SSH_PARAMETERS) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_PARAMETERS);
 
-            throw new Exception(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER+" : ERROR while attach pubkey file ", evERREXCEPTION_SSH_PARAMETERS);
+            throw new Exception(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while attach pubkey file ", evERREXCEPTION_SSH_PARAMETERS);
         }
         /* ********************************************************************** */
 
@@ -88,7 +92,14 @@ public class GNSObjectSSHConnection {
 
         sshConnectionArrayList.add(this);
         /* ********************************************************************** */
+        iSSHPort = iArgSSHPort;
+        iSSHPortRemotedService = iArgSSHPortForwardedService;
 
+        sSSHPubliKeyFilePath = sArgSSHPubliKeyFilePath;
+
+        sSSHHost =sArgSSHHost ;
+        sSSHUser = sArgSSHUser;
+        sSSHHostRemotedService = sArgSSHHostForwardedService;
     }
 
     /**
@@ -130,7 +141,7 @@ public class GNSObjectSSHConnection {
 
         } catch (Exception evERREXCEPTION_SSH_OPEN) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_OPEN);
-            throw new Exception(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER+" : ERROR while attach pubkey file ", evERREXCEPTION_SSH_OPEN);
+            throw new Exception(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while open connection ", evERREXCEPTION_SSH_OPEN);
 
         }
         return session;
@@ -148,9 +159,58 @@ public class GNSObjectSSHConnection {
             /* ********************************************************************** */
         } catch (Exception evERREXCEPTION_SSH_CLOSE) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_CLOSE);
-            throw new Exception(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER+" : ERROR while attach pubkey file ", evERREXCEPTION_SSH_CLOSE);
+            throw new Exception(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while close connection ", evERREXCEPTION_SSH_CLOSE);
 
         }
+    }
+
+    public boolean execShell(String strCommand) throws Exception {
+        try {
+            open();
+            Channel channel = session.openChannel("exec");
+            ((ChannelExec) channel).setCommand(strCommand);
+
+            // X Forwarding
+            // channel.setXForwarding(true);
+
+            //channel.setInputStream(System.in);
+            channel.setInputStream(null);
+
+            //channel.setOutputStream(System.out);
+
+            //FileOutputStream fos=new FileOutputStream("/tmp/stderr");
+            //((ChannelExec)channel).setErrStream(fos);
+            ((ChannelExec) channel).setErrStream(System.err);
+
+            InputStream in = channel.getInputStream();
+
+            channel.connect();
+
+            byte[] tmp = new byte[1024];
+            while (true) {
+                while (in.available() > 0) {
+                    int i = in.read(tmp, 0, 1024);
+                    if (i < 0) break;
+                    System.out.print(new String(tmp, 0, i));
+                }
+                if (channel.isClosed()) {
+                    if (in.available() > 0) continue;
+                    System.out.println("exit-status: " + channel.getExitStatus());
+                    break;
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception ee) {
+                }
+            }
+            channel.disconnect();
+            return true;
+        } catch (Exception evERREXCEPTION_SSH_CLOSE) {
+            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_CLOSE);
+            throw new Exception(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while exec connection ", evERREXCEPTION_SSH_CLOSE);
+
+        }
+
     }
 
     /**

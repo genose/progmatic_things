@@ -263,7 +263,7 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
             String localRunnablePathRelative = String.valueOf("." + packageNamed).replaceAll("[.]", "*")
                     .replaceAll("[^\\*]", "");
 
-            localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\" + systemPathSeparator);
+            localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\/" );
             return localRunnablePathRelative;
         } catch (Exception evErrPath) {
             JFXApplicationLogger.getLogger().logError(JFXApplicationHelper.class.getClass(), evErrPath);

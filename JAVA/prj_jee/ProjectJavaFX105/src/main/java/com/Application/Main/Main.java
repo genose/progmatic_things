@@ -14,10 +14,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         String fileName =  "sample";
-       String appPath =  JFXApplicationHelper.packageToPath(Main.class);
-        String filePathSTR = "openjfx/"+fileName + ".fxml";
+       String appPath =  JFXApplicationHelper.packageToPath(Main.class)+""+String.valueOf(Main.class.getCanonicalName()).replaceAll("[\\.]", "/");
+        String filePathSTR = "/views/"+fileName + ".fxml";
 
-    filePathSTR = appPath+""+filePathSTR;
+        filePathSTR = appPath+""+filePathSTR;
         System.out.println(" App :: "+getClass().getResource("."));
         System.out.println(" AppPath :: "+appPath);
 

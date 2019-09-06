@@ -15,48 +15,61 @@ import static java.lang.Thread.sleep;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) {
+        try {
+
+            /* ********************* */
+            String fileName =  "sample";
+            String appPath =  JFXApplicationHelper.packageToPathRoot(Main.class);
+            String filePathSTR = "/views/"+fileName + ".fxml";
+
+            filePathSTR = appPath+""+filePathSTR;
+            System.out.println(" App :: "+getClass().getResource("."));
+            System.out.println(" AppPath :: "+appPath);
+
+            System.out.println(" :: "+getClass().getResource(filePathSTR ));
+
+            System.out.println("File .... "+filePathSTR);
+
+            URL fileURL = getClass().getResource(filePathSTR);
+
+            System.out.println("Ressource .... "+fileURL);
+
+            if(fileURL != null) {
+                Parent root = FXMLLoader.load(fileURL);
+                primaryStage.setTitle("Hello World");
+                primaryStage.setScene(new Scene(root, 300, 275));
+            }else{
+                System.out.println( " Error : file not found ... in "+(filePathSTR));
+            }
+            primaryStage.show();
+            GNSObjectSSHConnection objectSSHConnection = new GNSObjectSSHConnection("SGBDConnection",
+                    "10.115.58.38", 0,
+                    null, null,
+                    "pi", "pi",
+                    null);
+            objectSSHConnection.execShell("pwd");
+            System.out.println(" ... Back to main ...");
+            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Waiting before closing connection ");
+            Thread.sleep(10000);
+            System.out.println(" ... Main :: awaked ...");
+            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Close connection ");
+            System.out.println(" ... Main :: try close ...");
+            objectSSHConnection.close();
+            System.out.println(" ... main : done ...");
 
 
-        GNSObjectSSHConnection objectSSHConnection = new GNSObjectSSHConnection("SGBDConnection",
-                "10.1151.58.38", 0,
-                null, null,
-                "pi", "pi",
-                null) ;
-                objectSSHConnection.execShell("pwd");
-sleep(10000);
-objectSSHConnection.close();
-
-
-        /* *********************
-        String fileName =  "sample";
-       String appPath =  JFXApplicationHelper.packageToPathRoot(Main.class);
-        String filePathSTR = "/views/"+fileName + ".fxml";
-
-        filePathSTR = appPath+""+filePathSTR;
-        System.out.println(" App :: "+getClass().getResource("."));
-        System.out.println(" AppPath :: "+appPath);
-
-        System.out.println(" :: "+getClass().getResource(filePathSTR ));
-
-        System.out.println("File .... "+filePathSTR);
-
-        URL fileURL = getClass().getResource(filePathSTR);
-
-        System.out.println("Ressource .... "+fileURL);
-
-        if(fileURL != null) {
-            Parent root = FXMLLoader.load(fileURL);
-            primaryStage.setTitle("Hello World");
-            primaryStage.setScene(new Scene(root, 300, 275));
-        }else{
-            System.out.println( " Error : file not found ... in "+(filePathSTR));
+        } catch (Exception evErrExceptionApppMain) {
+            System.out.println("Error :: " + evErrExceptionApppMain);
         }
-        primaryStage.show();*/
     }
 
 
     public static void main(String[] args) {
-        launch(args);
+        try {
+            launch(args);
+        } catch (Exception evErrMain) {
+            System.out.println("Error :: " + evErrMain);
+        }
     }
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools.arraysmapslists;
+package org.genose.java.implementation.arraysmapslists;
 
 import java.util.Collection;
 import java.util.HashMap;

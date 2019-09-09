@@ -11,8 +11,8 @@ import java.util.Iterator;
 import java.util.List; 
 import java.util.Map.Entry;
 
-import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.GNSObjectMappedObject;
-import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.GNSObjectMappedObjectValue;
+import org.genose.java.implementation.arraysmapslists.GNSObjectMappedObject;
+import org.genose.java.implementation.arraysmapslists.GNSObjectMappedObjectValue;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 
 

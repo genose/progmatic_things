@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.genose.java.implementation.streams.GNSObjectMappedLogger;
-import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.GNSObjectMappedObject;
+import org.genose.java.implementation.arraysmapslists.GNSObjectMappedObject;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 
 /**

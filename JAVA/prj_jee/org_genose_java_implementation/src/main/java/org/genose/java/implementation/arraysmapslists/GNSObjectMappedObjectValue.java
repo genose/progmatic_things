@@ -1,15 +1,15 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools.arraysmapslists;
+package org.genose.java.implementation.arraysmapslists;
 
-import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationRuntimeException;
+import org.genose.java.implementation.exceptionerror.GNSObjectRuntimeException;
 
 /**
  * @author 59013-36-18
  *
  */
-public class GNSObjectMappedObjectValue implements JFXApplicationValuesAccessor {
+public class GNSObjectMappedObjectValue implements GNSObjectMappedValuesAccessor {
 	private Object pPrivateValue = null;
 
 	/**
@@ -84,7 +84,7 @@ public class GNSObjectMappedObjectValue implements JFXApplicationValuesAccessor 
 	@Override
 	public Boolean getBoolean() {
 		if (isComplexObject()) {
-			throw new JFXApplicationRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
+			throw new GNSObjectRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
 		}
 
 		return ((Boolean) this.pPrivateValue).booleanValue();
@@ -100,7 +100,7 @@ public class GNSObjectMappedObjectValue implements JFXApplicationValuesAccessor 
 	public Integer getInteger() {
 
 		if (isComplexObject()) {
-			throw new JFXApplicationRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
+			throw new GNSObjectRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
 		}
 
 		return ((Integer) this.pPrivateValue).intValue();
@@ -115,7 +115,7 @@ public class GNSObjectMappedObjectValue implements JFXApplicationValuesAccessor 
 	public Double getDouble() {
 
 		if (isComplexObject()) {
-			throw new JFXApplicationRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
+			throw new GNSObjectRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
 		}
 
 		return ((Double) this.pPrivateValue).doubleValue();
@@ -131,7 +131,7 @@ public class GNSObjectMappedObjectValue implements JFXApplicationValuesAccessor 
 	public String getString() {
 
 		if (isComplexObject()) {
-			throw new JFXApplicationRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
+			throw new GNSObjectRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
 		}
 
 		return String.valueOf(this.pPrivateValue);

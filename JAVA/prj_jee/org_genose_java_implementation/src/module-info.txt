@@ -8,14 +8,17 @@ module org.genose.java.implementation {
 	requires javafx.swt;
 	requires javafx.web;
  
-	
-	exports org.genose.java.implementation.javafx.applicationtools.arraysmapslists; 
+
+	exports org.genose.java.implementation.objectinterface;
+	exports org.genose.java.implementation.arraysmapslists;
+	exports org.genose.java.implementation.exceptionerror;
+    exports org.genose.java.implementation.dicomots;
+    exports org.genose.java.implementation.games;
+    exports org.genose.java.implementation.net;
+    exports org.genose.java.implementation.files;
 	exports org.genose.java.implementation.javafx.applicationtools.exceptionerror;
-	exports org.genose.java.implementation.files;
 	exports org.genose.java.implementation.javafx.applicationtools.views;
 	exports org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller;
 	exports org.genose.java.implementation.javafx.applicationtools;
-	exports org.genose.java.implementation.dicomots;
-	exports org.genose.java.implementation.games;
-	exports org.genose.java.implementation.net;
+
 } 

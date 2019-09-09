@@ -112,7 +112,7 @@ public class JFXApplicationScene extends Scene implements JFXApplicationDesignOb
 	 * 
 	 */
 	public static JFXApplicationScene create(String argModuleName, String argModuleNameFile,
-			JFXApplicationCallback aFuncCallback) throws JFXApplicationException {
+			JFXApplicationFunctionCallback aFuncCallback) throws JFXApplicationException {
 		return JFXApplicationDesignObjectLoad.create(argModuleName, argModuleNameFile, aFuncCallback);
 	}
 

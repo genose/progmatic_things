@@ -38,8 +38,8 @@ import java.util.stream.Stream;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication.JFXFILETYPE;
 import org.genose.java.implementation.streams.GNSObjectMappedLogger;
-import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.GNSObjectMappedObject;
-import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.GNSObjectMappedObjectValue;
+import org.genose.java.implementation.arraysmapslists.GNSObjectMappedObject;
+import org.genose.java.implementation.arraysmapslists.GNSObjectMappedObjectValue;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.json.*;
 

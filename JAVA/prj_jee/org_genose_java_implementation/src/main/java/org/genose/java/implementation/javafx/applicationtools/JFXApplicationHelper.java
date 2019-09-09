@@ -83,8 +83,8 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
     }
 
     /* ****************************************************** */
-    public static Object getApplicationMain() {
-        Application refApplication = null;
+    public static JFXApplication getApplicationMain() {
+        JFXApplication refApplication = null;
         Class localClass = null;
         if (JFXApplication.singletonInstanceExists()) {
             refApplication = JFXApplication.getJFXApplicationSingleton();

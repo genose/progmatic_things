@@ -6,7 +6,7 @@ package org.genose.java.implementation.javafx.applicationtools.threadstasks;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationCallback;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationClassHelper;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
-import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
+import org.genose.java.implementation.streams.GNSObjectMappedLogger;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 
 import javafx.application.Platform;
@@ -58,7 +58,7 @@ public class JFXApplicationScheduledTask extends java.util.TimerTask {
 	public void run() {
 
 		if (this.aFuncCallback == null) {
-			JFXApplicationLogger.getLogger().logError(this.getClass(), "Cant run ... Runnable CallBack is null ... ");
+			GNSObjectMappedLogger.getLogger().logError(this.getClass(), "Cant run ... Runnable CallBack is null ... ");
 			return;
 		}
 		// https://stackoverflow.com/questions/21083945/how-to-avoid-not-on-fx-application-thread-currentthread-javafx-application-th
@@ -74,12 +74,12 @@ public class JFXApplicationScheduledTask extends java.util.TimerTask {
 					sCallbackDescription = String.format("[%s]", (String) aDescription);
 				}
   
-				JFXApplicationLogger.getLogger().logInfo(getClass(), String.format("Callback (%s) returned %s",
+				GNSObjectMappedLogger.getLogger().logInfo(getClass(), String.format("Callback (%s) returned %s",
 						sCallbackDescription, ((oCallBackResult == null) ? "[Null]" : oCallBackResult)));
 			} catch (Exception evERRPlanifiedRunnable) {
 
 				String sMessageFailInvokeable = "Something went wrong when running callback   ...";
-				JFXApplicationLogger.getLogger().logError(this.getClass(), evERRPlanifiedRunnable,
+				GNSObjectMappedLogger.getLogger().logError(this.getClass(), evERRPlanifiedRunnable,
 						sMessageFailInvokeable);
 				JFXApplicationException.raiseToFront(this.getClass(), new JFXApplicationException(
 						sMessageFailInvokeable, evERRPlanifiedRunnable, JFXApplicationHelper.getStackTrace()), true);
@@ -94,7 +94,7 @@ public class JFXApplicationScheduledTask extends java.util.TimerTask {
 	 */
 	public void schedule() {
 		if (this.aFuncCallback == null) {
-			JFXApplicationLogger.getLogger().logError(this.getClass(),
+			GNSObjectMappedLogger.getLogger().logError(this.getClass(),
 					"Cant schedule ... Runnable CallBack is null ... ");
 			return;
 		}
@@ -216,7 +216,7 @@ public class JFXApplicationScheduledTask extends java.util.TimerTask {
 			}
 
 		} catch (Exception evERRSETUPFROMCALLBACK) {
-			JFXApplicationLogger.getLogger().logError(this.getClass(), evERRSETUPFROMCALLBACK);
+			GNSObjectMappedLogger.getLogger().logError(this.getClass(), evERRSETUPFROMCALLBACK);
 		}
 
 	}

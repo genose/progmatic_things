@@ -9,13 +9,13 @@ import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFX
  * @author 59013-36-18
  *
  */
-public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
+public class GNSObjectMappedObjectValue implements JFXApplicationValuesAccessor {
 	private Object pPrivateValue = null;
 
 	/**
 	 * 
 	 */
-	public JFXApplicationObjectValue() {
+	public GNSObjectMappedObjectValue() {
 		super();
 	}
 	
@@ -23,7 +23,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	 * 
 	 * @param aObjectValue
 	 */
-	public JFXApplicationObjectValue(Object aObjectValue) {
+	public GNSObjectMappedObjectValue(Object aObjectValue) {
 		super();
 		this.pPrivateValue = aObjectValue;
 	}
@@ -31,7 +31,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	 * 
 	 * @param aStringValue
 	 */
-	public JFXApplicationObjectValue(String aStringValue) {
+	public GNSObjectMappedObjectValue(String aStringValue) {
 		super();
 		this.pPrivateValue = aStringValue;
 	}
@@ -39,7 +39,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	 * 
 	 * @param aIntegerValue
 	 */
-	public JFXApplicationObjectValue(Integer aIntegerValue) {
+	public GNSObjectMappedObjectValue(Integer aIntegerValue) {
 		super();
 		pPrivateValue = aIntegerValue;
 	}
@@ -47,7 +47,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	 * 
 	 * @param aDoubleValue
 	 */
-	public JFXApplicationObjectValue(Double aDoubleValue) {
+	public GNSObjectMappedObjectValue(Double aDoubleValue) {
 		super();
 		pPrivateValue = aDoubleValue;
 	}
@@ -55,7 +55,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	 * 
 	 * @param aBooleanValue
 	 */
-	public JFXApplicationObjectValue(Boolean aBooleanValue) {
+	public GNSObjectMappedObjectValue(Boolean aBooleanValue) {
 		super();
 		pPrivateValue = aBooleanValue;
 	}

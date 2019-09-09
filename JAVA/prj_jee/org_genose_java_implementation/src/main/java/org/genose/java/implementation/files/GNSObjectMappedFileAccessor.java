@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools.files;
+package org.genose.java.implementation.files;
  
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -37,9 +37,9 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication.JFXFILETYPE;
-import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
-import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationMappedObject;
-import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationObjectValue;
+import org.genose.java.implementation.streams.GNSObjectMappedLogger;
+import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.GNSObjectMappedObject;
+import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.GNSObjectMappedObjectValue;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.json.*;
 
@@ -47,13 +47,13 @@ import org.json.*;
  * @author 59013-36-18
  *
  */
-public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedObject> {
+public class GNSObjectMappedFileAccessor implements Stream<GNSObjectMappedObject> {
 
 	/**
 	 * 
 	 * File relative
 	 */
-	protected JFXApplicationMappedObject aFileContentDescriptor;
+	protected GNSObjectMappedObject aFileContentDescriptor;
 	private File aFileDescriptor = null;
 	private String aFileName = null;
 	private String aFilePath = null;
@@ -72,14 +72,14 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 	private FileReader aFileReader = null;
 	private FileWriter aFileWriter = null;
 
-	private JFXApplicationLogger aLogger = null;
+	private GNSObjectMappedLogger aLogger = null;
 	private ArrayList<String> aAuthourizedFileExtentions = null;
 
 	/* **************************************** */
 	/**
 	 * 
 	 */
-	public JFXApplicationFileAccessor() throws FileNotFoundException {
+	public GNSObjectMappedFileAccessor() throws FileNotFoundException {
 		throw new FileNotFoundException(String.format("%s : %s",getClass().getName(), " : file argument is null or file not exists "));
 	}
 
@@ -89,7 +89,7 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 	 * @param aFileArg
 	 * @throws FileNotFoundException
 	 */
-	public JFXApplicationFileAccessor(File aFileArg) throws FileNotFoundException {
+	public GNSObjectMappedFileAccessor(File aFileArg) throws FileNotFoundException {
 		/* **************************************** */
 		if (aFileArg == null) {
 			throw new FileNotFoundException(getClass().getName() + ": file argument is null or file not exists ");
@@ -111,7 +111,7 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 
 		aFilePathAbsolute = aFileArg.getAbsolutePath();
 		/* **************************************** */
-		aLogger = new JFXApplicationLogger("" + aFileDescriptor.toString());
+		aLogger = new GNSObjectMappedLogger("" + aFileDescriptor.toString());
 		/* **************************************** */
 		Map<String, String> aFileContentDescriptor = new HashMap<>();
 		/* **************************************** */
@@ -222,9 +222,10 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 	}
 
 	/* **************************************** */
+
 	/**
-	 * 
-	 * @param aParentNodeElement
+	 *
+	 * @param aChildNodeElement
 	 * @return
 	 * @throws JFXApplicationException
 	 */
@@ -281,7 +282,7 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 	 * @return
 	 * @throws JFXApplicationException
 	 */
-	public Boolean appendObjectToSerializedJSON(JFXApplicationMappedObject aNodeChildElement)
+	public Boolean appendObjectToSerializedJSON(GNSObjectMappedObject aNodeChildElement)
 			throws JFXApplicationException {
 		try {
 
@@ -289,12 +290,12 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 			// prepare to transfrom current data nodes to JSON ...
 			JSONObject dataset = new JSONObject();
 
-			if (!(aNodeChildElement instanceof JFXApplicationMappedObject)) {
+			if (!(aNodeChildElement instanceof GNSObjectMappedObject)) {
 				throw new JFXApplicationException(getClass().getName() + ": the node class "
 						+ aNodeChildElement.getClass() + " is not iterable ... ");
 			}
 			/* **************************************** */
-			for (Entry<String, JFXApplicationObjectValue> aNodeChildElementEntry : aNodeChildElement.entrySet()) {
+			for (Entry<String, GNSObjectMappedObjectValue> aNodeChildElementEntry : aNodeChildElement.entrySet()) {
 
 				String aNodeChildElementName = aNodeChildElementEntry.getKey();
 				Object aNodeChildElementValue = aNodeChildElementEntry.getValue();
@@ -462,16 +463,16 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 	 * @return
 	 * @throws IOException
 	 */
-	public JFXApplicationMappedObject readlnAsMapIntegerKey() throws IOException {
+	public GNSObjectMappedObject readlnAsMapIntegerKey() throws IOException {
 		readln();
-		JFXApplicationMappedObject aReadedLineMap = new JFXApplicationMappedObject();
+		GNSObjectMappedObject aReadedLineMap = new GNSObjectMappedObject();
 		(aReadedLineMap).put(0, aBufferedReaderLineString);
 		return (aReadedLineMap);
 	}
 
-	public JFXApplicationMappedObject readlnAsMapStringKey() throws IOException {
+	public GNSObjectMappedObject readlnAsMapStringKey() throws IOException {
 		readln();
-		JFXApplicationMappedObject aReadedLineMap = new JFXApplicationMappedObject();
+		GNSObjectMappedObject aReadedLineMap = new GNSObjectMappedObject();
 		(aReadedLineMap).put(0, aBufferedReaderLineString);
 		return (aReadedLineMap);
 	}
@@ -698,7 +699,7 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 	/**
 	 * @return the aLogger
 	 */
-	public synchronized JFXApplicationLogger getLogger() {
+	public synchronized GNSObjectMappedLogger getLogger() {
 		return aLogger;
 	}
 
@@ -706,7 +707,7 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 	/**
 	 * @param aLogger the aLogger to set
 	 */
-	public synchronized void setLogger(JFXApplicationLogger aLogger) {
+	public synchronized void setLogger(GNSObjectMappedLogger aLogger) {
 		this.aLogger = aLogger;
 	}
 
@@ -723,13 +724,13 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 	/* **************************************** */
 
 	@Override
-	public Iterator<JFXApplicationMappedObject> iterator() {
+	public Iterator<GNSObjectMappedObject> iterator() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Spliterator<JFXApplicationMappedObject> spliterator() {
+	public Spliterator<GNSObjectMappedObject> spliterator() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -741,25 +742,25 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 	}
 
 	@Override
-	public Stream<JFXApplicationMappedObject> sequential() {
+	public Stream<GNSObjectMappedObject> sequential() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<JFXApplicationMappedObject> parallel() {
+	public Stream<GNSObjectMappedObject> parallel() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<JFXApplicationMappedObject> unordered() {
+	public Stream<GNSObjectMappedObject> unordered() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<JFXApplicationMappedObject> onClose(Runnable closeHandler) {
+	public Stream<GNSObjectMappedObject> onClose(Runnable closeHandler) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -771,103 +772,103 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 	}
 
 	@Override
-	public Stream<JFXApplicationMappedObject> filter(Predicate<? super JFXApplicationMappedObject> predicate) {
+	public Stream<GNSObjectMappedObject> filter(Predicate<? super GNSObjectMappedObject> predicate) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <R> Stream<R> map(Function<? super JFXApplicationMappedObject, ? extends R> mapper) {
+	public <R> Stream<R> map(Function<? super GNSObjectMappedObject, ? extends R> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public IntStream mapToInt(ToIntFunction<? super JFXApplicationMappedObject> mapper) {
+	public IntStream mapToInt(ToIntFunction<? super GNSObjectMappedObject> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public LongStream mapToLong(ToLongFunction<? super JFXApplicationMappedObject> mapper) {
+	public LongStream mapToLong(ToLongFunction<? super GNSObjectMappedObject> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public DoubleStream mapToDouble(ToDoubleFunction<? super JFXApplicationMappedObject> mapper) {
+	public DoubleStream mapToDouble(ToDoubleFunction<? super GNSObjectMappedObject> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <R> Stream<R> flatMap(Function<? super JFXApplicationMappedObject, ? extends Stream<? extends R>> mapper) {
+	public <R> Stream<R> flatMap(Function<? super GNSObjectMappedObject, ? extends Stream<? extends R>> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public IntStream flatMapToInt(Function<? super JFXApplicationMappedObject, ? extends IntStream> mapper) {
+	public IntStream flatMapToInt(Function<? super GNSObjectMappedObject, ? extends IntStream> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public LongStream flatMapToLong(Function<? super JFXApplicationMappedObject, ? extends LongStream> mapper) {
+	public LongStream flatMapToLong(Function<? super GNSObjectMappedObject, ? extends LongStream> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public DoubleStream flatMapToDouble(Function<? super JFXApplicationMappedObject, ? extends DoubleStream> mapper) {
+	public DoubleStream flatMapToDouble(Function<? super GNSObjectMappedObject, ? extends DoubleStream> mapper) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<JFXApplicationMappedObject> distinct() {
+	public Stream<GNSObjectMappedObject> distinct() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<JFXApplicationMappedObject> sorted() {
+	public Stream<GNSObjectMappedObject> sorted() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<JFXApplicationMappedObject> sorted(Comparator<? super JFXApplicationMappedObject> comparator) {
+	public Stream<GNSObjectMappedObject> sorted(Comparator<? super GNSObjectMappedObject> comparator) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<JFXApplicationMappedObject> peek(Consumer<? super JFXApplicationMappedObject> action) {
+	public Stream<GNSObjectMappedObject> peek(Consumer<? super GNSObjectMappedObject> action) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<JFXApplicationMappedObject> limit(long maxSize) {
+	public Stream<GNSObjectMappedObject> limit(long maxSize) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Stream<JFXApplicationMappedObject> skip(long n) {
+	public Stream<GNSObjectMappedObject> skip(long n) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void forEach(Consumer<? super JFXApplicationMappedObject> action) {
+	public void forEach(Consumer<? super GNSObjectMappedObject> action) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void forEachOrdered(Consumer<? super JFXApplicationMappedObject> action) {
+	public void forEachOrdered(Consumer<? super GNSObjectMappedObject> action) {
 		// TODO Auto-generated method stub
 
 	}
@@ -885,46 +886,46 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 	}
 
 	@Override
-	public JFXApplicationMappedObject reduce(JFXApplicationMappedObject identity,
-			BinaryOperator<JFXApplicationMappedObject> accumulator) {
+	public GNSObjectMappedObject reduce(GNSObjectMappedObject identity,
+										BinaryOperator<GNSObjectMappedObject> accumulator) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Optional<JFXApplicationMappedObject> reduce(BinaryOperator<JFXApplicationMappedObject> accumulator) {
+	public Optional<GNSObjectMappedObject> reduce(BinaryOperator<GNSObjectMappedObject> accumulator) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <U> U reduce(U identity, BiFunction<U, ? super JFXApplicationMappedObject, U> accumulator,
+	public <U> U reduce(U identity, BiFunction<U, ? super GNSObjectMappedObject, U> accumulator,
 			BinaryOperator<U> combiner) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super JFXApplicationMappedObject> accumulator,
+	public <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super GNSObjectMappedObject> accumulator,
 			BiConsumer<R, R> combiner) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <R, A> R collect(Collector<? super JFXApplicationMappedObject, A, R> collector) {
+	public <R, A> R collect(Collector<? super GNSObjectMappedObject, A, R> collector) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Optional<JFXApplicationMappedObject> min(Comparator<? super JFXApplicationMappedObject> comparator) {
+	public Optional<GNSObjectMappedObject> min(Comparator<? super GNSObjectMappedObject> comparator) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Optional<JFXApplicationMappedObject> max(Comparator<? super JFXApplicationMappedObject> comparator) {
+	public Optional<GNSObjectMappedObject> max(Comparator<? super GNSObjectMappedObject> comparator) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -936,31 +937,31 @@ public class JFXApplicationFileAccessor implements Stream<JFXApplicationMappedOb
 	}
 
 	@Override
-	public boolean anyMatch(Predicate<? super JFXApplicationMappedObject> predicate) {
+	public boolean anyMatch(Predicate<? super GNSObjectMappedObject> predicate) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean allMatch(Predicate<? super JFXApplicationMappedObject> predicate) {
+	public boolean allMatch(Predicate<? super GNSObjectMappedObject> predicate) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean noneMatch(Predicate<? super JFXApplicationMappedObject> predicate) {
+	public boolean noneMatch(Predicate<? super GNSObjectMappedObject> predicate) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Optional<JFXApplicationMappedObject> findFirst() {
+	public Optional<GNSObjectMappedObject> findFirst() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Optional<JFXApplicationMappedObject> findAny() {
+	public Optional<GNSObjectMappedObject> findAny() {
 		// TODO Auto-generated method stub
 		return null;
 	}

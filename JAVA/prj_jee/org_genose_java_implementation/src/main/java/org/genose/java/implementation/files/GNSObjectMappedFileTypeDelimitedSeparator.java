@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools.files;
+package org.genose.java.implementation.files;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,26 +11,26 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
-import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationMappedObject;
+import org.genose.java.implementation.streams.GNSObjectMappedLogger;
+import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.GNSObjectMappedObject;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 
 /**
  * @author 59013-36-18
  *
  */
-public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFileAccessor {
+public class GNSObjectMappedFileTypeDelimitedSeparator extends GNSObjectMappedFileAccessor {
 
 	final String DEFAULTSTRINGDELIMITER = ";";
 	private String aStringDelimiterSeparator = DEFAULTSTRINGDELIMITER;
 	private Boolean bFileHaveFirstLineHasKeyDescriptor = false;
-	JFXApplicationMappedObject aFirstLineKeyDescriptor = new JFXApplicationMappedObject();
+	GNSObjectMappedObject aFirstLineKeyDescriptor = new GNSObjectMappedObject();
 
 	/* **************************************** */
 	/**
 	 * @throws FileNotFoundException
 	 */
-	public JFXApplicationFileTypeDelimitedSeparator() throws FileNotFoundException {
+	public GNSObjectMappedFileTypeDelimitedSeparator() throws FileNotFoundException {
 		super();
 	}
 
@@ -39,7 +39,7 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 	 * @param aFileArg
 	 * @throws FileNotFoundException
 	 */
-	public JFXApplicationFileTypeDelimitedSeparator(File aFileArg) throws FileNotFoundException {
+	public GNSObjectMappedFileTypeDelimitedSeparator(File aFileArg) throws FileNotFoundException {
 		super(aFileArg);
 	}
 
@@ -50,7 +50,7 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 	 * @param aStringDelimiter
 	 * @throws FileNotFoundException
 	 */
-	public JFXApplicationFileTypeDelimitedSeparator(File aFileArg, String aStringDelimiter)
+	public GNSObjectMappedFileTypeDelimitedSeparator(File aFileArg, String aStringDelimiter)
 			throws FileNotFoundException {
 		super(aFileArg);
 		if (aStringDelimiter == null)
@@ -120,7 +120,7 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 
 	/* **************************************** */
 	@Override
-	public Boolean appendObjectToSerializedJSON(JFXApplicationMappedObject aNodeChildElement)
+	public Boolean appendObjectToSerializedJSON(GNSObjectMappedObject aNodeChildElement)
 			throws JFXApplicationException {
 
 		Boolean bApppendStatus = false;
@@ -174,13 +174,13 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 	}
 
 	@Override
-	public JFXApplicationMappedObject readlnAsMapStringKey() throws IOException {
+	public GNSObjectMappedObject readlnAsMapStringKey() throws IOException {
 		initReaderIfNecessary();
 		String aFileLineReaded = super.readln();
 		
 		if(isEOF()) return null;
 		
-		JFXApplicationMappedObject aSplittedValues = new JFXApplicationMappedObject();
+		GNSObjectMappedObject aSplittedValues = new GNSObjectMappedObject();
 
 		String[] arrayStringOfValues = aFileLineReaded.split(aStringDelimiterSeparator);
 		for (int i = 0; i < arrayStringOfValues.length; i++) {
@@ -201,7 +201,7 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 			// init file reader
 			initReaderIfNecessary();
 			// read until EOF Mechanism is reached ...
-			JFXApplicationMappedObject aLineReaded = new JFXApplicationMappedObject();
+			GNSObjectMappedObject aLineReaded = new GNSObjectMappedObject();
 			while (!isEOF()) {
 				// read until EOF Internal is Reached
 				aLineReaded.clear();
@@ -227,11 +227,11 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 	}
 
 	@Override
-	public JFXApplicationMappedObject readlnAsMapIntegerKey() throws IOException {
+	public GNSObjectMappedObject readlnAsMapIntegerKey() throws IOException {
 		initReaderIfNecessary();
 		String aFileLineReaded = super.readln();
 
-		JFXApplicationMappedObject aSplittedValues = new JFXApplicationMappedObject();
+		GNSObjectMappedObject aSplittedValues = new GNSObjectMappedObject();
 
 		String[] arrayStringOfValues = aFileLineReaded.split(aStringDelimiterSeparator);
 		for (int i = 0; i < arrayStringOfValues.length; i++) {
@@ -242,19 +242,19 @@ public class JFXApplicationFileTypeDelimitedSeparator extends JFXApplicationFile
 	}
 
 	public static void main(String[] args) {
-		JFXApplicationLogger.getLogger().logInfo("Test class ... ");
+		GNSObjectMappedLogger.getLogger().logInfo("Test class ... ");
 		File aFilePath = new File("salaries.txt");
 
-		JFXApplicationLogger.getLogger()
+		GNSObjectMappedLogger.getLogger()
 				.logInfo(" file :" + aFilePath.getAbsolutePath() + "::" + String.valueOf(aFilePath.exists()));
 
 		try {
-			JFXApplicationFileTypeDelimitedSeparator aFileAccessor = new JFXApplicationFileTypeDelimitedSeparator(
+			GNSObjectMappedFileTypeDelimitedSeparator aFileAccessor = new GNSObjectMappedFileTypeDelimitedSeparator(
 					aFilePath, "\\|");
 			aFileAccessor.initReaderIfNecessary();
 			do {
 				
-				JFXApplicationMappedObject aMappedObjectLine = aFileAccessor.readlnAsMapStringKey();
+				GNSObjectMappedObject aMappedObjectLine = aFileAccessor.readlnAsMapStringKey();
 				// 
 				System.out.println(" :: "+aFileAccessor.readln());
 				if(aMappedObjectLine != null)

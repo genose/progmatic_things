@@ -1,6 +1,5 @@
 package org.genose.java.implementation.javafx.applicationtools;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.nio.file.Path;
@@ -14,12 +13,12 @@ import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFX
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationRuntimeException;
 import org.genose.java.implementation.javafx.applicationtools.threadstasks.JFXApplicationScheduledTask;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
-import org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlComboxBoxAutoFill;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import org.genose.java.implementation.streams.GNSObjectMappedLogger;
 
 public abstract interface JFXApplicationDesignObjectLoad {
 
@@ -227,7 +226,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 					Object oControllerView = aRootNodeLoader.getController();
 
 					if (oControllerView == null) {
-						JFXApplicationLogger.getLogger().logError(aRootNode.getClass(),
+						GNSObjectMappedLogger.getLogger().logError(aRootNode.getClass(),
 								String.format("Warning : Loaded controler is null ... for (%s) of type (%s) :: (%s)",
 										sRequestedSceneFile, aRootNode.getScene(), aRootNode.getClass()));
 					}
@@ -402,7 +401,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 				}
 
 			} else {
-				JFXApplicationLogger.getLogger().logError(aRefeneceClass.getClass(),
+				GNSObjectMappedLogger.getLogger().logError(aRefeneceClass.getClass(),
 						new JFXApplicationRuntimeException(
 								String.format("Cant obtain FXLOADER definition for %s  %n Expected Class %s",
 										aUrlDesignFile, sEnclosingClassName)));
@@ -410,7 +409,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 			// may be NULL
 			return ((Parent) aParentRootNode);
 		} catch (Exception evERRObjectCreateLoad) {
-			JFXApplicationLogger.getLogger().logError(JFXApplicationDesignObjectLoad.class, evERRObjectCreateLoad);
+			GNSObjectMappedLogger.getLogger().logError(JFXApplicationDesignObjectLoad.class, evERRObjectCreateLoad);
 			throw new RuntimeException(evERRObjectCreateLoad);
 		}
 

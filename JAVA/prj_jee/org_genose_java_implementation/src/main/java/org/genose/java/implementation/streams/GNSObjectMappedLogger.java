@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools;
+package org.genose.java.implementation.streams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,15 +12,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
-import org.genose.java.implementation.streams.ConsoleStream;
 
 /**
  * @author 59013-36-18 Intend to create a console I/O loggeable activity
  *
  */
-public class JFXApplicationLogger extends ConsoleStream implements System.Logger {
-	private static JFXApplicationLogger pJFXApplicationLoggerSingleton = null;
+public class GNSObjectMappedLogger extends ConsoleStream implements System.Logger {
+	private static GNSObjectMappedLogger pGNSObjectMappedLoggerSingleton = null;
 
 	public enum LOGGERFORMAT {
 		LOG_DEFAULT(
@@ -119,7 +120,7 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	 */
 
 	private System.Logger aLogger = null;
-	private String aLoggerDescription = JFXApplicationLogger.class.getName() + ":System.getLogger([String])";
+	private String aLoggerDescription = GNSObjectMappedLogger.class.getName() + ":System.getLogger([String])";
 	private String aLoggerName = "";
 	private MessageFormat aMessageFormatLogger = null;
 
@@ -130,7 +131,7 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	/**
 	 * 
 	 */
-	public JFXApplicationLogger() {
+	public GNSObjectMappedLogger() {
 		super();
 		aLoggerName = JFXApplication.class.getClass().toString();
 		aLogger = System.getLogger(aLoggerName);
@@ -144,7 +145,7 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	 * 
 	 * @param loggerName
 	 */
-	public JFXApplicationLogger(String loggerName) {
+	public GNSObjectMappedLogger(String loggerName) {
 		super();
 		aLoggerName = loggerName;
 		aLogger = System.getLogger(aLoggerName);
@@ -157,7 +158,7 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	/**
 	 * @param abufferedReader
 	 */
-	public JFXApplicationLogger(BufferedReader abufferedReader) {
+	public GNSObjectMappedLogger(BufferedReader abufferedReader) {
 		super(abufferedReader);
 	}
 
@@ -168,7 +169,7 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	/**
 	 * @param apPrintStream
 	 */
-	public JFXApplicationLogger(PrintStream apPrintStream) {
+	public GNSObjectMappedLogger(PrintStream apPrintStream) {
 		super(apPrintStream);
 	}
 
@@ -178,11 +179,11 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	 * @throws UnsupportedOperationException
 	 */
 	private void singletonInstanceCreate() throws UnsupportedOperationException {
-		synchronized (JFXApplicationLogger.class) {
-			if (pJFXApplicationLoggerSingleton != null)
+		synchronized (GNSObjectMappedLogger.class) {
+			if (pGNSObjectMappedLoggerSingleton != null)
 				throw new UnsupportedOperationException(
 						getClass() + " is singleton but constructor called more than once");
-			pJFXApplicationLoggerSingleton = this;
+			pGNSObjectMappedLoggerSingleton = this;
 		}
 	}
 
@@ -308,8 +309,8 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	}
 
 	/**
-	 * 
-	 * @param currenClass
+	 *
+	 * @param fromCurrentClass
 	 * @param message
 	 */
 	/* ****************************************************** */
@@ -338,22 +339,23 @@ public class JFXApplicationLogger extends ConsoleStream implements System.Logger
 	}
 
 	/* ****************************************************** */
+
 	/**
-	 * 
+	 *
 	 * @param fromCurrentClass
-	 * @param aThrowedCause
+	 * @param throwedEvent
 	 */
 	public void logError(Class<?> fromCurrentClass, Throwable throwedEvent) {
 		logError(fromCurrentClass, throwedEvent, null, null);
 	}
 
 	/* ****************************************************** */
+
 	/**
-	 * 
+	 *
 	 * @param fromCurrentClass
-	 * @param throwedType
+	 * @param throwedEvent
 	 * @param message
-	 * @param callStack
 	 */
 	public void logError(Class<?> fromCurrentClass, Throwable throwedEvent, String message) {
 		logError(fromCurrentClass, throwedEvent, message, null);
@@ -430,12 +432,12 @@ if(aEnclavedThrowable != null) {
 	 * 
 	 * @return
 	 */
-	public static JFXApplicationLogger getLogger() {
-		synchronized (JFXApplicationLogger.class) {
-			if (pJFXApplicationLoggerSingleton == null) {
-				pJFXApplicationLoggerSingleton = new JFXApplicationLogger();
+	public static GNSObjectMappedLogger getLogger() {
+		synchronized (GNSObjectMappedLogger.class) {
+			if (pGNSObjectMappedLoggerSingleton == null) {
+				pGNSObjectMappedLoggerSingleton = new GNSObjectMappedLogger();
 			}
-			return pJFXApplicationLoggerSingleton;
+			return pGNSObjectMappedLoggerSingleton;
 		}
 	}
 

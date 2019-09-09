@@ -17,7 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
-import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
+import org.genose.java.implementation.streams.GNSObjectMappedLogger;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationDialog;
 
 
@@ -129,7 +129,7 @@ public class JFXApplicationException extends Exception {
                             throwedEvent = new JFXApplicationException("raiseToFront was Called for a certain reason ...", throwedEvent, JFXApplicationHelper.getStackTrace());
                         }
 
-                        JFXApplicationLogger.getLogger().logError(JFXApplicationException.class, throwedEvent, "Error while finding to forward error to frontend ...");
+                        GNSObjectMappedLogger.getLogger().logError(JFXApplicationException.class, throwedEvent, "Error while finding to forward error to frontend ...");
 
                         aFatalErrorAlert = new Alert(Alert.AlertType.CONFIRMATION);
                         System.out.println(" Alert created ... ");
@@ -218,7 +218,7 @@ public class JFXApplicationException extends Exception {
 
                     } else {
 
-                        JFXApplicationLogger.getLogger().logError(JFXApplicationException.class, aCauseMessage);
+                        GNSObjectMappedLogger.getLogger().logError(JFXApplicationException.class, aCauseMessage);
                         System.out.println(JFXApplicationException.class.getSimpleName()+" :: FATAL AppError ... Exit ");
                         Platform.exit();
                     }
@@ -226,7 +226,7 @@ public class JFXApplicationException extends Exception {
                     JFXApplicationException aEncapsulatedFatalError = new JFXApplicationException(
                             "Exception when building front pane of Exception ...", evERRRAISETOFRONT,
                             JFXApplicationHelper.getStackTrace());
-                    JFXApplicationLogger.getLogger().logError(JFXApplicationException.class, aEncapsulatedFatalError);
+                    GNSObjectMappedLogger.getLogger().logError(JFXApplicationException.class, aEncapsulatedFatalError);
                 }
 
         }

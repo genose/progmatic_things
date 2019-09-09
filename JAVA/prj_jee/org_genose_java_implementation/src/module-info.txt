@@ -11,7 +11,7 @@ module org.genose.java.implementation {
 	
 	exports org.genose.java.implementation.javafx.applicationtools.arraysmapslists; 
 	exports org.genose.java.implementation.javafx.applicationtools.exceptionerror;
-	exports org.genose.java.implementation.javafx.applicationtools.files;
+	exports org.genose.java.implementation.files;
 	exports org.genose.java.implementation.javafx.applicationtools.views;
 	exports org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller;
 	exports org.genose.java.implementation.javafx.applicationtools;

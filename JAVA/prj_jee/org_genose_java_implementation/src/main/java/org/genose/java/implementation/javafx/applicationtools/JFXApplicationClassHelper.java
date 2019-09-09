@@ -3,13 +3,13 @@
  */
 package org.genose.java.implementation.javafx.applicationtools;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationRuntimeException;
+import org.genose.java.implementation.streams.GNSObjectMappedLogger;
 
 /**
  * @author 59013-36-18
@@ -57,7 +57,7 @@ public class JFXApplicationClassHelper {
 				//	JFXApplicationLogger.getLogger().logInfo("[Object  ("+aObjectToTest+") %n respondsTo (" + aMethodName + ")] %n canAccess : "+bMethodCanReachObject);
 					
 					if (!bMethodCanReachObject) {
-						JFXApplicationLogger.getLogger().logError(JFXApplicationClassHelper.class,
+						GNSObjectMappedLogger.getLogger().logError(JFXApplicationClassHelper.class,
 								"This context Can t reach method : " + aMethodName+"%n on Object : "+aObjectToTest+"%n class : "+aClassToTest+"%n super : "+aClassToTestSuperclass);
 					}
 					
@@ -66,14 +66,14 @@ public class JFXApplicationClassHelper {
 			}
 
 		} catch (Exception evERRRESPONDSTO) {
-			JFXApplicationLogger.getLogger().logError(JFXApplicationClassHelper.class, evERRRESPONDSTO);
+			GNSObjectMappedLogger.getLogger().logError(JFXApplicationClassHelper.class, evERRRESPONDSTO);
 			return false;
 		}
 		/* } */
 		if (methodToFind != null)
 			bMethodCanReachObject = methodToFind.canAccess(aClassToTest);
 		if (!bMethodCanReachObject) {
-			JFXApplicationLogger.getLogger().logError(JFXApplicationClassHelper.class,
+			GNSObjectMappedLogger.getLogger().logError(JFXApplicationClassHelper.class,
 					"This context Can t reach method : " + aMethodName);
 			return false;
 		}
@@ -145,20 +145,20 @@ public class JFXApplicationClassHelper {
 					aMethodCanReachObject = aclassmethod.canAccess(aObjectToIntrospect);
 					if (aMethodCanReachObject) {
 						if (aReturnType != null && (aReturnType.toGenericString().equalsIgnoreCase("void"))) {
-							JFXApplicationLogger.getLogger()
+							GNSObjectMappedLogger.getLogger()
 									.logInfo("[Object getMethod (" + sEnclosureType + ":"
 											+ (aObjectToIntrospect.getClass()) + ")] " + sInvokeMethodName
 											+ " Return Method Type :  void :: " + aReturnType.toGenericString());
 							aclassmethod.invoke(aObjectToIntrospect);
 							return null;
 						} else if (aReturnType != null) {
-							JFXApplicationLogger.getLogger()
+							GNSObjectMappedLogger.getLogger()
 									.logInfo("[Object getMethod (" + sEnclosureType + ":"
 											+ (aObjectToIntrospect.getClass()) + ")] " + sInvokeMethodName
 											+ "%n Return Method Type : " + aReturnType.toGenericString());
 							return aclassmethod.invoke(aObjectToIntrospect);
 						} else {
-							JFXApplicationLogger.getLogger()
+							GNSObjectMappedLogger.getLogger()
 									.logInfo("[Object getMethod (" + sEnclosureType + ":"
 											+ (aObjectToIntrospect.getClass()) + ")] " + sInvokeMethodName
 											+ "%n Return Method Type : is NULL ");
@@ -166,7 +166,7 @@ public class JFXApplicationClassHelper {
 							return null;
 						}
 					} else {
-						JFXApplicationLogger.getLogger().logError(JFXApplicationClassHelper.class,
+						GNSObjectMappedLogger.getLogger().logError(JFXApplicationClassHelper.class,
 								"Unreacheable Method Call (" + aclassmethod.getName() + ")");
 						return null;
 					}
@@ -186,11 +186,11 @@ public class JFXApplicationClassHelper {
 
 				int iCompreState = mMethodFound.getName().toLowerCase().compareToIgnoreCase(sInvokeMethodName);
 				if (iCompreState == 0) {
-					JFXApplicationLogger.getLogger().logInfo(
+					GNSObjectMappedLogger.getLogger().logInfo(
 							"Class : " + aObjectToIntrospect.toString() + "%n Got Method : " + mMethodFound.getName());
 					Class<?> aReturnType = mMethodFound.getReturnType();
 					aMethodCanReachObject = mMethodFound.canAccess(aObjectToIntrospect);
-					JFXApplicationLogger.getLogger()
+					GNSObjectMappedLogger.getLogger()
 							.logInfo(String.format("[Object Introspect] canreach object : %b", aMethodCanReachObject));
 
 					if (!aMethodCanReachObject) {
@@ -198,16 +198,16 @@ public class JFXApplicationClassHelper {
 					}
 
 					if (aReturnType != null && aReturnType.toGenericString().equalsIgnoreCase("void")) {
-						JFXApplicationLogger.getLogger().logInfo("[Object Introspect] " + sInvokeMethodName
+						GNSObjectMappedLogger.getLogger().logInfo("[Object Introspect] " + sInvokeMethodName
 								+ " Return Method Type : " + aReturnType.toGenericString());
 						mMethodFound.invoke(aObjectToIntrospect);
 						return null;
 					} else if (aReturnType != null) {
-						JFXApplicationLogger.getLogger().logInfo("[Object Introspect] " + sInvokeMethodName
+						GNSObjectMappedLogger.getLogger().logInfo("[Object Introspect] " + sInvokeMethodName
 								+ " Return Method Type : " + aReturnType.toGenericString());
 						return mMethodFound.invoke(aObjectToIntrospect);
 					} else {
-						JFXApplicationLogger.getLogger()
+						GNSObjectMappedLogger.getLogger()
 								.logInfo("[Object Introspect] " + sInvokeMethodName + " Return Method Type : is NULL ");
 						mMethodFound.invoke(aObjectToIntrospect);
 						return null;
@@ -221,16 +221,16 @@ public class JFXApplicationClassHelper {
 
 					int iCompreState = mMethodFound.getName().toLowerCase().compareToIgnoreCase(sInvokeMethodName);
 					if (iCompreState == 0) {
-						JFXApplicationLogger.getLogger().logInfo("%n Super : " + aObjectToIntrospectSuperClass
+						GNSObjectMappedLogger.getLogger().logInfo("%n Super : " + aObjectToIntrospectSuperClass
 								+ "%n Got Method : " + mMethodFound.getName());
 
 						Class<?> aReturnType = mMethodFound.getReturnType();
 						if (mMethodFound.getReturnType() != null) {
-							JFXApplicationLogger.getLogger().logInfo("[Object.Super Introspect] " + sInvokeMethodName
+							GNSObjectMappedLogger.getLogger().logInfo("[Object.Super Introspect] " + sInvokeMethodName
 									+ " Return Method Type : " + aReturnType.toGenericString());
 							return mMethodFound.invoke(aObjectToIntrospect);
 						} else {
-							JFXApplicationLogger.getLogger().logInfo("[Object.Super Introspect] " + sInvokeMethodName
+							GNSObjectMappedLogger.getLogger().logInfo("[Object.Super Introspect] " + sInvokeMethodName
 									+ " Return Method Type : is NULL ");
 							mMethodFound.invoke(aObjectToIntrospect);
 							return null;

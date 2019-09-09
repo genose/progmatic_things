@@ -43,7 +43,7 @@ public class Main extends JFXApplication {
 								public Object apply(Object t) {
 									JFXApplicationDialog.showAlertDialog("HelloWorld");
 									JFXApplicationHelper.getApplicationMain().getPrimaryStage().show();
-									return this;
+									return null;
 								}
 							};
 
@@ -56,14 +56,14 @@ public class Main extends JFXApplication {
 							}
 
 
-							return aCallbackc.applyDelayed(null);
+							return null;
 
 						}
 					};
 
 
 
-					return (this.applyDelayed(null));
+					return this.andThen(aCallbackb);
 				}
 			};
 

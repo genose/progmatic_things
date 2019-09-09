@@ -22,6 +22,7 @@ org\genose\java\implementation\streams\GNSObjectMappedLogger.class
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlTextFieldValidator$2.class
 org\genose\java\implementation\javafx\applicationtools\threadstasks\JFXApplicationScheduledTask.class
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlTextFieldValidator$5.class
+org\genose\java\implementation\net\GNSObjectSSHFileTransfert.class
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlComboxBoxAutoFill$1.class
 org\genose\java\implementation\tools\HUMANDEFINITION_AGE.class
 org\genose\java\implementation\games\PenduGame.class
@@ -51,11 +52,13 @@ org\genose\java\implementation\javafx\applicationtools\views\JFXApplicationDialo
 org\genose\java\implementation\streams\Snippet.class
 org\genose\java\implementation\net\GNSObjectSSHConnection.class
 org\genose\java\implementation\files\GNSObjectMappedFileTypeDelimitedSeparator.class
+org\genose\java\implementation\net\GNSObjectSSHJDBCConnection.class
 org\genose\java\implementation\tools\HUMANDEFINITION.class
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlSplitMenuHBox.class
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlTextFieldValidator$7.class
 org\genose\java\implementation\observable\Observable.class
 org\genose\java\implementation\javafx\applicationtools\views\JFXApplicationScene.class
+org\genose\java\implementation\net\GNSObjectConnectionParamater.class
 org\genose\java\implementation\net\GNSObjectJDBCProvider.class
 org\genose\java\implementation\applicationtools\GNSObjectClassHelper.class
 org\genose\java\implementation\streams\LectureFichier.class

@@ -58,7 +58,7 @@ public class GNSObjectSSHConnection {
      * @param sArgSSHPassword
      * @param sArgSSHPubliKeyFilePath
      */
-    public GNSObjectSSHConnection(String sConnectionName, String sArgSSHHost, Integer iArgSSHPort, String sArgSSHHostForwardedService, Integer iArgSSHPortForwardedService, String sArgSSHUser, String sArgSSHPassword, String sArgSSHPubliKeyFilePath) throws Exception {
+    public GNSObjectSSHConnection(String sConnectionName, String sArgSSHHost, Integer iArgSSHPort, String sArgSSHHostForwardedService, Integer iArgSSHPortForwardedService, String sArgSSHUser, String sArgSSHPassword, String sArgRemoteServiceUSER, String sArgRemoteServicePassword, String sArgSSHPubliKeyFilePath) throws Exception {
 
         Objects.requireNonNull(sArgSSHHost, SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
         Objects.requireNonNull(sArgSSHUser, SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
@@ -274,7 +274,7 @@ public class GNSObjectSSHConnection {
 
     }
 
-    public boolean execSFTP() throws Exception {
+    public boolean execSFTP(String sFTPCommand) throws Exception {
 
         Channel channel;
         OutputStream os;

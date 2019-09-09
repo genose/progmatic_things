@@ -100,7 +100,13 @@ public class GNSObjectFunctionCallback implements Function<Object, Object> {
 	@Override
 	public <V> Function<Object, V> andThen(Function<? super Object, ? extends V> after) {
 		System.out.println("Apply  function andthen");
-		return (Function<Object, V>) apply(after);
+		if (after instanceof  GNSObjectFunctionCallback)
+		{
+			((GNSObjectFunctionCallback) after).applyDelayed(null);
+			return null;
+		}else {
+			return (Function<Object, V>) apply(after);
+		}
 	}
 	@Override
 	public Object apply(Object t) {
@@ -136,7 +142,9 @@ public class GNSObjectFunctionCallback implements Function<Object, Object> {
 	 *
 	 */
 	public void schedule() {
-
+/**
+ *  TODO : JFXAPPLICATION Freedom ... to GNSObjectScheduledTask
+ */
 		JFXApplicationScheduledTask aTimerTaskCallback = new JFXApplicationScheduledTask();
 
 				aTimerTaskCallback.setCallback(this, aEventTarget);

@@ -1,21 +1,21 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools.arraysmapslists;
+package org.genose.java.implementation.arraysmapslists;
 
-import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationRuntimeException;
+import org.genose.java.implementation.exceptionerror.GNSObjectRuntimeException;
 
 /**
  * @author 59013-36-18
  *
  */
-public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
+public class GNSObjectMappedObjectValue implements GNSObjectMappedValuesAccessor {
 	private Object pPrivateValue = null;
 
 	/**
 	 * 
 	 */
-	public JFXApplicationObjectValue() {
+	public GNSObjectMappedObjectValue() {
 		super();
 	}
 	
@@ -23,7 +23,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	 * 
 	 * @param aObjectValue
 	 */
-	public JFXApplicationObjectValue(Object aObjectValue) {
+	public GNSObjectMappedObjectValue(Object aObjectValue) {
 		super();
 		this.pPrivateValue = aObjectValue;
 	}
@@ -31,7 +31,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	 * 
 	 * @param aStringValue
 	 */
-	public JFXApplicationObjectValue(String aStringValue) {
+	public GNSObjectMappedObjectValue(String aStringValue) {
 		super();
 		this.pPrivateValue = aStringValue;
 	}
@@ -39,7 +39,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	 * 
 	 * @param aIntegerValue
 	 */
-	public JFXApplicationObjectValue(Integer aIntegerValue) {
+	public GNSObjectMappedObjectValue(Integer aIntegerValue) {
 		super();
 		pPrivateValue = aIntegerValue;
 	}
@@ -47,7 +47,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	 * 
 	 * @param aDoubleValue
 	 */
-	public JFXApplicationObjectValue(Double aDoubleValue) {
+	public GNSObjectMappedObjectValue(Double aDoubleValue) {
 		super();
 		pPrivateValue = aDoubleValue;
 	}
@@ -55,7 +55,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	 * 
 	 * @param aBooleanValue
 	 */
-	public JFXApplicationObjectValue(Boolean aBooleanValue) {
+	public GNSObjectMappedObjectValue(Boolean aBooleanValue) {
 		super();
 		pPrivateValue = aBooleanValue;
 	}
@@ -84,7 +84,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	@Override
 	public Boolean getBoolean() {
 		if (isComplexObject()) {
-			throw new JFXApplicationRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
+			throw new GNSObjectRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
 		}
 
 		return ((Boolean) this.pPrivateValue).booleanValue();
@@ -100,7 +100,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	public Integer getInteger() {
 
 		if (isComplexObject()) {
-			throw new JFXApplicationRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
+			throw new GNSObjectRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
 		}
 
 		return ((Integer) this.pPrivateValue).intValue();
@@ -115,7 +115,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	public Double getDouble() {
 
 		if (isComplexObject()) {
-			throw new JFXApplicationRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
+			throw new GNSObjectRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
 		}
 
 		return ((Double) this.pPrivateValue).doubleValue();
@@ -131,7 +131,7 @@ public class JFXApplicationObjectValue implements JFXApplicationValuesAccessor {
 	public String getString() {
 
 		if (isComplexObject()) {
-			throw new JFXApplicationRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
+			throw new GNSObjectRuntimeException(String.format(sWarningComplexType, pPrivateValue.getClass()));
 		}
 
 		return String.valueOf(this.pPrivateValue);

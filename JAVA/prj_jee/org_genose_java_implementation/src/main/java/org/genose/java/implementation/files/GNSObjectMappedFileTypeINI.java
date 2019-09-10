@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools.files;
+package org.genose.java.implementation.files;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,8 +11,8 @@ import java.util.Iterator;
 import java.util.List; 
 import java.util.Map.Entry;
 
-import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationMappedObject;
-import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationObjectValue;
+import org.genose.java.implementation.arraysmapslists.GNSObjectMappedObject;
+import org.genose.java.implementation.arraysmapslists.GNSObjectMappedObjectValue;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 
 
@@ -20,14 +20,14 @@ import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFX
  * @author 59013-36-18
  *
  */
-public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
+public class GNSObjectMappedFileTypeINI extends GNSObjectMappedFileAccessor {
 
 	private static final String DEFAULTPATHPROPERTYDELIMITER = ".";
 	// private Map<String,Map<String,Object>> aFileContentDescriptorIni = null; ...
-	final String DEFAULTSECTIONVALUEDELIMITER = "=";
-	final String DEFAULTSECTIONVALUESFORMAT = "%s"+DEFAULTSECTIONVALUEDELIMITER+"%s";
-	final String DEFAULTSECTIONDELIMITER = "[]";
-	final String DEFAULTSECTIONFORMAT = "[%s]";
+	private final String DEFAULTSECTIONVALUEDELIMITER = "=";
+	private final String DEFAULTSECTIONVALUESFORMAT = "%s"+DEFAULTSECTIONVALUEDELIMITER+"%s";
+	private final String DEFAULTSECTIONDELIMITER = "[]";
+	private final String DEFAULTSECTIONFORMAT = "[%s]";
 	
 	
 	// *************************************************************************
@@ -35,7 +35,7 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 	 * @throws FileNotFoundException 
 	 * 
 	 */
-	public JFXApplicationFileTypeINI() throws FileNotFoundException {
+	public GNSObjectMappedFileTypeINI() throws FileNotFoundException {
 		super();
 	}
 	
@@ -44,7 +44,7 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 	 * @throws FileNotFoundException 
 	 * 
 	 */
-	public JFXApplicationFileTypeINI(String aFileName) throws FileNotFoundException {
+	public GNSObjectMappedFileTypeINI(String aFileName) throws FileNotFoundException {
 		super(new File(aFileName));
 		try {
 			readFile();
@@ -58,7 +58,7 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 	 * 
 	 */
 	@Override
-	public JFXApplicationMappedObject readlnAsMapIntegerKey() throws IOException {
+	public GNSObjectMappedObject readlnAsMapIntegerKey() throws IOException {
 		return null;
 	}
 	// *************************************************************************
@@ -66,7 +66,7 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 	 * 
 	 */
 	@Override
-	public JFXApplicationMappedObject readlnAsMapStringKey() throws IOException {
+	public GNSObjectMappedObject readlnAsMapStringKey() throws IOException {
 		return null;
 	}
 	// *************************************************************************
@@ -91,7 +91,7 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 			String aLineReaded = "";
 			String aSectionName = "";
 			String aLastSectionName = "";
-			JFXApplicationMappedObject aSectionDATA = new JFXApplicationMappedObject();
+			GNSObjectMappedObject aSectionDATA = new GNSObjectMappedObject();
 			
 			// **************************************************
 			while (!isEOF()) {
@@ -156,14 +156,14 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 			initWriterIfNecessary();
 			
 			// *************************************************************************
-			for (Entry<String, JFXApplicationObjectValue> aParentNodeElement : aFileContentDescriptor.entrySet()) {
+			for (Entry<String, GNSObjectMappedObjectValue> aParentNodeElement : aFileContentDescriptor.entrySet()) {
 				
 				String aNodeElementName = aParentNodeElement.getKey();
-				JFXApplicationObjectValue aNodeElement = aParentNodeElement.getValue();
+				GNSObjectMappedObjectValue aNodeElement = aParentNodeElement.getValue();
 				
 				String sIniFileSectionName = String.format(DEFAULTSECTIONFORMAT, String.valueOf(aNodeElementName));
 				if(aNodeElement.isComplexObject()) {
-					bSaveStatus = super.append(sIniFileSectionName) && appendChildValues(((JFXApplicationMappedObject)aNodeElement.getObjectValue())) && super.appendNewLine();	
+					bSaveStatus = super.append(sIniFileSectionName) && appendChildValues(((GNSObjectMappedObject)aNodeElement.getObjectValue())) && super.appendNewLine();
 				}else {
 					bSaveStatus = super.append(sIniFileSectionName) && append(String.valueOf(aNodeElement.getObjectValue())) && super.appendNewLine();
 				}
@@ -188,19 +188,19 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 	 * @return
 	 * @throws IOException 
 	 */
-	private Boolean appendChildValues(JFXApplicationMappedObject aParentNodeElement) throws JFXApplicationException {
+	private Boolean appendChildValues(GNSObjectMappedObject aParentNodeElement) throws JFXApplicationException {
 		try {
 			initWriterIfNecessary();
 			Boolean bAppendStatus = true;
 			String aNodeChildElementName = null;
-		    JFXApplicationObjectValue aNodeChildElement = null;
-			for (Entry<String, JFXApplicationObjectValue> aNodeChildElementEntry : aParentNodeElement.entrySet()) {
+		    GNSObjectMappedObjectValue aNodeChildElement = null;
+			for (Entry<String, GNSObjectMappedObjectValue> aNodeChildElementEntry : aParentNodeElement.entrySet()) {
 				
 				aNodeChildElementName = aNodeChildElementEntry.getKey();
 			    aNodeChildElement = aNodeChildElementEntry.getValue();
 				
 			    
-			    if( !(aNodeChildElement instanceof JFXApplicationObjectValue) ) {
+			    if( !(aNodeChildElement instanceof GNSObjectMappedObjectValue) ) {
 			    	throw new JFXApplicationException(getClass().getName()+" : Unexpected object type at index : "+aNodeChildElementName +":"+aNodeChildElement.getClass());
 					
 			    }
@@ -220,7 +220,7 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 				}else {
 					// *************************************************************************
 					// key of element
-					bAppendStatus = super.append(String.valueOf(aNodeChildElementName+""+DEFAULTSECTIONVALUEDELIMITER)) &&  super.appendObjectToSerializedJSON( ((JFXApplicationMappedObject) aNodeChildElement.getObjectValue()) );
+					bAppendStatus = super.append(String.valueOf(aNodeChildElementName+""+DEFAULTSECTIONVALUEDELIMITER)) &&  super.appendObjectToSerializedJSON( ((GNSObjectMappedObject) aNodeChildElement.getObjectValue()) );
 					
 					if(!bAppendStatus) {
 						throw new JFXApplicationException(String.format(" Something goes wrong when adding JSON on (%s)",aNodeChildElementName));
@@ -260,7 +260,7 @@ public class JFXApplicationFileTypeINI extends JFXApplicationFileAccessor {
 				if(aObjectFoundiInPath instanceof String) {
 					return ((String)aObjectFoundiInPath);
 				}else {
-					aObjectFoundiInPath = ((JFXApplicationMappedObject)aObjectFoundiInPath).get(aKeyProperty);
+					aObjectFoundiInPath = ((GNSObjectMappedObject)aObjectFoundiInPath).get(aKeyProperty);
 				}
 			}
 		}

@@ -3,11 +3,6 @@
  */
 package org.genose.java.implementation.javafx.applicationtools.exceptionerror;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -15,17 +10,19 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
+import org.genose.java.implementation.exceptionerror.GNSObjectException;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
-import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationDialog;
 
+
+import java.util.Optional;
 
 /**
  * @author 59013-36-18
  *
  */
-public class JFXApplicationException extends Exception {
+public class JFXApplicationException extends GNSObjectException {
 
     public static final String ERROR_MESSAGE_DESIGNLOAD = "Something went wront with design consistantcy .... check FXML / Controller version ...";
     /**
@@ -33,7 +30,7 @@ public class JFXApplicationException extends Exception {
      */
     private static final long serialVersionUID = 1L;
     //private static Alert aFatalErrorAlert = null;
-    private Throwable aEncapsuledThrowable = null;
+
 
     /**
      *
@@ -41,7 +38,6 @@ public class JFXApplicationException extends Exception {
     public JFXApplicationException() {
         super();
     }
-
     /**
      * @param message
      */
@@ -71,7 +67,7 @@ public class JFXApplicationException extends Exception {
      * @param writableStackTrace
      */
     public JFXApplicationException(String message, Throwable cause, boolean enableSuppression,
-                                   boolean writableStackTrace) {
+                              boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
@@ -129,7 +125,7 @@ public class JFXApplicationException extends Exception {
                             throwedEvent = new JFXApplicationException("raiseToFront was Called for a certain reason ...", throwedEvent, JFXApplicationHelper.getStackTrace());
                         }
 
-                        JFXApplicationLogger.getLogger().logError(JFXApplicationException.class, throwedEvent, "Error while finding to forward error to frontend ...");
+                        JFXApplicationMappedLogger.getLogger().logError(JFXApplicationException.class, throwedEvent, "Error while finding to forward error to frontend ...");
 
                         aFatalErrorAlert = new Alert(Alert.AlertType.CONFIRMATION);
                         System.out.println(" Alert created ... ");
@@ -218,7 +214,7 @@ public class JFXApplicationException extends Exception {
 
                     } else {
 
-                        JFXApplicationLogger.getLogger().logError(JFXApplicationException.class, aCauseMessage);
+                        JFXApplicationMappedLogger.getLogger().logError(JFXApplicationException.class, aCauseMessage);
                         System.out.println(JFXApplicationException.class.getSimpleName()+" :: FATAL AppError ... Exit ");
                         Platform.exit();
                     }
@@ -226,49 +222,11 @@ public class JFXApplicationException extends Exception {
                     JFXApplicationException aEncapsulatedFatalError = new JFXApplicationException(
                             "Exception when building front pane of Exception ...", evERRRAISETOFRONT,
                             JFXApplicationHelper.getStackTrace());
-                    JFXApplicationLogger.getLogger().logError(JFXApplicationException.class, aEncapsulatedFatalError);
+                    JFXApplicationMappedLogger.getLogger().logError(JFXApplicationException.class, aEncapsulatedFatalError);
                 }
 
         }
 
-    }
-
-    public static String doFormattedStackTrace(Throwable eThrowableStackTrace) {
-        if (eThrowableStackTrace == null) return ("[NULL]");
-
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        eThrowableStackTrace.printStackTrace(pw);
-        return sw.toString();
-    }
-
-    public static String doFormattedStackTrace(StackTraceElement[] eStackTrace) {
-        // ::  ...
-        if (eStackTrace == null) return ("[NULL]");
-        return Arrays.asList(eStackTrace).toString().replaceAll(",", "\n").replaceAll("\\[", "").replaceAll("\\]", "");
-    }
-
-    public static String doFormattedStackTrace(List<StackTraceElement> aStackTraceList) {
-        if (aStackTraceList == null) return ("[NULL]");
-        return aStackTraceList.toString().replaceAll(",", "\n").replaceAll("\\[", "").replaceAll("\\]", "");
-    }
-
-    /**
-     *
-     * @return Throwable
-     */
-    public Throwable getEncapsuledEventException() {
-
-        return this.aEncapsuledThrowable;
-    }
-
-    /**
-     *
-     * @param aThrowableToForward
-     */
-    public void setEncapsuledEventException(Throwable aThrowableToForward) {
-
-        this.aEncapsuledThrowable = aThrowableToForward;
     }
 
 }

@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesignObjectLoad;
-import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationObjectValue;
+import org.genose.java.implementation.arraysmapslists.GNSObjectMappedObjectValue;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationDialog;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;

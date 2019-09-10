@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.genose.java.implementation.streams.GNSObjectMappedLogger;
 
 /*
  * https://stackoverflow.com/questions/53453212/how-to-deploy-a-javafx-11-desktop-application-with-a-jre
@@ -49,7 +50,7 @@ public class JFXApplication extends Application {
 	/**
 	 * ** Declare a Log wrapper ... **
 	 */
-	private static JFXApplicationLogger aLogger = null;
+	private static GNSObjectMappedLogger aLogger = null;
 	private static JFXApplicationException aExceptionManager;
 
 	public enum JFXFILETYPE {
@@ -152,7 +153,7 @@ public class JFXApplication extends Application {
 	public JFXApplication() {
 		super();
 		singletonInstanceCreate();
-		aLogger = new JFXApplicationLogger(getClass().getName());
+		aLogger = new GNSObjectMappedLogger(getClass().getName());
 		aExceptionManager = new JFXApplicationException();
 		synchronized (JFXApplication.class){
 			getLogger().logInfo(getClass(), " Application class was instiated as :: "+String.valueOf(pJFXApplicationSingleton.getClass().getName()));
@@ -196,9 +197,9 @@ public class JFXApplication extends Application {
 	/* ****************************************************** */
 	/**
 	 * 
-	 * @return {@link JFXApplicationLogger}
+	 * @return {@link GNSObjectMappedLogger}
 	 */
-	public JFXApplicationLogger getLogger() {
+	public GNSObjectMappedLogger getLogger() {
 		singletonInstanceCheck();
 		return JFXApplication.aLogger;
 	}
@@ -358,7 +359,7 @@ public class JFXApplication extends Application {
 				
 			}
 		} catch (Exception evErrPath) {
-			JFXApplicationLogger.getLogger().logError(JFXApplication.class.getClass(), evErrPath);
+			GNSObjectMappedLogger.getLogger().logError(JFXApplication.class.getClass(), evErrPath);
 		}
 		return null;
 	}
@@ -431,7 +432,7 @@ public class JFXApplication extends Application {
 	 * @return
 	 * @throws JFXApplicationException
 	 */
-	public static JFXApplicationLogger getApplicationLogger() throws JFXApplicationException {
+	public static GNSObjectMappedLogger getApplicationLogger() throws JFXApplicationException {
 		singletonInstanceCheck();
 		synchronized (JFXApplication.class) {
 			if (pJFXApplicationSingleton == null)

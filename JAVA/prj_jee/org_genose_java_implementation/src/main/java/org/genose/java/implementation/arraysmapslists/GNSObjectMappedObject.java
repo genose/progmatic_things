@@ -1,19 +1,18 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools.arraysmapslists;
+package org.genose.java.implementation.arraysmapslists;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 
 /**
  * @author 59013-36-18
  *
  */
-public class JFXApplicationMappedObject extends HashMap<String, JFXApplicationObjectValue> {
+public class GNSObjectMappedObject extends HashMap<String, GNSObjectMappedObjectValue> {
 
 	/**
 	 * 
@@ -23,7 +22,7 @@ public class JFXApplicationMappedObject extends HashMap<String, JFXApplicationOb
 	/**
 	 * 
 	 */
-	public JFXApplicationMappedObject() {
+	public GNSObjectMappedObject() {
 		super();
 	}
 
@@ -31,21 +30,21 @@ public class JFXApplicationMappedObject extends HashMap<String, JFXApplicationOb
 	 * @param initialCapacity
 	 * @param loadFactor
 	 */
-	public JFXApplicationMappedObject(int initialCapacity, float loadFactor) {
+	public GNSObjectMappedObject(int initialCapacity, float loadFactor) {
 		super(initialCapacity, loadFactor);
 	}
 
 	/**
 	 * @param initialCapacity
 	 */
-	public JFXApplicationMappedObject(int initialCapacity) {
+	public GNSObjectMappedObject(int initialCapacity) {
 		super(initialCapacity);
 	}
 
 	/**
 	 * @param m
 	 */
-	public JFXApplicationMappedObject(Map<? extends String, ? extends JFXApplicationObjectValue> m) {
+	public GNSObjectMappedObject(Map<? extends String, ? extends GNSObjectMappedObjectValue> m) {
 		super(m);
 	}
 
@@ -58,16 +57,16 @@ public class JFXApplicationMappedObject extends HashMap<String, JFXApplicationOb
 	}
 
 	@Override
-	public JFXApplicationObjectValue get(Object key) {
+	public GNSObjectMappedObjectValue get(Object key) {
 		return super.get(key);
 	}
 
-	public JFXApplicationObjectValue get(Integer key) {
+	public GNSObjectMappedObjectValue get(Integer key) {
 		return super.get(String.valueOf(key));
 	}
 
 	@Override
-	public Collection<JFXApplicationObjectValue> values() {
+	public Collection<GNSObjectMappedObjectValue> values() {
 		return super.values();
 	}
 
@@ -77,7 +76,7 @@ public class JFXApplicationMappedObject extends HashMap<String, JFXApplicationOb
 	 * @param aStringValue
 	 */
 	public Object put(String key, String aStringValue) {
-		return super.put(key, (new JFXApplicationObjectValue(aStringValue)));
+		return super.put(key, (new GNSObjectMappedObjectValue(aStringValue)));
 	}
 
 	/**
@@ -86,7 +85,7 @@ public class JFXApplicationMappedObject extends HashMap<String, JFXApplicationOb
 	 * @param aStringValue
 	 */
 	public Object put(Integer key, String aStringValue) {
-		return super.put(String.valueOf(key), (new JFXApplicationObjectValue(aStringValue)));
+		return super.put(String.valueOf(key), (new GNSObjectMappedObjectValue(aStringValue)));
 
 	}
 
@@ -103,10 +102,10 @@ public class JFXApplicationMappedObject extends HashMap<String, JFXApplicationOb
 	 * after.apply(apply(t)); }
 	 */
 
-	public Function<JFXApplicationMappedObject, JFXApplicationMappedObject> toAsString = (
-			JFXApplicationMappedObject aCollection) -> {
+	public Function<GNSObjectMappedObject, GNSObjectMappedObject> toAsString = (
+			GNSObjectMappedObject aCollection) -> {
 
-		this.forEach((String e, JFXApplicationObjectValue a) -> System.out.println(" == " + e + "::" + a.getString()));
+		this.forEach((String e, GNSObjectMappedObjectValue a) -> System.out.println(" == " + e + "::" + a.getString()));
 		return this;
 
 	};
@@ -116,8 +115,8 @@ public class JFXApplicationMappedObject extends HashMap<String, JFXApplicationOb
 	 * @param key
 	 * @param aMappedObject
 	 */
-	public Object put(String key, JFXApplicationMappedObject aMappedObject) {
-		return super.put(key, (new JFXApplicationObjectValue(aMappedObject)));
+	public Object put(String key, GNSObjectMappedObject aMappedObject) {
+		return super.put(key, (new GNSObjectMappedObjectValue(aMappedObject)));
 
 	}
 

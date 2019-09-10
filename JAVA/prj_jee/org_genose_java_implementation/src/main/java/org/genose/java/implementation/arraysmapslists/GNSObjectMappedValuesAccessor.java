@@ -1,6 +1,6 @@
-package org.genose.java.implementation.javafx.applicationtools.arraysmapslists;
+package org.genose.java.implementation.arraysmapslists;
 
-public abstract interface JFXApplicationValuesAccessor {
+public interface GNSObjectMappedValuesAccessor {
 
 	final static String sWarningComplexType = " ERROR : Can't fetch value because This Type (%s) is a Complex Type (Map, Array, or List ...) "; 
 	public Boolean isComplexObject();

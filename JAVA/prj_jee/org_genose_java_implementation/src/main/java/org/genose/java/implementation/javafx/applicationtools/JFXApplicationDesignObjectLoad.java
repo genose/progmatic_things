@@ -1,6 +1,5 @@
 package org.genose.java.implementation.javafx.applicationtools;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.nio.file.Path;
@@ -11,20 +10,20 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationInvalidParameterException;
-import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationRuntimeException;
+import org.genose.java.implementation.exceptionerror.GNSObjectRuntimeException;
 import org.genose.java.implementation.javafx.applicationtools.threadstasks.JFXApplicationScheduledTask;
 import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationScene;
-import org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlComboxBoxAutoFill;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import org.genose.java.implementation.streams.GNSObjectMappedLogger;
 
 public abstract interface JFXApplicationDesignObjectLoad {
 
 	public static JFXApplicationScene create(String argModuleName, String argModuleNameFile,
-			JFXApplicationCallback aFuncCallback) throws JFXApplicationException {
+											 JFXApplicationFunctionCallback aFuncCallback) throws JFXApplicationException {
 
 		return (JFXApplicationScene) JFXApplicationDesignObjectLoad.create(argModuleName, argModuleNameFile,
 				aFuncCallback, false);
@@ -32,7 +31,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 	}
 
 	public static <T> Object create(String argModuleName, String argModuleNameFile,
-			JFXApplicationCallback aFuncCallback, Boolean bReturnOnlyDesignNode) throws JFXApplicationException {
+									JFXApplicationFunctionCallback aFuncCallback, Boolean bReturnOnlyDesignNode) throws JFXApplicationException {
 
 		if(JFXApplicationHelper.getApplicationMain() == null ){
 			throw new JFXApplicationException(" Unable to determine Main Class ....");
@@ -167,11 +166,11 @@ public abstract interface JFXApplicationDesignObjectLoad {
 				? argModuleNameFile + JFXApplication.JFXFILETYPE.FILETYPE_FCSS.getValue()
 				: argModuleName + JFXApplication.JFXFILETYPE.FILETYPE_FCSS.getValue());
 		sRequestedSceneCSS = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedRessourcesDir,
-				sRequestedSceneFile, null);
+				sRequestedSceneCSS, null);
 
 		if(sRequestedSceneCSS == null){
 			sRequestedSceneCSS = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedSceneViewsFolder,
-					sRequestedSceneFile, null);
+					sRequestedSceneCSS, null);
 		}
 
 		System.out.println(" MVC "+JFXApplication.JFXFILETYPE.FILETYPE_FCSS.getValue()+" FILE for ("+String.valueOf(aPathInBundle)+")  = " +String.valueOf(sRequestedSceneCSS));
@@ -187,9 +186,9 @@ public abstract interface JFXApplicationDesignObjectLoad {
 		sRequestedSceneIcon = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedRessourcesDir,
 				sRequestedSceneIcon, null);
 
-		if(sRequestedSceneCSS == null){
-			sRequestedSceneCSS = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedSceneViewsFolder,
-					sRequestedSceneFile, null);
+		if(sRequestedSceneIcon == null){
+			sRequestedSceneIcon = JFXApplicationHelper.resolveModulePathInsenstiveCase(sRequestedSceneViewsFolder,
+					sRequestedSceneIcon, null);
 		}
 
 		System.out.println(" MVC "+JFXApplication.JFXFILETYPE.FILETYPE_FPNG.getValue()+" FILE for ("+String.valueOf(aPathInBundle)+")  = " +String.valueOf(sRequestedSceneIcon));
@@ -227,7 +226,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 					Object oControllerView = aRootNodeLoader.getController();
 
 					if (oControllerView == null) {
-						JFXApplicationLogger.getLogger().logError(aRootNode.getClass(),
+						GNSObjectMappedLogger.getLogger().logError(aRootNode.getClass(),
 								String.format("Warning : Loaded controler is null ... for (%s) of type (%s) :: (%s)",
 										sRequestedSceneFile, aRootNode.getScene(), aRootNode.getClass()));
 					}
@@ -280,12 +279,17 @@ public abstract interface JFXApplicationDesignObjectLoad {
 
 			if (aFuncCallback != null) {
 
-				JFXApplicationScheduledTask aTimerTaskCallback = new JFXApplicationScheduledTask();
+				/*JFXApplicationScheduledTask aTimerTaskCallback = new JFXApplicationScheduledTask();
 
 				aTimerTaskCallback.setCallback(aFuncCallback, ((bReturnOnlyDesignNode) ? aRootNode : aSceneNode));
 				aTimerTaskCallback.setUserDatas(null);
 
-				aTimerTaskCallback.schedule();
+				aTimerTaskCallback.schedule();*/
+
+				// aFuncCallback.setCallbackObject();
+				// aFuncCallback.setUserDatas(null);
+
+				aFuncCallback.applyDelayed( ((bReturnOnlyDesignNode) ? aRootNode : aSceneNode));
 
 			}
 
@@ -340,7 +344,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 			if (aConstructorList.length > 0) {
 				oObjectRef = aConstructorList[0].newInstance();
 			} else {
-				throw new JFXApplicationRuntimeException("Cant class constructor for " + sEnclosingClassName);
+				throw new GNSObjectRuntimeException("Cant class constructor for " + sEnclosingClassName);
 			}
 
 			String sDesignFile = String.format("%s%s", oObjectRef.getClass().getSimpleName(),
@@ -348,7 +352,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 
 			ClassLoader aClassLoader = oObjectRef.getClass().getClassLoader();
 			if (aClassLoader == null) {
-				throw new JFXApplicationRuntimeException(
+				throw new GNSObjectRuntimeException(
 						"Cant find class loader definition for " + sEnclosingClassName);
 			}
 			java.net.URL aUrlDesignFile = oObjectRef.getClass().getResource(sDesignFile);
@@ -386,7 +390,7 @@ public abstract interface JFXApplicationDesignObjectLoad {
 							aRootNodeLoader.setRoot(aParentRootNode);
 
 						} else {
-							throw new JFXApplicationRuntimeException(
+							throw new GNSObjectRuntimeException(
 									"Cant obtain dynamic (default) constructor definition for " + sEnclosingClassName);
 						}
 
@@ -397,20 +401,20 @@ public abstract interface JFXApplicationDesignObjectLoad {
 					if ((aRootNode != null) && (aParentRootNode != null)) {
 						((Parent) aParentRootNode).setUserData(aRootNodeLoader.getController());
 					} else {
-						throw new JFXApplicationRuntimeException("Cant load definition for " + sEnclosingClassName);
+						throw new GNSObjectRuntimeException("Cant load definition for " + sEnclosingClassName);
 					}
 				}
 
 			} else {
-				JFXApplicationLogger.getLogger().logError(aRefeneceClass.getClass(),
-						new JFXApplicationRuntimeException(
+				GNSObjectMappedLogger.getLogger().logError(aRefeneceClass.getClass(),
+						new GNSObjectRuntimeException(
 								String.format("Cant obtain FXLOADER definition for %s  %n Expected Class %s",
 										aUrlDesignFile, sEnclosingClassName)));
 			}
 			// may be NULL
 			return ((Parent) aParentRootNode);
 		} catch (Exception evERRObjectCreateLoad) {
-			JFXApplicationLogger.getLogger().logError(JFXApplicationDesignObjectLoad.class, evERRObjectCreateLoad);
+			GNSObjectMappedLogger.getLogger().logError(JFXApplicationDesignObjectLoad.class, evERRObjectCreateLoad);
 			throw new RuntimeException(evERRObjectCreateLoad);
 		}
 

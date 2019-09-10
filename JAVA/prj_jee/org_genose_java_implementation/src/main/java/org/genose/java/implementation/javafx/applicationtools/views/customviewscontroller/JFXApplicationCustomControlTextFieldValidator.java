@@ -13,23 +13,17 @@ import java.util.regex.PatternSyntaxException;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesignObjectLoad;
-import org.genose.java.implementation.javafx.applicationtools.JFXApplicationLogger;
+import org.genose.java.implementation.streams.GNSObjectMappedLogger;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 import org.genose.java.implementation.tools.NumericRange;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -516,7 +510,7 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 			});
 
 		} catch (Exception evERRDOINIT) {
-			JFXApplicationLogger.getLogger().logError(this.getClass(), evERRDOINIT);
+			GNSObjectMappedLogger.getLogger().logError(this.getClass(), evERRDOINIT);
 		}
 	}
 
@@ -538,7 +532,7 @@ public class JFXApplicationCustomControlTextFieldValidator extends AnchorPane
 			aRegexPatternFieldValidator = java.util.regex.Pattern.compile(aRegexString);
 			return (aRegexPatternFieldValidator != null);
 		} catch (PatternSyntaxException evERRREGEXCOMPILE) {
-			JFXApplicationLogger.getLogger().logError(this.getClass(), evERRREGEXCOMPILE);
+			GNSObjectMappedLogger.getLogger().logError(this.getClass(), evERRREGEXCOMPILE);
 		}
 		return false;
 	}

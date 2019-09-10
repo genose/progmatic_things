@@ -1,30 +1,15 @@
 package dao;
 
+import dao.objectInterface.DAO;
+import metier.*;
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
+import service.ArticleSearch;
+
 import java.security.InvalidParameterException;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-
-import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
-
-import dao.objectInterface.DAO;
-import dao.objectInterface.DAOObject;
-import metier.Article;
-import metier.Continent;
-import metier.Couleur;
-import metier.Fabricant;
-import metier.Marque;
-import metier.Pays;
-import metier.TypeBiere;
-import metier.VolumeBiere;
-import service.ArticleSearch;
 
 public class ArticleDAO extends DAO<Article> {
 

@@ -8,15 +8,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.application.Application;
-import org.genose.java.implementation.javafx.applicationtools.views.customviewscontroller.JFXApplicationCustomControlSplitMenuHBox;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import org.genose.java.implementation.streams.GNSObjectMappedLogger;
 
 /**
  * @author 59013-36-18
@@ -84,8 +83,8 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
     }
 
     /* ****************************************************** */
-    public static Object getApplicationMain() {
-        Application refApplication = null;
+    public static JFXApplication getApplicationMain() {
+        JFXApplication refApplication = null;
         Class localClass = null;
         if (JFXApplication.singletonInstanceExists()) {
             refApplication = JFXApplication.getJFXApplicationSingleton();
@@ -117,7 +116,7 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 
             return localRunnablePathRelative;
         } catch (Exception evErrPath) {
-            JFXApplicationLogger.getLogger().logError(JFXApplicationHelper.class.getClass(), evErrPath);
+            GNSObjectMappedLogger.getLogger().logError(JFXApplicationHelper.class.getClass(), evErrPath);
         }
         return null;
     }
@@ -155,7 +154,7 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
             }
 
         } catch (Exception evErrPath) {
-            JFXApplicationLogger.getLogger().logError(JFXApplication.class.getClass(), evErrPath);
+            GNSObjectMappedLogger.getLogger().logError(JFXApplication.class.getClass(), evErrPath);
         }
 
         return "/";
@@ -204,7 +203,7 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
 
             }
         } catch (Exception evERRFILEEXISTS) {
-            JFXApplicationLogger.getLogger().logError(JFXApplication.getJFXApplicationSingleton().getClass(),
+            GNSObjectMappedLogger.getLogger().logError(JFXApplication.getJFXApplicationSingleton().getClass(),
                     evERRFILEEXISTS);
         }
 
@@ -271,7 +270,7 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
             localRunnablePathRelative = localRunnablePathRelative.replaceAll("[\\*]", "..\\/" );
             return localRunnablePathRelative;
         } catch (Exception evErrPath) {
-            JFXApplicationLogger.getLogger().logError(JFXApplicationHelper.class.getClass(), evErrPath);
+            GNSObjectMappedLogger.getLogger().logError(JFXApplicationHelper.class.getClass(), evErrPath);
         }
         return null;
     }

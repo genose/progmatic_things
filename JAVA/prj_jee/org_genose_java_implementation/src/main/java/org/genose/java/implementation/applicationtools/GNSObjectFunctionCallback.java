@@ -1,7 +1,12 @@
 /**
  * 
  */
-package org.genose.java.implementation.javafx.applicationtools;
+package org.genose.java.implementation.applicationtools;
+
+
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationFunctionCallback;
+import org.genose.java.implementation.javafx.applicationtools.threadstasks.JFXApplicationScheduledTask;
+import org.genose.java.implementation.threadstasks.GNSObjectScheduledTask;
 
 import java.util.function.Function;
 
@@ -9,11 +14,12 @@ import java.util.function.Function;
  * @author 59013-36-18
  *
  */
-public class JFXApplicationCallback implements Function<Object, Object> {
+public class GNSObjectFunctionCallback implements Function<Object, Object> {
 
 	private int iCallbackDelayAfter;
 	private int iCallbackRepeatDelayAfter;
 	private String sCallbackDescription;
+	private Object aEventTarget;
 	public static final String CALLBACK_DELAYAFTER_SETUP = "getCallbackDelayAfter";
 	public static final String CALLBACK_DELAYREPEATAFTER_SETUP = "getCallbackRepeatDelayAfter";
 	public static final String CALLBACK_DESCRIPTION = "getDescription";
@@ -21,7 +27,7 @@ public class JFXApplicationCallback implements Function<Object, Object> {
 	/**
 	 * 
 	 */
-	public JFXApplicationCallback() {
+	public GNSObjectFunctionCallback() {
 		super();
 		this.setCallbackDelayAfter(0);
 		this.setCallbackRepeatDelayAfter(0);
@@ -33,7 +39,7 @@ public class JFXApplicationCallback implements Function<Object, Object> {
 	 * 
 	 * @param iCallbackDelayAfterMilli
 	 */
-	public JFXApplicationCallback(int iCallbackDelayAfterMilli) {
+	public GNSObjectFunctionCallback(int iCallbackDelayAfterMilli) {
 		super();
 		this.setCallbackDelayAfter(((iCallbackDelayAfterMilli > 0) ? iCallbackDelayAfterMilli : (0)));
 		this.setCallbackRepeatDelayAfter(0);
@@ -45,15 +51,13 @@ public class JFXApplicationCallback implements Function<Object, Object> {
 	 * @param iCallbackDelayAfterMilli
 	 * @param iCallbackDelayRepeatMilli
 	 */
-	public JFXApplicationCallback(int iCallbackDelayAfterMilli, int iCallbackDelayRepeatMilli) {
+	public GNSObjectFunctionCallback(int iCallbackDelayAfterMilli, int iCallbackDelayRepeatMilli) {
 		super();
 		this.setCallbackDelayAfter(((iCallbackDelayAfterMilli > 0) ? iCallbackDelayAfterMilli : (0)));
 		this.setCallbackRepeatDelayAfter(((iCallbackDelayRepeatMilli > 0) ? iCallbackDelayRepeatMilli : (0)));
 	}
 
-	public Object applyDelayed(Object arg0) {
-		return null;
-	}
+
 
 	/**
 	 * @return the iCallbackDelayAfter
@@ -96,15 +100,56 @@ public class JFXApplicationCallback implements Function<Object, Object> {
 	@Override
 	public <V> Function<Object, V> andThen(Function<? super Object, ? extends V> after) {
 		System.out.println("Apply  function andthen");
-		return (Function<Object, V>) apply(after);
+		if (after instanceof  GNSObjectFunctionCallback)
+		{
+			((GNSObjectFunctionCallback) after).applyDelayed(null);
+			return null;
+		}else {
+			return (Function<Object, V>) apply(after);
+		}
 	}
 	@Override
 	public Object apply(Object t) {
-		// TODO Auto-generated method stub
-		return null;
+		/*JFXApplicationScheduledTask aTimerTaskCallback = new JFXApplicationScheduledTask();
+
+				aTimerTaskCallback.setCallback(aFuncCallback, ((bReturnOnlyDesignNode) ? aRootNode : aSceneNode));
+				aTimerTaskCallback.setUserDatas(null);
+
+				aTimerTaskCallback.schedule();*/
+		return this;
 	}
+
 	public String getDescription() {
 		return ((this.sCallbackDescription == null) ? this.toString() : this.sCallbackDescription);
 	}
 
+	public void setCallbackObject(Object eventTarget) {
+		aEventTarget = eventTarget;
+	}
+
+	/**
+	 *
+	 * @param arg0
+	 * @return
+	 */
+	public Object applyDelayed(Object arg0) {
+		aEventTarget = ((aEventTarget == null)?arg0: aEventTarget);
+		schedule();
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void schedule() {
+/**
+ *  TODO : JFXAPPLICATION Freedom ... to GNSObjectScheduledTask
+ */
+		JFXApplicationScheduledTask aTimerTaskCallback = new JFXApplicationScheduledTask();
+
+				aTimerTaskCallback.setCallback(this, aEventTarget);
+				aTimerTaskCallback.setUserDatas(null);
+
+				aTimerTaskCallback.schedule();
+	}
 }

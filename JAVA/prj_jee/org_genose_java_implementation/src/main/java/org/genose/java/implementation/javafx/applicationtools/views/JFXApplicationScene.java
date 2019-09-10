@@ -1,19 +1,9 @@
 package org.genose.java.implementation.javafx.applicationtools.views;
 
-import java.io.IOException; 
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.TimerTask;
-import java.util.function.Function;
-
 import org.genose.java.implementation.javafx.applicationtools.*;
-import org.genose.java.implementation.javafx.applicationtools.arraysmapslists.JFXApplicationObjectValue;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.*;
-import org.genose.java.implementation.javafx.applicationtools.threadstasks.JFXApplicationScheduledTask;
 
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
@@ -21,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.util.Callback;
 
 public class JFXApplicationScene extends Scene implements JFXApplicationDesignObjectLoad { 
 
@@ -123,7 +112,7 @@ public class JFXApplicationScene extends Scene implements JFXApplicationDesignOb
 	 * 
 	 */
 	public static JFXApplicationScene create(String argModuleName, String argModuleNameFile,
-			JFXApplicationCallback aFuncCallback) throws JFXApplicationException {
+			JFXApplicationFunctionCallback aFuncCallback) throws JFXApplicationException {
 		return JFXApplicationDesignObjectLoad.create(argModuleName, argModuleNameFile, aFuncCallback);
 	}
 

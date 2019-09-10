@@ -48,7 +48,10 @@ public class Main extends Application {
                     null, null,
                     "pi", "pi",
                     null);
-            objectSSHConnection.execShell("pwd");
+           //  objectSSHConnection.execShell("pwd");
+
+            objectSSHConnection.execSFTP("pwd");
+
             System.out.println(" ... Back to main ...");
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Waiting before closing connection ");
             Thread.sleep(10000);

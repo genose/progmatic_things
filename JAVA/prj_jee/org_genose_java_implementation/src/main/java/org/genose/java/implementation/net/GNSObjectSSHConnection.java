@@ -6,46 +6,33 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static java.lang.Thread.sleep;
+import static org.genose.java.implementation.net.GNSObjectRemoteConnectionFactory.ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER;
 
 public class GNSObjectSSHConnection {
     /* ********************************************************************** */
-    public static final String SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER = "Invalid CONNECTION Parameter ";
-    public static final Integer SSH_DEFAULT_PORTNUMBER = 22;
+
+    private org.genose.java.implementation.net.GNSObjectRemoteConnectionFactory aConnectionFactory = null;
 
     /* ********************************************************************** */
-    String sConnectionName = null;
-    /* ********************************************************************** */
-    Integer iSSHConnectTimeOUT = 30;
-    /* ********************************************************************** */
 
-    private String sSSHHost = null;
-    private Integer iSSHPort = 0;
-    private Integer iSSHPortLocalhost = 0; // localhost port
-    private Integer iSSHPortForwarded = 0; // resulted SSH Port forwarding
-    /* ********************************************************************** */
-    private String sSSHHostRemotedService = null;
-    private Integer iSSHPortRemotedService = null;
-    /* ********************************************************************** */
-    private String sSSHUser = null;
-    private String sSSHPassword = null;
-    /* ********************************************************************** */
-    private String sSSHPubliKeyFilePath = null;
     /* ********************************************************************** */
     private com.jcraft.jsch.JSch aSSHConnection = null;
     private com.jcraft.jsch.Session aSSHSession = null;
     private com.jcraft.jsch.ChannelSftp aSftpChannel = null;
     private static Integer iSSHMAXConnection = 10;
     private static ArrayList<Session> sessionArrayList = null;
-    private static ArrayList<GNSObjectSSHConnection> sshConnectionArrayList = null;
+    private static Map<String, GNSObjectSSHConnection> sshConnectionArrayList = null;
 
     /**
      *
      */
     public GNSObjectSSHConnection() {
-        throw new InvalidParameterException(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
+        throw new InvalidParameterException(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
     }
 
     /**
@@ -59,20 +46,25 @@ public class GNSObjectSSHConnection {
      * @param sArgSSHPubliKeyFilePath
      */
     public GNSObjectSSHConnection(String sConnectionName, String sArgSSHHost, Integer iArgSSHPort, String sArgSSHHostForwardedService, Integer iArgSSHPortForwardedService, String sArgSSHUser, String sArgSSHPassword, String sArgSSHPubliKeyFilePath) throws Exception {
+        /* ********************************************************************** */
+        Objects.requireNonNull(sArgSSHHost, ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
+        Objects.requireNonNull(sArgSSHUser, ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
 
-        Objects.requireNonNull(sArgSSHHost, SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
-        Objects.requireNonNull(sArgSSHUser, SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
-
+        /* ********************************************************************** */
         iArgSSHPort = Objects.requireNonNullElse(iArgSSHPort, Integer.valueOf(0));
         sArgSSHPubliKeyFilePath = Objects.requireNonNullElse(sArgSSHPubliKeyFilePath, String.valueOf(""));
-
+        sConnectionName = Objects.requireNonNullElse(sConnectionName, this.toString());
+        /* ********************************************************************** */
+        sshConnectionArrayList = Objects.requireNonNullElse(sshConnectionArrayList, new HashMap<>());
+        /* ********************************************************************** */
         if (iArgSSHPort == 0) {
-            iArgSSHPort = SSH_DEFAULT_PORTNUMBER;
+            iArgSSHPort = GNSObjectRemoteConnectionFactory.SSH_DEFAULT_PORTNUMBER;
         }
-        sshConnectionArrayList = Objects.requireNonNullElse(sshConnectionArrayList, new ArrayList<GNSObjectSSHConnection>());
+        /* ********************************************************************** */
         if (sArgSSHPassword.isEmpty() && sArgSSHPubliKeyFilePath.isEmpty()) {
-            throw new InvalidParameterException(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : SSH PUB FILE and Password cant be empty or null ");
+            throw new InvalidParameterException(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : SSH PUB FILE and Password cant be empty or null ");
         }
+        /* ********************************************************************** */
         try {
             if (!sArgSSHPubliKeyFilePath.isEmpty()) {
                 System.out.println("Attach pub key [" + sArgSSHPubliKeyFilePath + "]");
@@ -82,31 +74,38 @@ public class GNSObjectSSHConnection {
         } catch (Exception evERREXCEPTION_SSH_PARAMETERS) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_PARAMETERS);
 
-            throw new Exception(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while attach pubkey file ", evERREXCEPTION_SSH_PARAMETERS);
+            throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while attach pubkey file ", evERREXCEPTION_SSH_PARAMETERS);
         }
         /* ********************************************************************** */
 
         if (sshConnectionArrayList.size() > iSSHMAXConnection) {
-            throw new Exception(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR max connection management reached ...");
+            throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR max connection management reached ...");
         }
         /* ********************************************************************** */
 
-        sshConnectionArrayList.add(this);
+        sshConnectionArrayList.put(sConnectionName, this);
         /* ********************************************************************** */
-        sSSHHost = sArgSSHHost;
-        iSSHPort = iArgSSHPort;
-        iSSHPortLocalhost = 0; // localhost port
-        iSSHPortForwarded = 0; // resulted SSH Port forwarding
+
+        aConnectionFactory = new GNSObjectRemoteConnectionFactory();
+        aConnectionFactory.setSSHHost(sArgSSHHost);
+        aConnectionFactory.setSSHPort(iArgSSHPort);
+        aConnectionFactory.setiSSHPortLocalhost(0); // localhost port
+        aConnectionFactory.setiSSHPortForwarded(0); // resulted SSH Port forwarding
         /* ********************************************************************** */
-        sSSHHostRemotedService = sArgSSHHostForwardedService;
-        iSSHPortRemotedService = iArgSSHPortForwardedService;
+        aConnectionFactory.setsSSHHostRemotedService(sArgSSHHostForwardedService);
+        aConnectionFactory.setiSSHPortRemotedService(iArgSSHPortForwardedService);
         /* ********************************************************************** */
-        sSSHUser = sArgSSHUser;
-        sSSHPassword = sArgSSHPassword;
+        aConnectionFactory.setsSSHUser(sArgSSHUser);
+        aConnectionFactory.setsSSHPassword(sArgSSHPassword);
         /* ********************************************************************** */
-        sSSHPubliKeyFilePath = sArgSSHPubliKeyFilePath;
+        aConnectionFactory.setSSHPubliKeyFilePath(sArgSSHPubliKeyFilePath);
         /* ********************************************************************** */
         aSSHConnection = new JSch();
+        aConnectionFactory.setConnectionRemote(this);
+    }
+
+    public GNSObjectSSHConnection(org.genose.java.implementation.net.GNSObjectRemoteConnectionFactory aArgRemoteConnectionFactory) {
+        aConnectionFactory = aArgRemoteConnectionFactory;
     }
 
     /**
@@ -119,14 +118,14 @@ public class GNSObjectSSHConnection {
             if (aSSHSession != null) {
                 if (!aSSHSession.isConnected()) {
                     if (
-                            (String.valueOf(aSSHSession.getUserName()).compareToIgnoreCase(sSSHUser) == 0)
-                                    && (String.valueOf(aSSHSession.getHost()).compareToIgnoreCase(sSSHHost) == 0)
-                                    && (aSSHSession.getPort() == iSSHPort)
+                            (String.valueOf(aSSHSession.getUserName()).compareToIgnoreCase(aConnectionFactory.getSSHUser()) == 0)
+                                    && (String.valueOf(aSSHSession.getHost()).compareToIgnoreCase(aConnectionFactory.getSSHHost()) == 0)
+                                    && (aSSHSession.getPort() == aConnectionFactory.getSSHPort())
                     ) {
                         aSSHSession.connect();
                     } else {
 
-                        aSSHSession.delPortForwardingL(iSSHPortLocalhost);
+                        aSSHSession.delPortForwardingL(aConnectionFactory.getSSHPortLocalhost());
                         aSSHSession.disconnect();
                     }
                 } else {
@@ -137,14 +136,14 @@ public class GNSObjectSSHConnection {
             /* ********************************************************************** */
             java.util.Properties config = new java.util.Properties();
             /* ********************************************************************** */
-            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying create connection Session with (" + sSSHUser + ":" + sSSHHost + ":" + iSSHPort + " paswd:" + sSSHPassword + ")");
-            aSSHSession = aSSHConnection.getSession(sSSHUser, sSSHHost, iSSHPort);
-            if ((sSSHPassword != null) && !sSSHPassword.isEmpty())
-                aSSHSession.setPassword(sSSHPassword);
+            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying create connection Session with (" + aConnectionFactory.getSSHUser() + ":" + aConnectionFactory.getSSHHost() + ":" + aConnectionFactory.getSSHPort() + " paswd:" + aConnectionFactory.getSSHPassword() + " timeout:"+aConnectionFactory.getSSHConnectTimeOUT()+")");
+            aSSHSession = aSSHConnection.getSession(aConnectionFactory.getSSHUser(), aConnectionFactory.getSSHHost(), aConnectionFactory.getSSHPort());
+            if ((aConnectionFactory.getSSHPassword() != null) && !aConnectionFactory.getSSHPassword().isEmpty())
+                aSSHSession.setPassword(aConnectionFactory.getSSHPassword());
 
             /* ********************************************************************** */
-            if ((sSSHPubliKeyFilePath != null) && !sSSHPubliKeyFilePath.isEmpty())
-                aSSHConnection.addIdentity(sSSHPubliKeyFilePath);
+            if ((aConnectionFactory.getSSHPubliKeyFilePath() != null) && !aConnectionFactory.getSSHPubliKeyFilePath().isEmpty())
+                aSSHConnection.addIdentity(aConnectionFactory.getSSHPubliKeyFilePath());
             /* ********************************************************************** */
             config.put("StrictHostKeyChecking", "no");
             config.put("ConnectionAttempts", "3");
@@ -152,25 +151,25 @@ public class GNSObjectSSHConnection {
             aSSHSession.setConfig(config);
 
             /* ********************************************************************** */
-            aSSHSession.connect();// (iSSHConnectTimeOUT);
+            aSSHSession.connect(aConnectionFactory.getSSHConnectTimeOUT()*1000);
             /* ********************************************************************** */
-            sSSHHostRemotedService = Objects.requireNonNullElse(sSSHHostRemotedService, String.valueOf(""));
-            iSSHPortRemotedService = Objects.requireNonNullElse(iSSHPortRemotedService, Integer.valueOf(0));
-            iSSHPortLocalhost = Objects.requireNonNullElse(iSSHPortLocalhost, Integer.valueOf(0));
+            aConnectionFactory.setsSSHHostRemotedService(Objects.requireNonNullElse(aConnectionFactory.getsSSHHostRemotedService(), String.valueOf("")));
+            aConnectionFactory.setiSSHPortRemotedService(Objects.requireNonNullElse(aConnectionFactory.getiSSHPortRemotedService(), Integer.valueOf(0)));
+            aConnectionFactory.setiSSHPortLocalhost(Objects.requireNonNullElse(aConnectionFactory.getSSHPortLocalhost(), Integer.valueOf(0)));
             /* ********************************************************************** */
-            if (sSSHHostRemotedService.isEmpty() && iSSHPortRemotedService != 0) {
+            if (aConnectionFactory.getsSSHHostRemotedService().isEmpty() && aConnectionFactory.getiSSHPortRemotedService() != 0) {
                 System.out.println("Port Forwarding init");
-                iSSHPortForwarded = aSSHSession.setPortForwardingL(iSSHPortLocalhost, sSSHHostRemotedService, iSSHPortRemotedService);
+                aConnectionFactory.setiSSHPortForwarded(aSSHSession.setPortForwardingL(aConnectionFactory.getSSHPortLocalhost(), aConnectionFactory.getsSSHHostRemotedService(), aConnectionFactory.getiSSHPortRemotedService()));
                 System.out.println("Port Forwarded");
-                System.out.println("localhost:" + iSSHPortLocalhost + " -> " + sSSHHostRemotedService + ":" + iSSHPortRemotedService);
+                System.out.println("localhost:" + aConnectionFactory.getSSHPortLocalhost() + " -> " + aConnectionFactory.getsSSHHostRemotedService() + ":" + aConnectionFactory.getiSSHPortRemotedService());
 
             } else {
-                iSSHPortForwarded = 0;
+                aConnectionFactory.setiSSHPortForwarded(0);
             }
 
         } catch (Exception evERREXCEPTION_SSH_OPEN) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_OPEN);
-            throw new Exception(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while open connection ", evERREXCEPTION_SSH_OPEN);
+            throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while open connection ", evERREXCEPTION_SSH_OPEN);
 
         }
         return aSSHSession;
@@ -194,81 +193,86 @@ public class GNSObjectSSHConnection {
             /* ********************************************************************** */
         } catch (Exception evERREXCEPTION_SSH_CLOSE) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, "ERROR : " + evERREXCEPTION_SSH_CLOSE);
-            throw new Exception(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while close connection ", evERREXCEPTION_SSH_CLOSE);
+            throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while close connection ", evERREXCEPTION_SSH_CLOSE);
 
         }
     }
 
     public int execShell(String strCommand) throws Exception {
         try {
-            open();
-            Channel channel = aSSHSession.openChannel("exec");
-            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying exec command : " + strCommand);
-            ((ChannelExec) channel).setCommand(strCommand);
+            if (open() != null) {
+                Channel channel = aSSHSession.openChannel("exec");
+                System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying exec command : " + strCommand);
+                ((ChannelExec) channel).setCommand(strCommand);
 
-            // X Forwarding
-            // channel.setXForwarding(true);
+                // X Forwarding
+                // channel.setXForwarding(true);
 
-            //channel.setInputStream(System.in);
-            channel.setInputStream(null);
+                //channel.setInputStream(System.in);
+                channel.setInputStream(null);
 
-            //channel.setOutputStream(System.out);
+                //channel.setOutputStream(System.out);
 
-            //FileOutputStream fos=new FileOutputStream("/tmp/stderr");
-            //((ChannelExec)channel).setErrStream(fos);
-            ((ChannelExec) channel).setErrStream(System.err);
+                //FileOutputStream fos=new FileOutputStream("/tmp/stderr");
+                //((ChannelExec)channel).setErrStream(fos);
+                ((ChannelExec) channel).setErrStream(System.err);
 
-            InputStream inStream = channel.getInputStream();
-            OutputStream osStream = channel.getOutputStream();
+                InputStream inStream = channel.getInputStream();
+                OutputStream osStream = channel.getOutputStream();
 
-            channel.connect();
-            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying Read Stream exec command : " + strCommand);
+                channel.connect();
+                System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying Read Stream exec command : " + strCommand);
 
-            byte[] tmp = new byte[1024];
-            boolean bClosedExecution = false;
-            int iExecReturnCode = 0;
+                byte[] tmp = new byte[1024];
+                boolean bClosedExecution = false;
+                int iExecReturnCode = 0;
 
-            try {
-                do {
-                    System.out.println(" .... ");
+                try {
+                    do {
+                        System.out.println(" .... ");
 
-                    while (inStream.available() > 0) {
-                        int i = inStream.read(tmp, 0, 1024);
-                        if (i < 0) break;
-                        System.out.println(" ccreaded : " + (new String(tmp, 0, i)));
-                    }
-
-
-                    if (channel.isClosed()) {
-                        if (inStream.available() > 0) continue;
-                        iExecReturnCode = channel.getExitStatus();
-                        bClosedExecution = true;
-                        System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Exit Status (" + String.valueOf(iExecReturnCode) + ") exec command : " + strCommand);
-
-                        break;
-                    }
-                    System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying Sleep Reading Stream exec command : " + strCommand);
-                    Thread.sleep(200);
-                    System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying Awake Reading Stream exec command : " + strCommand);
+                        while (inStream.available() > 0) {
+                            int i = inStream.read(tmp, 0, 1024);
+                            if (i < 0) break;
+                            System.out.println(" ccreaded : " + (new String(tmp, 0, i)));
+                        }
 
 
-                } while (!bClosedExecution);
-            } catch (Exception ee) {
-                System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, "***** Error Reading Stream exec command : " + strCommand + " :: " + ee);
+                        if (channel.isClosed()) {
+                            if (inStream.available() > 0) continue;
+                            iExecReturnCode = channel.getExitStatus();
+                            bClosedExecution = true;
+                            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Exit Status (" + String.valueOf(iExecReturnCode) + ") exec command : " + strCommand);
 
+                            break;
+                        }
+                        System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying Sleep Reading Stream exec command : " + strCommand);
+                        Thread.sleep(200);
+                        System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying Awake Reading Stream exec command : " + strCommand);
+
+
+                    } while (!bClosedExecution);
+                } catch (Exception ee) {
+                    System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, "***** Error Reading Stream exec command : " + strCommand + " :: " + ee);
+
+                }
+                if (!channel.isClosed()) {
+                    System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying Close exec command : " + strCommand);
+
+                    channel.disconnect();
+                }
+                System.out.println(" .... done  ");
+                System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Cleared exec command : " + strCommand);
+
+                return iExecReturnCode;
+
+            } else {
+                return -1;
             }
-            if (!channel.isClosed()) {
-                System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying Close exec command : " + strCommand);
-
-                channel.disconnect();
-            }
-            System.out.println(" .... done  ");
-            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Cleared exec command : " + strCommand);
-
-            return iExecReturnCode;
-        } catch (Exception evERREXCEPTION_SSH_EXEC) {
+        } catch (
+                Exception evERREXCEPTION_SSH_EXEC) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_EXEC);
-            throw new Exception(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while exec connection ", evERREXCEPTION_SSH_EXEC);
+            throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while exec connection ", evERREXCEPTION_SSH_EXEC);
 
         }
 
@@ -289,7 +293,7 @@ public class GNSObjectSSHConnection {
             return true;
         } catch (Exception evERREXCEPTION_SSH_EXEC) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_EXEC);
-            throw new Exception(SSH_ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while exec connection ", evERREXCEPTION_SSH_EXEC);
+            throw new Exception(GNSObjectRemoteConnectionFactory.ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while exec connection ", evERREXCEPTION_SSH_EXEC);
 
         }
     }
@@ -298,13 +302,13 @@ public class GNSObjectSSHConnection {
      * @param iArgLocalHostPort
      */
     public void setSSHPortLocalhost(Integer iArgLocalHostPort) {
-        iSSHPortLocalhost = iArgLocalHostPort;
+        aConnectionFactory.setiSSHPortLocalhost(iArgLocalHostPort);
     }
 
     /**
      * @return
      */
     public Integer getSSHPortForwarded() {
-        return iSSHPortForwarded;
+        return aConnectionFactory.getiSSHPortForwarded();
     }
 }

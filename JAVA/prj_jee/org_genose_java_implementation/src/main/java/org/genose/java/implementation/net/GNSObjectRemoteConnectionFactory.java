@@ -10,7 +10,6 @@ public class GNSObjectRemoteConnectionFactory {
     static final Integer SSH_DEFAULT_PORTNUMBER = 22;
 
 
-
     static GNSObjectSSHConnection aSSHConnection = null;
 
     /* ********************************************************************** */
@@ -62,7 +61,7 @@ public class GNSObjectRemoteConnectionFactory {
     /* ********************************************************************** */
     public void setSSHHost(String sArgSSHHost) {
 
-        this.sSSHHost = Objects.requireNonNullElse(sArgSSHHost,sLocalhostName);
+        this.sSSHHost = Objects.requireNonNullElse(sArgSSHHost, sLocalhostName);
     }
 
     /* ********************************************************************** */
@@ -96,12 +95,13 @@ public class GNSObjectRemoteConnectionFactory {
     /* ********************************************************************** */
     private Integer iSSHPortForwarded = 0; // resulted SSH Port forwardingpublic java.lang.Integer
 
-    public Integer getiSSHPortForwarded() {
+    public Integer getSSHPortForwarded() {
         return iSSHPortForwarded;
     }
+
     /* ********************************************************************** */
 
-    public void setiSSHPortForwarded(java.lang.Integer iSSHPortForwarded) {
+    public void setSSHPortForwarded(java.lang.Integer iSSHPortForwarded) {
         this.iSSHPortForwarded = iSSHPortForwarded;
     }
 
@@ -173,14 +173,16 @@ public class GNSObjectRemoteConnectionFactory {
     }
 
     /* ********************************************************************** */
-    public GNSObjectSSHConnection getSSHConnection(){
+    public GNSObjectSSHConnection getSSHConnection(String sArgRemoteConnectionName) {
 
-        aSSHConnection = Objects.requireNonNullElse( aSSHConnection,( new GNSObjectSSHConnection(this) ));
+        aSSHConnection = Objects.requireNonNullElse(aSSHConnection, (new GNSObjectSSHConnection(this)));
         return aSSHConnection;
     }
 
 
-    public void setConnectionRemote(GNSObjectSSHConnection aArgConnection ) {
+    public void setConnectionRemote(GNSObjectSSHConnection aArgConnection) {
         aSSHConnection = aArgConnection;
     }
+
+
 }

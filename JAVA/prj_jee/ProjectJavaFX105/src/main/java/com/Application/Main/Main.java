@@ -19,7 +19,7 @@ public class Main extends Application {
         try {
 
             /* ********************* */
-            String fileName =  "sample";
+           /* String fileName =  "sample";
             String appPath =  JFXApplicationHelper.packageToPathRoot(Main.class);
             String filePathSTR = "/views/"+fileName + ".fxml";
 
@@ -41,15 +41,20 @@ public class Main extends Application {
                 primaryStage.setScene(new Scene(root, 300, 275));
             }else{
                 System.out.println( " Error : file not found ... in "+(filePathSTR));
-            }
+            }*/
+
+           // JFXApplicationCustomControlSplitMenuHBox
+          Application aApplicationRef =  JFXApplicationHelper.getApplicationMain();
+System.out.println("Application "+aApplicationRef);
             primaryStage.show();
             GNSObjectSSHConnection objectSSHConnection = new GNSObjectSSHConnection("SGBDConnection",
-                    "10.115.58.38", 0,
+                    "213.32.13.191", 0,
                     null, null,
-                    "pi", "pi",
+                    "root", "AFPA_r0uba1x",
                     null, null,
                     null);
-           //  objectSSHConnection.execShell("pwd");
+
+            //objectSSHConnection.execShell("pwd");
 
             objectSSHConnection.execSFTP("pwd");
 

@@ -97,7 +97,7 @@ public class GNSObjectSSHConnection {
         aConnectionFactory.setSSHHost(sArgSSHHost);
         aConnectionFactory.setSSHPort(iArgSSHPort);
         aConnectionFactory.setiSSHPortLocalhost(0); // localhost port
-        aConnectionFactory.setiSSHPortForwarded(0); // resulted SSH Port forwarding
+        aConnectionFactory.setSSHPortForwarded(0); // resulted SSH Port forwarding
         /* ********************************************************************** */
         aConnectionFactory.setsSSHHostRemotedService(sArgSSHHostForwardedService);
         aConnectionFactory.setiSSHPortRemotedService(iArgSSHPortForwardedService);
@@ -112,7 +112,9 @@ public class GNSObjectSSHConnection {
     }
 
     public GNSObjectSSHConnection(org.genose.java.implementation.net.GNSObjectRemoteConnectionFactory aArgRemoteConnectionFactory) {
+        sshConnectionArrayList.put(aArgRemoteConnectionFactory.getConnectionName(), this);
         aConnectionFactory = aArgRemoteConnectionFactory;
+        aSSHConnection = new JSch();
     }
 
     /**
@@ -159,20 +161,7 @@ public class GNSObjectSSHConnection {
 
             /* ********************************************************************** */
             aSSHSession.connect(aConnectionFactory.getSSHConnectTimeOUT() * 1000);
-            /* ********************************************************************** */
-            aConnectionFactory.setsSSHHostRemotedService(Objects.requireNonNullElse(aConnectionFactory.getsSSHHostRemotedService(), String.valueOf("")));
-            aConnectionFactory.setiSSHPortRemotedService(Objects.requireNonNullElse(aConnectionFactory.getiSSHPortRemotedService(), Integer.valueOf(0)));
-            aConnectionFactory.setiSSHPortLocalhost(Objects.requireNonNullElse(aConnectionFactory.getSSHPortLocalhost(), Integer.valueOf(0)));
-            /* ********************************************************************** */
-            if (aConnectionFactory.getsSSHHostRemotedService().isEmpty() && aConnectionFactory.getiSSHPortRemotedService() != 0) {
-                System.out.println("Port Forwarding init");
-                aConnectionFactory.setiSSHPortForwarded(aSSHSession.setPortForwardingL(aConnectionFactory.getSSHPortLocalhost(), aConnectionFactory.getsSSHHostRemotedService(), aConnectionFactory.getiSSHPortRemotedService()));
-                System.out.println("Port Forwarded");
-                System.out.println("localhost:" + aConnectionFactory.getSSHPortLocalhost() + " -> " + aConnectionFactory.getsSSHHostRemotedService() + ":" + aConnectionFactory.getiSSHPortRemotedService());
 
-            } else {
-                aConnectionFactory.setiSSHPortForwarded(0);
-            }
 
         } catch (Exception evERREXCEPTION_SSH_OPEN) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_OPEN);
@@ -205,6 +194,66 @@ public class GNSObjectSSHConnection {
         }
     }
 
+    /**
+     * @return
+     * @throws Exception
+     */
+    public boolean addSSHTunnel() throws Exception {
+        try {
+            open();
+
+            /* ********************************************************************** */
+            aConnectionFactory.setsSSHHostRemotedService(Objects.requireNonNullElse(aConnectionFactory.getsSSHHostRemotedService(), String.valueOf("")));
+            aConnectionFactory.setiSSHPortRemotedService(Objects.requireNonNullElse(aConnectionFactory.getiSSHPortRemotedService(), Integer.valueOf(0)));
+            aConnectionFactory.setiSSHPortLocalhost(Objects.requireNonNullElse(aConnectionFactory.getSSHPortLocalhost(), Integer.valueOf(0)));
+            /* ********************************************************************** */
+            if (aConnectionFactory.getsSSHHostRemotedService().isEmpty() && aConnectionFactory.getiSSHPortRemotedService() != 0) {
+                System.out.println("Port Forwarding init");
+                aConnectionFactory.setSSHPortForwarded(aSSHSession.setPortForwardingL(aConnectionFactory.getSSHPortLocalhost(), aConnectionFactory.getsSSHHostRemotedService(), aConnectionFactory.getiSSHPortRemotedService()));
+                System.out.println("Port Forwarded");
+                System.out.println("localhost:" + aConnectionFactory.getSSHPortLocalhost() + " -> " + aConnectionFactory.getsSSHHostRemotedService() + ":" + aConnectionFactory.getiSSHPortRemotedService());
+
+            } else {
+                aConnectionFactory.setSSHPortForwarded(0);
+            }
+
+            return aConnectionFactory.getSSHPortForwarded() != 0;
+
+        } catch (Exception evERRInitTunnel) {
+            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, "ERROR : " + evERRInitTunnel);
+            throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while close connection ", evERRInitTunnel);
+        }
+    }
+
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+    public boolean delSSHTunnel() throws Exception {
+        try{
+
+            if (aSSHSession != null) {
+                if (aSSHSession.isConnected()) {
+
+                    aSSHSession.delPortForwardingL(aConnectionFactory.getSSHPortLocalhost());
+                    aSSHSession.delPortForwardingR(aConnectionFactory.getSSHPortForwarded());
+                }
+
+                return aSSHSession.isConnected();
+            }
+
+        } catch (Exception evERRInitTunnel) {
+            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, "ERROR : " + evERRInitTunnel);
+            throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while close connection ", evERRInitTunnel);
+        }
+    }
+
+    /**
+     * @param strCommand
+     * @return
+     * @throws Exception
+     */
     public int execShell(String strCommand) throws Exception {
         try {
             if (open() != null) {
@@ -316,6 +365,6 @@ public class GNSObjectSSHConnection {
      * @return
      */
     public Integer getSSHPortForwarded() {
-        return aConnectionFactory.getiSSHPortForwarded();
+        return aConnectionFactory.getSSHPortForwarded();
     }
 }

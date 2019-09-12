@@ -47,6 +47,7 @@ public class Main extends Application {
                     "10.115.58.38", 0,
                     null, null,
                     "pi", "pi",
+                    null, null,
                     null);
            //  objectSSHConnection.execShell("pwd");
 

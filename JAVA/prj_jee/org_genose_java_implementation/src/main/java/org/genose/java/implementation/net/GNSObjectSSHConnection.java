@@ -45,8 +45,14 @@ public class GNSObjectSSHConnection {
      * @param sArgSSHPassword
      * @param sArgSSHPubliKeyFilePath
      */
-    
-    public GNSObjectSSHConnection(String sConnectionName, String sArgSSHHost, Integer iArgSSHPort, String sArgSSHHostForwardedService, Integer iArgSSHPortForwardedService, String sArgSSHUser, String sArgSSHPassword, String sArgRemoteServiceUSER, String sArgRemoteServicePassword, String sArgSSHPubliKeyFilePath) throws Exception {
+
+    public GNSObjectSSHConnection(String sConnectionName,
+                                  String sArgSSHHost, Integer iArgSSHPort,
+                                  String sArgSSHHostForwardedService, Integer iArgSSHPortForwardedService,
+                                  String sArgSSHUser, String sArgSSHPassword,
+                                  String sArgRemoteServiceUSER, String sArgRemoteServicePassword,
+                                  String sArgSSHPubliKeyFilePath
+    ) throws Exception {
         /* ********************************************************************** */
         Objects.requireNonNull(sArgSSHHost, ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
         Objects.requireNonNull(sArgSSHUser, ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
@@ -137,7 +143,7 @@ public class GNSObjectSSHConnection {
             /* ********************************************************************** */
             java.util.Properties config = new java.util.Properties();
             /* ********************************************************************** */
-            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying create connection Session with (" + aConnectionFactory.getSSHUser() + ":" + aConnectionFactory.getSSHHost() + ":" + aConnectionFactory.getSSHPort() + " paswd:" + aConnectionFactory.getSSHPassword() + " timeout:"+aConnectionFactory.getSSHConnectTimeOUT()+")");
+            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying create connection Session with (" + aConnectionFactory.getSSHUser() + ":" + aConnectionFactory.getSSHHost() + ":" + aConnectionFactory.getSSHPort() + " paswd:" + aConnectionFactory.getSSHPassword() + " timeout:" + aConnectionFactory.getSSHConnectTimeOUT() + ")");
             aSSHSession = aSSHConnection.getSession(aConnectionFactory.getSSHUser(), aConnectionFactory.getSSHHost(), aConnectionFactory.getSSHPort());
             if ((aConnectionFactory.getSSHPassword() != null) && !aConnectionFactory.getSSHPassword().isEmpty())
                 aSSHSession.setPassword(aConnectionFactory.getSSHPassword());
@@ -152,7 +158,7 @@ public class GNSObjectSSHConnection {
             aSSHSession.setConfig(config);
 
             /* ********************************************************************** */
-            aSSHSession.connect(aConnectionFactory.getSSHConnectTimeOUT()*1000);
+            aSSHSession.connect(aConnectionFactory.getSSHConnectTimeOUT() * 1000);
             /* ********************************************************************** */
             aConnectionFactory.setsSSHHostRemotedService(Objects.requireNonNullElse(aConnectionFactory.getsSSHHostRemotedService(), String.valueOf("")));
             aConnectionFactory.setiSSHPortRemotedService(Objects.requireNonNullElse(aConnectionFactory.getiSSHPortRemotedService(), Integer.valueOf(0)));

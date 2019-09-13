@@ -1,5 +1,7 @@
 package com.Application.Main;
 
+import com.pastdev.jsch.tunnel.Tunnel;
+import com.pastdev.jsch.tunnel.TunnelConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -43,9 +45,9 @@ public class Main extends Application {
                 System.out.println( " Error : file not found ... in "+(filePathSTR));
             }*/
 
-           // JFXApplicationCustomControlSplitMenuHBox
-          Application aApplicationRef =  JFXApplicationHelper.getApplicationMain();
-System.out.println("Application "+aApplicationRef);
+            // JFXApplicationCustomControlSplitMenuHBox
+            Application aApplicationRef = JFXApplicationHelper.getApplicationMain();
+            System.out.println("Application " + aApplicationRef);
             primaryStage.show();
             GNSObjectSSHConnection objectSSHConnection = new GNSObjectSSHConnection("SGBDConnection",
                     "213.32.13.191", 0,
@@ -65,6 +67,15 @@ System.out.println("Application "+aApplicationRef);
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Close connection ");
             System.out.println(" ... Main :: try close ...");
             objectSSHConnection.close();
+
+            TunnelConnection tunnelConnection = new TunnelConnection(
+                    sessionFactory,
+                    new Tunnel( 0, "bar", 1234 ) );
+            tunnelConnection.open();
+            int assignedPort = tunnelConnection.getTunnel( "bar", 1234 )
+                    .getAssignedPort();
+
+
             System.out.println(" ... main : done ...");
 
 

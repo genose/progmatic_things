@@ -40,6 +40,18 @@
             <artifactId>jsch</artifactId>
             <version>0.1.55</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.pastdev/jsch-extension -->
+        <dependency>
+            <groupId>com.pastdev</groupId>
+            <artifactId>jsch-extension</artifactId>
+            <version>0.1.11</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.pastdev/jsch-nio -->
+        <dependency>
+            <groupId>com.pastdev</groupId>
+            <artifactId>jsch-nio</artifactId>
+            <version>1.0.13</version>
+        </dependency>
 
     </dependencies>
     <build>

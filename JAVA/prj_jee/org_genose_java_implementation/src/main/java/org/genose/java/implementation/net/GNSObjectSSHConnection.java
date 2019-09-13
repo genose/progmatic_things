@@ -1,9 +1,15 @@
 package org.genose.java.implementation.net;
 
 import com.jcraft.jsch.*;
+import com.pastdev.jsch.DefaultSessionFactory;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,20 +19,19 @@ import java.util.Objects;
 import static java.lang.Thread.sleep;
 import static org.genose.java.implementation.net.GNSObjectRemoteConnectionFactory.ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER;
 
-public class GNSObjectSSHConnection {
+public class GNSObjectSSHConnection implements Closeable {
     /* ********************************************************************** */
 
+    // ::   private com.jcraft.jsch.ChannelSftp aSftpChannel = null;
+    private static Integer iSSHMAXConnection = 10;
+    private static ArrayList<Session> sessionArrayList = null;
+
+    /* ********************************************************************** */
+    private static Map<String, GNSObjectSSHConnection> sshConnectionArrayList = null;
     private org.genose.java.implementation.net.GNSObjectRemoteConnectionFactory aConnectionFactory = null;
-
-    /* ********************************************************************** */
-
     /* ********************************************************************** */
     private com.jcraft.jsch.JSch aSSHConnection = null;
     private com.jcraft.jsch.Session aSSHSession = null;
-    private com.jcraft.jsch.ChannelSftp aSftpChannel = null;
-    private static Integer iSSHMAXConnection = 10;
-    private static ArrayList<Session> sessionArrayList = null;
-    private static Map<String, GNSObjectSSHConnection> sshConnectionArrayList = null;
 
     /**
      *
@@ -71,18 +76,7 @@ public class GNSObjectSSHConnection {
         if (sArgSSHPassword.isEmpty() && sArgSSHPubliKeyFilePath.isEmpty()) {
             throw new InvalidParameterException(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : SSH PUB FILE and Password cant be empty or null ");
         }
-        /* ********************************************************************** */
-        try {
-            if (!sArgSSHPubliKeyFilePath.isEmpty()) {
-                System.out.println("Attach pub key [" + sArgSSHPubliKeyFilePath + "]");
-                aSSHConnection.addIdentity(sArgSSHPubliKeyFilePath);
 
-            }
-        } catch (Exception evERREXCEPTION_SSH_PARAMETERS) {
-            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_PARAMETERS);
-
-            throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while attach pubkey file ", evERREXCEPTION_SSH_PARAMETERS);
-        }
         /* ********************************************************************** */
 
         if (sshConnectionArrayList.size() > iSSHMAXConnection) {
@@ -97,9 +91,9 @@ public class GNSObjectSSHConnection {
         aConnectionFactory.setSSHHost(sArgSSHHost);
         aConnectionFactory.setSSHPort(iArgSSHPort);
         aConnectionFactory.setiSSHPortLocalhost(0); // localhost port
-        aConnectionFactory.setSSHPortForwarded(0); // resulted SSH Port forwarding
+        aConnectionFactory.setPortForwarded(0); // resulted SSH Port forwarding
         /* ********************************************************************** */
-        aConnectionFactory.setsSSHHostRemotedService(sArgSSHHostForwardedService);
+        aConnectionFactory.setHostRemotedService(sArgSSHHostForwardedService);
         aConnectionFactory.setiSSHPortRemotedService(iArgSSHPortForwardedService);
         /* ********************************************************************** */
         aConnectionFactory.setsSSHUser(sArgSSHUser);
@@ -107,22 +101,30 @@ public class GNSObjectSSHConnection {
         /* ********************************************************************** */
         aConnectionFactory.setSSHPubliKeyFilePath(sArgSSHPubliKeyFilePath);
         /* ********************************************************************** */
-        aSSHConnection = new JSch();
-        aConnectionFactory.setConnectionRemote(this);
+        aSSHSession = aConnectionFactory.newSession();
+        // aConnectionFactory.setConnectionRemote(this);
     }
 
     public GNSObjectSSHConnection(org.genose.java.implementation.net.GNSObjectRemoteConnectionFactory aArgRemoteConnectionFactory) {
+        Objects.requireNonNull(aArgRemoteConnectionFactory, ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
         sshConnectionArrayList.put(aArgRemoteConnectionFactory.getConnectionName(), this);
         aConnectionFactory = aArgRemoteConnectionFactory;
         aSSHConnection = new JSch();
     }
 
+    protected GNSObjectRemoteConnectionFactory getConnectionFactory() {
+        return aConnectionFactory;
+    }
+
     /**
      * @return
      */
-    public Session open() throws Exception {
+    protected Session openSession() throws Exception {
         try {
             // https://stackoverflow.com/questions/1968293/connect-to-remote-mysql-database-through-ssh-using-java
+            /* ********************************************************************** */
+
+            Objects.requireNonNull(aConnectionFactory, ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
             /* ********************************************************************** */
             if (aSSHSession != null) {
                 if (!aSSHSession.isConnected()) {
@@ -146,13 +148,27 @@ public class GNSObjectSSHConnection {
             java.util.Properties config = new java.util.Properties();
             /* ********************************************************************** */
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying create connection Session with (" + aConnectionFactory.getSSHUser() + ":" + aConnectionFactory.getSSHHost() + ":" + aConnectionFactory.getSSHPort() + " paswd:" + aConnectionFactory.getSSHPassword() + " timeout:" + aConnectionFactory.getSSHConnectTimeOUT() + ")");
+            /* ********************************************************************** */
+
             aSSHSession = aSSHConnection.getSession(aConnectionFactory.getSSHUser(), aConnectionFactory.getSSHHost(), aConnectionFactory.getSSHPort());
+            /* ********************************************************************** */
+
             if ((aConnectionFactory.getSSHPassword() != null) && !aConnectionFactory.getSSHPassword().isEmpty())
                 aSSHSession.setPassword(aConnectionFactory.getSSHPassword());
 
             /* ********************************************************************** */
-            if ((aConnectionFactory.getSSHPubliKeyFilePath() != null) && !aConnectionFactory.getSSHPubliKeyFilePath().isEmpty())
-                aSSHConnection.addIdentity(aConnectionFactory.getSSHPubliKeyFilePath());
+            try {
+                if ((aConnectionFactory.getSSHPubliKeyFilePath() != null) && !aConnectionFactory.getSSHPubliKeyFilePath().isEmpty()) {
+                    System.out.println("Attach pub key [" + aConnectionFactory.getSSHPubliKeyFilePath() + "]");
+                    aSSHConnection.addIdentity(aConnectionFactory.getSSHPubliKeyFilePath());
+
+                }
+            } catch (Exception evERREXCEPTION_SSH_PARAMETERS) {
+                System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_PARAMETERS);
+
+                //  throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while attach pubkey file ", evERREXCEPTION_SSH_PARAMETERS);
+            }
+
             /* ********************************************************************** */
             config.put("StrictHostKeyChecking", "no");
             config.put("ConnectionAttempts", "3");
@@ -174,7 +190,7 @@ public class GNSObjectSSHConnection {
     /**
      * @return
      */
-    public boolean close() throws Exception {
+    public boolean closeSession() throws Exception {
         try {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying Close session ...");
 
@@ -200,24 +216,24 @@ public class GNSObjectSSHConnection {
      */
     public boolean addSSHTunnel() throws Exception {
         try {
-            open();
+            openSession();
 
             /* ********************************************************************** */
-            aConnectionFactory.setsSSHHostRemotedService(Objects.requireNonNullElse(aConnectionFactory.getsSSHHostRemotedService(), String.valueOf("")));
-            aConnectionFactory.setiSSHPortRemotedService(Objects.requireNonNullElse(aConnectionFactory.getiSSHPortRemotedService(), Integer.valueOf(0)));
+            aConnectionFactory.setHostRemotedService(Objects.requireNonNullElse(aConnectionFactory.getHostRemotedService(), String.valueOf("")));
+            aConnectionFactory.setiSSHPortRemotedService(Objects.requireNonNullElse(aConnectionFactory.getPortRemotedService(), Integer.valueOf(0)));
             aConnectionFactory.setiSSHPortLocalhost(Objects.requireNonNullElse(aConnectionFactory.getSSHPortLocalhost(), Integer.valueOf(0)));
             /* ********************************************************************** */
-            if (aConnectionFactory.getsSSHHostRemotedService().isEmpty() && aConnectionFactory.getiSSHPortRemotedService() != 0) {
+            if (aConnectionFactory.getHostRemotedService().isEmpty() && aConnectionFactory.getPortRemotedService() != 0) {
                 System.out.println("Port Forwarding init");
-                aConnectionFactory.setSSHPortForwarded(aSSHSession.setPortForwardingL(aConnectionFactory.getSSHPortLocalhost(), aConnectionFactory.getsSSHHostRemotedService(), aConnectionFactory.getiSSHPortRemotedService()));
+                aConnectionFactory.setPortForwarded(aSSHSession.setPortForwardingL(aConnectionFactory.getSSHPortLocalhost(), aConnectionFactory.getHostRemotedService(), aConnectionFactory.getPortRemotedService()));
                 System.out.println("Port Forwarded");
-                System.out.println("localhost:" + aConnectionFactory.getSSHPortLocalhost() + " -> " + aConnectionFactory.getsSSHHostRemotedService() + ":" + aConnectionFactory.getiSSHPortRemotedService());
+                System.out.println("localhost:" + aConnectionFactory.getSSHPortLocalhost() + " -> " + aConnectionFactory.getHostRemotedService() + ":" + aConnectionFactory.getPortRemotedService());
 
             } else {
-                aConnectionFactory.setSSHPortForwarded(0);
+                aConnectionFactory.setPortForwarded(0);
             }
 
-            return aConnectionFactory.getSSHPortForwarded() != 0;
+            return aConnectionFactory.getPortForwarded() != 0;
 
         } catch (Exception evERRInitTunnel) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, "ERROR : " + evERRInitTunnel);
@@ -226,23 +242,23 @@ public class GNSObjectSSHConnection {
     }
 
     /**
-     *
      * @return
      * @throws Exception
      */
     public boolean delSSHTunnel() throws Exception {
-        try{
+        try {
 
             if (aSSHSession != null) {
                 if (aSSHSession.isConnected()) {
 
                     aSSHSession.delPortForwardingL(aConnectionFactory.getSSHPortLocalhost());
-                    aSSHSession.delPortForwardingR(aConnectionFactory.getSSHPortForwarded());
+                    aSSHSession.delPortForwardingR(aConnectionFactory.getPortForwarded());
                 }
 
                 return aSSHSession.isConnected();
             }
 
+            return false;
         } catch (Exception evERRInitTunnel) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, "ERROR : " + evERRInitTunnel);
             throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while close connection ", evERRInitTunnel);
@@ -256,7 +272,7 @@ public class GNSObjectSSHConnection {
      */
     public int execShell(String strCommand) throws Exception {
         try {
-            if (open() != null) {
+            if (openSession() != null) {
                 Channel channel = aSSHSession.openChannel("exec");
                 System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying exec command : " + strCommand);
                 ((ChannelExec) channel).setCommand(strCommand);
@@ -338,14 +354,16 @@ public class GNSObjectSSHConnection {
 
         Channel channel;
         OutputStream os;
-
+        ChannelSftp aSftpChannel;
         try {
-            open();
+            openSession();
 
             channel = aSSHSession.openChannel("sftp");
             channel.connect();
             aSftpChannel = (ChannelSftp) channel;
             os = aSftpChannel.getOutputStream();
+            aSftpChannel.disconnect();
+            channel.disconnect();
             return true;
         } catch (Exception evERREXCEPTION_SSH_EXEC) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_EXEC);
@@ -354,17 +372,42 @@ public class GNSObjectSSHConnection {
         }
     }
 
-    /**
-     * @param iArgLocalHostPort
-     */
-    public void setSSHPortLocalhost(Integer iArgLocalHostPort) {
-        aConnectionFactory.setiSSHPortLocalhost(iArgLocalHostPort);
+    public boolean execMountSSHFSRemote(String sLocalDestPath, String sRemoteOriginPath) {
+        try {
+
+            // defaultSessionFactory.setKnownHosts(knownHosts);
+            // defaultSessionFactory.setIdentityFromPrivateKey(privateKey);
+            String scheme = "";
+
+            Map<String, Object> environment = new HashMap<String, Object>();
+            environment.put("defaultSessionFactory", aConnectionFactory);
+            environment.put("watchservice.inotify", true);
+            URI uri = new URI(scheme + "://" + aConnectionFactory.getSSHUser() + "@" + aConnectionFactory.getSSHHost() + ":" + aConnectionFactory.getSSHPort() + aConnectionFactory.getFilePathRemotedService());
+            FileSystem fileSystem = FileSystems.newFileSystem(uri, environment);
+
+        } catch (Exception evERRSSHFSMOUNT) {
+            //  Assume.assumeNoException(evERRSSHFSMOUNT);
+        }
+        return false;
     }
 
+
+
     /**
-     * @return
+     * Closes this stream and releases any system resources associated
+     * with it. If the stream is already closed then invoking this
+     * method has no effect.
+     *
+     * <p> As noted in {@link AutoCloseable#close()}, cases where the
+     * close may fail require careful attention. It is strongly advised
+     * to relinquish the underlying resources and to internally
+     * <em>mark</em> the {@code Closeable} as closed, prior to throwing
+     * the {@code IOException}.
+     *
+     * @throws IOException if an I/O error occurs
      */
-    public Integer getSSHPortForwarded() {
-        return aConnectionFactory.getSSHPortForwarded();
+    @Override
+    public void close() throws IOException {
+
     }
 }

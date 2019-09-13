@@ -9,42 +9,49 @@ import java.util.Properties;
 
 public class GNSObjectSSHJDBCConnection extends GNSObjectSSHConnection {
 
-public final String CONNECTION_NAME = "SGBDCONNECTION";
-private String sJDBCConnectionName = "";
+    public final String CONNECTION_NAME = "SGBDCONNECTION";
+    private String sJDBCConnectionName = "";
+    private String sJDBCConnectionProtocolName = "mysql";
+    private Connection aJDBCConnection =  null;
 
+    // https://stackoverflow.com/questions/1968293/connect-to-remote-mysql-database-through-ssh-using-java
     public GNSObjectSSHJDBCConnection(String sConnectionName, String sArgSSHHost, Integer iArgSSHPort, String sArgSSHHostForwardedService, Integer iArgSSHPortForwardedService, String sArgSSHUser, String sArgSSHPassword, String sArgRemoteServiceUSER, String sArgRemoteServicePassword, String sArgSSHPubliKeyFilePath) throws Exception {
-        super( sConnectionName, sArgSSHHost, iArgSSHPort, sArgSSHHostForwardedService, iArgSSHPortForwardedService, sArgSSHUser, sArgSSHPassword,  sArgRemoteServiceUSER,  sArgRemoteServicePassword, sArgSSHPubliKeyFilePath);
+        super(sConnectionName, sArgSSHHost, iArgSSHPort, sArgSSHHostForwardedService, iArgSSHPortForwardedService, sArgSSHUser, sArgSSHPassword, sArgRemoteServiceUSER, sArgRemoteServicePassword, sArgSSHPubliKeyFilePath);
 
-
-        }
-
-    @Override
-    public Session open() throws Exception {
-
-
-        if(openConnection() != null ){
-            return null;
-        }else{
-            return null;
-        }
 
     }
 
-    private Connection openConnection(){
+
+    private Connection open(Boolean bTunnledForwardConnection) {
 
         try {
-            super.open();
+
+            super.close();
+            if( (aJDBCConnection != null ) &&
+                    !aJDBCConnection.isClosed())
+            {
+                aJDBCConnection.close();
+            }
+
+            if (super.openSession() == null) {
+                return null;
+            }
             //addSSHPortForwardind(sJDBCConnectionName, 0, getSSHHost(), iArgSSHPortForwardedService);
 
 
             Properties properties = new Properties();
-            // properties.setProperty("user", user);
-            // properties.setProperty("password", password);
+            properties.setProperty("user", getConnectionFactory().getUserRemotedService());
+            properties.setProperty("password", getConnectionFactory().getPasswordRemotedService());
             properties.setProperty("useUnicode", "true");
             properties.setProperty("characterEncoding", "UTF-8");
             // Class.forName("com.mysql.jdbc.Driver").newInstance();
-            // Connection con = DriverManager.getConnection( "jdbc:mysql://" + url + ":3306/" + nameBD + "?autoReconnect=true", properties);
-        }catch(Exception evERR_CONNECTION){
+            if (bTunnledForwardConnection && (getConnectionFactory().getPortForwarded() == 0)) {
+                addSSHTunnel();
+            }
+
+            DriverManager.getConnection("jdbc:" + sJDBCConnectionProtocolName + "://" + getConnectionFactory().getHostRemotedService() + ":" + getConnectionFactory().getPortRemotedService() + "/" + getConnectionFactory().getRessourceRemotedService() + "?autoReconnect=true", properties);
+
+        } catch (Exception evERR_CONNECTION) {
             GNSObjectMappedLogger.getLogger().logError(this.getClass(), evERR_CONNECTION);
         }
         return null;

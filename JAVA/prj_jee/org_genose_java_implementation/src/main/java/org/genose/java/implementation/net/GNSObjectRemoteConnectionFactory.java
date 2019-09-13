@@ -1,9 +1,11 @@
 package org.genose.java.implementation.net;
 
+import com.pastdev.jsch.DefaultSessionFactory;
+
 import java.net.UnknownHostException;
 import java.util.Objects;
 
-public class GNSObjectRemoteConnectionFactory {
+public class GNSObjectRemoteConnectionFactory extends DefaultSessionFactory {
 
     /* ********************************************************************** */
     static final String ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER = "Invalid CONNECTION Parameter ";
@@ -25,12 +27,40 @@ public class GNSObjectRemoteConnectionFactory {
     }
     /* ********************************************************************** */
 
+    /* ********************************************************************** */
+    private String sConnectionName = null;
+    /* ********************************************************************** */
+    private Integer iSSHConnectTimeOUT = 30;
+    /* ********************************************************************** */
+    private String sSSHHost = null;
+    /* ********************************************************************** */
+    private Integer iSSHPort = 0;
+    /* ********************************************************************** */
+    private Integer iPortLocalhost = 0; // localhost portpublic java.lang.Integer
+    /* ********************************************************************** */
+    private Integer iPortForwarded = 0; // resulted SSH Port forwardingpublic java.lang.Integer
+    /* ********************************************************************** */
+    private java.lang.String sHostRemotedService = null;
+    private java.lang.Integer iPortRemotedService = null;
+    private java.lang.String sFilePathRemotedService = null;
+    /* ********************************************************************** */
+    private java.lang.String sSSHUser = null;
+    private java.lang.String sSSHPassword = null;
+    /* ********************************************************************** */
+    private java.lang.String sUserRemotedService = null;
+    private java.lang.String sPasswordRemotedService = null;
+    /* ********************************************************************** */
+    private java.lang.String sSSHPubliKeyFilePath = null;
+    private String sRessourceRemotedService = null;
+    /* ********************************************************************** */
+
+    public GNSObjectRemoteConnectionFactory() {
+    }
+    /* ********************************************************************** */
+
     public static String getLocalhostName() {
         return sLocalhostName;
     }
-
-    /* ********************************************************************** */
-    private String sConnectionName = null;
 
     /* ********************************************************************** */
     public String getConnectionName() {
@@ -43,15 +73,9 @@ public class GNSObjectRemoteConnectionFactory {
     }
 
     /* ********************************************************************** */
-    private Integer iSSHConnectTimeOUT = 30;
-
-    /* ********************************************************************** */
     public Integer getSSHConnectTimeOUT() {
         return iSSHConnectTimeOUT;
     }
-
-    /* ********************************************************************** */
-    private String sSSHHost = null;
 
     /* ********************************************************************** */
     public String getSSHHost() {
@@ -63,9 +87,6 @@ public class GNSObjectRemoteConnectionFactory {
 
         this.sSSHHost = Objects.requireNonNullElse(sArgSSHHost, sLocalhostName);
     }
-
-    /* ********************************************************************** */
-    private Integer iSSHPort = 0;
 
     /* ********************************************************************** */
     public Integer getSSHPort() {
@@ -80,57 +101,44 @@ public class GNSObjectRemoteConnectionFactory {
     }
 
     /* ********************************************************************** */
-    private Integer iSSHPortLocalhost = 0; // localhost portpublic java.lang.Integer
-
-    /* ********************************************************************** */
     public int getSSHPortLocalhost() {
-        return iSSHPortLocalhost;
+        return iPortLocalhost;
     }
 
     /* ********************************************************************** */
-    public void setiSSHPortLocalhost(Integer iSSHPortLocalhost) {
-        this.iSSHPortLocalhost = iSSHPortLocalhost;
-    }
-
-    /* ********************************************************************** */
-    private Integer iSSHPortForwarded = 0; // resulted SSH Port forwardingpublic java.lang.Integer
-
-    public Integer getSSHPortForwarded() {
-        return iSSHPortForwarded;
-    }
-
-    /* ********************************************************************** */
-
-    public void setSSHPortForwarded(java.lang.Integer iSSHPortForwarded) {
-        this.iSSHPortForwarded = iSSHPortForwarded;
-    }
-
-    /* ********************************************************************** */
-    private java.lang.String sSSHHostRemotedService = null;
-
-    public java.lang.String getsSSHHostRemotedService() {
-        return sSSHHostRemotedService;
+    public void setiSSHPortLocalhost(Integer iArgPortLocalhost) {
+        this.iPortLocalhost = iArgPortLocalhost;
     }
     /* ********************************************************************** */
 
-    public void setsSSHHostRemotedService(java.lang.String sSSHHostRemotedService) {
-        this.sSSHHostRemotedService = sSSHHostRemotedService;
+    public Integer getPortForwarded() {
+        return iPortForwarded;
     }
     /* ********************************************************************** */
 
-    private java.lang.Integer iSSHPortRemotedService = null;
-
-    public java.lang.Integer getiSSHPortRemotedService() {
-        return iSSHPortRemotedService;
+    public void setPortForwarded(java.lang.Integer iSSHPortForwarded) {
+        this.iPortForwarded = iSSHPortForwarded;
     }
     /* ********************************************************************** */
 
-    public void setiSSHPortRemotedService(java.lang.Integer iSSHPortRemotedService) {
-        this.iSSHPortRemotedService = iSSHPortRemotedService;
+    public java.lang.String getHostRemotedService() {
+        return sHostRemotedService;
     }
-
     /* ********************************************************************** */
-    private java.lang.String sSSHUser = null;
+
+    public void setHostRemotedService(java.lang.String sArgHostRemotedService) {
+        this.sHostRemotedService = sArgHostRemotedService;
+    }
+    /* ********************************************************************** */
+
+    public java.lang.Integer getPortRemotedService() {
+        return iPortRemotedService;
+    }
+    /* ********************************************************************** */
+
+    public void setiSSHPortRemotedService(java.lang.Integer iArgPortRemotedService) {
+        this.iPortRemotedService = iArgPortRemotedService;
+    }
     /* ********************************************************************** */
 
     public java.lang.String getSSHUser() {
@@ -141,10 +149,6 @@ public class GNSObjectRemoteConnectionFactory {
     public void setsSSHUser(java.lang.String sArgSSHUser) {
         this.sSSHUser = Objects.requireNonNullElse(sArgSSHUser, String.valueOf(""));
     }
-    /* ********************************************************************** */
-
-    private java.lang.String sSSHPassword = null;
-    /* ********************************************************************** */
 
     public java.lang.String getSSHPassword() {
         return sSSHPassword;
@@ -154,9 +158,6 @@ public class GNSObjectRemoteConnectionFactory {
     public void setsSSHPassword(java.lang.String sArgSSHPassword) {
         this.sSSHPassword = Objects.requireNonNullElse(sArgSSHPassword, String.valueOf(""));
     }
-
-    /* ********************************************************************** */
-    private java.lang.String sSSHPubliKeyFilePath = null;
     /* ********************************************************************** */
 
     public java.lang.String getSSHPubliKeyFilePath() {
@@ -167,10 +168,6 @@ public class GNSObjectRemoteConnectionFactory {
     public void setSSHPubliKeyFilePath(java.lang.String sArgSSHPubliKeyFilePath) {
         this.sSSHPubliKeyFilePath = Objects.requireNonNullElse(sArgSSHPubliKeyFilePath, String.valueOf(""));
     }
-    /* ********************************************************************** */
-
-    public GNSObjectRemoteConnectionFactory() {
-    }
 
     /* ********************************************************************** */
     public GNSObjectSSHConnection getSSHConnection(String sArgRemoteConnectionName) {
@@ -178,11 +175,45 @@ public class GNSObjectRemoteConnectionFactory {
         aSSHConnection = Objects.requireNonNullElse(aSSHConnection, (new GNSObjectSSHConnection(this)));
         return aSSHConnection;
     }
+    /* ********************************************************************** */
 
 
     public void setConnectionRemote(GNSObjectSSHConnection aArgConnection) {
         aSSHConnection = aArgConnection;
     }
+    /* ********************************************************************** */
+
+    public void setFilePathRemotedService(String sArgFilePathRemotedService) {
+        this.sFilePathRemotedService = sArgFilePathRemotedService;
+    }
+    /* ********************************************************************** */
 
 
+    public String getFilePathRemotedService() {
+        return sFilePathRemotedService;
+    }
+    /* ********************************************************************** */
+
+    public String getUserRemotedService() {
+        return sUserRemotedService;
+    }
+    /* ********************************************************************** */
+
+    public void setUserRemotedService(String sArgUserRemotedService) {
+        this.sUserRemotedService = sUserRemotedService;
+    }
+    /* ********************************************************************** */
+
+    public String getPasswordRemotedService() {
+        return sPasswordRemotedService;
+    }
+    /* ********************************************************************** */
+
+    public void setPasswordRemotedService(String sArgPasswordRemotedService) {
+        this.sPasswordRemotedService = sPasswordRemotedService;
+    }
+
+    public String getRessourceRemotedService() {
+        return sRessourceRemotedService;
+    }
 }

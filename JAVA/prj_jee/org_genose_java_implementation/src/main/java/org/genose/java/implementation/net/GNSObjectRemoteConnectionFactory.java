@@ -1,6 +1,8 @@
 package org.genose.java.implementation.net;
 
+import com.jcraft.jsch.JSch;
 import com.pastdev.jsch.DefaultSessionFactory;
+import org.genose.java.implementation.streams.GNSObjectMappedLogger;
 
 import java.net.UnknownHostException;
 import java.util.Objects;
@@ -32,30 +34,33 @@ public class GNSObjectRemoteConnectionFactory extends DefaultSessionFactory {
     /* ********************************************************************** */
     private Integer iSSHConnectTimeOUT = 30;
     /* ********************************************************************** */
-    private String sSSHHost = null;
-    /* ********************************************************************** */
-    private Integer iSSHPort = 0;
-    /* ********************************************************************** */
-    private Integer iPortLocalhost = 0; // localhost portpublic java.lang.Integer
+    private Integer iPortRemoteServiceLocalhost = 0; // localhost port public java.lang.Integer
     /* ********************************************************************** */
     private Integer iPortForwarded = 0; // resulted SSH Port forwardingpublic java.lang.Integer
     /* ********************************************************************** */
-    private java.lang.String sHostRemotedService = null;
-    private java.lang.Integer iPortRemotedService = null;
-    private java.lang.String sFilePathRemotedService = null;
+    private String sHostRemotedService = null;
+    private Integer iPortRemotedService = null;
+
     /* ********************************************************************** */
-    private java.lang.String sSSHUser = null;
-    private java.lang.String sSSHPassword = null;
+    private String sUserRemotedService = null;
+    private String sPasswordRemotedService = null;
     /* ********************************************************************** */
-    private java.lang.String sUserRemotedService = null;
-    private java.lang.String sPasswordRemotedService = null;
-    /* ********************************************************************** */
-    private java.lang.String sSSHPubliKeyFilePath = null;
+    private String sSSHPubliKeyFilePath = null;
     private String sRessourceRemotedService = null;
+    private String sFilePathRemotedService = null;
+    private String sPassword = null;
+    private JSch aJSchProvider = null;
     /* ********************************************************************** */
 
     public GNSObjectRemoteConnectionFactory() {
+        super(null, null, SSH_DEFAULT_PORTNUMBER);
+        aJSchProvider = new JSch();
     }
+    public GNSObjectRemoteConnectionFactory(String username, String hostname, Integer port) {
+        super(username, hostname, port);
+        aJSchProvider = new JSch();
+    }
+
     /* ********************************************************************** */
 
     public static String getLocalhostName() {
@@ -78,36 +83,38 @@ public class GNSObjectRemoteConnectionFactory extends DefaultSessionFactory {
     }
 
     /* ********************************************************************** */
-    public String getSSHHost() {
-        return sSSHHost;
+    @Override
+    public String getHostname() {
+        return super.getHostname();
     }
 
     /* ********************************************************************** */
-    public void setSSHHost(String sArgSSHHost) {
-
-        this.sSSHHost = Objects.requireNonNullElse(sArgSSHHost, sLocalhostName);
+    @Override
+    public void setHostname(String sArgSSHHost) {
+        super.setHostname(Objects.requireNonNullElse(sArgSSHHost, sLocalhostName));
     }
 
     /* ********************************************************************** */
-    public Integer getSSHPort() {
-        return iSSHPort;
+    @Override
+    public int getPort() {
+        return super.getPort();
     }
 
     /* ********************************************************************** */
-    public void setSSHPort(Integer iArgSSHPort) {
+    public void setPort(Integer iArgSSHPort) {
 
-        this.iSSHPort = Objects.requireNonNullElse(iArgSSHPort, Integer.valueOf(SSH_DEFAULT_PORTNUMBER));
+        super.setPort( Objects.requireNonNullElse(iArgSSHPort, Integer.valueOf(SSH_DEFAULT_PORTNUMBER)));
 
     }
 
     /* ********************************************************************** */
-    public int getSSHPortLocalhost() {
-        return iPortLocalhost;
+    public int getPortRemotedServiceLocalhost() {
+        return iPortRemoteServiceLocalhost;
     }
 
     /* ********************************************************************** */
-    public void setiSSHPortLocalhost(Integer iArgPortLocalhost) {
-        this.iPortLocalhost = iArgPortLocalhost;
+    public void setPortRemotedServiceLocalhost(Integer iArgPortLocalhost) {
+        this.iPortRemoteServiceLocalhost = iArgPortLocalhost;
     }
     /* ********************************************************************** */
 
@@ -136,27 +143,28 @@ public class GNSObjectRemoteConnectionFactory extends DefaultSessionFactory {
     }
     /* ********************************************************************** */
 
-    public void setiSSHPortRemotedService(java.lang.Integer iArgPortRemotedService) {
+    public void setPortRemotedService(java.lang.Integer iArgPortRemotedService) {
         this.iPortRemotedService = iArgPortRemotedService;
     }
     /* ********************************************************************** */
-
-    public java.lang.String getSSHUser() {
-        return sSSHUser;
+    @Override
+    public String getUsername() {
+        return super.getUsername();
     }
     /* ********************************************************************** */
 
     public void setsSSHUser(java.lang.String sArgSSHUser) {
-        this.sSSHUser = Objects.requireNonNullElse(sArgSSHUser, String.valueOf(""));
+        super.setUsername(Objects.requireNonNullElse(sArgSSHUser, String.valueOf("")));
     }
 
-    public java.lang.String getSSHPassword() {
-        return sSSHPassword;
+    public String getPassword() {
+        return sPassword;
     }
     /* ********************************************************************** */
 
-    public void setsSSHPassword(java.lang.String sArgSSHPassword) {
-        this.sSSHPassword = Objects.requireNonNullElse(sArgSSHPassword, String.valueOf(""));
+    public void setPassword(String sArgSSHPassword) {
+        sPassword =Objects.requireNonNullElse(sArgSSHPassword, String.valueOf(""));
+        super.setPassword(sPassword);
     }
     /* ********************************************************************** */
 
@@ -169,15 +177,24 @@ public class GNSObjectRemoteConnectionFactory extends DefaultSessionFactory {
         this.sSSHPubliKeyFilePath = Objects.requireNonNullElse(sArgSSHPubliKeyFilePath, String.valueOf(""));
     }
 
+    /**
+     *
+     * @param sArgRemoteConnectionName
+     * @return null, if error or no connection
+     */
     /* ********************************************************************** */
     public GNSObjectSSHConnection getSSHConnection(String sArgRemoteConnectionName) {
-
-        aSSHConnection = Objects.requireNonNullElse(aSSHConnection, (new GNSObjectSSHConnection(this)));
-        return aSSHConnection;
+        try {
+            setConnectionName(sArgRemoteConnectionName);
+            aSSHConnection = Objects.requireNonNullElse(aSSHConnection,
+                    (new GNSObjectSSHConnection(this)));
+            return aSSHConnection;
+        }catch(Exception evERRCONNECTION){
+            GNSObjectMappedLogger.getLogger().logError(this.getClass(), evERRCONNECTION);
+        }
+        return null;
     }
     /* ********************************************************************** */
-
-
     public void setConnectionRemote(GNSObjectSSHConnection aArgConnection) {
         aSSHConnection = aArgConnection;
     }
@@ -215,5 +232,9 @@ public class GNSObjectRemoteConnectionFactory extends DefaultSessionFactory {
 
     public String getRessourceRemotedService() {
         return sRessourceRemotedService;
+    }
+
+    public JSch getConnectionProvider() {
+        return aJSchProvider;
     }
 }

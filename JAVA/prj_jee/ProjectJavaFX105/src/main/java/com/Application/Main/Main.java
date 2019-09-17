@@ -3,6 +3,7 @@ package com.Application.Main;
 import com.pastdev.jsch.tunnel.Tunnel;
 import com.pastdev.jsch.tunnel.TunnelConnection;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -45,20 +46,26 @@ public class Main extends Application {
                 System.out.println( " Error : file not found ... in "+(filePathSTR));
             }*/
 
+
+
             // JFXApplicationCustomControlSplitMenuHBox
             Application aApplicationRef = JFXApplicationHelper.getApplicationMain();
             System.out.println("Application " + aApplicationRef);
-            primaryStage.show();
+           // primaryStage.show();
             GNSObjectSSHConnection objectSSHConnection = new GNSObjectSSHConnection("SGBDConnection",
-                    "213.32.13.191", 0,
+                    "213.32.13.191",
+                    //"10.115.58.38",
+                    0,
                     null, null,
                     "root", "AFPA_r0uba1x",
+                    //"pi","pi",
                     null, null,
                     null);
 
-            //objectSSHConnection.execShell("pwd");
 
-            objectSSHConnection.execSFTP("pwd");
+            objectSSHConnection.execShell("pwd");
+
+            //objectSSHConnection.execSFTP("pwd");
 
             System.out.println(" ... Back to main ...");
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Waiting before closing connection ");
@@ -67,29 +74,29 @@ public class Main extends Application {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Close connection ");
             System.out.println(" ... Main :: try close ...");
             objectSSHConnection.close();
-
+/*
             TunnelConnection tunnelConnection = new TunnelConnection(
                     sessionFactory,
                     new Tunnel( 0, "bar", 1234 ) );
             tunnelConnection.open();
             int assignedPort = tunnelConnection.getTunnel( "bar", 1234 )
                     .getAssignedPort();
-
+*/
 
             System.out.println(" ... main : done ...");
-
+            Platform.exit();
 
         } catch (Exception evErrExceptionApppMain) {
-            System.out.println("Error :: " + evErrExceptionApppMain);
+            System.out.println("Main::Error:: " + evErrExceptionApppMain);
         }
     }
 
-
+/*
     public static void main(String[] args) {
         try {
             launch(args);
         } catch (Exception evErrMain) {
             System.out.println("Error :: " + evErrMain);
         }
-    }
+    }*/
 }

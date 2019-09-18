@@ -10,7 +10,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src/Main/java"/>
+	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
@@ -19,16 +19,17 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/org_genose_java_implementation/target/org.genose.java.implementation-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/Volumes/Macintosh_HD_3To/Users/xenon/Documents/github/progmatic_things/JAVA/prj_jee/org_genose_java_implementation/target/org.genose.java.implementation-1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.json:json:20190722"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.openjfx:javafx-controls:11.0.2"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.openjfx:javafx-controls:mac:11.0.2"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.openjfx:javafx-controls:win:11.0.2"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.openjfx:javafx-graphics:11.0.2"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.openjfx:javafx-graphics:mac:11.0.2"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.openjfx:javafx-graphics:win:11.0.2"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.openjfx:javafx-base:11.0.2"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.openjfx:javafx-base:mac:11.0.2"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.openjfx:javafx-base:win:11.0.2"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.openjfx:javafx-fxml:11.0.2"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.openjfx:javafx-fxml:mac:11.0.2"/>
-	<classpathentry kind="lib" path="/Volumes/Macintosh_HD_3To/Users/xenon/Documents/github/progmatic_things/JAVA/prj_jee/org_genose_java_implementation/target/org.genose.java.implementation-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.openjfx:javafx-fxml:win:11.0.2"/>
+	<classpathentry kind="lib" path="C:/Users/59013-36-18/Documents/GitHub/progmatic_things/JAVA/prj_jee/org_genose_java_implementation/target/org.genose.java.implementation-1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: com.microsoft.sqlserver:mssql-jdbc:7.2.2.jre11"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

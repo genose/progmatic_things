@@ -91,7 +91,7 @@ public class JFXApplicationHelper implements JFXApplicationDesignObjectLoad {
             localClass = refApplication.getClass();
         }else{
             StackTraceElement[] aStackElement = JFXApplicationHelper.getStackTrace();
-            System.out.println(" ****** Stack trace :: "+aStackElement );
+            System.out.println(JFXApplicationHelper.class.getSimpleName()+" ****** Stack trace :: "+aStackElement );
         }
         return refApplication;
     }

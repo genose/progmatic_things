@@ -1,6 +1,5 @@
 package org.genose.java.implementation.net;
 
-import com.jcraft.jsch.Session;
 import org.genose.java.implementation.exceptionerror.GNSObjectException;
 import org.genose.java.implementation.streams.GNSObjectMappedLogger;
 
@@ -22,8 +21,12 @@ public class GNSObjectSSHJDBCConnection extends GNSObjectSSHConnection {
 
     }
 
-
-    private Connection open(Boolean bTunnledForwardConnection) {
+    /**
+     *
+     * @param bUseTunnledForwardedConnection
+     * @return
+     */
+    private Connection open(Boolean bUseTunnledForwardedConnection) {
 
         try {
 
@@ -33,7 +36,7 @@ public class GNSObjectSSHJDBCConnection extends GNSObjectSSHConnection {
                 aJDBCConnection.close();
             }
 
-            if (super.openSession() == null) {
+            if (!super.openSession()) {
                 return null;
             }
             //addSSHPortForwardind(sJDBCConnectionName, 0, getSSHHost(), iArgSSHPortForwardedService);
@@ -41,12 +44,16 @@ public class GNSObjectSSHJDBCConnection extends GNSObjectSSHConnection {
 
             Properties properties = new Properties();
             properties.setProperty("user", getConnectionFactory().getUserRemotedService());
-            properties.setProperty("password", getConnectionFactory().getPasswordRemotedService());
+
+            if( (getConnectionFactory().getPasswordRemotedService() != null ) && (!getConnectionFactory().getPasswordRemotedService().isEmpty()) ) {
+                properties.setProperty("password", getConnectionFactory().getPasswordRemotedService());
+            }
+
             properties.setProperty("useUnicode", "true");
             properties.setProperty("characterEncoding", "UTF-8");
             // Class.forName("com.mysql.jdbc.Driver").newInstance();
-            if (bTunnledForwardConnection && (getConnectionFactory().getPortForwarded() == 0)) {
-                if( ! addSSHTunnel()){
+            if (bUseTunnledForwardedConnection && (getConnectionFactory().getPortForwardedRemotedService() == 0)) {
+                if( ! addSSHTunnel(false)){
                     throw new GNSObjectException("Error or Timeout in obtain SSHTunnel Forwarding Connection ...");
                 }
             }
@@ -65,8 +72,5 @@ public class GNSObjectSSHJDBCConnection extends GNSObjectSSHConnection {
             GNSObjectMappedLogger.getLogger().logError(this.getClass(), evERR_CONNECTION);
         }
         return null;
-    }
-
-    private void addSSHPortForwardind() {
     }
 }

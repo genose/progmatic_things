@@ -93,7 +93,10 @@ public class GNSObjectRemoteConnectionFactory extends DefaultSessionFactory {
     public void setHostname(String sArgSSHHost) {
         super.setHostname(Objects.requireNonNullElse(sArgSSHHost, sLocalhostName));
     }
-
+    /* ********************************************************************** */
+    public String getLocalHostname() {
+        return sLocalhostName;
+    }
     /* ********************************************************************** */
     @Override
     public int getPort() {
@@ -118,12 +121,12 @@ public class GNSObjectRemoteConnectionFactory extends DefaultSessionFactory {
     }
     /* ********************************************************************** */
 
-    public Integer getPortForwarded() {
+    public Integer getPortForwardedRemotedService() {
         return iPortForwarded;
     }
     /* ********************************************************************** */
 
-    public void setPortForwarded(java.lang.Integer iSSHPortForwarded) {
+    public void setPortForwardedRemotedService(java.lang.Integer iSSHPortForwarded) {
         this.iPortForwarded = iSSHPortForwarded;
     }
     /* ********************************************************************** */
@@ -237,4 +240,5 @@ public class GNSObjectRemoteConnectionFactory extends DefaultSessionFactory {
     public JSch getConnectionProvider() {
         return aJSchProvider;
     }
+
 }

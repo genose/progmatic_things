@@ -25,6 +25,7 @@ public class GNSObjectSSHConnection implements Closeable {
     // ::   private com.jcraft.jsch.ChannelSftp aSftpChannel = null;
     private static Integer iSSHMAXConnection = 10;
     private static ArrayList<Session> sessionArrayList = null;
+    private static HashMap<String, Channel> channelHashMap = null;
 
     /* ********************************************************************** */
     private static Map<String, GNSObjectSSHConnection> sshConnectionMap = null;
@@ -182,16 +183,8 @@ public class GNSObjectSSHConnection implements Closeable {
         return aConnectionParametersFactory;
     }
 
-    /**
-     * @return
-     */
-    protected Session openSession() throws Exception {
+    protected Session getSSHSession() throws Exception {
         try {
-            // https://stackoverflow.com/questions/1968293/connect-to-remote-mysql-database-through-ssh-using-java
-            /* ********************************************************************** */
-
-            Objects.requireNonNull(aConnectionParametersFactory, ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
-            /* ********************************************************************** */
             if (aSSHSession != null) {
                 GNSObjectMappedLogger.getLogger().logInfo(this.getClass(), "Reuse previous [" + aConnectionParametersFactory.getConnectionProvider() + "]");
                 if (!aSSHSession.isConnected()) {
@@ -204,24 +197,46 @@ public class GNSObjectSSHConnection implements Closeable {
                     ) {
                         GNSObjectMappedLogger.getLogger().logInfo(this.getClass(), "Connect previous [" + aConnectionParametersFactory.getConnectionProvider() + "]");
 
-                        aSSHSession.connect();
-                        return aSSHSession;
                     } else {
-                        if (aConnectionParametersFactory.getPortRemotedServiceLocalhost() != 0) {
-                            aSSHSession.delPortForwardingL(aConnectionParametersFactory.getPortRemotedServiceLocalhost());
-                        }
+/*                    if (aConnectionParametersFactory.getPortRemotedServiceLocalhost() != 0) {
+                        aSSHSession.delPortForwardingL(aConnectionParametersFactory.getPortRemotedServiceLocalhost());
+                    }*/
                         GNSObjectMappedLogger.getLogger().logInfo(this.getClass(), "Close previous [" + aConnectionParametersFactory.getConnectionProvider() + "]");
 
-                        aSSHSession.disconnect();
                     }
                 } else {
                     GNSObjectMappedLogger.getLogger().logInfo(this.getClass(), "Already connected previous [" + aConnectionParametersFactory.getConnectionProvider() + "]");
 
-                    return aSSHSession;
+
                 }
             }
-            // assumed null ....
+            return aSSHSession;
+        } catch (Exception evERREXCEPTION_SSH_SESSION_CHECK) {
+            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_SESSION_CHECK);
+            throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while check session connection ", evERREXCEPTION_SSH_SESSION_CHECK);
 
+        }
+
+    }
+
+    /**
+     * @return
+     */
+    protected Session createSession() throws Exception {
+        try {
+            // https://stackoverflow.com/questions/1968293/connect-to-remote-mysql-database-through-ssh-using-java
+            /* ********************************************************************** */
+
+            Objects.requireNonNull(aConnectionParametersFactory, ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
+            /* ********************************************************************** */
+
+            if (getSSHSession() != null) {
+                if (getSSHSession().isConnected()) {
+                    return getSSHSession();
+                }
+            }
+            /* ********************************************************************** */
+            // assumed null from here ....
             /* ********************************************************************** */
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying create connection Session with ("
                     + aConnectionParametersFactory.getUsername() + ":"
@@ -259,14 +274,16 @@ public class GNSObjectSSHConnection implements Closeable {
             aSessionConfigProperties.put("PreferredAuthentications", "publickey,password,keyboard-interactive");
 
 
-            GNSObjectMappedLogger.getLogger().logInfo("session connected...." + aSSHSession.isConnected());
             HostKey[] arrayHostKey = aSSHConnection.getHostKeyRepository().getHostKey();
             for (int i = 0; i < (arrayHostKey.length - 1); i++) {
-                System.out.println(arrayHostKey[i].getHost());
-                System.out.println(arrayHostKey[i].getKey());
-                System.out.println(arrayHostKey[i].getType());
-                if (arrayHostKey[i].getHost().equalsIgnoreCase(getConnectionFactory().getHostname()))
+                System.out.println("host : " + arrayHostKey[i].getHost());
+                System.out.println("hostkey : " + arrayHostKey[i].getKey());
+
+                if (arrayHostKey[i].getHost().equalsIgnoreCase(getConnectionFactory().getHostname())) {
                     aSSHSession.setConfig("server_host_type", arrayHostKey[i].getType());
+                } else {
+                    System.out.println("hosttype : " + arrayHostKey[i].getType());
+                }
             }
             GNSObjectMappedLogger.getLogger().logInfo("sftp session connected without using proxy..." + aSSHSession.isConnected());
 
@@ -275,15 +292,32 @@ public class GNSObjectSSHConnection implements Closeable {
             aSSHSession.setConfig(aSessionConfigProperties);
 
             /* ********************************************************************** */
-            aSSHSession.connect(aConnectionParametersFactory.getSSHConnectTimeOUT() * 1000);
+            // aSSHSession.connect(aConnectionParametersFactory.getSSHConnectTimeOUT() * 1000);
+            GNSObjectMappedLogger.getLogger().logInfo("session connected...." + aSSHSession.isConnected());
 
-
-        } catch (Exception evERREXCEPTION_SSH_OPEN) {
-            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_OPEN);
-            throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while open connection ", evERREXCEPTION_SSH_OPEN);
+        } catch (Exception evERREXCEPTION_SSH_CREATESESSION) {
+            GNSObjectMappedLogger.getLogger().logError(this.getClass(), evERREXCEPTION_SSH_CREATESESSION);
+            throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while open connection ", evERREXCEPTION_SSH_CREATESESSION);
 
         }
         return aSSHSession;
+    }
+
+    /**
+     * @return
+     */
+    public boolean openSession() throws Exception {
+        try {
+
+            /* ********************************************************************** */
+            aSSHSession.connect(aConnectionParametersFactory.getSSHConnectTimeOUT() * 1000);
+            GNSObjectMappedLogger.getLogger().logInfo("session connected...." + aSSHSession.isConnected());
+
+        } catch (Exception evERROpenSession) {
+            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERROpenSession);
+            throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while open connection ", evERROpenSession);
+        }
+        return false;
     }
 
     /**
@@ -309,6 +343,38 @@ public class GNSObjectSSHConnection implements Closeable {
         }
     }
 
+    /**
+     * @return
+     */
+    public boolean closeSessionChannels() {
+        try {
+
+
+            channelHashMap.forEach((s, channel) -> {
+                try {
+                    if ((channel != null)) {
+                        channel.disconnect();
+                    }
+                } catch (Exception EVERRCLOSE_CHANNEL) {
+                    GNSObjectMappedLogger.getLogger().logError(this.getClass(), EVERRCLOSE_CHANNEL);
+                }
+            });
+
+            channelHashMap.clear();
+            return true;
+        } catch (Exception EVERRClear_CHANNEL) {
+            GNSObjectMappedLogger.getLogger().logError(this.getClass(), EVERRClear_CHANNEL);
+        }
+        return false;
+    }
+
+    /**
+     * @param channel
+     * @param inStream
+     * @param osStream
+     * @param strCommand
+     * @return
+     */
     public int channelStreamPrint(Channel channel, InputStream inStream, OutputStream osStream, String strCommand) {
 
         byte[] tmp = new byte[1024];
@@ -351,12 +417,38 @@ public class GNSObjectSSHConnection implements Closeable {
     }
 
     /**
+     * @return true, if session is connected
+     */
+    public boolean openXGUISession() {
+        try {
+            createSession();
+            aSSHSession.setX11Host(getConnectionFactory().getHostRemotedService());
+            aSSHSession.setX11Port(getConnectionFactory().getPortRemotedService());
+            openSession();
+
+            Channel channel = aSSHSession.openChannel("shell");
+
+            channel.setXForwarding(true);
+
+            channel.setInputStream(System.in);
+            channel.setOutputStream(System.out);
+
+            channel.connect();
+            return aSSHSession.isConnected();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+
+    /**
      * @return
      * @throws Exception
      */
-    public boolean addSSHTunnel() throws Exception {
+    public boolean addSSHTunnel(boolean bRemoteAFromRemoteB) throws Exception {
         try {
-            if (openSession() != null) {
+            if (openSession() ) {
 
                 /* ********************************************************************** */
                 aConnectionParametersFactory.setHostRemotedService(Objects.requireNonNullElse(aConnectionParametersFactory.getHostRemotedService(), String.valueOf("")));
@@ -364,8 +456,14 @@ public class GNSObjectSSHConnection implements Closeable {
                 aConnectionParametersFactory.setPortRemotedServiceLocalhost(Objects.requireNonNullElse(aConnectionParametersFactory.getPortRemotedServiceLocalhost(), Integer.valueOf(0)));
                 /* ********************************************************************** */
                 if (aConnectionParametersFactory.getHostRemotedService().isEmpty() && aConnectionParametersFactory.getPortRemotedService() != 0) {
-                    System.out.println("Port Forwarding init");
-                    aConnectionParametersFactory.setPortRemotedService(aSSHSession.setPortForwardingL(aConnectionParametersFactory.getPortRemotedServiceLocalhost(), aConnectionParametersFactory.getHostRemotedService(), aConnectionParametersFactory.getPortRemotedService()));
+                    System.out.println("Local to Remote Port Forwarding init");
+                    aConnectionParametersFactory.setPortRemotedService(
+                            aSSHSession.setPortForwardingL(
+                                    aConnectionParametersFactory.getPortRemotedServiceLocalhost(),
+                                    ((!bRemoteAFromRemoteB)? aConnectionParametersFactory.getLocalHostname():aConnectionParametersFactory.getHostRemotedService()),
+                                    aConnectionParametersFactory.getPortRemotedService()
+                            )
+                    );
                     System.out.println("Port Remoted");
                     System.out.println("localhost:" + aConnectionParametersFactory.getPortRemotedServiceLocalhost() + " -> " + aConnectionParametersFactory.getHostRemotedService() + ":" + aConnectionParametersFactory.getPortRemotedService());
 
@@ -415,7 +513,7 @@ public class GNSObjectSSHConnection implements Closeable {
     // http://www.jcraft.com/jsch/examples/X11Forwarding.java
     public int execShell(String strCommand) throws Exception {
         try {
-            if (openSession() != null) {
+            if (openSession()) {
                 Channel channel = aSSHSession.openChannel("exec");
                 System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying exec command : " + strCommand);
                 ((ChannelExec) channel).setCommand(strCommand);

@@ -1,18 +1,16 @@
 org\genose\java\implementation\javafx\applicationtools\exceptionerror\JFXApplicationError.class
 org\genose\java\implementation\tools\StringRange.class
 org\genose\java\implementation\javafx\applicationtools\views\JFXApplicationViewInvokableInterface.class
-org\genose\java\implementation\objectInterface\DAO.class
 org\genose\java\implementation\net\GNSObjectMappedDataSourceProvider.class
 org\genose\java\implementation\files\GNSObjectMappedFileAccessor.class
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlTextFieldValidator$1.class
-org\genose\java\implementation\objectInterface\DAOObjectChained.class
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlTextFieldValidator$4.class
 org\genose\java\implementation\javafx\applicationtools\exceptionerror\JFXApplicationException.class
 org\genose\java\implementation\javafx\applicationtools\exceptionerror\JFXApplicationInvalidParameterException.class
 org\genose\java\implementation\javafx\applicationtools\JFXApplicationClassHelper.class
 org\genose\java\implementation\arraysmapslists\GNSObjectMappedObject.class
-org\genose\java\implementation\objectInterface\DAOObject.class
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlComboxBoxAutoFill$2.class
+org\genose\java\implementation\net\GNSObjectMappedParamater.class
 org\genose\java\implementation\javafx\applicationtools\JFXApplication.class
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlTextFieldValidator.class
 org\genose\java\implementation\javafx\applicationtools\views\JFXApplicationViewsHierarchy.class
@@ -25,6 +23,7 @@ org\genose\java\implementation\javafx\applicationtools\views\customviewscontroll
 org\genose\java\implementation\net\GNSObjectSSHFileTransfert.class
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlComboxBoxAutoFill$1.class
 org\genose\java\implementation\tools\HUMANDEFINITION_AGE.class
+org\genose\java\implementation\dataaccessobject\objectinterface\GNSObjectDAOObject.class
 org\genose\java\implementation\net\GNSObjectRemoteConnectionFactory.class
 org\genose\java\implementation\games\PenduGame.class
 org\genose\java\implementation\arraysmapslists\GNSObjectMappedObjectValue.class
@@ -33,6 +32,7 @@ org\genose\java\implementation\observable\Observer.class
 org\genose\java\implementation\javafx\applicationtools\JFXApplicationHelper.class
 org\genose\java\implementation\javafx\applicationtools\JFXApplicationDesignObjectLoad.class
 org\genose\java\implementation\tools\refreshableObject.class
+org\genose\java\implementation\dataaccessobject\GNSObjectDAOAccessor.class
 org\genose\java\implementation\exceptionerror\GNSObjectRuntimeException.class
 org\genose\java\implementation\javafx\applicationtools\JFXApplicationFunctionCallback.class
 org\genose\java\implementation\threadstasks\GNSObjectScheduledTask.class
@@ -41,6 +41,7 @@ org\genose\java\implementation\arraysmapslists\GNSObjectMappedValuesAccessor.cla
 org\genose\java\implementation\files\GNSObjectMappedFileTypeINI.class
 org\genose\java\implementation\streams\ConsoleStream.class
 org\genose\java\implementation\tools\NumericRange.class
+org\genose\java\implementation\dataaccessobject\GNSObjectDAOStrings.class
 org\genose\java\implementation\streams\ConsoleStreamTextAreaField.class
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlTextFieldValidator$FIELDTYPEVALIDATOR.class
 org\genose\java\implementation\javafx\applicationtools\exceptionerror\JFXApplicationMappedLogger.class
@@ -52,6 +53,7 @@ org\genose\java\implementation\applicationtools\GNSObjectFunctionCallback.class
 org\genose\java\implementation\javafx\applicationtools\views\JFXApplicationDialog.class
 org\genose\java\implementation\streams\Snippet.class
 org\genose\java\implementation\net\GNSObjectSSHConnection.class
+org\genose\java\implementation\dataaccessobject\objectinterface\GNSObjectDAOObjectChained.class
 org\genose\java\implementation\files\GNSObjectMappedFileTypeDelimitedSeparator.class
 org\genose\java\implementation\net\GNSObjectSSHJDBCConnection.class
 org\genose\java\implementation\tools\HUMANDEFINITION.class
@@ -59,8 +61,9 @@ org\genose\java\implementation\javafx\applicationtools\views\customviewscontroll
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlTextFieldValidator$7.class
 org\genose\java\implementation\observable\Observable.class
 org\genose\java\implementation\javafx\applicationtools\views\JFXApplicationScene.class
-org\genose\java\implementation\net\GNSObjectConnectionParamater.class
 org\genose\java\implementation\net\GNSObjectJDBCProvider.class
+org\genose\java\implementation\dataaccessobject\GNSObjectDAOConnexion$1ASTTmp.class
+org\genose\java\implementation\dataaccessobject\GNSObjectDAOConnexion.class
 org\genose\java\implementation\applicationtools\GNSObjectClassHelper.class
 org\genose\java\implementation\streams\LectureFichier.class
 org\genose\java\implementation\javafx\applicationtools\JFXApplicationBundle.class

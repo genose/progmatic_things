@@ -1,91 +1,74 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Objects;
 
+import org.genose.java.implementation.dataaccessobject.GNSObjectDAOConnexion;
+import org.genose.java.implementation.dataaccessobject.GNSObjectDAOStrings;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 
-public class SDBMConnect implements DAOProvider {
+public class SDBMConnect extends GNSObjectDAOConnexion implements GNSObjectDAOStrings{
 	// Declare the JDBC objects.
-	private static Connection aLServerConnexion = null;
-	private static SDBMConnect aServerInstanceConnexion = null;
-	private static String sConnectionHost = null;
+	// private static Connection aLServerConnexion = null;
+	// private static SDBMConnect aServerInstanceConnexion = null;
+	// private static String sConnectionHost = null;
 	
 	public SDBMConnect() {
+		super();
 		try {
-			sConnectionHost = java.net.InetAddress.getLocalHost().getHostName();
+
 //			String dbURL = "jdbc:sqlserver://DESKTOP-FCU3LC0:1433;databaseName=SDBM";
 //			String user = "javaSDBM";
 //			String pass = "javaSDBM";
 //			connexion = DriverManager.getConnection(dbURL, user, pass);
 
-			System.out.println("try connection on " + sConnectionHost);
+			// Using as remoted serveur
+			setRessourceRemotedService("SDBM");
+			setHostRemotedService(getLocalHostname());
+			setPortRemotedService(1433);
+
+			setUserRemotedService("javasdbm");
+			setPasswordRemotedService("javasdbm");
+
+			System.out.println("try connection on " + getHostRemotedService()+"::"+getPortRemotedService()+" :: "+getUserRemotedService()+"::"+getPasswordRemotedService()+" :: "+getRessourceRemotedService());
 
 			SQLServerDataSource ds = new SQLServerDataSource();
 
-			ds.setServerName(sConnectionHost);
+			ds.setServerName(getHostRemotedService());
 
-			ds.setPortNumber(1433);
+			ds.setPortNumber(getPortRemotedService());
 
-			ds.setDatabaseName("SDBM");
+			ds.setDatabaseName(getRessourceRemotedService());
 
 			ds.setIntegratedSecurity(false);
 
-			ds.setUser("javasdbm");
+			ds.setUser(getUserRemotedService());
 
-			ds.setPassword("javasdbm");
-			aServerInstanceConnexion = this;
-			
-			aLServerConnexion = ds.getConnection();
-			Objects.requireNonNull(aLServerConnexion, sERRMESSAGEDAONULLCONNECT);
+			ds.setPassword(getPasswordRemotedService());
+			// aServerInstanceConnexion = this;
+			//ds.getConnection();
+			setServerConnexion( ds.getConnection());
+			Objects.requireNonNull(getServerConnexion(), S_ERRMESSAGE_DAO_NULLCONNECT);
 			
 		}
 
 		// Handle any errors that may have occurred.
 		catch (Exception evERRSDBDCONNECTION) {
 			evERRSDBDCONNECTION.printStackTrace();
-			JFXApplicationException.raiseToFront(aServerInstanceConnexion.getClass(), evERRSDBDCONNECTION, true);
+			JFXApplicationException.raiseToFront(this.getClass(), evERRSDBDCONNECTION, true);
 		}
 	}
 
 	public static synchronized SDBMConnect getInstance() {
-		if (aServerInstanceConnexion == null)
-			aServerInstanceConnexion = new SDBMConnect();
-		
-		return aServerInstanceConnexion;
+		SDBMConnect aDAOObject = (SDBMConnect) SDBMConnect.getInstance(SDBMConnect.class);
+		System.out.println(" +++++++++++++++++++ "+aDAOObject);
+		return   aDAOObject;
 	}
 
-	/**
-	 * @return the connexion
-	 */
-	public static Connection getConnexion() {
-		return (getInstance()).aLServerConnexion;
-	}
 
-	/**
-	 * @param connexion the connexion to set
-	 */
-	public static void setConnexion(Connection connexion) {
-		(getInstance()).aLServerConnexion = connexion;
-	}
-
-	/**
-	 * @return the sConnectionHost
-	 */
-	public static String getsConnectionHost() {
-		return sConnectionHost;
-	}
-
-	/**
-	 * @param sConnectionHost the sConnectionHost to set
-	 */
-	public static void setsConnectionHost(String sConnectionHost) {
-		(getInstance()).sConnectionHost = sConnectionHost;
-	}
 
 	public static void main(String[] args) {
 		System.out.println("Test connexion ...");
@@ -93,9 +76,9 @@ public class SDBMConnect implements DAOProvider {
 			SDBMConnect aBDDConnexion = new SDBMConnect();
 
 			Objects.requireNonNull(aBDDConnexion,
-					"Connection au server " + SDBMConnect.sConnectionHost);
+					"Connection au server " + SDBMConnect.getInstance());
 			System.out.println(" Result : " + aBDDConnexion);
-			Connection aServerConnexion = getConnexion();
+			Connection aServerConnexion = aBDDConnexion.getServerConnexion();
 			System.out.println("Closed  ? " + aServerConnexion.isClosed());
 			aServerConnexion.close();
 		} catch (SQLException e) {

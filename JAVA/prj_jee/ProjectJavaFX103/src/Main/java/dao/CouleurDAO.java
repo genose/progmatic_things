@@ -245,10 +245,10 @@ public class CouleurDAO extends DAO<Couleur> {
 		SDBMConnect aBDDConnexion = new SDBMConnect();
 
 		Objects.requireNonNull(aBDDConnexion,
-				"Connection au server " + SDBMConnect.getsConnectionHost());
+				"Connection au server " + aBDDConnexion.getHostname());
 		System.out.println(" Result : " + aBDDConnexion);
 
-		CouleurDAO aCouleurDAOTest = new CouleurDAO(SDBMConnect.getConnexion());
+		CouleurDAO aCouleurDAOTest = new CouleurDAO(SDBMConnect.getInstance().getServerConnexion());
 
 		Couleur aCouleur = new Couleur(0, "lon");
 		ArrayList<Couleur> aCouleurList = aCouleurDAOTest.select(aCouleur);

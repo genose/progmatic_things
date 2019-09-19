@@ -79,7 +79,7 @@
                     <release>11</release>
                 </configuration>
             </plugin>
-            <plugin>
+          <!--  <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.3</version>
@@ -90,7 +90,7 @@
                     <release>11</release>
                     <includePathExceptionsInClasspath>true</includePathExceptionsInClasspath>
                 </configuration>
-            </plugin>
+            </plugin> -->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

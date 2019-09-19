@@ -11,32 +11,42 @@ import dao.MarqueDAO;
 import dao.PaysDAO;
 import dao.SDBMConnect;
 import dao.TypeBiereDAO;
+import org.genose.java.implementation.dataaccessobject.GNSObjectDAOStrings;
 
-public class DaoFactory implements DAOProvider
+public class DaoFactory implements GNSObjectDAOStrings
 {
-	private static final Connection aConnexion = SDBMConnect.getConnexion();
+	private static Connection aConnexion = null; // SDBMConnect.getInstance().getServerConnexion();
+
+	static {
+		try {
+			aConnexion = SDBMConnect.getInstance().getServerConnexion();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 
 	public static ContinentDAO getContinentDAO()
 	{
-		Objects.requireNonNull(aConnexion, sERRMESSAGEDAONULLCONNECT);
+		Objects.requireNonNull(aConnexion, S_ERRMESSAGE_DAO_NULLCONNECT);
 		return new ContinentDAO(aConnexion);
 	}
 
 	public static CouleurDAO getCouleurDAO()
 	{
-		Objects.requireNonNull(aConnexion, sERRMESSAGEDAONULLCONNECT);
+		Objects.requireNonNull(aConnexion, S_ERRMESSAGE_DAO_NULLCONNECT);
 		return new CouleurDAO(aConnexion);
 	}
 
 	public static PaysDAO getPaysDAO()
 	{
-		Objects.requireNonNull(aConnexion, sERRMESSAGEDAONULLCONNECT);
+		Objects.requireNonNull(aConnexion, S_ERRMESSAGE_DAO_NULLCONNECT);
 		return new PaysDAO(aConnexion);
 	}
 
 	public static TypeBiereDAO getTypeDAO()
 	{
-		Objects.requireNonNull(aConnexion, sERRMESSAGEDAONULLCONNECT);
+		Objects.requireNonNull(aConnexion, S_ERRMESSAGE_DAO_NULLCONNECT);
 		return new TypeBiereDAO(aConnexion);
 	}
 
@@ -47,13 +57,13 @@ public class DaoFactory implements DAOProvider
 
 	public static FabricantDAO getFabricantDAO()
 	{
-		Objects.requireNonNull(aConnexion, sERRMESSAGEDAONULLCONNECT);
+		Objects.requireNonNull(aConnexion, S_ERRMESSAGE_DAO_NULLCONNECT);
 		return new FabricantDAO(aConnexion);
 	}
 	
 	public static ArticleDAO getArticleDAO()
 	{
-		Objects.requireNonNull(aConnexion, sERRMESSAGEDAONULLCONNECT);
+		Objects.requireNonNull(aConnexion, S_ERRMESSAGE_DAO_NULLCONNECT);
 		return new ArticleDAO(aConnexion);
 	}
 

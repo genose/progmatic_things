@@ -16,6 +16,19 @@
 		<level name="Maven: org.openjfx:javafx-base:win:11.0.2" value="project"/>
 		<level name="Maven: org.openjfx:javafx-fxml:11.0.2" value="project"/>
 		<level name="Maven: org.openjfx:javafx-fxml:win:11.0.2" value="project"/>
+		<level name="Maven: com.jcraft:jsch:0.1.55" value="project"/>
+		<level name="Maven: com.pastdev:jsch-extension:0.1.11" value="project"/>
+		<level name="Maven: com.jcraft:jsch.agentproxy.connector-factory:0.0.9" value="project"/>
+		<level name="Maven: com.jcraft:jsch.agentproxy.core:0.0.9" value="project"/>
+		<level name="Maven: com.jcraft:jsch.agentproxy.usocket-jna:0.0.9" value="project"/>
+		<level name="Maven: net.java.dev.jna:jna:4.1.0" value="project"/>
+		<level name="Maven: net.java.dev.jna:jna-platform:4.1.0" value="project"/>
+		<level name="Maven: com.jcraft:jsch.agentproxy.usocket-nc:0.0.9" value="project"/>
+		<level name="Maven: com.jcraft:jsch.agentproxy.sshagent:0.0.9" value="project"/>
+		<level name="Maven: com.jcraft:jsch.agentproxy.pageant:0.0.9" value="project"/>
+		<level name="Maven: com.jcraft:jsch.agentproxy.jsch:0.0.9" value="project"/>
+		<level name="Maven: org.slf4j:slf4j-api:1.7.22" value="project"/>
+		<level name="Maven: com.pastdev:jsch-nio:1.0.13" value="project"/>
 		<level name="Maven: com.microsoft.sqlserver:mssql-jdbc:7.2.2.jre11" value="project"/>
 	</levels>
 </component>

@@ -126,8 +126,8 @@ public class GNSObjectRemoteConnectionFactory extends DefaultSessionFactory {
     }
     /* ********************************************************************** */
 
-    public void setPortForwardedRemotedService(java.lang.Integer iSSHPortForwarded) {
-        this.iPortForwarded = iSSHPortForwarded;
+    public void setPortForwardedRemotedService(java.lang.Integer iArgPortForwarded) {
+        this.iPortForwarded = iArgPortForwarded;
     }
     /* ********************************************************************** */
 
@@ -220,7 +220,7 @@ public class GNSObjectRemoteConnectionFactory extends DefaultSessionFactory {
     /* ********************************************************************** */
 
     public void setUserRemotedService(String sArgUserRemotedService) {
-        this.sUserRemotedService = sUserRemotedService;
+        this.sUserRemotedService = sArgUserRemotedService;
     }
     /* ********************************************************************** */
 
@@ -230,13 +230,17 @@ public class GNSObjectRemoteConnectionFactory extends DefaultSessionFactory {
     /* ********************************************************************** */
 
     public void setPasswordRemotedService(String sArgPasswordRemotedService) {
-        this.sPasswordRemotedService = sPasswordRemotedService;
+        this.sPasswordRemotedService = sArgPasswordRemotedService;
     }
-
+    /* ********************************************************************** */
     public String getRessourceRemotedService() {
         return sRessourceRemotedService;
     }
-
+    /* ********************************************************************** */
+    public void setRessourceRemotedService(String sArgRemoteServiceName) {
+        sRessourceRemotedService = sArgRemoteServiceName;
+    }
+    /* ********************************************************************** */
     public JSch getConnectionProvider() {
         return aJSchProvider;
     }

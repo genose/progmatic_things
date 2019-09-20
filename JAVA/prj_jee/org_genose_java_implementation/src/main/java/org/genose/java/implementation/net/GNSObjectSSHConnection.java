@@ -44,7 +44,7 @@ public class GNSObjectSSHConnection implements Closeable {
     }
 
     /**
-     * @param sConnectionName
+     * @param sArgConnectionName
      * @param sArgHost
      * @param iArgPort
      * @param sArgSSHHostRemotedService
@@ -57,7 +57,7 @@ public class GNSObjectSSHConnection implements Closeable {
      * @throws Exception
      */
 
-    public GNSObjectSSHConnection(String sConnectionName,
+    public GNSObjectSSHConnection(String sArgConnectionName,
                                   String sArgHost, Integer iArgPort,
                                   String sArgSSHHostRemotedService, Integer iArgSSHPortRemotedService,
                                   String sArgSSHUser, String sArgSSHPassword,
@@ -65,7 +65,7 @@ public class GNSObjectSSHConnection implements Closeable {
                                   String sArgSSHPubliKeyFilePath
     ) throws Exception {
         /* ********************************************************************** */
-        sConnectionName = Objects.requireNonNullElse(sConnectionName, this.toString());
+        sArgConnectionName = Objects.requireNonNullElse(sArgConnectionName, this.toString());
 
         /* ********************************************************************** */
         Objects.requireNonNull(sArgHost, ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER);
@@ -103,12 +103,12 @@ public class GNSObjectSSHConnection implements Closeable {
         }
         /* ********************************************************************** */
         /* ********************************************************************** */
-        sshConnectionMap.put(sConnectionName, this);
+        sshConnectionMap.put(sArgConnectionName, this);
         /* ********************************************************************** */
         /* ********************************************************************** */
         aConnectionParametersFactory = new GNSObjectRemoteConnectionFactory();
         /* ********************************************************************** */
-        aConnectionParametersFactory.setConnectionName(sConnectionName);
+        aConnectionParametersFactory.setConnectionName(sArgConnectionName);
         /* ********************************************************************** */
         aConnectionParametersFactory.setHostname(sArgHost);
         // aConnectionParametersFactory.setPort(iArgPort);

@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.genose.java.implementation.streams.GNSObjectMappedLogger;
+import org.genose.java.implementation.tools.GNSObjectSingletonStrings;
 
 /*
  * https://stackoverflow.com/questions/53453212/how-to-deploy-a-javafx-11-desktop-application-with-a-jre
@@ -33,12 +34,12 @@ import org.genose.java.implementation.streams.GNSObjectMappedLogger;
  *  $JAVA_HOME/bin/jlink --module-path $PATH_JAVAFX_JMODS --add-modules $JAVA_JREMODULE_LIST,$JAVAFX12_MODS_LIST --bind-service --output $JAVAFX12_OUTPUTNAME
  */
 
-public class JFXApplication extends Application {
+public class JFXApplication extends Application implements GNSObjectSingletonStrings {
 	/**
 	 * ** Declare a singleton pattern thru a static reference to Application
 	 * instance **
 	 */
-	private static JFXApplication pJFXApplicationSingleton = null;
+	private static JFXApplication opsSingletonJFXApplication = null;
 	/**
 	 * ** Declare static Stage **
 	 */
@@ -156,7 +157,7 @@ public class JFXApplication extends Application {
 		aLogger = new GNSObjectMappedLogger(getClass().getName());
 		aExceptionManager = new JFXApplicationException();
 		synchronized (JFXApplication.class){
-			getLogger().logInfo(getClass(), " Application class was instiated as :: "+String.valueOf(pJFXApplicationSingleton.getClass().getName()));
+			getLogger().logInfo(getClass(), " Application class was instiated as :: "+String.valueOf(opsSingletonJFXApplication.getClass().getName()));
 
 		}
 	}
@@ -169,18 +170,18 @@ public class JFXApplication extends Application {
 	 */
 	private void singletonInstanceCreate() {
 		synchronized (JFXApplication.class) {
-			if (pJFXApplicationSingleton != null) {
+			if (opsSingletonJFXApplication != null) {
                 throw new UnsupportedOperationException(
-                        getClass() + " is singleton but constructor called more than once");
+                        getClass() + ERRMESSAGE_SINGLETON_INSTANCAITE_TWICE);
             }
 
-			pJFXApplicationSingleton = this;
+			opsSingletonJFXApplication = this;
 		}
 	}
 
 	public static synchronized boolean singletonInstanceExists(){
 		synchronized (JFXApplication.class) {
-			return (pJFXApplicationSingleton != null);
+			return (opsSingletonJFXApplication != null);
 
 		}
 	}
@@ -189,7 +190,7 @@ public class JFXApplication extends Application {
 	 */
 	private static synchronized void singletonInstanceCheck() {
 		synchronized (JFXApplication.class) {
-			if (pJFXApplicationSingleton == null)
+			if (opsSingletonJFXApplication == null)
 				throw new UnsupportedOperationException(" singleton is null");
 		}
 	}
@@ -201,7 +202,7 @@ public class JFXApplication extends Application {
 	 */
 	public GNSObjectMappedLogger getLogger() {
 		singletonInstanceCheck();
-		return JFXApplication.aLogger;
+		return aLogger;
 	}
 
 	/* ****************************************************** */
@@ -259,7 +260,7 @@ public class JFXApplication extends Application {
 	 */
 	public static JFXApplication getJFXApplicationSingleton() {
 		singletonInstanceCheck();
-		return pJFXApplicationSingleton;
+		return opsSingletonJFXApplication;
 	}
 
 	/* ****************************************************** */
@@ -435,7 +436,7 @@ public class JFXApplication extends Application {
 	public static GNSObjectMappedLogger getApplicationLogger() throws JFXApplicationException {
 		singletonInstanceCheck();
 		synchronized (JFXApplication.class) {
-			if (pJFXApplicationSingleton == null)
+			if (opsSingletonJFXApplication == null)
 				throw new JFXApplicationException(" Application is not intanciated ... ");
 		}
 		return JFXApplication.getJFXApplicationSingleton().getLogger();
@@ -448,7 +449,7 @@ public class JFXApplication extends Application {
 	 */
 	public static JFXApplicationException getExceptionManagaer() {
 		synchronized (JFXApplication.class) {
-			if (pJFXApplicationSingleton == null) {
+			if (opsSingletonJFXApplication == null) {
 				JFXApplicationException.raiseToFront(JFXApplication.class.getClass(),
 						new JFXApplicationException(" Application is not intanciated ... "), true);
 			}

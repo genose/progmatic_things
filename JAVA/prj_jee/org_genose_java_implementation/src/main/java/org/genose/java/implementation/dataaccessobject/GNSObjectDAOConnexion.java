@@ -2,6 +2,7 @@ package org.genose.java.implementation.dataaccessobject;
 
 import org.genose.java.implementation.net.GNSObjectMappedParamater;
 import org.genose.java.implementation.net.GNSObjectRemoteConnectionFactory;
+import org.genose.java.implementation.streams.GNSObjectMappedLogger;
 
 import java.lang.reflect.Constructor;
 import java.sql.Connection;
@@ -108,7 +109,7 @@ abstract public class GNSObjectDAOConnexion extends GNSObjectRemoteConnectionFac
     protected synchronized Object getInstanceClass(Class<?> cClassObject)  {
         Object aTMPServerInstanceConnexion = null;
         Class<?> aRefeneceClass = null;
-        if ((astServerInstanceConnexion.getClass().getSimpleName().compareTo("ASTTmp") == 0 )){
+        if ( (astServerInstanceConnexion == null) || (astServerInstanceConnexion.getClass().getSimpleName().compareTo("ASTTmp") == 0 )){
             System.out.println(" ++++++++ should using constructor for ("+cClassObject+")  .... ");
             try {
 
@@ -127,31 +128,14 @@ abstract public class GNSObjectDAOConnexion extends GNSObjectRemoteConnectionFac
                     }
                 }
                astServerInstanceConnexion = (GNSObjectDAOConnexion) aTMPServerInstanceConnexion;
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception evERR_GETINSTANCE) {
+                GNSObjectMappedLogger.getLogger().logError(this.getClass(), evERR_GETINSTANCE);
             }
         }else{
             System.out.println(" ++++++++ got precendent constructor for ("+cClassObject+") : ("+astServerInstanceConnexion.getClass()+")  .... ");
         }
         return (astServerInstanceConnexion);
     }
-    /* ********************************************************************** */
-    /**
-     *
-     * @return
-     */
-    @Override
-    public String getHostname() {
-        return super.getHostname();
-    }
-    /* ********************************************************************** */
-    /**
-     *
-     * @param sArgConnectionHost
-     */
-    @Override
-    public void setHostname(String sArgConnectionHost) {
-       super.setHostname(sArgConnectionHost);
-    }
+
 
 }

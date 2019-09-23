@@ -4,5 +4,5 @@ import java.util.HashMap;
 
 public interface JFXApplicationScreens {
 
-    HashMap<String, Object> apConnectedScreens = null;
+    HashMap<String, Object> apConnectedScreens = new HashMap<>();
 }

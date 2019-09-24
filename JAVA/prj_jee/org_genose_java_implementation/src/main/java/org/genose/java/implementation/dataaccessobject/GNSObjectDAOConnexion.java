@@ -1,5 +1,6 @@
 package org.genose.java.implementation.dataaccessobject;
 
+import org.genose.java.implementation.exceptionerror.GNSObjectRuntimeException;
 import org.genose.java.implementation.net.GNSObjectMappedParamater;
 import org.genose.java.implementation.net.GNSObjectRemoteConnectionFactory;
 import org.genose.java.implementation.streams.GNSObjectMappedLogger;
@@ -74,7 +75,7 @@ abstract public class GNSObjectDAOConnexion extends GNSObjectRemoteConnectionFac
      */
     public static synchronized GNSObjectDAOConnexion getInstance() {
         if(astServerInstanceConnexion == null) {
-         throw new RuntimeException (GNSObjectDAOConnexion.class.getName() + " .... Warning : NULL Object ... You should override in our instance this method and call [super.getInstance(this.class)] ");
+         throw new GNSObjectRuntimeException(GNSObjectDAOConnexion.class, " .... Warning : NULL Object ... You should override in our instance this method and call [super.getInstance(this.class)] ");
         }
         return Objects.requireNonNullElse(astServerInstanceConnexion, null);
     }
@@ -92,7 +93,7 @@ abstract public class GNSObjectDAOConnexion extends GNSObjectRemoteConnectionFac
         }
 
         if(astServerInstanceConnexion == null) {
-            System.out.println (GNSObjectDAOConnexion.class.getName() + " .... Warning : NULL Object ... let's should call [super.getInstance("+cClassObject.getName()+")] ");
+            GNSObjectMappedLogger.getLogger().logInfo (GNSObjectDAOConnexion.class ," .... Warning : NULL Object ... let's should call [super.getInstance("+cClassObject.getName()+")] ");
         }
         return Objects.requireNonNullElse(astServerInstanceConnexion, (GNSObjectDAOConnexion) (new ASTTmp()).getInstanceClass(cClassObject) );
     }
@@ -109,19 +110,20 @@ abstract public class GNSObjectDAOConnexion extends GNSObjectRemoteConnectionFac
     protected synchronized Object getInstanceClass(Class<?> cClassObject)  {
         Object aTMPServerInstanceConnexion = null;
         Class<?> aRefeneceClass = null;
+        // TODO :: refactoring this shit mechanism "ASTTmp" thing to a more convenient solution ...
         if ( (astServerInstanceConnexion == null) || (astServerInstanceConnexion.getClass().getSimpleName().compareTo("ASTTmp") == 0 )){
-            System.out.println(" ++++++++ should using constructor for ("+cClassObject+")  .... ");
+            GNSObjectMappedLogger.getLogger().logInfo(" ++++++++ should using constructor for ("+cClassObject+")  .... ");
             try {
 
                 aRefeneceClass = Class.forName(String.valueOf(cClassObject.getName()));
                 Constructor<?>[] aConstructorListForRootNode = aRefeneceClass.getConstructors();
-                System.out.println(" ++++++++ "+aRefeneceClass+":Constructors ("+aConstructorListForRootNode.length+")  .... ");
+                GNSObjectMappedLogger.getLogger().logInfo(" ++++++++ "+aRefeneceClass+":Constructors ("+aConstructorListForRootNode.length+")  .... ");
 
                 if (aConstructorListForRootNode.length > 0) {
 
                     for (Constructor<?> aConstructorFound : aConstructorListForRootNode) {
                         if (aConstructorFound.getParameterCount() == 0) {
-                            System.out.println(" ++++++++ Using constructor : "+aConstructorFound.getName());
+                            GNSObjectMappedLogger.getLogger().logInfo(" ++++++++ Using constructor : "+aConstructorFound.getName());
                             aTMPServerInstanceConnexion =  aConstructorFound.newInstance();
                             break;
                         }

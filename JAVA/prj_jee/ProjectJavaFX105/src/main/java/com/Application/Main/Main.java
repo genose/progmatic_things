@@ -49,24 +49,26 @@ public class Main extends Application {
 
 
             // JFXApplicationCustomControlSplitMenuHBox
-            Application aApplicationRef = JFXApplicationHelper.getApplicationMain();
-            System.out.println("Application " + aApplicationRef);
+          //  Application aApplicationRef = JFXApplicationHelper.getApplicationMain();
+           // System.out.println("Application " + aApplicationRef);
            // primaryStage.show();
             GNSObjectSSHConnection objectSSHConnection = new GNSObjectSSHConnection("SGBDConnection",
                     "213.32.13.191",
                     //"10.115.58.38",
                     0,
-                    null, null,
+                    "", 5432,
                     "root", "AFPA_r0uba1x",
                     //"pi","pi",
                     null, null,
                     null);
 
 
-            objectSSHConnection.execShell("pwd");
-
+            //objectSSHConnection.execShell("netstat -a");
+            objectSSHConnection.open();
+            objectSSHConnection.addSSHTunnel(false);
+            System.out.println( "Forwarded port :"+objectSSHConnection.getConnectionParameter().getPortForwardedRemotedService());
             //objectSSHConnection.execSFTP("pwd");
-
+           // objectSSHConnection.execShell("pwd");
             System.out.println(" ... Back to main ...");
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Waiting before closing connection ");
             Thread.sleep(10000);

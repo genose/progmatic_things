@@ -42,7 +42,23 @@ public class GNSObjectRuntimeException extends RuntimeException {
 	public GNSObjectRuntimeException(String message, Throwable cause) {
 		super(message, cause);
 	}
-
+	/**
+	 *
+	 * @param from
+	 * @param message
+	 */
+	public GNSObjectRuntimeException(Class from, String message) {
+		super(message, new Throwable(message));
+	}
+	/**
+	 *
+	 * @param from
+	 * @param message
+	 * @param cause
+	 */
+	public GNSObjectRuntimeException(Class from, String message, Throwable cause) {
+		super(message, cause);
+	}
 	/**
 	 * @param message
 	 * @param cause

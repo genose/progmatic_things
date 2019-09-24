@@ -285,7 +285,7 @@ public class GNSObjectSSHConnection implements Closeable {
                     System.out.println("hosttype : " + arrayHostKey[i].getType());
                 }
             }
-            GNSObjectMappedLogger.getLogger().logInfo("sftp session connected without using proxy..." + aSSHSession.isConnected());
+            //GNSObjectMappedLogger.getLogger().logInfo("session connected without using proxy..." + aSSHSession.isConnected());
 
 
             aSSHSession.setDaemonThread(true);
@@ -306,35 +306,46 @@ public class GNSObjectSSHConnection implements Closeable {
     /**
      * @return
      */
-    public boolean openSession() throws Exception {
+    protected boolean openSession() throws Exception {
         try {
+            if (aSSHSession != null) {
+                if (aSSHSession.isConnected()) {
+                    return aSSHSession.isConnected();
+                }
+            }
 
+            if (getSSHSession() == null) createSession();
+
+            GNSObjectMappedLogger.getLogger().logInfo("Opening session ...." + aSSHSession.isConnected());
             /* ********************************************************************** */
             aSSHSession.connect(aConnectionParametersFactory.getSSHConnectTimeOUT() * 1000);
             GNSObjectMappedLogger.getLogger().logInfo("session connected...." + aSSHSession.isConnected());
-
+            return aSSHSession.isConnected();
         } catch (Exception evERROpenSession) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERROpenSession);
             throw new Exception(ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while open connection ", evERROpenSession);
         }
-        return false;
+
     }
 
     /**
      * @return
      */
-    public boolean closeSession() throws Exception {
+    protected boolean closeSession() throws Exception {
         try {
-            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying Close session ...");
+
 
             /* ********************************************************************** */
             if (aSSHSession == null) return true;
+            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying Close session ...");
+            closeSessionChannels();
+            delSSHTunnel();
             if (aSSHSession.isConnected()) {
                 aSSHSession.disconnect();
             }
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Close session ... done ...");
 
-            return aSSHSession.isConnected();
+            return !aSSHSession.isConnected();
             /* ********************************************************************** */
         } catch (Exception evERREXCEPTION_SSH_CLOSE) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, "ERROR : " + evERREXCEPTION_SSH_CLOSE);
@@ -349,18 +360,20 @@ public class GNSObjectSSHConnection implements Closeable {
     public boolean closeSessionChannels() {
         try {
 
-
-            channelHashMap.forEach((s, channel) -> {
-                try {
-                    if ((channel != null)) {
-                        channel.disconnect();
+            if (channelHashMap != null) {
+                System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying Close session channels ...");
+                channelHashMap.forEach((s, channel) -> {
+                    try {
+                        if ((channel != null)) {
+                            channel.disconnect();
+                        }
+                    } catch (Exception EVERRCLOSE_CHANNEL) {
+                        GNSObjectMappedLogger.getLogger().logError(this.getClass(), EVERRCLOSE_CHANNEL);
                     }
-                } catch (Exception EVERRCLOSE_CHANNEL) {
-                    GNSObjectMappedLogger.getLogger().logError(this.getClass(), EVERRCLOSE_CHANNEL);
-                }
-            });
-
-            channelHashMap.clear();
+                });
+                System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Close session channels done ...");
+                channelHashMap.clear();
+            }
             return true;
         } catch (Exception EVERRClear_CHANNEL) {
             GNSObjectMappedLogger.getLogger().logError(this.getClass(), EVERRClear_CHANNEL);
@@ -383,7 +396,7 @@ public class GNSObjectSSHConnection implements Closeable {
 
         try {
             do {
-                System.out.println(" .... ");
+
 
                 while (inStream.available() > 0) {
                     int i = inStream.read(tmp, 0, 1024);
@@ -421,19 +434,22 @@ public class GNSObjectSSHConnection implements Closeable {
      */
     public boolean openXGUISession() {
         try {
-            createSession();
-            aSSHSession.setX11Host(getConnectionFactory().getHostRemotedService());
-            aSSHSession.setX11Port(getConnectionFactory().getPortRemotedService());
-            openSession();
 
-            Channel channel = aSSHSession.openChannel("shell");
 
-            channel.setXForwarding(true);
+            if (openSession()) {
+                System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying open X11 Forwarding session ...");
+                aSSHSession.setX11Host(getConnectionFactory().getHostRemotedService());
+                aSSHSession.setX11Port(getConnectionFactory().getPortRemotedService());
+                Channel channel = aSSHSession.openChannel("shell");
 
-            channel.setInputStream(System.in);
-            channel.setOutputStream(System.out);
+                channel.setXForwarding(true);
 
-            channel.connect();
+                channel.setInputStream(System.in);
+                channel.setOutputStream(System.out);
+
+                channel.connect();
+                System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "*****  X11 Forwarding session done ..."+channel.isConnected());
+            }
             return aSSHSession.isConnected();
         } catch (Exception e) {
             System.out.println(e);
@@ -442,30 +458,35 @@ public class GNSObjectSSHConnection implements Closeable {
     }
 
 
+    public GNSObjectRemoteConnectionFactory getConnectionParameter() {
+        return aConnectionParametersFactory;
+    }
+
     /**
      * @return
      * @throws Exception
      */
     public boolean addSSHTunnel(boolean bRemoteAFromRemoteB) throws Exception {
         try {
-            if (openSession() ) {
+            if (openSession()) {
 
                 /* ********************************************************************** */
                 aConnectionParametersFactory.setHostRemotedService(Objects.requireNonNullElse(aConnectionParametersFactory.getHostRemotedService(), String.valueOf("")));
                 aConnectionParametersFactory.setPortRemotedService(Objects.requireNonNullElse(aConnectionParametersFactory.getPortRemotedService(), Integer.valueOf(0)));
                 aConnectionParametersFactory.setPortRemotedServiceLocalhost(Objects.requireNonNullElse(aConnectionParametersFactory.getPortRemotedServiceLocalhost(), Integer.valueOf(0)));
                 /* ********************************************************************** */
-                if (aConnectionParametersFactory.getHostRemotedService().isEmpty() && aConnectionParametersFactory.getPortRemotedService() != 0) {
-                    System.out.println("Local to Remote Port Forwarding init");
-                    aConnectionParametersFactory.setPortRemotedService(
+                if (aConnectionParametersFactory.getHostRemotedService().isEmpty() &&
+                        aConnectionParametersFactory.getPortRemotedService() != 0) {
+                    System.out.println("Local to Remote Port Forwarding init " + aConnectionParametersFactory.getHostRemotedService() + ":" + aConnectionParametersFactory.getPortRemotedService());
+                    aConnectionParametersFactory.setPortForwardedRemotedService(
                             aSSHSession.setPortForwardingL(
                                     aConnectionParametersFactory.getPortRemotedServiceLocalhost(),
-                                    ((!bRemoteAFromRemoteB)? aConnectionParametersFactory.getLocalHostname():aConnectionParametersFactory.getHostRemotedService()),
+                                    ((!bRemoteAFromRemoteB) ? aConnectionParametersFactory.getLocalHostname() : aConnectionParametersFactory.getHostRemotedService()),
                                     aConnectionParametersFactory.getPortRemotedService()
                             )
                     );
                     System.out.println("Port Remoted");
-                    System.out.println("localhost:" + aConnectionParametersFactory.getPortRemotedServiceLocalhost() + " -> " + aConnectionParametersFactory.getHostRemotedService() + ":" + aConnectionParametersFactory.getPortRemotedService());
+                    System.out.println("localhost:" + aConnectionParametersFactory.getPortForwardedRemotedService() + " -> " + aConnectionParametersFactory.getHostRemotedService() + ":" + aConnectionParametersFactory.getPortRemotedService());
 
                 } else {
                     aConnectionParametersFactory.setPortRemotedService(0);
@@ -489,10 +510,22 @@ public class GNSObjectSSHConnection implements Closeable {
         try {
 
             if (aSSHSession != null) {
-                if (aSSHSession.isConnected()) {
+                if (aConnectionParametersFactory !=null) {
+                    try {
+                        if (aConnectionParametersFactory.getPortRemotedServiceLocalhost() != 0)
+                            aSSHSession.delPortForwardingR(aConnectionParametersFactory.getPortRemotedServiceLocalhost());
+                    } catch (Exception evERRDelForwardingL) {
+                            evERRDelForwardingL.printStackTrace();
+                    }
+                    try {
+                        if (aConnectionParametersFactory.getPortForwardedRemotedService() != 0)
+                            aSSHSession.delPortForwardingL(aConnectionParametersFactory.getPortForwardedRemotedService());
 
-                    aSSHSession.delPortForwardingL(aConnectionParametersFactory.getPortRemotedServiceLocalhost());
-                    aSSHSession.delPortForwardingR(aConnectionParametersFactory.getPortRemotedService());
+                    } catch (Exception evERRDelForwardingL) {
+                        evERRDelForwardingL.printStackTrace();
+                    }
+                }else{
+                    GNSObjectMappedLogger.getLogger().logError(this.getClass(),"Connection Factory is null ...");
                 }
 
                 return aSSHSession.isConnected();
@@ -513,6 +546,7 @@ public class GNSObjectSSHConnection implements Closeable {
     // http://www.jcraft.com/jsch/examples/X11Forwarding.java
     public int execShell(String strCommand) throws Exception {
         try {
+
             if (openSession()) {
                 Channel channel = aSSHSession.openChannel("exec");
                 System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying exec command : " + strCommand);
@@ -541,6 +575,9 @@ public class GNSObjectSSHConnection implements Closeable {
                     System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Trying Close exec command : " + strCommand);
 
                     channel.disconnect();
+                } else {
+                    System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Already Close exec command : " + strCommand);
+
                 }
                 return iExecReturn;
             } else {
@@ -555,22 +592,30 @@ public class GNSObjectSSHConnection implements Closeable {
 
     }
 
+    /**
+     * @param sFTPCommand
+     * @return
+     * @throws Exception
+     */
     public boolean execSFTP(String sFTPCommand) throws Exception {
 
         Channel channel;
         OutputStream os;
         ChannelSftp aSftpChannel;
         try {
-            openSession();
 
-            channel = aSSHSession.openChannel("sftp");
-            channel.connect();
-            aSftpChannel = (ChannelSftp) channel;
-            os = aSftpChannel.getOutputStream();
-            int iExecReturn = channelStreamPrint(channel, null, os, null);
-            aSftpChannel.disconnect();
-            channel.disconnect();
-            return true;
+            if (openSession()) {
+                channel = aSSHSession.openChannel("sftp");
+                channel.connect();
+                aSftpChannel = (ChannelSftp) channel;
+                os = aSftpChannel.getOutputStream();
+                int iExecReturn = channelStreamPrint(channel, null, os, null);
+                aSftpChannel.disconnect();
+                channel.disconnect();
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception evERREXCEPTION_SSH_EXEC) {
             System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.ERROR, evERREXCEPTION_SSH_EXEC);
             throw new Exception(GNSObjectRemoteConnectionFactory.ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER + " : ERROR while exec connection ", evERREXCEPTION_SSH_EXEC);
@@ -578,6 +623,11 @@ public class GNSObjectSSHConnection implements Closeable {
         }
     }
 
+    /**
+     * @param sLocalDestPath
+     * @param sRemoteOriginPath
+     * @return
+     */
     public boolean execMountSSHFSRemote(String sLocalDestPath, String sRemoteOriginPath) {
         try {
 
@@ -617,6 +667,19 @@ public class GNSObjectSSHConnection implements Closeable {
      */
     @Override
     public void close() throws IOException {
+        try {
+            closeSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public boolean open() {
+        try {
+            return openSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

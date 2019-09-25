@@ -15,7 +15,8 @@ import java.util.List;
  * Object copy
  * https://stackoverflow.com/questions/869033/how-do-i-copy-an-object-in-java
  */
-
+// https://docs.oracle.com/javase/tutorial/reflect/member/methodInvocation.html
+    // https://stackoverflow.com/questions/15697217/how-to-get-return-value-of-invoked-method
 public class GNSObjectClassHelper {
     /**
      *

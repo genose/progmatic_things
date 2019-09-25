@@ -21,6 +21,7 @@ C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_j
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\JFXApplication.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\threadstasks\GNSObjectScheduledTask.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\games\gameobserver.java
+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\GNSObjectWebServiceUtils.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\secure\GNSObjectSSHJDBCConnection.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\exceptionerror\GNSObjectRuntimeException.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\exceptionerror\JFXApplicationException.java
@@ -30,6 +31,7 @@ C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_j
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\dataaccessobject\GNSObjectDAOConnexion.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\streams\ConsoleStreamTextAreaField.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\JFXApplicationClassHelper.java
+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\views\JFXApplicationCustomControlRangeSlider.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\files\GNSObjectMappedFileTypeDelimitedSeparator.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\GNSObjectJDBCProvider.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\GNSObjectServerStateMonitor.java
@@ -56,7 +58,9 @@ C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_j
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\dataaccessobject\objectinterface\GNSObjectDAOObject.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\files\GNSObjectMappedFileTypeINI.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\tools\HUMANDEFINITION_AGE.java
+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\JFXApplicationConfig.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\threadstasks\JFXApplicationScheduledTask.java
+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationFileManager.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\tools\HUMANDEFINITION.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\games\PenduGame.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\secure\GNSObjectSSHFS.java

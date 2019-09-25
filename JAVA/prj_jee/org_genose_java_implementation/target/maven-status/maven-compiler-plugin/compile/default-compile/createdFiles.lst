@@ -4,6 +4,7 @@ org\genose\java\implementation\javafx\applicationtools\views\JFXApplicationViewI
 org\genose\java\implementation\net\GNSObjectMappedDataSourceProvider.class
 org\genose\java\implementation\files\GNSObjectMappedFileAccessor.class
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlTextFieldValidator$1.class
+org\genose\java\implementation\net\GNSObjectWebServiceUtils.class
 org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlTextFieldValidator$4.class
 org\genose\java\implementation\javafx\applicationtools\exceptionerror\JFXApplicationException.class
 org\genose\java\implementation\javafx\applicationtools\exceptionerror\JFXApplicationInvalidParameterException.class
@@ -29,11 +30,13 @@ org\genose\java\implementation\javafx\applicationtools\views\customviewscontroll
 org\genose\java\implementation\dataaccessobject\objectinterface\GNSObjectDAOObject.class
 org\genose\java\implementation\net\GNSObjectRemoteConnectionFactory.class
 org\genose\java\implementation\games\PenduGame.class
+org\genose\java\implementation\javafx\applicationtools\JFXApplicationConfig.class
 org\genose\java\implementation\arraysmapslists\GNSObjectMappedObjectValue.class
 org\genose\java\implementation\javafx\applicationtools\JFXApplication$JFXFILETYPE.class
 org\genose\java\implementation\observable\Observer.class
 org\genose\java\implementation\javafx\applicationtools\JFXApplicationHelper.class
 org\genose\java\implementation\javafx\applicationtools\JFXApplicationDesignObjectLoad.class
+org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationFileManager.class
 org\genose\java\implementation\tools\refreshableObject.class
 org\genose\java\implementation\dataaccessobject\GNSObjectDAOAccessor.class
 org\genose\java\implementation\exceptionerror\GNSObjectRuntimeException.class
@@ -54,6 +57,7 @@ org\genose\java\implementation\games\gameobserver.class
 org\genose\java\implementation\games\PenduGame$GAMESTATUS.class
 org\genose\java\implementation\dicomots\DicoMots.class
 org\genose\java\implementation\applicationtools\GNSObjectFunctionCallback.class
+org\genose\java\implementation\javafx\applicationtools\views\JFXApplicationCustomControlRangeSlider.class
 org\genose\java\implementation\javafx\applicationtools\views\JFXApplicationDialog.class
 org\genose\java\implementation\streams\Snippet.class
 org\genose\java\implementation\dataaccessobject\objectinterface\GNSObjectDAOObjectChained.class

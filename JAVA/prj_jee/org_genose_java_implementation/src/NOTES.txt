@@ -1,0 +1,4 @@
+http://what-when-how.com/javafx-2/understanding-the-javafx-beans-convention-properties-and-bindings-part-1/
+https://examples.javacodegeeks.com/core-java/util/list/java-sorted-list-example/
+http://www.mojohaus.org/appassembler/
+https://stackoverflow.com/questions/55742295/how-to-setup-netbeans-ide-to-debug-maven-javafx-project-on-raspberry-remotely

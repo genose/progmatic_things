@@ -32,5 +32,6 @@
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.22" level="project" />
     <orderEntry type="library" name="Maven: com.pastdev:jsch-nio:1.0.13" level="project" />
     <orderEntry type="library" name="Maven: com.google.zxing:core:3.2.1" level="project" />
+    <orderEntry type="library" name="Maven: com.albertoquesada:multi-range:0.1" level="project" />
   </component>
 </module>

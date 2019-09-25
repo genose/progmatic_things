@@ -92,7 +92,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.3</version>
                 <configuration>
-                    <mainClass>com.Application.Main.Main</mainClass>
+                    <mainClass>com.application.main.Main</mainClass>
                     <source>11</source>
                     <target>11</target>
                     <release>11</release>
@@ -106,7 +106,7 @@
                 <version>2.22.2</version>
                 <configuration>
                     <additionalClasspathElements>
-                        <!-- <additionalClasspathElement>${java.home}/lib/jfxrt.jar</additionalClasspathElement> -->
+                        <additionalClasspathElement>${java.home}/lib/jfxrt.jar</additionalClasspathElement>
                     </additionalClasspathElements>
                 </configuration>
             </plugin>

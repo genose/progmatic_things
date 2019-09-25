@@ -63,7 +63,7 @@ public class Main extends JFXApplication {
 
 
 
-					return this.andThen(aCallbackb);
+					return null;
 				}
 			};
 

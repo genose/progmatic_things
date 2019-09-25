@@ -1,26 +1,23 @@
 package com.application.main;
 
-import com.pastdev.jsch.tunnel.Tunnel;
-import com.pastdev.jsch.tunnel.TunnelConnection;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.stage.Stage;
+
+import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesignObjectLoad;
+import org.genose.java.implementation.javafx.applicationtools.JFXApplicationFunctionCallback;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
+import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationMappedLogger;
 import org.genose.java.implementation.net.secure.GNSObjectSSHConnection;
 
-import java.net.URL;
-
-import static java.lang.Thread.sleep;
-
-public class Main extends Application {
+public class Main extends JFXApplication {
 
     @Override
     public void start(Stage primaryStage) {
         try {
-
+            super.start(primaryStage);
             /* ********************* */
            /* String fileName =  "sample";
             String appPath =  JFXApplicationHelper.packageToPathRoot(Main.class);
@@ -47,46 +44,63 @@ public class Main extends Application {
             }*/
 
 
-
             // JFXApplicationCustomControlSplitMenuHBox
-          //  Application aApplicationRef = JFXApplicationHelper.getApplicationMain();
-           // System.out.println("Application " + aApplicationRef);
-           // primaryStage.show();
-            GNSObjectSSHConnection objectSSHConnection = new GNSObjectSSHConnection("SGBDConnection",
-                    "213.32.13.191",
-                    //"10.115.58.38",
-                    0,
-                    "", 5432,
-                    "root", "AFPA_r0uba1x",
-                    //"pi","pi",
-                    null, null,
-                    null);
-
-
-            //objectSSHConnection.execShell("netstat -a");
-            objectSSHConnection.open();
-            objectSSHConnection.addSSHTunnel(false);
-            System.out.println( "Forwarded port :"+objectSSHConnection.getConnectionParameter().getPortForwardedRemotedService());
-            //objectSSHConnection.execSFTP("pwd");
-           // objectSSHConnection.execShell("pwd");
-            System.out.println(" ... Back to main ...");
-            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Waiting before closing connection ");
-            Thread.sleep(10000);
-            System.out.println(" ... Main :: awaked ...");
-            System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Close connection ");
-            System.out.println(" ... Main :: try close ...");
-            objectSSHConnection.close();
-/*
-            TunnelConnection tunnelConnection = new TunnelConnection(
-                    sessionFactory,
-                    new Tunnel( 0, "bar", 1234 ) );
-            tunnelConnection.open();
-            int assignedPort = tunnelConnection.getTunnel( "bar", 1234 )
-                    .getAssignedPort();
-*/
+            //  Application aApplicationRef = JFXApplicationHelper.getApplicationMain();
+            // System.out.println("Application " + aApplicationRef);
+            // primaryStage.show();
 
             System.out.println(" ... main : done ...");
-            Platform.exit();
+            JFXApplicationFunctionCallback aCallback = new JFXApplicationFunctionCallback() {
+
+                @Override
+                public Object apply(Object t) {
+
+                    JFXApplicationMappedLogger.getLogger().logInfo(this.getClass(), " +++++++++++++++++++++++++++++ ");
+
+
+                    JFXApplicationHelper.getApplicationMain().getPrimaryStage().show();
+                    try {
+                        GNSObjectSSHConnection objectSSHConnection = new GNSObjectSSHConnection("SGBDConnection",
+                                "213.32.13.191",
+                                //"10.115.58.38",
+                                0,
+                                "", 5432,
+                                "root", "AFPA_r0uba1x",
+                                //"pi","pi",
+                                null, null,
+                                null);
+
+
+                        //objectSSHConnection.execShell("netstat -a");
+                        objectSSHConnection.open();
+                        objectSSHConnection.addSSHTunnel(false);
+                        System.out.println("Forwarded port :" + objectSSHConnection.getConnectionParameter().getPortForwardedRemotedService());
+                        //objectSSHConnection.execSFTP("pwd");
+                        // objectSSHConnection.execShell("pwd");
+                        System.out.println(" ... Back to main ...");
+                        System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Waiting before closing connection ");
+                        Thread.sleep(10000);
+                        System.out.println(" ... Main :: awaked ...");
+                        System.getLogger(getClass().getSimpleName()).log(System.Logger.Level.INFO, "***** Close connection ");
+                        System.out.println(" ... Main :: try close ...");
+                        objectSSHConnection.close();
+
+                        //           TunnelConnection tunnelConnection = new TunnelConnection(   sessionFactory, new Tunnel( 0, "bar", 1234 ) );
+                        // tunnelConnection.open();
+                        // int assignedPort = tunnelConnection.getTunnel( "bar", 1234 )  .getAssignedPort();
+
+
+                    } catch (Exception evERRCONNECTION) {
+                        JFXApplicationMappedLogger.getLogger().logError(this.getClass(), evERRCONNECTION);
+                    }
+
+
+                    return null;
+                }
+            };
+
+            super.setPrimaryScene(JFXApplicationDesignObjectLoad.create("MainWindow", null, aCallback));
+
 
         } catch (Exception evErrExceptionApppMain) {
             System.out.println("Main::Error:: " + evErrExceptionApppMain);

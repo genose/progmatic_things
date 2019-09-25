@@ -22,6 +22,8 @@ import org.genose.java.implementation.tools.GNSObjectSingletonStrings;
 // https://github.com/gluonhq/scenebuilder/blob/master/app/src/main/java/com/oracle/javafx/scenebuilder/app/DocumentWatchingController.java
 // http://robovm.mobidevelop.com/
 // https://riptutorial.com/Download/javafx.pdf
+// https://stackoverflow.com/questions/46898/how-do-i-efficiently-iterate-over-each-entry-in-a-java-map
+// http://launch4j.sourceforge.net/docs.html
 
 /*
  * https://stackoverflow.com/questions/53453212/how-to-deploy-a-javafx-11-desktop-application-with-a-jre

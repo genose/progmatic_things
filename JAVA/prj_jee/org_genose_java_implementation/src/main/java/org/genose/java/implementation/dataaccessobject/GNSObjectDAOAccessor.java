@@ -15,6 +15,7 @@ import java.util.Objects;
 
 public abstract class GNSObjectDAOAccessor<T> extends GNSObjectDAOConnexion implements GNSObjectDAOStrings {
 // https://community.talend.com/t5/Design-and-Development/Conditional-component-simple-if-true-commit-else-die/td-p/140416
+    // https://fabrice-bouye.developpez.com/tutoriels/javafx/evenement-invalidation-modification-proprietes-expressions-javafx/
     public String sDOADefinition = null;
 
     public GNSObjectDAOAccessor() {
@@ -136,6 +137,9 @@ public abstract class GNSObjectDAOAccessor<T> extends GNSObjectDAOConnexion impl
      * @param argJSONMethodMapping
      * @return
      */
+    // http://blog.paumard.org/cours/java/chap10-entrees-sorties-serialization.html
+    // http://www.java2novice.com/java-json/jackson/map-to-json/
+    // http://www.studytrails.com/java/json/java-org-json/
     public boolean setOrNull(PreparedStatement aStatementArg, int iArgFieldPosition, ArrayList<?> aValue,
                              Map<String, String> argJSONMethodMapping) {
         try {

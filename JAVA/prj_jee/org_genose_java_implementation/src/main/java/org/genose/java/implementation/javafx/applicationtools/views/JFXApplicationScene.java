@@ -21,7 +21,9 @@ import javafx.stage.Window;
 // https://docs.oracle.com/javafx/2/ui_controls/accordion-titledpane.htm
 // https://o7planning.org/fr/11059/tutoriel-javafx-titledpane
 // https://www.programcreek.com/java-api-examples/index.php?api=javafx.scene.layout.VBoxBuilder
-//
+//https://www.javatips.net/api/javafx.scene.parent
+//https://stackoverflow.com/questions/34941411/how-to-get-controller-of-scene-in-javafx8
+
 public class JFXApplicationScene extends Scene implements JFXApplicationDesignObjectLoad { 
 
 	private String aSceneIdentifier = null;

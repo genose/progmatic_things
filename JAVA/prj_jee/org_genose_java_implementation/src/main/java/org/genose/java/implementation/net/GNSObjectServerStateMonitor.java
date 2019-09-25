@@ -1,17 +1,18 @@
 package org.genose.java.implementation.net;
 
 import org.genose.java.implementation.tools.GNSObjectSingletonStrings;
+import org.genose.java.implementation.tools.GNSObjectSingletonUtils;
 
 import java.util.HashMap;
 
-public class GNSObjectServerStateMonitor implements GNSObjectSingletonStrings, GNSObjectsingletonUtils {
+public class GNSObjectServerStateMonitor implements GNSObjectSingletonStrings, GNSObjectSingletonUtils {
     /*
     Intended to monitor the server through HTTP or SSH and provide connection feedback to
     @Class GNSObjectSSHConnection , @Class
 
      */
     private HashMap<String, Object> opObjectsToFeedBack = null;
-    private static GNSObjectsingletonUtils opsSingletonGNServerStateMonitor= null;
+    private static GNSObjectSingletonUtils opsSingletonGNServerStateMonitor= null;
     /*
      * *****************************************************************************
      */

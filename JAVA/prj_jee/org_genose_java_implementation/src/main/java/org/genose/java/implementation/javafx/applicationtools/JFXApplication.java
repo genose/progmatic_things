@@ -17,6 +17,11 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.genose.java.implementation.streams.GNSObjectMappedLogger;
 import org.genose.java.implementation.tools.GNSObjectSingletonStrings;
+// https://books.google.fr/books?id=LipBDwAAQBAJ&pg=PA41&lpg=PA41&dq=java+findResource(String+moduleName,+String+name)&source=bl&ots=B4gMThh0od&sig=ACfU3U37Vd0fAa1CGUkKPfQSk6TRjns4xA&hl=fr&sa=X&ved=2ahUKEwj-0Y757OPiAhVEUBoKHSmRAIYQ6AEwAnoECAgQAQ#v=onepage&q=java%20findResource(String%20moduleName%2C%20String%20name)&f=false
+// https://github.com/oracle/graal/blob/master/substratevm/src/com.oracle.svm.core/src/com/oracle/svm/core/jdk/Target_java_lang_ClassLoader.java
+// https://github.com/gluonhq/scenebuilder/blob/master/app/src/main/java/com/oracle/javafx/scenebuilder/app/DocumentWatchingController.java
+// http://robovm.mobidevelop.com/
+// https://riptutorial.com/Download/javafx.pdf
 
 /*
  * https://stackoverflow.com/questions/53453212/how-to-deploy-a-javafx-11-desktop-application-with-a-jre
@@ -33,7 +38,12 @@ import org.genose.java.implementation.tools.GNSObjectSingletonStrings;
  * 
  *  $JAVA_HOME/bin/jlink --module-path $PATH_JAVAFX_JMODS --add-modules $JAVA_JREMODULE_LIST,$JAVAFX12_MODS_LIST --bind-service --output $JAVAFX12_OUTPUTNAME
  */
-
+// https://stackoverflow.com/questions/28305571/self-contained-javafx-application-working-directory
+// https://nexus.gluonhq.com/nexus/content/repositories/releases/org/javafxports/armv6hf-sdk/
+// https://bitbucket.org/javafxports/javafxmobile-plugin/downloads/
+// https://github.com/gluonhq/gluon-samples/tree/master/singleview-gluonvm
+// https://github.com/javafxports/javafxmobile-plugin
+// https://www.freecodecamp.org/news/how-to-make-a-cross-platform-mobile-app-in-java-5f8eae071ff2/
 public class JFXApplication extends Application implements GNSObjectSingletonStrings {
 	/**
 	 * ** Declare a singleton pattern thru a static reference to Application

@@ -27,6 +27,8 @@ import javafx.scene.layout.AnchorPane;
  * @author 59013-36-18
  *
  */
+
+// https://stackoverflow.com/questions/36290539/set-divider-position-of-splitpane
 public class JFXApplicationCustomControlSplitMenuHBox extends AnchorPane implements Initializable, JFXApplicationDesignObjectLoad {
 
 	@FXML

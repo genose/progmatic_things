@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public abstract class GNSObjectDAOAccessor<T> extends GNSObjectDAOConnexion implements GNSObjectDAOStrings {
-
+// https://community.talend.com/t5/Design-and-Development/Conditional-component-simple-if-true-commit-else-die/td-p/140416
     public String sDOADefinition = null;
 
     public GNSObjectDAOAccessor() {

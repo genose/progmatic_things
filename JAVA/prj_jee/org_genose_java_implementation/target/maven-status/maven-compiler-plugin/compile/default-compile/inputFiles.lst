@@ -10,9 +10,8 @@ C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_j
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\dataaccessobject\GNSObjectDAOAccessor.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\GNSObjectRemoteConnectionFactory.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\arraysmapslists\GNSObjectMappedObjectValue.java
-C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\GNSObjectSSHConnection.java
+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\secure\GNSObjectSSHConnection.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationCustomControlSplitMenuHBox.java
-C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\GNSObjectSSHJDBCConnection.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\streams\LectureFichier.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\JFXApplicationDesignObjectLoad.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\arraysmapslists\GNSObjectMappedObject.java
@@ -20,9 +19,9 @@ C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_j
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\tools\GNSObjectSingletonStrings.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\tools\NumericRange.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\JFXApplication.java
-C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\GNSObjectsingletonUtils.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\threadstasks\GNSObjectScheduledTask.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\games\gameobserver.java
+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\secure\GNSObjectSSHJDBCConnection.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\exceptionerror\GNSObjectRuntimeException.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\exceptionerror\JFXApplicationException.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\JFXApplicationFunctionCallback.java
@@ -40,6 +39,7 @@ C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_j
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationScreens.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\dicomots\DicoMots.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\views\JFXApplicationScene.java
+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\tools\GNSObjectSingletonUtils.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\exceptionerror\JFXApplicationError.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\exceptionerror\JFXApplicationInvalidParameterException.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\dataaccessobject\GNSObjectDAOStrings.java
@@ -48,6 +48,7 @@ C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_j
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\GNSObjectMappedDataSourceProvider.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\tools\StringRange.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\files\GNSObjectMappedFileAccessor.java
+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\secure\GNSObjectSSHFileTransfert.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\JFXApplicationHelper.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\views\customviewscontroller\JFXApplicationTransitionnalPaneView.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\views\JFXApplicationDialog.java
@@ -58,6 +59,6 @@ C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_j
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\javafx\applicationtools\threadstasks\JFXApplicationScheduledTask.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\tools\HUMANDEFINITION.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\games\PenduGame.java
-C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\GNSObjectSSHFileTransfert.java
+C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\net\secure\GNSObjectSSHFS.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\streams\Snippet.java
 C:\Users\59013-36-18\Documents\GitHub\progmatic_things\JAVA\prj_jee\org_genose_java_implementation\src\main\java\org\genose\java\implementation\tools\refreshableObject.java

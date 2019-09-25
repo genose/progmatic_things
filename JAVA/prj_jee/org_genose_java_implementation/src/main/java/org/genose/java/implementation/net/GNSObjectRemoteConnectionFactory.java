@@ -2,6 +2,7 @@ package org.genose.java.implementation.net;
 
 import com.jcraft.jsch.JSch;
 import com.pastdev.jsch.DefaultSessionFactory;
+import org.genose.java.implementation.net.secure.GNSObjectSSHConnection;
 import org.genose.java.implementation.streams.GNSObjectMappedLogger;
 
 import java.net.UnknownHostException;
@@ -10,8 +11,8 @@ import java.util.Objects;
 public class GNSObjectRemoteConnectionFactory extends DefaultSessionFactory {
 
     /* ********************************************************************** */
-    static final String ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER = "Invalid CONNECTION Parameter ";
-    static final Integer SSH_DEFAULT_PORTNUMBER = 22;
+    public static final String ERROR_MESSAGE_INVALID_CONNECTIONPARAMETER = "Invalid CONNECTION Parameter ";
+    public static final Integer SSH_DEFAULT_PORTNUMBER = 22;
 
 
     static GNSObjectSSHConnection aSSHConnection = null;

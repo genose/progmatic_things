@@ -1,4 +1,4 @@
 package ApplicationConfig;
 
-public class ApplicationConfig {
+public class JFXApplicationConfig {
 }

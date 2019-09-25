@@ -1,4 +1,4 @@
-package com.Application.Main;
+package com.application.main;
 
 import com.pastdev.jsch.tunnel.Tunnel;
 import com.pastdev.jsch.tunnel.TunnelConnection;
@@ -9,7 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
-import org.genose.java.implementation.net.GNSObjectSSHConnection;
+import org.genose.java.implementation.net.secure.GNSObjectSSHConnection;
 
 import java.net.URL;
 

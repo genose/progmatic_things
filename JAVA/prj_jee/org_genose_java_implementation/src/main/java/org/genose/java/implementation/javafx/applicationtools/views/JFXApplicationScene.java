@@ -11,7 +11,17 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+// https://www.turais.de/fxroot-construct-in-javafx-howto/
+// https://stackoverflow.com/questions/23600926/how-to-understand-and-use-fxroot-in-javafx
+// https://docs.oracle.com/javafx/2/fxml_get_started/custom_control.htm
 
+// https://stackoverflow.com/questions/52457813/javafx-11-add-a-graphic-to-a-titledpane-on-the-right-side
+// https://stackoverflow.com/questions/38525713/set-up-onetouchexpandable-button-on-javafx-splitpane
+// https://stackoverflow.com/questions/31373618/how-to-add-a-titledpane-to-an-accordion-by-click-a-button
+// https://docs.oracle.com/javafx/2/ui_controls/accordion-titledpane.htm
+// https://o7planning.org/fr/11059/tutoriel-javafx-titledpane
+// https://www.programcreek.com/java-api-examples/index.php?api=javafx.scene.layout.VBoxBuilder
+//
 public class JFXApplicationScene extends Scene implements JFXApplicationDesignObjectLoad { 
 
 	private String aSceneIdentifier = null;

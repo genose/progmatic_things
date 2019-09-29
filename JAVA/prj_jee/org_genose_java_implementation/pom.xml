@@ -66,6 +66,13 @@
             <artifactId>multi-range</artifactId>
             <version>0.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jpedal/OpenViewerFX -->
+        <dependency>
+            <groupId>org.jpedal</groupId>
+            <artifactId>OpenViewerFX</artifactId>
+            <version>6.6.14</version>
+        </dependency>
+
     </dependencies>
     <build>
         <resources>

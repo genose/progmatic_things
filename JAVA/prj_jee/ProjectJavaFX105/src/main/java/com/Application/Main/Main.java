@@ -60,6 +60,7 @@ public class Main extends JFXApplication {
 
 
                     JFXApplicationHelper.getApplicationMain().getPrimaryStage().show();
+                    /****
                     try {
                         GNSObjectSSHConnection objectSSHConnection = new GNSObjectSSHConnection("SGBDConnection",
                                 "213.32.13.191",
@@ -94,6 +95,8 @@ public class Main extends JFXApplication {
                     } catch (Exception evERRCONNECTION) {
                         JFXApplicationMappedLogger.getLogger().logError(this.getClass(), evERRCONNECTION);
                     }
+                     *
+                      */
 
 
                     return null;

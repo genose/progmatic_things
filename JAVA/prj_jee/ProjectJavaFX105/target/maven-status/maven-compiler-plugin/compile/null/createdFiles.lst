@@ -32,6 +32,7 @@ com\application\mainwindow\controllers\Controller.class
 MainWindow\assets\controllers\MainWindowRecherche$7.class
 MainWindow\assets\controllers\MainWindowRecherche$11.class
 MainWindow\assets\controllers\MainWindowRecherche$2.class
+MainWindow\assets\controllers\MainWindow$1.class
 dao\CouleurDAO.class
 MainWindow\assets\controllers\MainWindowDetail$4.class
 dao\objectInterface\DAO.class
@@ -51,6 +52,7 @@ fileManager\assets\controllers\JFXApplicationFileManager.class
 metier\Fabricant.class
 dao\TypeBiereDAO.class
 metier\TypeBiere.class
+MainWindow\assets\controllers\MainWindow.class
 MainWindow\assets\controllers\MainWindowRecherche$14.class
 dao\MarqueDAO.class
 MainWindow\assets\controllers\MainWindowRecherche$5.class

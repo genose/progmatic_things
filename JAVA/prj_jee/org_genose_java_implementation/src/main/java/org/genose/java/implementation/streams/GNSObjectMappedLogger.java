@@ -7,10 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
@@ -259,6 +256,7 @@ public class GNSObjectMappedLogger extends ConsoleStream implements System.Logge
 	@Override
 	public void log(Level level, ResourceBundle bundle, String format, Object... params) {
 		try {
+			 // :: bundle = Objects.requireNonNullElse(bundle, this.getClass().getPackage());
 			aLogger.log(level, String.format(
 					"%n ************************************** %n %s :: %s %n ************************************** %n ",
 					((bundle == null) ? "[NULL BUNDLE]" : bundle.toString()), String.format(format, params)));

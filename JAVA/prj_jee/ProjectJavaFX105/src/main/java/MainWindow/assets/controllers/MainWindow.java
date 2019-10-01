@@ -47,11 +47,11 @@ public class MainWindow extends BorderPane implements refreshableObject<Article>
 	@FXML
 	private TableColumn<Article, String> tTableViewListeArticleColumnLibelle;
 	@FXML
-	private TableColumn<Article, Couleur> tTableViewListeArticleColumnCouleur;
+	private TableColumn<Article, String> tTableViewListeArticleColumnCouleur;
 	@FXML
-	private TableColumn<Article, TypeBiere> tTableViewListeArticleColumnTypeBiere;
+	private TableColumn<Article, String> tTableViewListeArticleColumnTypeBiere;
 	@FXML
-	private TableColumn<Article, Marque> tTableViewListeArticleColumnMarque;
+	private TableColumn<Article, String> tTableViewListeArticleColumnMarque;
 	@FXML
 	private TableColumn<Article, Float> tTableViewListeArticleColumnTitrage;
 	@FXML
@@ -92,14 +92,13 @@ public class MainWindow extends BorderPane implements refreshableObject<Article>
 		tTableViewListeArticleColumnLibelle.setCellValueFactory(
 				(CellDataFeatures<Article, String> feature) -> feature.getValue().getPropertyLibelle());
 		tTableViewListeArticleColumnCouleur.setCellValueFactory(
-				(CellDataFeatures<Article, Couleur> feature) ->
-						feature.getValue().getPropertyCouleur()
+				(CellDataFeatures<Article, String> feature) ->
+						feature.getValue().getPropertyCouleur().get().getPropertyLibelle()
 		);
-		tTableViewListeArticleColumnCouleur.set
 		tTableViewListeArticleColumnTypeBiere.setCellValueFactory(
-				(CellDataFeatures<Article, TypeBiere> feature) -> feature.getValue().getPropertyTypeBiere());
+				(CellDataFeatures<Article, String> feature) -> feature.getValue().getPropertyTypeBiere().get().getPropertyLibelle());
 		tTableViewListeArticleColumnMarque.setCellValueFactory(
-				(CellDataFeatures<Article, Marque> feature) -> feature.getValue().getPropertyMarque());
+				(CellDataFeatures<Article, String> feature) -> feature.getValue().getPropertyMarque().get().getPropertyLibelle());
 		tTableViewListeArticleColumnTitrage.setCellValueFactory(
 				(CellDataFeatures<Article, Float> feature) -> feature.getValue().getPropertyTitrage().asObject());
 		tTableViewListeArticleColumnPrix.setCellValueFactory(
@@ -115,7 +114,10 @@ public class MainWindow extends BorderPane implements refreshableObject<Article>
 
 			}
 		});
+/*
+sortedList.comparatorProperty().bind(tTableViewListeArticle.comparatorProperty());
 
+ */
 	}
 
 	/**

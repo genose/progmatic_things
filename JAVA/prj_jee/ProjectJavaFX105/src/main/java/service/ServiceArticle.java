@@ -3,6 +3,7 @@ package service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Objects;
 
 import org.genose.java.implementation.javafx.applicationtools.JFXApplication;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationException;
@@ -76,7 +77,7 @@ public class ServiceArticle implements refreshableObject<Article>
 		singletonInstanceCreate();
 		
 		try {
-			pArticleSearchCriteria = new ArticleSearch();
+			pArticleSearchCriteria = Objects.requireNonNullElse( pArticleSearchCriteria, new ArticleSearch());
 			
 			pArticleSearchCriteria.setCriteriaCouleur(DaoFactory.getCouleurDAO().getAll());
 			

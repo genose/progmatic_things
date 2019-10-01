@@ -32,16 +32,16 @@ public class Couleur implements DAOObject {
 
 	/**
 	 *
-	 * @param id
+	 * @param idKey
 	 * @param nom
 	 */
-	public Couleur(Integer id, String nom ) {
+	public Couleur(Integer idKey, String sLibelle ) {
 		super(); 
 		this.id_couleur = new SimpleIntegerProperty();
 		this.nom_couleur = new SimpleStringProperty();
 		
-		id_couleur.set( id);
-		nom_couleur.set(nom);
+		id_couleur.set( Objects.requireNonNullElse(idKey,0));
+		nom_couleur.set(Objects.requireNonNullElse(sLibelle,"-"));
 	}
 
 	/**
@@ -143,4 +143,8 @@ public class Couleur implements DAOObject {
 		return nom_couleur != null;
 	}
 
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName() +":"+nom_couleur.get().toString();
+	}
 }

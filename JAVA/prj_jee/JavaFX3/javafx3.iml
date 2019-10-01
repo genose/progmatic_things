@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="EclipseModuleManager">
-    <libelement value="jar://W:/Jar Files/MesOutils.jar!/" />
+    <libelement value="file://W:/Jar Files/MesOutils.jar" />
     <conelement value="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER" />
     <src_description expected_position="0">
       <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
@@ -14,12 +14,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="jdk" jdkName="JavaSE-10" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="library" name="JavaFX12" level="project" />
     <orderEntry type="library" name="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER" level="application" />
     <orderEntry type="module-library">
       <library name="MesOutils.jar">
         <CLASSES>
-          <root url="jar://W:/Jar Files/MesOutils.jar!/" />
+          <root url="file://W:/Jar Files/MesOutils.jar" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

@@ -21,7 +21,7 @@
     <orderEntry type="module-library">
       <library name="Maven: org.genose.java:org.genose.java.implementation:1.0-SNAPSHOT">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../org_genose_java_implementation/target/org.genose.java.implementation-1.0-SNAPSHOT.jar!/" />
+          <root url="jar://$MODULE_DIR$/../org_genose_java_implementation/target/org.genose.java.implementation-1.0-JFX11-JRE11-SNAPSHOT.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

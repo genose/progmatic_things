@@ -39,8 +39,9 @@ public class Fabricant implements DAOObjectChained<Fabricant, Marque> {
 	}
 
 	/**
-	 * @param id_fabriquant
-	 * @param nom_fabriquant
+	 *
+	 * @param idFabriquant
+	 * @param nomFabriquant
 	 */
 	public Fabricant(Integer idFabriquant, String nomFabriquant) {
 		super();
@@ -50,10 +51,11 @@ public class Fabricant implements DAOObjectChained<Fabricant, Marque> {
 		this.id_fabriquant.set(idFabriquant);
 		this.nom_fabriquant.set(nomFabriquant);
 	}
-	
+
 	/**
-	 * @param id_fabriquant
-	 * @param nom_fabriquant
+	 *
+	 * @param idFabriquant
+	 * @param nomFabriquant
 	 */
 	public Fabricant(IntegerProperty idFabriquant, StringProperty nomFabriquant) {
 		super();
@@ -66,11 +68,19 @@ public class Fabricant implements DAOObjectChained<Fabricant, Marque> {
 		this.nom_fabriquant.set(nomFabriquant.get());
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public Integer getId() {
 		return id_fabriquant.get();
 	}
 
+	/**
+	 *
+	 * @param idKey
+	 */
 	@Override
 	public void setId(Integer idKey) {
 
@@ -80,11 +90,20 @@ public class Fabricant implements DAOObjectChained<Fabricant, Marque> {
 
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public String getLibelle() {
 		return nom_fabriquant.get();
 	}
 
+	/**
+	 *
+	 * @param sLibelle
+	 * @return
+	 */
 	@Override
 	public Boolean setLibelle(String sLibelle) {
 
@@ -93,11 +112,20 @@ public class Fabricant implements DAOObjectChained<Fabricant, Marque> {
 		return (nom_fabriquant != null);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public ArrayList<Marque> getListe() {
 		return aListeMarque;
 	}
 
+	/**
+	 *
+	 * @param aListeObject
+	 * @return
+	 */
 	@Override
 	public Boolean setListe(ArrayList<Marque> aListeObject) {
 
@@ -106,11 +134,19 @@ public class Fabricant implements DAOObjectChained<Fabricant, Marque> {
 		return (aListeMarque != null);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public IntegerProperty getPropertyId() {
 		return id_fabriquant;
 	}
 
+	/**
+	 *
+	 * @param idKey
+	 */
 	@Override
 	public void setPropertyId(IntegerProperty idKey) {
 
@@ -119,12 +155,21 @@ public class Fabricant implements DAOObjectChained<Fabricant, Marque> {
 
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public StringProperty getPropertyLibelle() {
 
 		return nom_fabriquant;
 	}
 
+	/**
+	 *
+	 * @param sLibelle
+	 * @return
+	 */
 	@Override
 	public Boolean setPropertyLibelle(StringProperty sLibelle) {
 

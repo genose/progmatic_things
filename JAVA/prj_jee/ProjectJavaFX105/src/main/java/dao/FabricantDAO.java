@@ -22,18 +22,18 @@ public class FabricantDAO extends DAO<Fabricant> {
 	 * 
 	 */
 	@Override
-	public Fabricant getByID(int id) {
+	public Fabricant getByID(Integer id) {
 
 		String strCmd = "SELECT "+Fabricant.fieldID+" ,"+Fabricant.fieldLibelle+" from "+Fabricant.fieldEntityName+"  where "+Fabricant.fieldID+" = ?";
 		Fabricant aResult = new Fabricant();
 		ResultSet rs = null;
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd)) {
  
 
 			if (id > 0) {
 				pStmt.setInt(1, id);
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			
 			}
 
@@ -72,7 +72,7 @@ public class FabricantDAO extends DAO<Fabricant> {
 		ResultSet rs = null;
 		ArrayList<Fabricant> liste = new ArrayList<>();
 		String strCmd = "SELECT "+Fabricant.fieldID+", "+Fabricant.fieldLibelle+" from "+Fabricant.fieldEntityName+" order by "+Fabricant.fieldLibelle;
-		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement stmt = getServerConnexion().prepareStatement(strCmd)) {
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -107,7 +107,7 @@ public class FabricantDAO extends DAO<Fabricant> {
 	 */
 	@Override
 	public ArrayList<Fabricant> select(Fabricant obj) {
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
 		ResultSet rs = null;
 		String strCmd = "SELECT "+Fabricant.fieldID+" ,"+Fabricant.fieldLibelle+" from "+Fabricant.fieldEntityName+" where ";
 		ArrayList<Fabricant> liste = new ArrayList<>();
@@ -117,10 +117,10 @@ public class FabricantDAO extends DAO<Fabricant> {
 		else if (obj.getLibelle() != null && !obj.getLibelle().isEmpty())
 			strCmd = String.format("%s%s", strCmd, " "+Fabricant.fieldLibelle+" like ? ");
 		else
-			throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+			throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 		System.out.println(" Query : " + strCmd);
 	
-		try (	PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
+		try (	PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd)) {
 
 			if (obj.getId() != null && (obj.getId() > 0))
 				pStmt.setInt(1, obj.getId());
@@ -155,11 +155,11 @@ public class FabricantDAO extends DAO<Fabricant> {
 	@Override
 	public Integer insert(Fabricant obj) {
 
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
-		Objects.requireNonNull(obj.getLibelle(),sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
+		Objects.requireNonNull(obj.getLibelle(),S_ERRMESSAGE_DAO_PARAM);
 		
 		String strCmd = "insert into " + Fabricant.fieldEntityName + " (" + Fabricant.fieldLibelle + ")   values ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			setOrNull(pStmt,1, Objects.toString(obj.getLibelle(), "NULL Libelle"));
 			int affectedRows = pStmt.executeUpdate();
@@ -183,17 +183,17 @@ public class FabricantDAO extends DAO<Fabricant> {
 	@Override
 	public Integer update(Fabricant obj) {
 		
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
-		Objects.requireNonNull(obj.getLibelle(),sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
+		Objects.requireNonNull(obj.getLibelle(),S_ERRMESSAGE_DAO_PARAM);
 		
 		String strCmd = "update " + Fabricant.fieldEntityName + " set " + Fabricant.fieldLibelle + " = ? where "
 				+ Fabricant.fieldID + " = ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			if (obj.getId() > 0) {
 				pStmt.setInt(2, obj.getId());
 			} else
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 
 			setOrNull(pStmt,1, Objects.toString(obj.getLibelle(), "NULL Libelle"));
 			pStmt.executeUpdate();
@@ -207,14 +207,14 @@ public class FabricantDAO extends DAO<Fabricant> {
 
 	@Override
 	public Integer delete(Fabricant obj) {
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
 		String strCmd = "delete from "+Fabricant.fieldEntityName+" where "+Fabricant.fieldID+" = ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			if (obj.getId() > 0) {
 				pStmt.setInt(1, obj.getId());
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			}
 			pStmt.executeUpdate(strCmd);
 

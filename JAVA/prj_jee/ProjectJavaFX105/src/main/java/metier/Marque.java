@@ -16,11 +16,11 @@ public class Marque implements DAOObject {
 	private StringProperty nom_marque = null;
 	private ObjectProperty<Fabricant> id_fabriquant = null;
 	private ObjectProperty<Pays> id_pays = null;
-	
+
 	/**
-	 * @param id_Marque
-	 * @param id_pays
-	 * @param nom_marque
+	 *
+	 * @param idMarque
+	 * @param nomMarque
 	 */
 	public Marque(IntegerProperty idMarque, StringProperty nomMarque) {
 		super();
@@ -36,11 +36,12 @@ public class Marque implements DAOObject {
 		this.nom_marque.set(nomMarque.get());
 		
 	}
-	
+
 	/**
-	 * @param id_Marque
-	 * @param id_pays
-	 * @param nom_marque
+	 *
+	 * @param idMarque
+	 * @param nomMarque
+	 * @param idPays
 	 */
 	public Marque(IntegerProperty idMarque, StringProperty nomMarque, Pays idPays) {
 		super();
@@ -58,13 +59,13 @@ public class Marque implements DAOObject {
 		this.id_pays.set(idPays);
 		
 	}
-	
+
 	/**
-	 * 
-	 * @param id_Marque
-	 * @param nom_marque
-	 * @param id_fabricant
-	 * @param id_pays
+	 *
+	 * @param idMarque
+	 * @param nomMarque
+	 * @param idPays
+	 * @param idFabricant
 	 */
 	public Marque(IntegerProperty idMarque, StringProperty nomMarque, Pays idPays, Fabricant idFabricant) {
 		super();
@@ -85,9 +86,9 @@ public class Marque implements DAOObject {
 	}
 
 	/**
-	 * @param id_Marque
-	 * @param id_pays
-	 * @param nom_marque
+	 *
+	 * @param idMarque
+	 * @param nomMarque
 	 */
 	public Marque(Integer idMarque, String nomMarque) {
 		super();
@@ -104,9 +105,10 @@ public class Marque implements DAOObject {
 	}
 
 	/**
-	 * @param id_Marque
-	 * @param id_pays
-	 * @param nom_marque
+	 *
+	 * @param idMarque
+	 * @param nomMarque
+	 * @param idPays
 	 */
 	public Marque(Integer idMarque, String nomMarque, Pays idPays) {
 		super();
@@ -124,11 +126,11 @@ public class Marque implements DAOObject {
 	}
 
 	/**
-	 * 
-	 * @param id_Marque
-	 * @param nom_marque
-	 * @param id_fabricant
-	 * @param id_pays
+	 *
+	 * @param idMarque
+	 * @param nomMarque
+	 * @param idPays
+	 * @param idFabricant
 	 */
 	public Marque(Integer idMarque, String nomMarque, Pays idPays, Fabricant idFabricant) {
 		super();
@@ -146,6 +148,9 @@ public class Marque implements DAOObject {
 
 	}
 
+	/**
+	 *
+	 */
 	public Marque() {
 		this.id_Marque= new SimpleIntegerProperty();
 		this.nom_marque = new SimpleStringProperty();
@@ -156,22 +161,39 @@ public class Marque implements DAOObject {
 		this.id_Marque.set(0);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public Integer getId() {
 		return id_Marque.get();
 	}
 
+	/**
+	 *
+	 * @param idKey
+	 */
 	@Override
 	public void setId(Integer idKey) {
 		Objects.requireNonNull(idKey, sERRMESSAGEDAOOBJECT_PARAM);
 		id_Marque.set(idKey);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public final String getLibelle() {
 		return nom_marque.get();
 	}
 
+	/**
+	 *
+	 * @param sLibelle
+	 * @return
+	 */
 	@Override
 	public Boolean setLibelle(String sLibelle) {
 		Objects.requireNonNull(sLibelle, sERRMESSAGEDAOOBJECT_PARAM);
@@ -179,11 +201,19 @@ public class Marque implements DAOObject {
 		return (nom_marque.get() != null);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public IntegerProperty getPropertyId() {
 		return id_Marque;
 	}
 
+	/**
+	 *
+	 * @param idKey
+	 */
 	@Override
 	public void setPropertyId(IntegerProperty idKey) {
 		Objects.requireNonNull(idKey, sERRMESSAGEDAOOBJECT_PARAM);
@@ -192,11 +222,20 @@ public class Marque implements DAOObject {
 		
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public StringProperty getPropertyLibelle() {
 		return nom_marque;
 	}
 
+	/**
+	 *
+	 * @param sLibelle
+	 * @return
+	 */
 	@Override
 	public Boolean setPropertyLibelle(StringProperty sLibelle) {
 		Objects.requireNonNull(sLibelle, sERRMESSAGEDAOOBJECT_PARAM);

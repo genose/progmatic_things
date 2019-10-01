@@ -10,6 +10,7 @@ import org.genose.java.implementation.javafx.applicationtools.JFXApplicationDesi
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationFunctionCallback;
 import org.genose.java.implementation.javafx.applicationtools.JFXApplicationHelper;
 import org.genose.java.implementation.javafx.applicationtools.exceptionerror.JFXApplicationMappedLogger;
+import org.genose.java.implementation.javafx.applicationtools.views.JFXApplicationStage;
 import org.genose.java.implementation.net.secure.GNSObjectSSHConnection;
 
 public class Main extends JFXApplication {
@@ -17,7 +18,7 @@ public class Main extends JFXApplication {
     @Override
     public void start(Stage primaryStage) {
         try {
-            super.start(primaryStage);
+            super.start((primaryStage) );
             /* ********************* */
            /* String fileName =  "sample";
             String appPath =  JFXApplicationHelper.packageToPathRoot(Main.class);

@@ -29,18 +29,18 @@ public class CouleurDAO extends DAO<Couleur> {
 	 * 
 	 */
 	@Override
-	public Couleur getByID(int id) {
+	public Couleur getByID(Integer id) {
 
 		String strCmd = "SELECT "+Couleur.fieldID+" ,"+Couleur.fieldLibelle+" from "+Couleur.fieldEntityName+"  where "+Couleur.fieldID+" = ?";
 		Couleur aResult = new Couleur();
 		ResultSet rs = null;
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd)) {
  
 
 			if (id > 0) {
 				pStmt.setInt(1, id);
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			
 			}
 
@@ -79,7 +79,7 @@ public class CouleurDAO extends DAO<Couleur> {
 		ResultSet rs = null;
 		ArrayList<Couleur> liste = new ArrayList<>();
 		String strCmd = "SELECT "+Couleur.fieldID+", "+Couleur.fieldLibelle+" from "+Couleur.fieldEntityName+" order by "+Couleur.fieldLibelle;
-		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement stmt = getServerConnexion().prepareStatement(strCmd)) {
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -115,7 +115,7 @@ public class CouleurDAO extends DAO<Couleur> {
 	@Override
 	public ArrayList<Couleur> select(Couleur obj) {
 	
-		Objects.requireNonNull(obj, sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj, S_ERRMESSAGE_DAO_PARAM);
 		
 		ResultSet rs = null;
 		String strCmd = "SELECT "+Couleur.fieldID+" ,"+Couleur.fieldLibelle+" from "+Couleur.fieldEntityName+" where ";
@@ -126,10 +126,10 @@ public class CouleurDAO extends DAO<Couleur> {
 		else if (obj.getLibelle() != null && !obj.getLibelle().isEmpty())
 			strCmd = String.format("%s%s", strCmd, " "+Couleur.fieldLibelle+" like ? ");
 		else
-			throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+			throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 		System.out.println(" Query : " + strCmd);
 	
-		try (	PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
+		try (	PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd)) {
 
 			if (obj.getId() != null && (obj.getId() > 0))
 				pStmt.setInt(1, obj.getId());
@@ -164,11 +164,11 @@ public class CouleurDAO extends DAO<Couleur> {
 	@Override
 	public Integer insert(Couleur obj) {
 		
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
-		Objects.requireNonNull(obj.getLibelle(),sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
+		Objects.requireNonNull(obj.getLibelle(),S_ERRMESSAGE_DAO_PARAM);
 		
 		String strCmd = "insert into " + Couleur.fieldEntityName + " (" + Couleur.fieldLibelle + ")   values ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			setOrNull(pStmt,1, Objects.toString(obj.getLibelle(), "NULL Libelle"));
 			int affectedRows = pStmt.executeUpdate();
@@ -192,17 +192,17 @@ public class CouleurDAO extends DAO<Couleur> {
 	@Override
 	public Integer update(Couleur obj) {
 		
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
-		Objects.requireNonNull(obj.getLibelle(),sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
+		Objects.requireNonNull(obj.getLibelle(),S_ERRMESSAGE_DAO_PARAM);
 		
 		String strCmd = "update " + Couleur.fieldEntityName + " set " + Couleur.fieldLibelle + " = ? where "
 				+ Couleur.fieldID + " = ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			if (obj.getId() > 0) {
 				pStmt.setInt(1, obj.getId());
 			} else
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 
 			setOrNull(pStmt,1, Objects.toString(obj.getLibelle(), "NULL Libelle"));
 			pStmt.executeUpdate();
@@ -217,15 +217,15 @@ public class CouleurDAO extends DAO<Couleur> {
 	@Override
 	public Integer delete(Couleur obj) {
 		
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
 		
 		String strCmd = "delete from "+Couleur.fieldEntityName+" where "+Couleur.fieldID+" = ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			if (obj.getId() > 0) {
 				pStmt.setInt(1, obj.getId());
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			}
 			pStmt.executeUpdate(strCmd);
 

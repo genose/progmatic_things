@@ -9,25 +9,33 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class TypeBiereDAO extends DAO<TypeBiere> {
-
+	/**
+	 *
+	 * @param connexion
+	 */
 	public TypeBiereDAO(Connection connexion) {
 		super(connexion);
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @return
+	 */
 	@Override
-	public TypeBiere getByID(int id) {
+	public TypeBiere getByID(Integer id) {
 
 		String strCmd = "SELECT " + TypeBiere.fieldID + " ," + TypeBiere.fieldLibelle + " from "
 				+ TypeBiere.fieldEntityName + "  where " + TypeBiere.fieldID + " = ?";
 		TypeBiere aResult = new TypeBiere();
 		ResultSet rs = null;
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd)) {
 			
 		
 			if (id > 0) {
 				pStmt.setInt(1, id);
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			
 			}
 
@@ -67,7 +75,7 @@ public class TypeBiereDAO extends DAO<TypeBiere> {
 		ArrayList<TypeBiere> liste = new ArrayList<>();
 		String strCmd = "SELECT " + TypeBiere.fieldID + ", " + TypeBiere.fieldLibelle + " from "
 				+ TypeBiere.fieldEntityName + " order by " + TypeBiere.fieldLibelle;
-		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement stmt = getServerConnexion().prepareStatement(strCmd)) {
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -101,7 +109,7 @@ public class TypeBiereDAO extends DAO<TypeBiere> {
 	@Override
 	public ArrayList<TypeBiere> select(TypeBiere obj) {
 		
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
 		
 		ResultSet rs = null;
 		String strCmd = "SELECT " + TypeBiere.fieldID + " ," + TypeBiere.fieldLibelle + " from "
@@ -113,10 +121,10 @@ public class TypeBiereDAO extends DAO<TypeBiere> {
 		else if (obj.getLibelle() != null && !obj.getLibelle().isEmpty())
 			strCmd = String.format("%s%s", strCmd, " " + TypeBiere.fieldLibelle + " like ? ");
 		else
-			throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+			throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 		System.out.println(" Query : " + strCmd);
 
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd)) {
 
 			if (obj.getId() != null && (obj.getId() > 0))
 				pStmt.setInt(1, obj.getId());
@@ -148,14 +156,19 @@ public class TypeBiereDAO extends DAO<TypeBiere> {
 		return liste;
 	}
 
+	/**
+	 *
+	 * @param obj
+	 * @return
+	 */
 	@Override
 	public Integer insert(TypeBiere obj) {
 		
-		Objects.requireNonNull(obj, sERRMESSAGEDAO_PARAM);
-		Objects.requireNonNull(obj.getLibelle(), sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj, S_ERRMESSAGE_DAO_PARAM);
+		Objects.requireNonNull(obj.getLibelle(), S_ERRMESSAGE_DAO_PARAM);
 		
 		String strCmd = "insert into " + TypeBiere.fieldEntityName + " (" + TypeBiere.fieldLibelle + ")   values ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			setOrNull(pStmt,1, Objects.toString(obj.getLibelle(), "NULL Libelle"));
 			int affectedRows = pStmt.executeUpdate();
@@ -176,20 +189,25 @@ public class TypeBiereDAO extends DAO<TypeBiere> {
 		return 0;
 	}
 
+	/**
+	 *
+	 * @param obj
+	 * @return
+	 */
 	@Override
 	public Integer update(TypeBiere obj) {
 		
-		Objects.requireNonNull(obj, sERRMESSAGEDAO_PARAM);
-		Objects.requireNonNull(obj.getLibelle(),sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj, S_ERRMESSAGE_DAO_PARAM);
+		Objects.requireNonNull(obj.getLibelle(),S_ERRMESSAGE_DAO_PARAM);
 		
 		String strCmd = "update " + TypeBiere.fieldEntityName + " set " + TypeBiere.fieldLibelle + " = ? where "
 				+ TypeBiere.fieldID + " = ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			if (obj.getId() > 0) {
 				pStmt.setInt(2, obj.getId());
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			}
 
 			setOrNull(pStmt,1, Objects.toString(obj.getLibelle(), "NULL Libelle"));
@@ -202,18 +220,23 @@ public class TypeBiereDAO extends DAO<TypeBiere> {
 		return 0;
 	}
 
+	/**
+	 *
+	 * @param obj
+	 * @return
+	 */
 	@Override
 	public Integer delete(TypeBiere obj) {
 		
-		Objects.requireNonNull(obj, sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj, S_ERRMESSAGE_DAO_PARAM);
 		
 		String strCmd = "delete from " + TypeBiere.fieldEntityName + " where " + TypeBiere.fieldID + " = ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			if (obj.getId() > 0) {
 				pStmt.setInt(1, obj.getId());
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			}
 			pStmt.executeUpdate(strCmd);
 

@@ -17,12 +17,12 @@ public class ContinentDAO extends DAO<Continent> {
 	}
 
 	@Override
-	public Continent getByID(int id) {
+	public Continent getByID(Integer id) {
 
 		String strCmd = "SELECT id_continent ,nom_continent from continent where id_continent = ?";
 		Continent aContinent = new Continent();
 		ResultSet rs = null;
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd)) {
 
 			pStmt.setInt(1, id);
 
@@ -59,7 +59,7 @@ public class ContinentDAO extends DAO<Continent> {
 				+ Pays.fieldEntityName + " pay on pay." + Pays.fieldID + " = conti." + Continent.fieldID + " "
 				+ "order by " + Continent.fieldLibelle + ", " + Pays.fieldLibelle;
 		System.out.println(this.getClass().getSimpleName() + " :: "+strCmd);
-		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement stmt = getServerConnexion().prepareStatement(strCmd)) {
 
 			rs = stmt.executeQuery();
 			if (rs.next()) {
@@ -105,7 +105,7 @@ public class ContinentDAO extends DAO<Continent> {
 	 */
 	@Override
 	public ArrayList<Continent> select(Continent obj) {
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
 		ResultSet rs = null;
 		ArrayList<Continent> liste = new ArrayList<>();
 		String strCmd = "select " + "conti." + Continent.fieldID + "," + "conti." + Continent.fieldLibelle + "," + " "
@@ -117,11 +117,11 @@ public class ContinentDAO extends DAO<Continent> {
 		else if (obj.getLibelle() != null && !obj.getLibelle().isEmpty())
 			strCmd = String.format("%s%s", strCmd, " " + Continent.fieldLibelle + " like ? ");
 		else
-			throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+			throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 		strCmd = String.format("%s%s", strCmd, "order by " + Continent.fieldLibelle + ", " + Pays.fieldLibelle);
 		System.out.println(" Query : " + strCmd);
 
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd)) {
 
 			if (obj.getId() != null && (obj.getId() > 0))
 				pStmt.setInt(1, obj.getId());
@@ -156,11 +156,11 @@ public class ContinentDAO extends DAO<Continent> {
 	@Override
 	public Integer insert(Continent obj) {
 		
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
-		Objects.requireNonNull(obj.getLibelle(),sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
+		Objects.requireNonNull(obj.getLibelle(),S_ERRMESSAGE_DAO_PARAM);
 		
 		String strCmd = "insert into " + Continent.fieldEntityName + " (" + Continent.fieldLibelle + ")   values ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			setOrNull(pStmt,1, Objects.toString(obj.getLibelle(), "NULL Libelle"));
 			int affectedRows = pStmt.executeUpdate();
@@ -184,19 +184,19 @@ public class ContinentDAO extends DAO<Continent> {
 	@Override
 	public Integer update(Continent obj) {
 		
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
-		Objects.requireNonNull(obj.getLibelle(),sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
+		Objects.requireNonNull(obj.getLibelle(),S_ERRMESSAGE_DAO_PARAM);
 		
 		Objects.toString(obj.getLibelle(), "NULL");
 		String strCmd = "update " + Continent.fieldEntityName + " set " + Continent.fieldLibelle + " = ? where "
 				+ Continent.fieldID + " = ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			
 			if (obj.getId() > 0) {
 				pStmt.setInt(2, obj.getId());
 			} else
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 
 			setOrNull(pStmt,1, Objects.toString(obj.getLibelle(), "NULL Libelle"));
 			pStmt.executeUpdate();
@@ -210,14 +210,14 @@ public class ContinentDAO extends DAO<Continent> {
 
 	@Override
 	public Integer delete(Continent obj) {
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
 		String strCmd = "delete from "+Continent.fieldEntityName+" where "+Continent.fieldID+" = ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			if (obj.getId() > 0) {
 				pStmt.setInt(1, obj.getId());
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			}
 			pStmt.executeUpdate(strCmd);
 

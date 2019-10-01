@@ -51,10 +51,9 @@ public class Continent implements DAOObjectChained<Continent, Pays> {
 		
 		this.aListePays =  new ArrayList<>();
 	}
-	
+
 	/**
-	 * @param id_continent
-	 * @param nom_continent
+	 *
 	 */
 	public Continent() {
 		super();
@@ -65,25 +64,39 @@ public class Continent implements DAOObjectChained<Continent, Pays> {
 		this.aListePays =  new ArrayList<>();
 	}
 
-
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public Integer getId() {
 		return id_continent.get();
 	}
 
-
+	/**
+	 *
+	 * @param idKey
+	 */
 	@Override
 	public void setId(Integer idKey) {
 		Objects.requireNonNull(idKey, sERRMESSAGEDAOOBJECT_PARAM);
 		id_continent.set(idKey);
 	}
 
-
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public String getLibelle() {
 		return nom_continent.get();
 	}
 
+	/**
+	 *
+	 * @param sLibelle
+	 * @return
+	 */
 
 	@Override
 	public Boolean setLibelle(String sLibelle) {
@@ -92,23 +105,38 @@ public class Continent implements DAOObjectChained<Continent, Pays> {
 		return (nom_continent.get() != null);
 	}
 
-
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public ArrayList<Pays> getListe() {
 		return aListePays;
 	}
 
-
+	/**
+	 *
+	 * @param aListeObject
+	 * @return
+	 */
 	@Override
 	public Boolean setListe(ArrayList<Pays> aListeObject) {
 		return (aListePays = aListeObject) != null;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public IntegerProperty getPropertyId() {
 		return id_continent;
 	}
 
+	/**
+	 *
+	 * @param idKey
+	 */
 	@Override
 	public void setPropertyId(IntegerProperty idKey) {
 		Objects.requireNonNull(idKey, sERRMESSAGEDAOOBJECT_PARAM);
@@ -116,12 +144,21 @@ public class Continent implements DAOObjectChained<Continent, Pays> {
 		
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public StringProperty getPropertyLibelle() {
 		
 		return nom_continent;
 	}
 
+	/**
+	 *
+	 * @param sLibelle
+	 * @return
+	 */
 	@Override
 	public Boolean setPropertyLibelle(StringProperty sLibelle) {
 		Objects.requireNonNull(sLibelle, sERRMESSAGEDAOOBJECT_PARAM);

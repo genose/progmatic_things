@@ -21,18 +21,18 @@ public class PaysDAO extends DAO<Pays>{
 	 * 
 	 */
 	@Override
-	public Pays getByID(int id) {
+	public Pays getByID(Integer id) {
 
 		String strCmd = "SELECT "+Pays.fieldID+" ,"+Pays.fieldLibelle+" from "+Pays.fieldEntityName+"  where "+Pays.fieldID+" = ?";
 		Pays aResult = new Pays();
 		ResultSet rs = null;
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd)) {
  
 
 			if (id > 0) {
 				pStmt.setInt(1, id);
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			
 			}
 
@@ -71,7 +71,7 @@ public class PaysDAO extends DAO<Pays>{
 		ResultSet rs = null;
 		ArrayList<Pays> liste = new ArrayList<>();
 		String strCmd = "SELECT "+Pays.fieldID+", "+Pays.fieldLibelle+" from "+Pays.fieldEntityName+" order by "+Pays.fieldLibelle;
-		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement stmt = getServerConnexion().prepareStatement(strCmd)) {
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -115,10 +115,10 @@ public class PaysDAO extends DAO<Pays>{
 		else if (obj.getLibelle() != null && !obj.getLibelle().isEmpty())
 			strCmd = String.format("%s%s", strCmd, " "+Pays.fieldLibelle+" like ? ");
 		else
-			throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+			throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 		System.out.println(" Query : " + strCmd);
 	
-		try (	PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
+		try (	PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd)) {
 
 			if (obj.getId() != null && (obj.getId() > 0))
 				pStmt.setInt(1, obj.getId());
@@ -153,11 +153,11 @@ public class PaysDAO extends DAO<Pays>{
 	@Override
 	public Integer insert(Pays obj) {
 		
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
-		Objects.requireNonNull(obj.getLibelle(),sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
+		Objects.requireNonNull(obj.getLibelle(),S_ERRMESSAGE_DAO_PARAM);
 		
 		String strCmd = "insert into " + Pays.fieldEntityName + " (" + Pays.fieldLibelle + ")   values ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			pStmt.setString(1, obj.getLibelle());
 			int affectedRows = pStmt.executeUpdate();
@@ -181,17 +181,17 @@ public class PaysDAO extends DAO<Pays>{
 	@Override
 	public Integer update(Pays obj) {
 		
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
-		Objects.requireNonNull(obj.getLibelle(),sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
+		Objects.requireNonNull(obj.getLibelle(),S_ERRMESSAGE_DAO_PARAM);
 		
 		String strCmd = "update " + Pays.fieldEntityName + " set " + Pays.fieldLibelle + " = ? where "
 				+ Pays.fieldID + " = ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			if (obj.getId() > 0) {
 				pStmt.setInt(2, obj.getId());
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			}
 			setOrNull(pStmt,1, Objects.toString(obj.getLibelle(), "NULL Libelle"));
 			pStmt.executeUpdate();
@@ -205,14 +205,14 @@ public class PaysDAO extends DAO<Pays>{
 
 	@Override
 	public Integer delete(Pays obj) {
-		Objects.requireNonNull(obj,sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj,S_ERRMESSAGE_DAO_PARAM);
 		String strCmd = "delete from "+Pays.fieldEntityName+" where "+Pays.fieldID+" = ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			if (obj.getId() > 0) {
 				pStmt.setInt(1, obj.getId());
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			}
 			pStmt.executeUpdate(strCmd);
 

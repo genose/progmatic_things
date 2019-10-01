@@ -92,7 +92,10 @@ public class MainWindow extends BorderPane implements refreshableObject<Article>
 		tTableViewListeArticleColumnLibelle.setCellValueFactory(
 				(CellDataFeatures<Article, String> feature) -> feature.getValue().getPropertyLibelle());
 		tTableViewListeArticleColumnCouleur.setCellValueFactory(
-				(CellDataFeatures<Article, Couleur> feature) -> feature.getValue().getPropertyCouleur());
+				(CellDataFeatures<Article, Couleur> feature) ->
+						feature.getValue().getPropertyCouleur()
+		);
+		tTableViewListeArticleColumnCouleur.set
 		tTableViewListeArticleColumnTypeBiere.setCellValueFactory(
 				(CellDataFeatures<Article, TypeBiere> feature) -> feature.getValue().getPropertyTypeBiere());
 		tTableViewListeArticleColumnMarque.setCellValueFactory(

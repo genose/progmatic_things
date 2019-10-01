@@ -17,10 +17,11 @@ public class TypeBiere implements DAOObject {
 
 	private IntegerProperty id_type = null;
 	private StringProperty nom_type = null;
-	
+
 	/**
-	 * @param id_type
-	 * @param nom_type
+	 *
+	 * @param idType
+	 * @param nomType
 	 */
 	public TypeBiere(IntegerProperty idType, StringProperty nomType) {
 		super();
@@ -34,8 +35,9 @@ public class TypeBiere implements DAOObject {
 	}
 
 	/**
-	 * @param id_type
-	 * @param nom_type
+	 *
+	 * @param idType
+	 * @param nomType
 	 */
 	public TypeBiere(Integer idType, String nomType) {
 		super();

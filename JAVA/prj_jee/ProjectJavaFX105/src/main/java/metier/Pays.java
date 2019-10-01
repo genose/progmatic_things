@@ -78,6 +78,10 @@ public class Pays implements DAOObject {
 		id_pays.set(idPays);
 		nom_pays.set(nomPays);
 	}
+
+	/**
+	 *
+	 */
 	public Pays() {
 		super();
 		this.id_pays= new SimpleIntegerProperty();
@@ -87,15 +91,30 @@ public class Pays implements DAOObject {
 		id_pays.set(0);
 		
 	}
+
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public Integer getId() {
 		return id_pays.get();
 	}
+
+	/**
+	 *
+	 * @param idKey
+	 */
 	@Override
 	public void setId(Integer idKey) {
 		Objects.requireNonNull(idKey, sERRMESSAGEDAOOBJECT_PARAM);
 		id_pays.set(idKey);
 	}
+
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public final String getLibelle() {
 		return nom_pays.get();
@@ -107,11 +126,21 @@ public class Pays implements DAOObject {
 		nom_pays.set(sLibelle);
 		return (nom_pays != null);
 	}
+
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public IntegerProperty getPropertyId() {
 
 		return id_pays;
 	}
+
+	/**
+	 *
+	 * @param idKey
+	 */
 	@Override
 	public void setPropertyId(IntegerProperty idKey) {
 
@@ -119,10 +148,21 @@ public class Pays implements DAOObject {
 		id_pays = idKey;
 		
 	}
+
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public StringProperty getPropertyLibelle() {
 		return nom_pays;
 	}
+
+	/**
+	 *
+	 * @param sLibelle
+	 * @return
+	 */
 	@Override
 	public Boolean setPropertyLibelle(StringProperty sLibelle) {
 

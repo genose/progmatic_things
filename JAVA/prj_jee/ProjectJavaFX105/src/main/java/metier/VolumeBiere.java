@@ -29,44 +29,78 @@ public class VolumeBiere implements DAOObject {
 		volume = new SimpleFloatProperty();
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public Integer getId() {
 		return id_volume.get();
 	}
 
+	/**
+	 *
+	 * @param idKey
+	 */
 	@Override
 	public void setId(Integer idKey) {
 		id_volume.set(idKey);
 
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public String getLibelle() {
 		return nom_volume.get();
 	}
 
+	/**
+	 *
+	 * @param sLibelle
+	 * @return
+	 */
 	@Override
 	public Boolean setLibelle(String sLibelle) {
 		nom_volume.set(sLibelle);
 		return nom_volume.get() != null;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public IntegerProperty getPropertyId() {
 		return id_volume;
 	}
 
+	/**
+	 *
+	 * @param idKey
+	 */
 	@Override
 	public void setPropertyId(IntegerProperty idKey) {
 		idKey.set(idKey.get());
 
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public StringProperty getPropertyLibelle() {
 		return nom_volume;
 	}
 
+	/**
+	 *
+	 * @param sLibelle
+	 * @return
+	 */
 	@Override
 	public Boolean setPropertyLibelle(StringProperty sLibelle) {
 		nom_volume.set(sLibelle.get());

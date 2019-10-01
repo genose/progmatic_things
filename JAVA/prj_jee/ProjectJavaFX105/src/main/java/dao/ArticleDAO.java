@@ -33,7 +33,7 @@ public class ArticleDAO extends DAO<Article> {
 
 				Marque.fieldID + ", " + Marque.fieldLibelle + " from VueArticle";
 		System.out.println(this.getClass().getSimpleName() + " :: " + strCmd);
-		try (PreparedStatement stmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement stmt = getServerConnexion().prepareStatement(strCmd)) {
 
 			rs = stmt.executeQuery();
 			Article aResult = null;
@@ -77,17 +77,17 @@ public class ArticleDAO extends DAO<Article> {
 	}
 
 	@Override
-	public Article getByID(int id) {
+	public Article getByID(Integer id) {
 
 		ResultSet rs = null;
 		Article aResult = new Article();
 		String strCmd = "select * from VueArticle where id_article = ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd)) {
 
 			if (id > 0) {
 				pStmt.setInt(1, id);
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 
 			}
 
@@ -132,17 +132,17 @@ public class ArticleDAO extends DAO<Article> {
 
 	@Override
 	public ArrayList<Article> select(Article obj) {
-		Objects.requireNonNull(obj, sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj, S_ERRMESSAGE_DAO_PARAM);
 		ResultSet rs = null;
 		ArrayList<Article> liste = new ArrayList<>();
 		String strCmd = "{call sp_ArticleQBE(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) } ";
-		try (CallableStatement cStmt = connexion.prepareCall(strCmd)) {
+		try (CallableStatement cStmt = getServerConnexion().prepareCall(strCmd)) {
 
 			// ******************************************
 			if (obj.getId() > 0) {
 				cStmt.setInt(1, obj.getId());
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			}
 
 			// ******************************************
@@ -154,13 +154,13 @@ public class ArticleDAO extends DAO<Article> {
 			// ******************************************
 			setOrNull(cStmt, 5, obj.getTitrage());
 			// ******************************************
-			Objects.requireNonNull(obj.getMarque(), sERRMESSAGEDAO_PARAM);
+			Objects.requireNonNull(obj.getMarque(), S_ERRMESSAGE_DAO_PARAM);
 			setOrNull(cStmt, 6, obj.getMarque().getId());
 			// ******************************************
-			Objects.requireNonNull(obj.getCouleur(), sERRMESSAGEDAO_PARAM);
+			Objects.requireNonNull(obj.getCouleur(), S_ERRMESSAGE_DAO_PARAM);
 			setOrNull(cStmt, 7, obj.getCouleur().getId());
 			// ******************************************
-			Objects.requireNonNull(obj.getType(), sERRMESSAGEDAO_PARAM);
+			Objects.requireNonNull(obj.getType(), S_ERRMESSAGE_DAO_PARAM);
 			setOrNull(cStmt, 8, obj.getType().getId());
 			// ******************************************
 
@@ -207,11 +207,11 @@ public class ArticleDAO extends DAO<Article> {
 	}
 
 	public ArticleSearch select(ArticleSearch obj) {
-		Objects.requireNonNull(obj, sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj, S_ERRMESSAGE_DAO_PARAM);
 		ResultSet rs = null;
 
 		String strCmd = "{call sp_ArticleQBE(?, ?, ?, ?, ?, ?, ?, ?,?,?,?) } ";
-		try (CallableStatement cStmt = connexion.prepareCall(strCmd)) {
+		try (CallableStatement cStmt = getServerConnexion().prepareCall(strCmd)) {
 			HashMap<String, String> aMappingForJSON = new HashMap<>();
 			setOrNull(cStmt, 1, obj.getId());
 			// ******************************************
@@ -319,16 +319,16 @@ public class ArticleDAO extends DAO<Article> {
 
 	@Override
 	public Integer insert(Article obj) {
-		Objects.requireNonNull(obj, sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj, S_ERRMESSAGE_DAO_PARAM);
 		ResultSet rs = null;
 		String strCmd = "{call sp_createArticle(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) } ";
-		try (CallableStatement cStmt = connexion.prepareCall(strCmd)) {
+		try (CallableStatement cStmt = getServerConnexion().prepareCall(strCmd)) {
 
 // ****************************************** 
 			if (obj.getId() > 0) {
 				cStmt.setInt(1, obj.getId());
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			}
 
 // ****************************************** 
@@ -341,13 +341,13 @@ public class ArticleDAO extends DAO<Article> {
 			// ******************************************
 			setOrNull(cStmt, 5, obj.getTitrage());
 			// ******************************************
-			Objects.requireNonNull(obj.getMarque(), sERRMESSAGEDAO_PARAM);
+			Objects.requireNonNull(obj.getMarque(), S_ERRMESSAGE_DAO_PARAM);
 			setOrNull(cStmt, 6, obj.getMarque().getId());
 			// ******************************************
-			Objects.requireNonNull(obj.getCouleur(), sERRMESSAGEDAO_PARAM);
+			Objects.requireNonNull(obj.getCouleur(), S_ERRMESSAGE_DAO_PARAM);
 			setOrNull(cStmt, 7, obj.getCouleur().getId());
 			// ******************************************
-			Objects.requireNonNull(obj.getType(), sERRMESSAGEDAO_PARAM);
+			Objects.requireNonNull(obj.getType(), S_ERRMESSAGE_DAO_PARAM);
 			setOrNull(cStmt, 8, obj.getType().getId());
 // ****************************************** 
 
@@ -384,16 +384,16 @@ public class ArticleDAO extends DAO<Article> {
 
 	@Override
 	public Integer update(Article obj) {
-		Objects.requireNonNull(obj, sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj, S_ERRMESSAGE_DAO_PARAM);
 		ResultSet rs = null;
 		String strCmd = "{call sp_updateArticle(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) } ";
-		try (CallableStatement cStmt = connexion.prepareCall(strCmd)) {
+		try (CallableStatement cStmt = getServerConnexion().prepareCall(strCmd)) {
 
 // ****************************************** 
 			if (obj.getId() > 0) {
 				cStmt.setInt(1, obj.getId());
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			}
 			// ******************************************
 			setOrNull(cStmt, 2, obj.getLibelle());
@@ -404,13 +404,13 @@ public class ArticleDAO extends DAO<Article> {
 			// ******************************************
 			setOrNull(cStmt, 5, obj.getTitrage());
 			// ******************************************
-			Objects.requireNonNull(obj.getMarque(), sERRMESSAGEDAO_PARAM);
+			Objects.requireNonNull(obj.getMarque(), S_ERRMESSAGE_DAO_PARAM);
 			setOrNull(cStmt, 6, obj.getMarque().getId());
 			// ******************************************
-			Objects.requireNonNull(obj.getCouleur(), sERRMESSAGEDAO_PARAM);
+			Objects.requireNonNull(obj.getCouleur(), S_ERRMESSAGE_DAO_PARAM);
 			setOrNull(cStmt, 7, obj.getCouleur().getId());
 			// ******************************************
-			Objects.requireNonNull(obj.getType(), sERRMESSAGEDAO_PARAM);
+			Objects.requireNonNull(obj.getType(), S_ERRMESSAGE_DAO_PARAM);
 			setOrNull(cStmt, 8, obj.getType().getId());
 // ****************************************** 
 
@@ -438,14 +438,14 @@ public class ArticleDAO extends DAO<Article> {
 
 	@Override
 	public Integer delete(Article obj) {
-		Objects.requireNonNull(obj, sERRMESSAGEDAO_PARAM);
+		Objects.requireNonNull(obj, S_ERRMESSAGE_DAO_PARAM);
 		String strCmd = "delete from " + Article.fieldEntityName + " where " + Article.fieldID + " = ?";
-		try (PreparedStatement pStmt = connexion.prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement pStmt = getServerConnexion().prepareStatement(strCmd, Statement.RETURN_GENERATED_KEYS)) {
 
 			if (obj.getId() > 0) {
 				pStmt.setInt(1, obj.getId());
 			} else {
-				throw new InvalidParameterException(sERRMESSAGEDAO_PARAM);
+				throw new InvalidParameterException(S_ERRMESSAGE_DAO_PARAM);
 			}
 			pStmt.executeUpdate(strCmd);
 

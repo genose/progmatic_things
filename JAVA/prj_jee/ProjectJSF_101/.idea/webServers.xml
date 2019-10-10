@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="fa49aa08-8e4f-4636-b528-c265019da5b2" name="raspberrypi" url="http://10.115.58.38:8089/">
+        <fileTransfer host="10.115.58.38" port="22" rootFolder="/home/tomcatdev/webapps" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" maxConnections="2" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

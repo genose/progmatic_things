@@ -1,0 +1,77 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+
+<welcome-file-list>
+	<welcome-file>index</welcome-file>	
+</welcome-file-list>
+<!-- ********************* -->
+<!-- Errors Pages Handling -->
+<!-- ********************* -->
+<error-page>
+    <exception-type>java.lang.Exception</exception-type>
+    <location>/WEB-INF/jsp/errorpages/exception.jsp</location>
+</error-page>
+<error-page>
+        <error-code>502</error-code>
+        <location>/WEB-INF/jsp/errorpages/error502.jsp</location>
+</error-page>
+<error-page>
+    <!-- Missing login -->
+    <error-code>401</error-code>
+    <location>/WEB-INF/jsp/errorpages/general-error.jsp</location>
+</error-page>
+<error-page>
+    <!-- Forbidden directory listing -->
+    <error-code>403</error-code>
+    <location>/WEB-INF/jsp/errorpages/general-error.jsp</location>
+</error-page>
+<error-page>
+    <!-- Missing resource -->
+    <error-code>404</error-code>
+    <location>/WEB-INF/jsp/errorpages/error404.jsp</location>
+</error-page>
+<error-page>
+    <!-- Uncaught exception -->
+    <error-code>500</error-code>
+    <location>/WEB-INF/jsp/errorpages/general-error.jsp</location>
+</error-page>
+<error-page>
+    <!-- Unsupported servlet method -->
+    <error-code>503</error-code>
+    <location>/WEB-INF/jsp/errorpages/general-error.jsp</location>
+</error-page>
+<!-- ********************* -->
+<!-- Application TabLib / Personal TagLib Declaration -->
+<!-- ********************* -->
+<jsp-config>
+	 <taglib>
+	 	<taglib-uri>/tags/mytld</taglib-uri>
+	 	<taglib-location>/WEB-INF/mytld.tld</taglib-location>
+	 </taglib>
+</jsp-config>
+<!-- ********************* -->
+<!-- Application URLRewrite Handling -->
+<!-- Look at file rewriteURL.xml -->
+<!-- AND Class HUB AuthConnexionHUB.java --> 
+<!-- for more explaination -->
+<!-- ********************* -->
+<filter>
+	<filter-name>UrlRewriteFilter</filter-name>
+	<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+	<init-param>
+		<param-name>logLevel</param-name>
+		<param-value>INFO</param-value>
+	</init-param>
+	<init-param>
+        <param-name>confReloadCheckInterval</param-name>
+        <param-value>60</param-value>
+    </init-param>
+</filter>
+
+<filter-mapping>
+    <filter-name>UrlRewriteFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+</filter-mapping>
+
+</web-app>

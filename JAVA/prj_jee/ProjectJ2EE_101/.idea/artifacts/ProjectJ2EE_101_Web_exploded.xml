@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="ProjectJ2EE_101:Web exploded">
+    <output-path>$PROJECT_DIR$/classes/artifacts/ProjectJ2EE_101_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="ProjectJ2EE_101/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="ProjectJ2EE_101" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="module" name="mysql-connector-java-5.1.47.jar" module-name="ProjectJ2EE_101" />
+          <element id="library" level="module" name="urlrewritefilter-4.0.3.jar" module-name="ProjectJ2EE_101" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

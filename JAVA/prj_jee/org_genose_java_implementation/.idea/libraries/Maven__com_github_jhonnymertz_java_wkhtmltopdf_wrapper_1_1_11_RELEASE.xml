@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.github.jhonnymertz:java-wkhtmltopdf-wrapper:1.1.11-RELEASE">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/jhonnymertz/java-wkhtmltopdf-wrapper/1.1.11-RELEASE/java-wkhtmltopdf-wrapper-1.1.11-RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/jhonnymertz/java-wkhtmltopdf-wrapper/1.1.11-RELEASE/java-wkhtmltopdf-wrapper-1.1.11-RELEASE-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/jhonnymertz/java-wkhtmltopdf-wrapper/1.1.11-RELEASE/java-wkhtmltopdf-wrapper-1.1.11-RELEASE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

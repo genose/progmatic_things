@@ -9,18 +9,63 @@
     <version>1.0-SNAPSHOT</version>
 
     <packaging>war</packaging>
-    <repositories>
-        <repository>
-            <id>tomcatplugin</id>
-            <url>https://artifacts.alfresco.com/nexus/content/repositories/public/</url>
-        </repository>
-    </repositories>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <junit.version>4.12</junit.version>
+        <servlet.version>4.0.1</servlet.version>
+        <jsf.version>2.2.20</jsf.version>
+        <primefaces.version>7.0.RC3</primefaces.version>
+        <poi.version>4.1.0</poi.version>
+        <itext.version>2.1.7</itext.version>
+        <log4.version>2.12.1</log4.version>
+        <mysql.version>8.0.17</mysql.version>
+        <mssql.version>7.4.1.jre12</mssql.version>
+        <jersey.version>2.29.1</jersey.version>
+        <jaxb.version>2.3.1</jaxb.version>
+
     </properties>
+
+
+    <repositories>
+        <repository>
+            <id>alfresco-artifact</id>
+            <!-- https://stackoverflow.com/questions/2013576/maven-is-failing-to-download-the-tomcat-maven-plugin-snapshot -->
+            <!-- mvn help:effective-pom -->
+            <!-- https://stackoverflow.com/questions/28562684/how-to-set-url-for-maven-dependency -->
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>prime-repo</id>
+            <name>PrimeFaces Maven Repository</name>
+            <url>http://repository.primefaces.org</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>alfresco-artifact</id>
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>  <!-- Workaround for MNG-2974, see note below -->
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+
+
+
+
     <dependencies>
         <!-- Option 1: Use if deploying to a Java EE application server (GlassFish, JBoss AS, etc) -->
         <!--     <dependency>
@@ -32,32 +77,94 @@
      -->
         <!-- Option 2: Use if deploying to a servlet container (Tomcat, Jetty, etc) -->
 
-        <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-api</artifactId>
-            <version>2.2.20</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-impl</artifactId>
-            <version>2.2.20</version>
-            <scope>runtime</scope>
-        </dependency>
+                <dependency>
+                    <groupId>com.sun.faces</groupId>
+                    <artifactId>jsf-api</artifactId>
+                    <version>2.2.20</version>
+                    <scope>runtime</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.sun.faces</groupId>
+                    <artifactId>jsf-impl</artifactId>
+                    <version>2.2.20</version>
+                    <scope>runtime</scope>
+                </dependency>
 
 
+        <!-- https://mvnrepository.com/artifact/org.apache.tomcat.maven/tomcat8-maven-plugin -->
+        <dependency>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat8-maven-plugin</artifactId>
+            <version>3.0-r1756463</version>
+        </dependency>
+
+        <!-- PrimeFaces -->
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>6.2</version>
+            <version>${primefaces.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+        <!-- Primefaces BootStrap theme -->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>1.0.10</version>
         </dependency>
 
+        <!--         Génération de PDF avec Primefaces -->
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+
+        <!-- Génération de Documents Microsoft avec Primefaces -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <!-- Drivers jdbc -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>${mssql.version}</version>
+        </dependency>
+
+
+        <!--jaxb-->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb.version}</version>
+        </dependency>
+
+        <!--  JUnit (Tests unitaires) -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Log4J -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4.version}</version>
+        </dependency>
 
     </dependencies>
 
@@ -78,12 +185,22 @@
 
         <plugins>
             <plugin>
+                <!-- https://stackoverflow.com/questions/2013576/maven-is-failing-to-download-the-tomcat-maven-plugin-snapshot -->
+                <!-- mvn help:effective-pom -->
+                <!-- https://stackoverflow.com/questions/28562684/how-to-set-url-for-maven-dependency -->
+                <!-- https://stackoverflow.com/questions/41326911/maven-plugin-for-tomcat-9 -->
                 <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
+                <artifactId>tomcat8-maven-plugin</artifactId>
+                <version>3.0-r1756463</version>
 
                 <configuration>
-                    <url>http://localhost:8080/manager/text/</url>
+                   <!-- <webapps>/BaseWebApps</webapps> -->
+                    <!-- The default URI is :: <url>/manager/text/</url> -->
+                    <!-- but here we provide it differently as multiparts URI -->
+                    <hostName>localhost</hostName>
+                    <protocol>http</protocol>
+                    <useBodyEncodingForURI>true</useBodyEncodingForURI>
+                    <port>8080</port>
                     <server>deploymentRepo</server>
                     <username>admindeploy</username>
                     <password>admindeploy</password>
@@ -116,7 +233,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.3</version>
                 <configuration>
-                    <warSourceDirectory>webapp</warSourceDirectory>
+                    <warSourceDirectory>${project.build.directory}/webapp</warSourceDirectory>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>

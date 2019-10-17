@@ -67,6 +67,22 @@
 
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/properties-maven-plugin -->
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>properties-maven-plugin</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+
+
+        <!-- https://mvnrepository.com/artifact/org.apache.tomcat.maven/tomcat8-maven-plugin -->
+        <dependency>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat8-maven-plugin</artifactId>
+            <version>3.0-r1756463</version>
+        </dependency>
+
         <!-- Option 1: Use if deploying to a Java EE application server (GlassFish, JBoss AS, etc) -->
         <!--     <dependency>
                  <groupId>javax.faces</groupId>
@@ -89,14 +105,6 @@
                     <version>2.2.20</version>
                     <scope>runtime</scope>
                 </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/org.apache.tomcat.maven/tomcat8-maven-plugin -->
-        <dependency>
-            <groupId>org.apache.tomcat.maven</groupId>
-            <artifactId>tomcat8-maven-plugin</artifactId>
-            <version>3.0-r1756463</version>
-        </dependency>
 
         <!-- PrimeFaces -->
         <dependency>
@@ -195,16 +203,17 @@
 
                 <configuration>
                    <!-- <webapps>/BaseWebApps</webapps> -->
-                    <!-- The default URI is :: <url>/manager/text/</url> -->
+                    <!-- The default URI is :: <url>http://localhost:8080/manager/text/</url> -->
                     <!-- but here we provide it differently as multiparts URI -->
-                    <hostName>localhost</hostName>
-                    <protocol>http</protocol>
+
+                    <hostName>turgescent</hostName>
+                    <protocol>https</protocol>
                     <useBodyEncodingForURI>true</useBodyEncodingForURI>
                     <port>8080</port>
-                    <server>deploymentRepo</server>
+                    <!-- <server>deploymentRepo</server> -->
                     <username>admindeploy</username>
                     <password>admindeploy</password>
-                    <path>/MyWebApp</path>
+                    <path>/${project.build.finalName}</path>
                     <update>true</update>
                 </configuration>
             </plugin>

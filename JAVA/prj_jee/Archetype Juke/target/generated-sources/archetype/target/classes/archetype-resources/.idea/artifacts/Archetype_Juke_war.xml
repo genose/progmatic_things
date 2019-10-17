@@ -1,0 +1,17 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<component name="ArtifactManager">
+  <artifact type="war" name="Archetype Juke:war">
+    <output-path>${symbol_dollar}PROJECT_DIR${symbol_dollar}/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>Archetype Juke</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="${artifactId}-${version}.war">
+      <element id="artifact" artifact-name="Archetype Juke:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,16 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<component name="libraryTable">
+  <library name="Maven: bouncycastle:bcprov-jdk14:138">
+    <CLASSES>
+      <root url="jar://${symbol_dollar}MAVEN_REPOSITORY${symbol_dollar}/bouncycastle/bcprov-jdk14/138/bcprov-jdk14-138.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://${symbol_dollar}MAVEN_REPOSITORY${symbol_dollar}/bouncycastle/bcprov-jdk14/138/bcprov-jdk14-138-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://${symbol_dollar}MAVEN_REPOSITORY${symbol_dollar}/bouncycastle/bcprov-jdk14/138/bcprov-jdk14-138-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

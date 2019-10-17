@@ -1,6 +1,0 @@
-
-wsquid:S2068"T'passwd' detected in this expression, review this potentially hard-coded credential.(å´¥ıÿÿÿÿ8¢äËÃİ-
-Psquid:S4925"-Remove this "Class.forName()", it is useless.(õ†¨Äùÿÿÿÿ8¢äËÃİ-
-Csquid:S2068" Remove this hard-coded password.(ñ‘éÊıÿÿÿÿ8¢äËÃİ-
-Isquid:S3010"&Remove this assignment of "connexion".(ñ‘éÊıÿÿÿÿ8¢äËÃİ-
-Fsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8¢äËÃİ-

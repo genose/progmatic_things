@@ -11,11 +11,16 @@
     <packaging>war</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>11</java.version>
+
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <junit.version>4.12</junit.version>
         <servlet.version>4.0.1</servlet.version>
         <jsf.version>2.2.20</jsf.version>
+
+
+
         <primefaces.version>7.0.RC3</primefaces.version>
         <poi.version>4.1.0</poi.version>
         <itext.version>2.1.7</itext.version>
@@ -93,18 +98,24 @@
      -->
         <!-- Option 2: Use if deploying to a servlet container (Tomcat, Jetty, etc) -->
 
-                <dependency>
+            <dependency>
                     <groupId>com.sun.faces</groupId>
                     <artifactId>jsf-api</artifactId>
                     <version>2.2.20</version>
-                    <scope>runtime</scope>
                 </dependency>
                 <dependency>
                     <groupId>com.sun.faces</groupId>
                     <artifactId>jsf-impl</artifactId>
                     <version>2.2.20</version>
-                    <scope>runtime</scope>
                 </dependency>
+
+        <!--  Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- PrimeFaces -->
         <dependency>
@@ -174,6 +185,13 @@
             <version>${log4.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.6</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -222,11 +240,33 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+
+            <!-- https://stackoverflow.com/questions/19654557/how-to-set-specific-java-version-to-maven -->
+          <!--  <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-toolchains-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>toolchain</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <toolchains>
+                        <jdk>
+                            <version>11.*</version>
+                        </jdk>
+                    </toolchains>
+                </configuration>
+            </plugin> -->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>

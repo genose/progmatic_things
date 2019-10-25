@@ -2,3 +2,11 @@ http://what-when-how.com/javafx-2/understanding-the-javafx-beans-convention-prop
 https://examples.javacodegeeks.com/core-java/util/list/java-sorted-list-example/
 http://www.mojohaus.org/appassembler/
 https://stackoverflow.com/questions/55742295/how-to-setup-netbeans-ide-to-debug-maven-javafx-project-on-raspberry-remotely
+
+Java Code Security
+https://wiki.sei.cmu.edu/confluence/display/java/SEC05-J.+Do+not+use+reflection+to+increase+accessibility+of+classes%2C+methods%2C+or+fields
+https://vulnerabilities.teammentor.net/article/0089dded-bd3d-4513-b479-624629634b4a
+https://stackoverflow.com/questions/44171031/why-java-singleton-needs-to-prevent-the-reflection-attack
+https://github.com/sdcuike/Clean-Code-Collection-Books/tree/master
+https://github.com/sdcuike/Clean-Code-Collection-Books/blob/master/Effective.Java.3rd.Edition.2018.1.pdf
+https://github.com/sdcuike/Clean-Code-Collection-Books/blob/master/The.Robert.C.Martin.Clean.Code.Collection.2011.11.pdf

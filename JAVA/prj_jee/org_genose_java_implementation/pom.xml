@@ -7,37 +7,110 @@
     <groupId>org.genose.java</groupId>
     <artifactId>org.genose.java.implementation</artifactId>
     <version>1.0-JFX11-JRE11-SNAPSHOT</version>
+    <url>http://genose.org</url>
 
 
-
-<!-- maven debug :: -Xdebug -Xnoagent -Djava.compile=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005 -->
+    <!-- maven debug :: -Xdebug -Xnoagent -Djava.compile=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005 -->
     <!-- https://stackoverflow.com/questions/3308368/maven-how-to-filter-the-same-resource-multiple-times-with-different-property-va -->
     <!-- https://stackoverflow.com/questions/23289098/how-to-copy-resource-to-src-target-directory-with-maven -->
     <!-- https://stackoverflow.com/questions/19409220/copying-multiple-resource-directories-to-independent-target-directories-with-mav -->
-<!-- https://stackoverflow.com/questions/4955635/how-to-add-local-jar-files-to-a-maven-project -->
+    <!-- https://stackoverflow.com/questions/4955635/how-to-add-local-jar-files-to-a-maven-project -->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+
+        <java.source>11</java.source>
+        <java.version>11</java.version>
+        <java.release>11</java.release>
+
+        <!-- <maven.compiler.source>11</maven.compiler.source> -->
+        <!-- <maven.compiler.target>11</maven.compiler.target> -->
+
+
+        <servlet.version>4.0.1</servlet.version>
+        <jersey.version>2.28</jersey.version>
+        <swagger.version>2.0.7</swagger.version>
+
+        <javafx.version>11.0.2</javafx.version>
+
+
+        <junit.version>4.12</junit.version>
+        <servlet.version>4.0.1</servlet.version>
+        <jsf.version>2.2.20</jsf.version>
+
+
+
+        <primefaces.version>7.0.RC3</primefaces.version>
+        <poi.version>4.1.0</poi.version>
+        <itext.version>2.1.7</itext.version>
+        <log4.version>2.12.1</log4.version>
+        <mysql.version>8.0.17</mysql.version>
+        <mssql.version>7.4.1.jre12</mssql.version>
+        <jersey.version>2.29.1</jersey.version>
+        <jaxb.version>2.3.1</jaxb.version>
+
+        <repo.local.host>10.151.58.38</repo.local.host>
+        <repo.local.port>8080</repo.local.port>
+
+        <server.test.tomcat.host>10.151.58.38</server.test.tomcat.host>
+        <server.test.tomcat.port>8089</server.test.tomcat.port>
+
+        <server.test.tomcat.deploy.user>admindeploy</server.test.tomcat.deploy.user>
+        <server.test.tomcat.deploy.password>admindeploy</server.test.tomcat.deploy.password>
     </properties>
+
+
     <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.json/json -->
+
+        <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/properties-maven-plugin -->
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>properties-maven-plugin</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+
+
+        <!-- https://mvnrepository.com/artifact/org.apache.tomcat.maven/tomcat8-maven-plugin -->
+        <dependency>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat8-maven-plugin</artifactId>
+            <version>3.0-r1756463</version>
+        </dependency>
+
+        <!-- ============ JSON RELATIVES ============= -->
+        <!-- Drivers jdbc -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>${mssql.version}</version>
+        </dependency>
+
+        <!-- ============ JSON RELATIVES ============= -->
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20190722</version>
         </dependency>
+        <!-- ============ JAVAFX RELATIVES ============= -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>11.0.2</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>11.0.2</version>
+            <version>${javafx.version}</version>
         </dependency>
+        <!-- ======= SSH RELATIVES ======== -->
         <!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
         <dependency>
             <groupId>com.jcraft</groupId>
@@ -56,7 +129,7 @@
             <artifactId>jsch-nio</artifactId>
             <version>1.0.13</version>
         </dependency>
-        
+        <!-- ======= EAN128 / CODABAR RELATIVES ======== -->
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
@@ -67,12 +140,32 @@
             <artifactId>multi-range</artifactId>
             <version>0.1</version>
         </dependency>
+        <!-- ======= PDF RELATIVES  ======== -->
         <!-- https://mvnrepository.com/artifact/org.jpedal/OpenViewerFX -->
         <dependency>
             <groupId>org.jpedal</groupId>
             <artifactId>OpenViewerFX</artifactId>
             <version>7.12.28</version>
         </dependency>
+
+
+        <!--         Génération de PDF avec Primefaces -->
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+
+        <!-- Génération de Documents Microsoft avec Primefaces -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+
+
+        <!-- ======= IMAGES RELATIVES ======== -->
         <!-- https://mvnrepository.com/artifact/jmagick/jmagick -->
         <dependency>
             <groupId>jmagick</groupId>
@@ -92,6 +185,150 @@
             <artifactId>java-wkhtmltopdf-wrapper</artifactId>
             <version>1.1.11-RELEASE</version>
         </dependency>
+        <!-- ======= PASSWORD CRYPT RELATIVES ======== -->
+        <!-- https://mvnrepository.com/artifact/at.favre.lib/bcrypt -->
+        <dependency>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>bcrypt</artifactId>
+            <version>0.8.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
+
+
+        <!-- =========== REST API relatives ========== -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2-servlet-initializer</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <!--jaxb-->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb.version}</version>
+        </dependency>
+
+        <!-- LIB REST API Build WebService Relatives -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+        <!-- =========== JAVA Server WS relatives ========== -->
+
+        <!-- Option 1: Use if deploying to a Java EE application server (GlassFish, JBoss AS, etc) -->
+        <!--     <dependency>
+                 <groupId>javax.faces</groupId>
+                 <artifactId>jsf-api</artifactId>
+                 <version>2.1</version>
+                 <scope>provided</scope>
+             </dependency>
+     -->
+        <!-- Option 2: Use if deploying to a servlet container (Tomcat, Jetty, etc) -->
+
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>2.2.20</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>2.2.20</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-jaxb</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
+
+        <!-- PrimeFaces -->
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>${primefaces.version}</version>
+        </dependency>
+        <!-- Primefaces BootStrap theme -->
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>1.0.10</version>
+        </dependency>
+
+
+        <!--  JUnit (Tests unitaires) -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Log4J -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.6</version>
+        </dependency>
+
 
     </dependencies>
     <build>
@@ -109,29 +346,76 @@
         </resources>
         <plugins>
             <plugin>
+                <!-- https://stackoverflow.com/questions/2013576/maven-is-failing-to-download-the-tomcat-maven-plugin-snapshot -->
+                <!-- mvn help:effective-pom -->
+                <!-- https://stackoverflow.com/questions/28562684/how-to-set-url-for-maven-dependency -->
+                <!-- https://stackoverflow.com/questions/41326911/maven-plugin-for-tomcat-9 -->
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat8-maven-plugin</artifactId>
+                <version>3.0-r1756463</version>
+
+                <configuration>
+                    <!-- <webapps>/BaseWebApps</webapps> -->
+                    <!-- The default URI is :: <url>http://localhost:8080/manager/text/</url> -->
+                    <!-- but here we provide it differently as multiparts URI -->
+                    <url>http://${server.test.tomcat.host}:${server.test.tomcat.port}/manager/text/</url>
+                   <!--  <hostName>turgescent</hostName> -->
+                    <protocol>https</protocol>
+                    <useBodyEncodingForURI>true</useBodyEncodingForURI>
+                    <port>${server.test.tomcat.port}</port>
+                    <!-- <server>deploymentRepo</server> -->
+                    <username>${server.test.tomcat.deploy.user}</username>
+                    <password>${server.test.tomcat.deploy.password}</password>
+                    <path>/${project.build.finalName}</path>
+                    <update>true</update>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>8</source>
-                    <target>11</target>
-                    <release>11</release>
-                    <compilerArguments />
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <release>${java.release}</release>
+                    <encoding>UTF-8</encoding>
+                    <compilerArguments/>
                 </configuration>
             </plugin>
-          <!--  <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.3</version>
-                <configuration>
-                    <mainClass>org.genose.java.implementation.javafx.application.Application</mainClass>
-                    <source>11</source>
-                    <target>11</target>
-                    <release>11</release>
-                    <includePathExceptionsInClasspath>true</includePathExceptionsInClasspath>
-                </configuration>
-            </plugin> -->
+            <!--  <plugin>
+                  <groupId>org.openjfx</groupId>
+                  <artifactId>javafx-maven-plugin</artifactId>
+                  <version>0.0.3</version>
+                  <configuration>
+                      <mainClass>org.genose.java.implementation.javafx.application.Application</mainClass>
+                      <source>11</source>
+                      <target>11</target>
+                      <release>11</release>
+                      <includePathExceptionsInClasspath>true</includePathExceptionsInClasspath>
+                  </configuration>
+              </plugin> -->
 
+            <!-- https://stackoverflow.com/questions/19654557/how-to-set-specific-java-version-to-maven -->
+            <!--  <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-toolchains-plugin</artifactId>
+                  <version>3.0.0</version>
+                  <executions>
+                      <execution>
+                          <goals>
+                              <goal>toolchain</goal>
+                          </goals>
+                      </execution>
+                  </executions>
+                  <configuration>
+                      <toolchains>
+                          <jdk>
+                              <version>11.*</version>
+                          </jdk>
+                      </toolchains>
+                  </configuration>
+              </plugin> -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -175,7 +459,7 @@
     <distributionManagement>
         <repository>
             <id>snapshots</id>
-            <url>http://10.115.58.38:8080/repository/snapshots/</url>
+            <url>http://${repo.local.host}:${repo.local.port}/repository/snapshots/</url>
             <uniqueVersion>true</uniqueVersion>
 
         </repository>
@@ -185,21 +469,40 @@
         <repository>
             <id>snapshots</id>
             <name>Archiva Managed Snapshot Repository</name>
-            <url>http://10.115.58.38:8080/repository/snapshots/</url>
+            <url>http://${repo.local.port}:${repo.local.port}/repository/snapshots/</url>
 
             <releases>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </releases>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>alfresco-artifact</id>
+            <!-- https://stackoverflow.com/questions/2013576/maven-is-failing-to-download-the-tomcat-maven-plugin-snapshot -->
+            <!-- mvn help:effective-pom -->
+            <!-- https://stackoverflow.com/questions/28562684/how-to-set-url-for-maven-dependency -->
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>prime-repo</id>
+            <name>PrimeFaces Maven Repository</name>
+            <url>http://repository.primefaces.org</url>
+            <layout>default</layout>
+        </repository>
+
     </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>snapshots</id>
             <name>Archiva Managed Snapshot Repository</name>
-            <url>http://10.115.58.38:8080/repository/snapshots/</url>
+            <url>http://${repo.local.host}:${repo.local.port}/repository/snapshots/</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
@@ -207,6 +510,18 @@
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
+        <pluginRepository>
+            <id>alfresco-artifact</id>
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>  <!-- Workaround for MNG-2974, see note below -->
+            </releases>
+        </pluginRepository>
+
     </pluginRepositories>
 
 </project>

@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="fr.fs.RestAPIArchetype:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>fr.fs.RestAPIArchetype</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="fr.fs.RestAPIArchetype-Archetype 1.0.war">
+      <element id="artifact" artifact-name="fr.fs.RestAPIArchetype:war exploded" />
+    </root>
+  </artifact>
+</component>

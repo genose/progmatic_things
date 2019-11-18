@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="693e6b59-f8e2-4f6f-969b-e153292812dd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/.idea/$PRODUCT_WORKSPACE_FILE$" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/.idea/kotlinc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/.idea/libraries/KotlinJavaRuntime.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/ProjectKotlin_101.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/out/production/ProjectKotlin_101/META-INF/ProjectKotlin_101.kotlin_module" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/out/test/ProjectKotlin_101/META-INF/ProjectKotlin_101.kotlin_module" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/src/MyClass.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ProjectKotlin_101/test/MyClassTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ProjectKotlin_101/src/MyClass.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../ProjectKotlin_101/src/MyClass.kt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

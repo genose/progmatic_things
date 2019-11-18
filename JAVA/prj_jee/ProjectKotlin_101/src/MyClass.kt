@@ -67,6 +67,7 @@ open class MyClass {
             integerpart.length >0 -> {
                 println(" integer part "+moneyten.keys.elementAt(integerpart.length))
                 println(" integer part key "+ moneyten[moneyten.keys.elementAt(integerpart.length-1)]?.elementAt(integerpart.substring(0,1).toInt()))
+                println(" integer part key "+ moneyten[moneyten.keys.elementAt(0)]?.elementAt(integerpart.substring(1,2).toInt()))
             }
         }
         return "[NULL]"

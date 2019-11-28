@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="693e6b59-f8e2-4f6f-969b-e153292812dd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../ProjectKotlin_101/src/MyClass.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../ProjectKotlin_101/src/MyClass.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../someLibs/javafxmobile-plugin-ensemble-master/.idea/kotlinc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../someLibs/javafxmobile-plugin-ensemble-master/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../someLibs/javafxmobile-plugin-ensemble-master/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../someLibs/javafxmobile-plugin-ensemble-master/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../../someLibs/javafxmobile-plugin-ensemble-master/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../someLibs/javafxmobile-plugin-ensemble-master/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../someLibs/javafxmobile-plugin-ensemble-master/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,6 +54,7 @@
       <workItem from="1572511523911" duration="44000" />
       <workItem from="1572514036899" duration="675000" />
       <workItem from="1572514744460" duration="3480000" />
+      <workItem from="1574945910355" duration="326000" />
     </task>
     <servers />
   </component>

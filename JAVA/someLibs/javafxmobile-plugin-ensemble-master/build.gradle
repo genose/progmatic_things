@@ -1,10 +1,28 @@
 buildscript {
     repositories {
         jcenter()
+        mavenLocal()
+        maven {
+            name = 'BinTray'
+            url = 'http://dl.bintray.com/content/shemnon/javafx-gradle/'
+        }
+        maven {
+            name = 'CloudBees Snapshot'
+            url = 'http://repository-javafx-gradle-plugin.forge.cloudbees.com/snapshot'
+        }
+        ivy {
+            url = 'http://repository-javafx-gradle-plugin.forge.cloudbees.com/snapshot'
+        }
+        mavenCentral()
     }
  
     dependencies {
         classpath 'org.javafxports:javafxmobile-plugin:1.0.0-rc1'
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'org.bitbucket.shemnon.javafxplugin:gradle-javafx-plugin:0.3.0'
+        classpath project.files("${System.properties['java.home']}/../lib/ant-javafx.jar")
+        classpath project.files("${System.properties['java.home']}/lib/jfxrt.jar")
+
     }
 }
 

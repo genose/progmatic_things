@@ -1,0 +1,28 @@
+﻿<Properties StartupConfiguration="{E1E5AB15-778C-430D-A6F1-F532DE91A865}|Default">
+  <MonoDevelop.Ide.ItemProperties.Hotel PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Tools/Sauvegarde.cs">
+    <Files>
+      <File FileName="Tools/Sauvegarde.cs" Line="9" Column="21" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Hotel" expanded="True">
+            <Node name="Hotel" expanded="True">
+              <Node name="Classes" expanded="True" />
+              <Node name="Tools" expanded="True">
+                <Node name="Sauvegarde.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

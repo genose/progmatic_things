@@ -22,7 +22,7 @@
 
 
         <primefaces.version>7.0.RC3</primefaces.version>
-        <poi.version>4.1.0</poi.version>
+        <poi.version>4.1.1</poi.version>
         <itext.version>2.1.7</itext.version>
         <log4.version>2.13.3</log4.version>
         <mysql.version>8.0.17</mysql.version>

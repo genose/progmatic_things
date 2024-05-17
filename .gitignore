@@ -3,6 +3,34 @@
 *.class
 *.nrm
 *bin*
+#General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# End of https://mrkandreev.name/snippets/gitignore-generator/#OSX
 JAVA/prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_openjfx_javafx_graphics_mac_11_0_2.xml
 JAVA/prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_openjfx_javafx_fxml_mac_11_0_2.xml
 JAVA/prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_openjfx_javafx_controls_mac_11_0_2.xml

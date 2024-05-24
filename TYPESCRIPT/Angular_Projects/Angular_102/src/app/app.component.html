@@ -184,7 +184,17 @@
       src="assets/angular-logo.svg"
       alt="Angular logo"
     />
-    <app-block></app-block>
+
+    <div>
+      <ng-container *ngFor="let item of [1, 2, 3, 4, 5]">
+        <div [ngSwitch]="item">
+          <div *ngSwitchCase="2">text {{ item }}</div>
+          <div *ngSwitchCase="4">CommonModule {{ item }}</div>
+          <app-block *ngSwitchCase="5">angular-logo {{ item }}</app-block>
+          <div *ngSwitchDefault>output2</div>
+        </div>
+      </ng-container>
+    </div>
   </div>
 </main>
 

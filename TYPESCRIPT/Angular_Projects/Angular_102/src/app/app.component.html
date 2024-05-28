@@ -195,6 +195,15 @@
         </div>
       </ng-container>
     </div>
+
+    <ng-template
+      [ngTemplateOutlet]="outlet"
+      [ngOutletContext]="context"
+    ></ng-template>
+    <div [ngSwitch]="conditionExpression">
+      <div *ngSwitchCase="expression">output</div>
+      <div *ngSwitchDefault>output2</div>
+    </div>
   </div>
 </main>
 

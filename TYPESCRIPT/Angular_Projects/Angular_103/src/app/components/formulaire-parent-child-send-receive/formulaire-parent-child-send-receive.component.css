@@ -1,0 +1,19 @@
+body app-formulaire-parent-child-send-receive {
+  display: block;
+  margin: 20px;
+  padding: 20px;
+  background-color: lightcoral;
+}
+
+child-app {
+  background-color: lightblue;
+  padding: 20px;
+  margin: 20px;
+  display: block;
+}
+child-app input {
+  min-width: 200px;
+  margin: 5px 10px;
+}
+
+/* Path: src/app/components/formulaire-parent-child-send-receive/child/child.component.css */

@@ -1,0 +1,6 @@
+img {
+  max-height: 100vh;
+  max-width: fit-content;
+  margin: auto;
+  align-content: center;
+}

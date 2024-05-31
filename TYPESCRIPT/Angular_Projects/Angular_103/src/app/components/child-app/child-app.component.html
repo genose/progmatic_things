@@ -1,0 +1,16 @@
+<p>child-app works!</p>
+Le message reçu est : {{ childInputValue }}
+<form [formGroup]="childFormControl" (ngSubmit)="sendDataFormChild()">
+  <label for="childFieldDynamic">Dynamic send field</label>
+  <input type="text" formControlName="childFieldDynamic" />
+  <br />
+  <label for="childFieldStatic">Static send field</label>
+  <input type="text" formControlName="childFieldStatic" />
+  <br />
+
+  <fieldset>
+    <button (click)="sendSubmitFormChild($event)">Submit Form to parent</button>
+    &nbsp;
+    <button (click)="resetDataFormChild()">Reset Form</button>
+  </fieldset>
+</form>

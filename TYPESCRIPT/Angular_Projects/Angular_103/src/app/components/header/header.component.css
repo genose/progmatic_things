@@ -1,0 +1,47 @@
+nav {
+  background-color: antiquewhite;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+  list-style: none;
+}
+
+nav ul li {
+  padding: 10px;
+}
+nav ul li a {
+  display: block;
+  text-decoration: none;
+  color: black;
+}
+a:hover {
+  color: red;
+}
+nav ul li:hover {
+  background: black;
+  animation: animation1 4s infinite;
+}
+
+@keyframes animation1 {
+  0% {
+    background-color: red;
+  }
+  25% {
+    background-color: yellow;
+  }
+  50% {
+    background-color: blue;
+  }
+  75% {
+    background-color: green;
+  }
+  100% {
+    background-color: red;
+  }
+}
+
+/* Path: src/app/components/header/header.component.html */

@@ -1,0 +1,41 @@
+<form (ngSubmit)="onSubmit()">
+  <fieldset>
+    <label for="title-order">Title</label>
+
+    <input
+      id="title-order"
+      name="title-order"
+      type="text"
+      required
+      minlength="5"
+    />
+  </fieldset>
+
+  <fieldset>
+    <label for="quantity-order">Quantité</label>
+
+    <input id="quantity-order" name="quantity-order" type="number" required />
+  </fieldset>
+
+  <fieldset>
+    <label for="date-order">Date de commande</label>
+
+    <input id="date-order" name="date-order" type="date" required />
+  </fieldset>
+
+  <fieldset>
+    <label for="contact-order">Contact</label>
+
+    <input
+      id="contact-order"
+      name="contact-order"
+      type="email"
+      required
+      email
+    />
+  </fieldset>
+
+  <button type="reset">Restaurer</button>
+
+  <button type="submit">Sauvegarder</button>
+</form>

@@ -1,0 +1,10 @@
+<p>Formulaire utilisant NgFor</p>
+<hr />
+<h1>Register</h1>
+<form [formGroup]="registerFormGroup">
+  <div *ngFor="let localField of fields">
+    <label for="localField">{{ localField }}</label>
+    <input type="text" [formControlName]="localField" />
+  </div>
+  <button type="submit">Submit</button>
+</form>

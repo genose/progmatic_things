@@ -1,0 +1,76 @@
+.wrapper {
+  min-height: calc(100vh - 70px);
+  width: 100%;
+  position: relative;
+}
+
+.navigationDesktop {
+  background: #fc575e;
+}
+
+nav {
+  height: 40px;
+  width: 70vw;
+  margin: 0 auto;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+nav a {
+  display: block;
+  text-decoration: none;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 13pt;
+  color: #112233;
+}
+
+nav a:hover {
+  background: #223433;
+  color: #f0f1f5;
+}
+
+nav ul {
+  list-style: none;
+}
+
+nav ul li {
+  float: left;
+  width: 140px;
+  height: 40px;
+  line-height: 40px;
+  background: #fc575e;
+}
+
+nav ul ul li {
+  position: relative;
+  display: none;
+}
+
+nav ul ul ul {
+  display: none;
+}
+
+nav ul li:hover ul li {
+  display: block;
+  animation: navmenu 500ms forwards;
+}
+
+@keyframes navmenu {
+  0% {
+    opacity: 0;
+    top: 5px;
+  }
+  100% {
+    opacity: 1;
+    top: 0px;
+  }
+}
+
+nav ul ul li:hover ul {
+  display: block;
+  position: absolute;
+  width: 140px;
+  left: 140px;
+  top: 0px;
+}

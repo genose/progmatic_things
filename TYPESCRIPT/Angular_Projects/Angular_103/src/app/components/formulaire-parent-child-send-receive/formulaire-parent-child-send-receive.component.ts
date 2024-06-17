@@ -9,7 +9,7 @@ import { ChildAppComponent } from '../child-app/child-app.component';
   styleUrl: './formulaire-parent-child-send-receive.component.css',
 })
 export class FormulaireParentChildSendReceiveComponent {
-  localFormParentName: String = 'Parent Name';
+  localFormParentName: string = 'Parent Name';
   parentLocalValue: string = 'Parent children content !!!';
 
   @Output() parentSendToChildEmitter: EventEmitter<any> = new EventEmitter();

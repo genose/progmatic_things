@@ -1,0 +1,51 @@
+<p>flipcard works!</p>
+
+<div class="flip-card">
+  <div class="flip-card-inner">
+    <div class="flip-card-front">
+      <div class="container-fluid">
+        <h1>Angular 10 Carousel Example</h1>
+        <h2>Full tutorial in Techiediaries</h2>
+        <app-carousselimages *ngIf="images">
+          <ng-template ngbSlide>
+            <div class="wrapper">
+              <img [src]="images[0]" alt="Random first slide" />
+            </div>
+            <div class="carousel-caption">
+              <h3>First Slide</h3>
+              <p>Angular 10 Carousel Example</p>
+            </div>
+          </ng-template>
+          <ng-template ngbSlide>
+            <div class="wrapper">
+              <img [src]="images[1]" alt="Random second slide" />
+            </div>
+            <div class="carousel-caption">
+              <h3>Second Slide</h3>
+              <p>Check out Techiediaries</p>
+            </div>
+          </ng-template>
+          <ng-template ngbSlide>
+            <div class="wrapper">
+              <img [src]="images[2]" alt="Random third slide" />
+            </div>
+            <div class="carousel-caption">
+              <h3>Third Slide</h3>
+              <p>for full tutorial...</p>
+            </div>
+          </ng-template>
+        </app-carousselimages>
+      </div>
+      <span>{{ titre }}</span>
+      <span>{{ date }}</span>
+      <span>{{ auteur }}</span>
+    </div>
+    <div class="flip-card-back">
+      <h1>{{ titre }}</h1>
+      <h1>{{ date }}</h1>
+      <h1>{{ auteur }}</h1>
+      <p>{{ descriptionCourte }}</p>
+      <p>{{ contenuLong }}</p>
+    </div>
+  </div>
+</div>

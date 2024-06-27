@@ -9,8 +9,5 @@
         <module name="ProjectJavaFX105" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="ProjectJavaFX105" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>

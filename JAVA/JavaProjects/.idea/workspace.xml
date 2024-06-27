@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4822fd71-cacb-4854-b974-764a4160b9a1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/JAVA.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Animaux/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Animaux/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Animaux/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Animaux/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Animaux/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Animaux/src/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Animaux/src/fr/wildskool/animal/Animal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Animaux/src/fr/wildskool/animal/Bird.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Animaux/src/fr/wildskool/animal/Carnivorous.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Animaux/src/fr/wildskool/animal/Lion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Animaux/src/fr/wildskool/animal/Parrot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CandyCount/src/Decipherer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CandyCount/src/Fly.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CandyCount/src/Penguin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CandyCount/src/Swim.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boot-serving-static-pages/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boot-serving-static-pages/src/main/java/com/logicbig/example/AddCustomLocations.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boot-serving-static-pages/src/main/java/com/logicbig/example/ReplaceDefaultLocationsExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boot-serving-static-pages/src/main/java/com/logicbig/example/WebStaticPagesExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boot-serving-static-pages/src/main/resources/META-INF/resources/page4.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boot-serving-static-pages/src/main/resources/my-custom-location/page7.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boot-serving-static-pages/src/main/resources/newLocation1/Page5.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boot-serving-static-pages/src/main/resources/newLocation2/Page6.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boot-serving-static-pages/src/main/resources/public/page2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boot-serving-static-pages/src/main/resources/resources/page3.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boot-serving-static-pages/src/main/resources/static/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/boot-serving-static-pages/src/main/resources/static/page1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java_spring_101/src/main/java/org/genose/java_spring_101/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CandyCount/src/Bird.java" beforeDir="false" afterPath="$PROJECT_DIR$/CandyCount/src/Bird.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CandyCount/src/Eagle.java" beforeDir="false" afterPath="$PROJECT_DIR$/CandyCount/src/Eagle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CandyCount/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/CandyCount/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CandyCount/src/Nature.java" beforeDir="false" afterPath="$PROJECT_DIR$/CandyCount/src/Nature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java_spring_101/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/java_spring_101/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__com_jcraft_jsch_0_1_55.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__com_jcraft_jsch_agentproxy_connector_factory_0_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__com_jcraft_jsch_agentproxy_core_0_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__com_jcraft_jsch_agentproxy_jsch_0_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__com_jcraft_jsch_agentproxy_pageant_0_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__com_jcraft_jsch_agentproxy_sshagent_0_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__com_jcraft_jsch_agentproxy_usocket_jna_0_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__com_jcraft_jsch_agentproxy_usocket_nc_0_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__com_microsoft_sqlserver_mssql_jdbc_7_2_2_jre11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__com_pastdev_jsch_extension_0_1_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__com_pastdev_jsch_nio_1_0_13.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__net_java_dev_jna_jna_4_1_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__net_java_dev_jna_jna_platform_4_1_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__org_json_json_20190722.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__org_openjfx_javafx_base_11_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__org_openjfx_javafx_base_mac_11_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__org_openjfx_javafx_controls_11_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__org_openjfx_javafx_controls_mac_11_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__org_openjfx_javafx_fxml_11_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__org_openjfx_javafx_fxml_mac_11_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__org_openjfx_javafx_graphics_11_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__org_openjfx_javafx_graphics_mac_11_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_22.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/ProjectJavaFX105.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/src/main/java/com/Application/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../prj_jee/ProjectJavaFX105/src/main/java/com/Application/Main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__at_favre_lib_bcrypt_0_8_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__com_albertoquesada_multi_range_0_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__com_auth0_java_jwt_3_7_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__com_github_jhonnymertz_java_wkhtmltopdf_wrapper_1_1_11_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__com_google_zxing_core_3_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__com_jcraft_jsch_0_1_55.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__com_lowagie_itext_2_1_7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__com_microsoft_sqlserver_mssql_jdbc_7_4_1_jre12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__com_pastdev_jsch_extension_0_1_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__com_pastdev_jsch_nio_1_0_13.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__com_sun_faces_jsf_api_2_2_20.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__com_sun_faces_jsf_impl_2_2_20.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__commons_validator_commons_validator_1_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__io_swagger_core_v3_swagger_jaxrs2_2_0_7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__io_swagger_core_v3_swagger_jaxrs2_servlet_initializer_2_0_7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__javax_servlet_javax_servlet_api_4_0_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__jmagick_jmagick_6_6_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__junit_junit_4_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__mysql_mysql_connector_java_8_0_17.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_12_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_apache_logging_log4j_log4j_core_2_12_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_apache_poi_poi_4_1_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_apache_tomcat_maven_tomcat8_maven_plugin_3_0_r1756463.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_codehaus_mojo_properties_maven_plugin_1_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_glassfish_jaxb_jaxb_runtime_2_3_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_glassfish_jersey_containers_jersey_container_servlet_2_29_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_glassfish_jersey_core_jersey_server_2_29_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_glassfish_jersey_inject_jersey_hk2_2_29_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_glassfish_jersey_media_jersey_media_jaxb_2_29_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_glassfish_jersey_media_jersey_media_json_jackson_2_29_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_im4java_im4java_1_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_jpedal_OpenViewerFX_7_12_28.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_json_json_20190722.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_mindrot_jbcrypt_0_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_openjfx_javafx_controls_11_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_openjfx_javafx_fxml_11_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_primefaces_primefaces_7_0_RC3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_primefaces_themes_bootstrap_1_0_10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Animaux/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/target/classes/org/genose/java/implementation/javafx/applicationtools/views/customviewscontroller/JFXApplicationCustomControlSplitMenuHBox.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../prj_jee/org_genose_java_implementation/target/classes/org/genose/java/implementation/javafx/applicationtools/views/customviewscontroller/JFXApplicationCustomControlTextFieldValidator.fxml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="2iN1j9ZeUziPirWaQoylARxqciH" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/sebastiencotillard/Documents/github/progmatic_things/JAVA/JavaProjects"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4822fd71-cacb-4854-b974-764a4160b9a1" name="Changes" comment="" />
+      <created>1719316352680</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719316352680</updated>
+    </task>
+    <servers />
+  </component>
+</project>

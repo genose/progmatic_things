@@ -6,7 +6,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="org_genose_java_implementation" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

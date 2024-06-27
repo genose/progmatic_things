@@ -1,4 +1,4 @@
-package com.application.main;
+package com.Application.Main;
 
 import javafx.application.Application;
 import javafx.application.Platform;

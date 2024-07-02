@@ -1,13 +1,16 @@
 package org.genose.java_spring_101;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@RestController
+@Controller
 @RequestMapping("/doctor")
 public class DoctorController {
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<String> getDoctorById() {
         return ResponseEntity.ok(" Le Docteur est Introuvable ");
     }

@@ -2,11 +2,19 @@ ul {
     list-style: none;
 }
 
-ul > li {
+ul  li {
     display: flex;
     min-width: 120px;
+    text-align: center;
 }
 
-ul > li > a {
+ul li  a {
     display: block;
+    height: 45px;
+}
+
+ul li a:hover
+{
+    background: beige;
+    text-decoration: underline;
 }

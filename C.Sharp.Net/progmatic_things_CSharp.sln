@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "C.Sharp.Net", "C.Sharp.Net", "{6162F8DE-E190-DC20-2829-CD1AD25D37E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel", "Hotel\Hotel.csproj", "{C146F672-977B-7DC8-C301-476F32AB439A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C146F672-977B-7DC8-C301-476F32AB439A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C146F672-977B-7DC8-C301-476F32AB439A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C146F672-977B-7DC8-C301-476F32AB439A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C146F672-977B-7DC8-C301-476F32AB439A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C146F672-977B-7DC8-C301-476F32AB439A} = {6162F8DE-E190-DC20-2829-CD1AD25D37E1}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7DAA31A1-868F-47A6-A6C6-C0C522F36346}
+	EndGlobalSection
+EndGlobal

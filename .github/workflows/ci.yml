@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    paths:
+      - "C.Sharp.Net/**"
+      - "COBOL/**"
+      - ".github/workflows/ci.yml"
+  pull_request:
+    paths:
+      - "C.Sharp.Net/**"
+      - "COBOL/**"
+      - ".github/workflows/ci.yml"
+
+jobs:
+  dotnet-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 7 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "7.0.x"
+
+      - name: Restore solution
+        run: dotnet restore C.Sharp.Net/progmatic_things_CSharp.sln
+
+      - name: Build solution
+        run: dotnet build C.Sharp.Net/progmatic_things_CSharp.sln -c Release --no-restore
+
+  cobol-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install GnuCOBOL
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gnucobol
+
+      - name: Compile COBOL_22
+        run: |
+          mkdir -p COBOL/bin
+          cobc -x -o COBOL/bin/COBOL_22 COBOL/COBOL_22.cbl
+
+      - name: Compile cobol_8
+        run: |
+          mkdir -p COBOL/bin
+          cobc -x -o COBOL/bin/cobol_8 COBOL/cobol_8.cbl

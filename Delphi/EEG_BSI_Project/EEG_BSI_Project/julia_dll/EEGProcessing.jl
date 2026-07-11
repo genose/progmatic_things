@@ -1,7 +1,5 @@
 module EEGProcessing
 
-
-
 using LinearAlgebra, DSP, Statistics
 
 export compute_features

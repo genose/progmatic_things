@@ -8,10 +8,12 @@ uses
   Classes, SysUtils, scetlinkdb;
 
 
+
 type TMessageSeverityLevel = (messageSeverityLevel_Default, messageSeverityLevel_Info, messageSeverityLevel_Warning, messageSeverityLevel_Exception, messageSeverityLevel_Error);
 
 var kExceptionStack  : TStringList;
 var kLoggingStack  : TStringList;
+
 
 
 procedure writeLnMessageLog(messageStr : string);
@@ -24,8 +26,8 @@ procedure writeLnMessageLogRaiseEx(messageStr : string; messageSeverityLevel: TM
 procedure writeLnMessageLogRaiseEx(messageStr : string; messageCalleeCaller: string; messageSeverityLevel: TMessageSeverityLevel);
 
 procedure InsereMessageLog(NiveauMessage : Byte; CodeMessage : String;
-  LibelleMessage: String;
-  Parametres : array of const);
+                         LibelleMessage: String;
+                         Parametres : array of const);
 
 function getLastExceptionLog() : string;
 
@@ -35,68 +37,78 @@ implementation
 
 procedure writeLnMessageLog(messageStr : string);
 begin
-  writeln('['+FormatDateTime('DD/MM/YYYY HH:nn:ss:zzz',Now)+'] '+messageStr);
+      writeln('['+FormatDateTime('DD/MM/YYYY HH:nn:ss:zzz',Now)+'] '+messageStr);
 
 
-  if (not assigned (kLoggingStack)) then
-    kLoggingStack :=  TStringList.Create;
+      if (not assigned (kLoggingStack)) then
+      begin
+        kLoggingStack :=  TStringList.Create;
+      end;
 
-  kLoggingStack.Add('['+FormatDateTime('DD/MM/YYYY HH:nn:ss:zzz',Now)+'] '+messageStr);
+        kLoggingStack.Add('['+FormatDateTime('DD/MM/YYYY HH:nn:ss:zzz',Now)+'] '+messageStr);
 
 end;
 
 procedure writeLnMessageLogRaiseEx(messageStr : string);
 begin
-  writeLnMessageLogRaiseEx(messageStr , 'writeLnMessageLogRaiseEx', messageSeverityLevel_Default);
+       writeLnMessageLogRaiseEx(messageStr , 'writeLnMessageLogRaiseEx', messageSeverityLevel_Default);
 end;
 
 procedure writeLnMessageLogRaiseEx(messageStr : string; messageSeverityLevel: TMessageSeverityLevel);
 begin
-  writeLnMessageLogRaiseEx(messageStr , 'writeLnMessageLogRaiseEx', messageSeverityLevel);
+        writeLnMessageLogRaiseEx(messageStr , 'writeLnMessageLogRaiseEx', messageSeverityLevel);
 end;
 
 procedure writeLnMessageLogRaiseEx(messageStr : string; messageCalleeCaller: string);
 begin
-  writeLnMessageLogRaiseEx(messageStr , messageCalleeCaller, messageSeverityLevel_Default);
+        writeLnMessageLogRaiseEx(messageStr , messageCalleeCaller, messageSeverityLevel_Default);
 end;
 
 procedure writeLnMessageLogRaiseEx(messageStr : string; messageCalleeCaller: string; messageSeverityLevel: TMessageSeverityLevel);
 var sMessageStrLocal : string;
 begin
-  if (not assigned (kExceptionStack)) then
-    kExceptionStack :=  TStringList.Create;
+      if (not assigned (kExceptionStack)) then
+      begin
+        kExceptionStack :=  TStringList.Create;
+      end;
 
 
-  case messageSeverityLevel of
-    messageSeverityLevel_Default:
-      sMessageStrLocal :=   ' [message] '+messageCalleeCaller +' :: '+messageStr ;
+      case messageSeverityLevel of
+         messageSeverityLevel_Default:
+           sMessageStrLocal :=   ' [message] '+messageCalleeCaller +' :: '+messageStr ;
 
-    messageSeverityLevel_Info:
-      sMessageStrLocal :=   ' [message::Info] '+messageCalleeCaller +' :: '+messageStr ;
+            messageSeverityLevel_Info:
+              sMessageStrLocal :=   ' [message::Info] '+messageCalleeCaller +' :: '+messageStr ;
 
-    messageSeverityLevel_Warning:
-      sMessageStrLocal :=   ' [message::Warning] '+messageCalleeCaller +' :: '+messageStr ;
+           messageSeverityLevel_Warning:
+            sMessageStrLocal :=   ' [message::Warning] '+messageCalleeCaller +' :: '+messageStr ;
 
-    messageSeverityLevel_Exception:
-      sMessageStrLocal :=   ' [message::Exception] '+messageCalleeCaller +' :: '+messageStr ;
+           messageSeverityLevel_Exception:
+              sMessageStrLocal :=   ' [message::Exception] '+messageCalleeCaller +' :: '+messageStr ;
 
-    messageSeverityLevel_Error:
-      sMessageStrLocal :=   ' [message::Error] '+messageCalleeCaller +' :: '+messageStr ;
+           messageSeverityLevel_Error:
+              sMessageStrLocal :=   ' [message::Error] '+messageCalleeCaller +' :: '+messageStr ;
 
-  else
-    sMessageStrLocal :=   ' [Log] '+messageCalleeCaller +' :: '+messageStr;
-  end;
+           else
+             begin
+              sMessageStrLocal :=   ' [Log] '+messageCalleeCaller +' :: '+messageStr ;
+             end;
+      end;
 
 
-  writeLnMessageLog(sMessageStrLocal);
+      writeLnMessageLog(sMessageStrLocal);
 
-  if (getLastExceptionLog() <> '') then
-    kExceptionStack.Add(messageStr)
-  else
-  begin
-    kExceptionStack.Add(sMessageStrLocal);
-    raise Exception.Create(messageStr);
-  end;
+      if (getLastExceptionLog() <> '') then
+       begin
+            kExceptionStack.Add(messageStr);
+
+          end
+       else
+       begin
+            kExceptionStack.Add(sMessageStrLocal);
+           raise Exception.Create(messageStr);
+       end;
+
 
 end;
 
@@ -104,25 +116,34 @@ function getLastExceptionLog() : string;
 var stackCountLogs  : integer;
 begin
 
-  if (not assigned (kExceptionStack)) then
-    kExceptionStack :=  TStringList.Create;
-  stackCountLogs := kExceptionStack.Count ;
-  writeln(' Count Stack :: '+inttostr(stackCountLogs));
-  if ( stackCountLogs > 0) then
-    result := kExceptionStack.Strings[  (stackCountLogs-1) ]
-  else
-    result := '';
+     if (not assigned (kExceptionStack)) then
+      begin
+        kExceptionStack :=  TStringList.Create;
+      end;
+      stackCountLogs := kExceptionStack.Count ;
+       writeln(' Count Stack :: '+inttostr(stackCountLogs));
+      if ( stackCountLogs > 0) then
+      begin
+         result := kExceptionStack.Strings[  (stackCountLogs-1) ];
+         end
+         else
+      begin
+         result := '';
+      end;
+
 
 end;
 
 
+
+ 
 procedure InsereMessageLog(NiveauMessage : Byte; CodeMessage : String;
-  LibelleMessage: String;
-  Parametres : array of const);
+                          LibelleMessage: String;
+                          Parametres : array of const);
 
 // var  QTMp : TSQLQuery;
-begin
-  // Initialisation Table de log
+  begin
+         // Initialisation Table de log
   { 'INSERT INTO TABLE_LOG
          (TLOG_APPLICATION, TLOG_TRAITEMENT, TLOG_DATEDEB, TLOG_DATEFIN,
           TLOG_CODERET, TLOG_CODEERR, TLOG_LIBERR, TLOG_LECENR, TLOG_ECRENR,
@@ -132,7 +153,8 @@ begin
 
    COMMIT;' ;}
 
-end;
+  end;
+
 
 
 end.

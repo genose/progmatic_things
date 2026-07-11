@@ -9,6 +9,16 @@
         "-lc",
         "source '${workspaceFolder}/setup_cobol_env.sh' && mkdir -p '${workspaceFolder}/bin' && \"$COBC\" -x -o '${workspaceFolder}/bin/${fileBasenameNoExtension}' '${file}'"
       ],
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-Command",
+          "$ErrorActionPreference='Stop'; $ws='${workspaceFolder}'; $src='${file}'; $bin=Join-Path $ws 'bin'; if (!(Test-Path $bin)) { New-Item -ItemType Directory -Path $bin | Out-Null }; $cobc=(Get-Command cobc -ErrorAction SilentlyContinue); if (-not $cobc) { throw 'cobc not found in PATH. Install GnuCOBOL and restart VS Code.' }; $out=Join-Path $bin '${fileBasenameNoExtension}.exe'; & $cobc.Source -x -o $out $src"
+        ]
+      },
       "group": {
         "kind": "build",
         "isDefault": true
@@ -28,6 +38,16 @@
         "-lc",
         "source '${workspaceFolder}/setup_cobol_env.sh' && mkdir -p '${workspaceFolder}/bin' && shopt -s nullglob && for f in '${workspaceFolder}'/*.cbl '${workspaceFolder}'/*.CBL; do name=$(basename \"$f\"); out=\"${name%.*}\"; \"$COBC\" -x -o '${workspaceFolder}/bin/'\"$out\" \"$f\"; done"
       ],
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-Command",
+          "$ErrorActionPreference='Stop'; $ws='${workspaceFolder}'; $bin=Join-Path $ws 'bin'; if (!(Test-Path $bin)) { New-Item -ItemType Directory -Path $bin | Out-Null }; $cobc=(Get-Command cobc -ErrorAction SilentlyContinue); if (-not $cobc) { throw 'cobc not found in PATH. Install GnuCOBOL and restart VS Code.' }; $files=Get-ChildItem -Path $ws -File | Where-Object { $_.Extension -in '.cbl','.CBL' }; foreach ($f in $files) { $out=Join-Path $bin ($f.BaseName + '.exe'); & $cobc.Source -x -o $out $f.FullName }"
+        ]
+      },
       "group": "build",
       "presentation": {
         "reveal": "always",

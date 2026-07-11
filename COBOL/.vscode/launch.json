@@ -13,6 +13,18 @@
       "externalConsole": false,
       "MIMode": "lldb",
       "preLaunchTask": "COBOL: Compile current file"
+    },
+    {
+      "name": "Run Current COBOL File (Windows)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/${fileBasenameNoExtension}.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "console": "integratedTerminal",
+      "preLaunchTask": "COBOL: Compile current file"
     }
   ]
 }

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="javaeeApplication" name="javaEEApplication2">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="application.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_106/META-INF/application.xml" />
+        </descriptors>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web16">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_101/WebContent/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_101/WebContent" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="javaeeApplication" name="javaEEApplication3">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="application.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_JSF102/META-INF/application.xml" />
+        </descriptors>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web15">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_104/WebContent/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_104/WebContent" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web5">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_JSF102/web/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_JSF102/web" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="javaeeApplication" name="javaEEApplication">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="application.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_JSF101/ear/target/application.xml" />
+        </descriptors>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web4">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/Servers/Tomcat v8.5 Server at localhost-config/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/Servers/Tomcat v8.5 Server at localhost-config" relative="/WEB-INF" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web10">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_101/classes/artifacts/ProjectJ2EE_101_Web_exploded/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_101/classes/artifacts/ProjectJ2EE_101_Web_exploded" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web7">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/TestJSF/target/webapp/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/TestJSF/target/webapp" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web6">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_JSF101/servlets/servlet/src/main/webapp/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_JSF101/servlets/servlet/src/main/webapp" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web12">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_JSF102/out/artifacts/ProjectJ2EE_JSF102_war_exploded/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_JSF102/out/artifacts/ProjectJ2EE_JSF102_war_exploded" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web9">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/RestApi/src/main/webapp/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/RestApi/src/main/webapp" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web11">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/TestJSF/target/TestJSF-1.0-SNAPSHOT/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/TestJSF/target/TestJSF-1.0-SNAPSHOT" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web8">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/Servers/Tomcat v9.0 Server at localhost-config/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/Servers/Tomcat v9.0 Server at localhost-config" relative="/WEB-INF" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web14">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/TestJSF/src/main/webapp/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/TestJSF/src/main/webapp" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web13">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_JSF101/servlets/servlet/target/servlet-1.0-SNAPSHOT/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_JSF101/servlets/servlet/target/servlet-1.0-SNAPSHOT" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/Servers/Tomcat v8.5 Server at localhost-config/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/Servers/Tomcat v8.5 Server at localhost-config" relative="/WEB-INF" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web3">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/RestApiTEST/src/main/webapp/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/RestApiTEST/src/main/webapp" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web2">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_105/WebContent/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/JAVA/prj_jee/ProjectJ2EE_105/WebContent" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

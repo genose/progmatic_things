@@ -11,11 +11,10 @@ function GDBWindowsConsoleInit() : Boolean;
 implementation
 
 
-
 function GDBWindowsConsoleInit() : Boolean;
 begin
-   FP_GUIConsoleDebugPresent := AttachConsole(THandle(-1)) or  AllocConsole;
-   Result :=  FP_GUIConsoleDebugPresent;
+  FP_GUIConsoleDebugPresent := AttachConsole(THandle(-1)) or  AllocConsole;
+  Result :=  FP_GUIConsoleDebugPresent;
 end;
 
 end.

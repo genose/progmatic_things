@@ -1,43 +1,41 @@
 unit GNSWSTypes;
 
-{$IFDEF FPC}
-  {$MODE Delphi}
-{$ENDIF}
+      {$IFDEF FPC}
+        {$MODE Delphi}
+      {$ENDIF}
 
 { classes de consommation des données REST }
 interface
 
 uses
-{$IFnDEF FPC}
+                {$IFnDEF FPC}
   Windows,
-{$ELSE}
+                {$ELSE}
   LCLIntf, LCLType, LMessages,
-{$ENDIF}
+                {$ENDIF}
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, uLkJSON;
 
 
-
 {type TGNSWSTypesObject = class(TlkJSONobject)}
-{}
+
 {end;}
 
 
-
 type TGNAssocValueObject = class
-private
+  private
 
-	Fkey: string;
-	Fvalue: Variant;
+    Fkey: string;
+    Fvalue: Variant;
 
   public
     constructor Create(const AName: String); overload;
-	  constructor Create(const AName: string; AValue: variant ); overload;
+    constructor Create(const AName: string; AValue: variant ); overload;
     // destructor Destroy(); override;
-	
-	//class operator Implicit(aValue: string): TGNAssocValueObject; overload;
-	//class operator Implicit(aValue: Variant): TGNAssocValueObject; 
-	
+        
+    //class operator Implicit(aValue: string): TGNAssocValueObject; overload;
+    //class operator Implicit(aValue: Variant): TGNAssocValueObject; 
+        
   end;
 
 implementation
@@ -45,7 +43,7 @@ implementation
 constructor TGNAssocValueObject.Create(const AName: String);
 begin
   FKey := AName;
- // FValue := TObject.Create();
+  // FValue := TObject.Create();
 end;
 
 constructor TGNAssocValueObject.Create(const AName: string; AValue: Variant );
@@ -54,14 +52,10 @@ begin
   FValue := AValue;
 end;
 
-{class operator TGNAssocValueObject.Implicit(AValue: variant): TGNAssocValueObject;
-begin
-	 FValue := AValue;
-end; }
+      {class operator TGNAssocValueObject.Implicit(AValue: variant): TGNAssocValueObject;
+      begin
+        FValue := AValue;
+      end; }
 
 
 end.
-
-
-
-

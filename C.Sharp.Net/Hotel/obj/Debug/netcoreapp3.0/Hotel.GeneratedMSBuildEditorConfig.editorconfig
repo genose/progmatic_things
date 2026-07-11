@@ -1,3 +1,5 @@
 is_global = true
 build_property.RootNamespace = Hotel
-build_property.ProjectDir = /private/tmp/volatile_hd/progmatic_things/C.Sharp.Net/Hotel/
+build_property.ProjectDir = /Users/xenon/Documents/github/progmatic_things/C.Sharp.Net/Hotel/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

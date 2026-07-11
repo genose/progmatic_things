@@ -1,0 +1,13 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. COBOL-8.
+
+       ENVIRONMENT DIVISION.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+           01 WS-MESSAGE PIC X(40) VALUE "Hello from cobol_8".
+
+       PROCEDURE DIVISION.
+       MAIN-PARA.
+           DISPLAY WS-MESSAGE
+           STOP RUN.

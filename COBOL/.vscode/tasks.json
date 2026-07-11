@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "COBOL: Compile current file",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "source '${workspaceFolder}/setup_cobol_env.sh' && mkdir -p '${workspaceFolder}/bin' && \"$COBC\" -x -o '${workspaceFolder}/bin/${fileBasenameNoExtension}' '${file}'"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "COBOL: Compile all files",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "source '${workspaceFolder}/setup_cobol_env.sh' && mkdir -p '${workspaceFolder}/bin' && shopt -s nullglob && for f in '${workspaceFolder}'/*.cbl '${workspaceFolder}'/*.CBL; do name=$(basename \"$f\"); out=\"${name%.*}\"; \"$COBC\" -x -o '${workspaceFolder}/bin/'\"$out\" \"$f\"; done"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -20,15 +20,40 @@ namespace Hotel.Tools
 
         public Sauvegarde(string nom)
         {
-            nomHotel = nom;
+            nomHotel = NormaliserNomHotel(nom);
         }
+
+        private string GetFilePath(string fileName)
+        {
+            return $"{nomHotel}-{fileName}";
+        }
+
+        private static string NormaliserNomHotel(string nom)
+        {
+            if (string.IsNullOrWhiteSpace(nom))
+            {
+                return "hotel";
+            }
+
+            char[] invalidChars = Path.GetInvalidFileNameChars();
+            StringBuilder builder = new StringBuilder(nom.Trim().Length);
+
+            foreach (char current in nom.Trim())
+            {
+                builder.Append(Array.IndexOf(invalidChars, current) >= 0 ? '_' : current);
+            }
+
+            string resultat = builder.ToString().Trim();
+            return string.IsNullOrWhiteSpace(resultat) ? "hotel" : resultat;
+        }
+
         public List<Client> LireClients()
         {
             //Récupérer les clients du fichier clients
             List<Client> listes = new List<Client>();
-            if(File.Exists($"{nomHotel}-{pathClient}"))
+            if(File.Exists(GetFilePath(pathClient)))
             {
-                reader = new StreamReader($"{nomHotel}-{pathClient}");
+                reader = new StreamReader(GetFilePath(pathClient));
                 string ligne = reader.ReadLine();
                 while(ligne != null)
                 {
@@ -43,7 +68,7 @@ namespace Hotel.Tools
         }
         public void EcrireClients(Client client)
         {
-            writer = new StreamWriter($"{nomHotel}-{pathClient}", true);
+            writer = new StreamWriter(GetFilePath(pathClient), true);
             writer.WriteLine($"{client.Nom};{client.Prenom};{client.Telephone}");
             writer.Close();
         }
@@ -51,9 +76,9 @@ namespace Hotel.Tools
         public List<Chambre> LireChambres()
         {
             List<Chambre> listes = new List<Chambre>();
-            if (File.Exists($"{nomHotel}-{pathChambre}"))
+            if (File.Exists(GetFilePath(pathChambre)))
             {
-                reader = new StreamReader($"{nomHotel}-{pathChambre}");
+                reader = new StreamReader(GetFilePath(pathChambre));
                 string ligne = reader.ReadLine();
                 while (ligne != null)
                 {
@@ -78,7 +103,7 @@ namespace Hotel.Tools
 
         public void EcrireChambres(List<Chambre> chambres)
         {
-            writer = new StreamWriter($"{nomHotel}-{pathChambre}");
+            writer = new StreamWriter(GetFilePath(pathChambre));
             foreach(Chambre c in chambres)
             {
                 writer.WriteLine($"{c.Numero};{c.Tarif};{c.NbOccp};{c.Statut}");
@@ -92,9 +117,9 @@ namespace Hotel.Tools
 
             //On récupère dans un premier temps le numéro, statut et client (à l'aide du téléphone client) du premier fichier reservations.csv
             List<Reservation> listes = new List<Reservation>();
-            if (File.Exists($"{nomHotel}-{pathChambre}"))
+            if (File.Exists(GetFilePath(pathReservation)))
             {
-                reader = new StreamReader($"{nomHotel}-{pathReservation}");
+                reader = new StreamReader(GetFilePath(pathReservation));
                 string ligne = reader.ReadLine();
                 while (ligne != null)
                 {
@@ -123,9 +148,9 @@ namespace Hotel.Tools
         private void LireChambresReservation(Reservation reservation)
         {
             List<Chambre> listeChambres = LireChambres();
-            if (File.Exists($"{nomHotel}-{pathReservationsChambres}"))
+            if (File.Exists(GetFilePath(pathReservationsChambres)))
             {
-                reader = new StreamReader($"{nomHotel}-{pathReservationsChambres}");
+                reader = new StreamReader(GetFilePath(pathReservationsChambres));
                 string ligne = reader.ReadLine();
                 while (ligne != null)
                 {
@@ -145,7 +170,7 @@ namespace Hotel.Tools
         public void EcrireReservations(Reservation reservation)
         {
             //On commence par ecrire, dans un premier temps, dans le fichier reservation(numero, statut, telephoneClient)
-            writer = new StreamWriter($"{nomHotel}-{pathReservation}", append:true);
+            writer = new StreamWriter(GetFilePath(pathReservation), append:true);
             writer.WriteLine($"{reservation.Numero};{reservation.Statut};{reservation.Client.Telephone}");
             writer.Close();
             //Ensuite on sauvegarde le numéro de reservation et les numéro de chambres dans un deuxième fichier reservations-chambres
@@ -154,7 +179,7 @@ namespace Hotel.Tools
 
         public void MiseAjourReservations(List<Reservation> reservations)
         {
-            writer = new StreamWriter($"{nomHotel}-{pathReservation}");
+            writer = new StreamWriter(GetFilePath(pathReservation));
             foreach(Reservation reservation in reservations)
             {
                 writer.WriteLine($"{reservation.Numero};{reservation.Statut};{reservation.Client.Telephone}");
@@ -164,7 +189,7 @@ namespace Hotel.Tools
 
         private void EcrireReservationChambres(Reservation reservation)
         {
-            writer = new StreamWriter($"{nomHotel}-{pathReservationsChambres}", append:true);
+            writer = new StreamWriter(GetFilePath(pathReservationsChambres), append:true);
             foreach(Chambre c in reservation.Chambres)
             {
                 writer.WriteLine($"{reservation.Numero};{c.Numero}");

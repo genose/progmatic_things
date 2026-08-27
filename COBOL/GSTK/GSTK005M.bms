@@ -1,0 +1,169 @@
+         TITLE 'GSTK005M - MAPSET RAPPORTS STOCK'
+*======================================================================*
+* MAPSET  : GSTK005M                                                   *
+* MAP     : GSTK005                                                    *
+* ECRAN   : RAPPORTS STOCK PAR CATEGORIE                              *
+* TAILLE  : 24 x 132  (3270 Model 5)                                  *
+* TRANS   : G005                                                       *
+*======================================================================*
+GSTK005M DFHMSD TYPE=&SYSPARM,                                         X
+               LANG=COBOL,                                             X
+               MODE=INOUT,                                             X
+               TIOAPFX=YES
+*
+GSTK005  DFHMDI SIZE=(24,132),                                         X
+               LINE=1,                                                 X
+               COLUMN=1
+*
+*----------------------------------------------------------------------*
+* LIGNE 2 : TITRE                                                      *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(2,2),LENGTH=25,ATTRB=(ASKIP,BRT),                X
+               INITIAL='GSTK005 - RAPPORTS STOCK'
+DATHR    DFHMDF POS=(2,111),LENGTH=19,ATTRB=(ASKIP,NORM)
+*
+*----------------------------------------------------------------------*
+* LIGNE 4 : STATISTIQUES GLOBALES                                      *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(4,2),LENGTH=18,ATTRB=(ASKIP,BRT),                X
+               INITIAL='SYNTHESE GENERALE:'
+         DFHMDF POS=(4,22),LENGTH=17,ATTRB=(ASKIP,NORM),              X
+               INITIAL='ARTICLES ACTIFS : '
+GAACT    DFHMDF POS=(4,39),LENGTH=6,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(4,46),LENGTH=17,ATTRB=(ASKIP,NORM),              X
+               INITIAL=' VALEUR TOTALE : '
+GAVLR    DFHMDF POS=(4,63),LENGTH=15,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(4,79),LENGTH=4,ATTRB=(ASKIP,NORM),INITIAL=' EUR'
+         DFHMDF POS=(4,84),LENGTH=14,ATTRB=(ASKIP,NORM),              X
+               INITIAL=' ALERTES MIN : '
+GAALT    DFHMDF POS=(4,98),LENGTH=5,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(4,104),LENGTH=14,ATTRB=(ASKIP,NORM),             X
+               INITIAL=' MVTS JOUR : '
+GAMVT    DFHMDF POS=(4,117),LENGTH=6,ATTRB=(ASKIP,BRT)
+*
+*----------------------------------------------------------------------*
+* LIGNE 6 : EN-TETES RAPPORT PAR CATEGORIE                           *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(6,2),LENGTH=25,ATTRB=(ASKIP,BRT),                X
+               INITIAL='CATEGORIE'
+         DFHMDF POS=(6,28),LENGTH=10,ATTRB=(ASKIP,BRT),               X
+               INITIAL=' NB.ART'
+         DFHMDF POS=(6,38),LENGTH=18,ATTRB=(ASKIP,BRT),               X
+               INITIAL=' QTE.TOTALE'
+         DFHMDF POS=(6,56),LENGTH=18,ATTRB=(ASKIP,BRT),               X
+               INITIAL=' VALEUR (EUR)'
+         DFHMDF POS=(6,74),LENGTH=10,ATTRB=(ASKIP,BRT),               X
+               INITIAL=' ALERTES'
+         DFHMDF POS=(6,84),LENGTH=18,ATTRB=(ASKIP,BRT),               X
+               INITIAL=' % DU STOCK TOTAL'
+*
+*----------------------------------------------------------------------*
+* LIGNES 7-16 : 10 LIGNES PAR CATEGORIE                               *
+*----------------------------------------------------------------------*
+CT01     DFHMDF POS=(7,2),LENGTH=15,ATTRB=(ASKIP,BRT)
+NA01     DFHMDF POS=(7,28),LENGTH=6,ATTRB=(ASKIP,NORM)
+QT01     DFHMDF POS=(7,38),LENGTH=12,ATTRB=(ASKIP,NORM)
+VL01     DFHMDF POS=(7,56),LENGTH=15,ATTRB=(ASKIP,NORM)
+AL01     DFHMDF POS=(7,74),LENGTH=5,ATTRB=(ASKIP,BRT)
+PC01     DFHMDF POS=(7,84),LENGTH=6,ATTRB=(ASKIP,NORM)
+*
+CT02     DFHMDF POS=(8,2),LENGTH=15,ATTRB=(ASKIP,BRT)
+NA02     DFHMDF POS=(8,28),LENGTH=6,ATTRB=(ASKIP,NORM)
+QT02     DFHMDF POS=(8,38),LENGTH=12,ATTRB=(ASKIP,NORM)
+VL02     DFHMDF POS=(8,56),LENGTH=15,ATTRB=(ASKIP,NORM)
+AL02     DFHMDF POS=(8,74),LENGTH=5,ATTRB=(ASKIP,BRT)
+PC02     DFHMDF POS=(8,84),LENGTH=6,ATTRB=(ASKIP,NORM)
+*
+CT03     DFHMDF POS=(9,2),LENGTH=15,ATTRB=(ASKIP,BRT)
+NA03     DFHMDF POS=(9,28),LENGTH=6,ATTRB=(ASKIP,NORM)
+QT03     DFHMDF POS=(9,38),LENGTH=12,ATTRB=(ASKIP,NORM)
+VL03     DFHMDF POS=(9,56),LENGTH=15,ATTRB=(ASKIP,NORM)
+AL03     DFHMDF POS=(9,74),LENGTH=5,ATTRB=(ASKIP,BRT)
+PC03     DFHMDF POS=(9,84),LENGTH=6,ATTRB=(ASKIP,NORM)
+*
+CT04     DFHMDF POS=(10,2),LENGTH=15,ATTRB=(ASKIP,BRT)
+NA04     DFHMDF POS=(10,28),LENGTH=6,ATTRB=(ASKIP,NORM)
+QT04     DFHMDF POS=(10,38),LENGTH=12,ATTRB=(ASKIP,NORM)
+VL04     DFHMDF POS=(10,56),LENGTH=15,ATTRB=(ASKIP,NORM)
+AL04     DFHMDF POS=(10,74),LENGTH=5,ATTRB=(ASKIP,BRT)
+PC04     DFHMDF POS=(10,84),LENGTH=6,ATTRB=(ASKIP,NORM)
+*
+CT05     DFHMDF POS=(11,2),LENGTH=15,ATTRB=(ASKIP,BRT)
+NA05     DFHMDF POS=(11,28),LENGTH=6,ATTRB=(ASKIP,NORM)
+QT05     DFHMDF POS=(11,38),LENGTH=12,ATTRB=(ASKIP,NORM)
+VL05     DFHMDF POS=(11,56),LENGTH=15,ATTRB=(ASKIP,NORM)
+AL05     DFHMDF POS=(11,74),LENGTH=5,ATTRB=(ASKIP,BRT)
+PC05     DFHMDF POS=(11,84),LENGTH=6,ATTRB=(ASKIP,NORM)
+*
+CT06     DFHMDF POS=(12,2),LENGTH=15,ATTRB=(ASKIP,BRT)
+NA06     DFHMDF POS=(12,28),LENGTH=6,ATTRB=(ASKIP,NORM)
+QT06     DFHMDF POS=(12,38),LENGTH=12,ATTRB=(ASKIP,NORM)
+VL06     DFHMDF POS=(12,56),LENGTH=15,ATTRB=(ASKIP,NORM)
+AL06     DFHMDF POS=(12,74),LENGTH=5,ATTRB=(ASKIP,BRT)
+PC06     DFHMDF POS=(12,84),LENGTH=6,ATTRB=(ASKIP,NORM)
+*
+CT07     DFHMDF POS=(13,2),LENGTH=15,ATTRB=(ASKIP,BRT)
+NA07     DFHMDF POS=(13,28),LENGTH=6,ATTRB=(ASKIP,NORM)
+QT07     DFHMDF POS=(13,38),LENGTH=12,ATTRB=(ASKIP,NORM)
+VL07     DFHMDF POS=(13,56),LENGTH=15,ATTRB=(ASKIP,NORM)
+AL07     DFHMDF POS=(13,74),LENGTH=5,ATTRB=(ASKIP,BRT)
+PC07     DFHMDF POS=(13,84),LENGTH=6,ATTRB=(ASKIP,NORM)
+*
+CT08     DFHMDF POS=(14,2),LENGTH=15,ATTRB=(ASKIP,BRT)
+NA08     DFHMDF POS=(14,28),LENGTH=6,ATTRB=(ASKIP,NORM)
+QT08     DFHMDF POS=(14,38),LENGTH=12,ATTRB=(ASKIP,NORM)
+VL08     DFHMDF POS=(14,56),LENGTH=15,ATTRB=(ASKIP,NORM)
+AL08     DFHMDF POS=(14,74),LENGTH=5,ATTRB=(ASKIP,BRT)
+PC08     DFHMDF POS=(14,84),LENGTH=6,ATTRB=(ASKIP,NORM)
+*
+CT09     DFHMDF POS=(15,2),LENGTH=15,ATTRB=(ASKIP,BRT)
+NA09     DFHMDF POS=(15,28),LENGTH=6,ATTRB=(ASKIP,NORM)
+QT09     DFHMDF POS=(15,38),LENGTH=12,ATTRB=(ASKIP,NORM)
+VL09     DFHMDF POS=(15,56),LENGTH=15,ATTRB=(ASKIP,NORM)
+AL09     DFHMDF POS=(15,74),LENGTH=5,ATTRB=(ASKIP,BRT)
+PC09     DFHMDF POS=(15,84),LENGTH=6,ATTRB=(ASKIP,NORM)
+*
+CT10     DFHMDF POS=(16,2),LENGTH=15,ATTRB=(ASKIP,BRT)
+NA10     DFHMDF POS=(16,28),LENGTH=6,ATTRB=(ASKIP,NORM)
+QT10     DFHMDF POS=(16,38),LENGTH=12,ATTRB=(ASKIP,NORM)
+VL10     DFHMDF POS=(16,56),LENGTH=15,ATTRB=(ASKIP,NORM)
+AL10     DFHMDF POS=(16,74),LENGTH=5,ATTRB=(ASKIP,BRT)
+PC10     DFHMDF POS=(16,84),LENGTH=6,ATTRB=(ASKIP,NORM)
+*
+*----------------------------------------------------------------------*
+* LIGNE 18 : TOTAL DU RAPPORT                                         *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(18,2),LENGTH=10,ATTRB=(ASKIP,BRT),               X
+               INITIAL='TOTAL    :'
+TOTNA    DFHMDF POS=(18,28),LENGTH=6,ATTRB=(ASKIP,BRT)
+TOTVL    DFHMDF POS=(18,56),LENGTH=15,ATTRB=(ASKIP,BRT)
+TOTAL    DFHMDF POS=(18,74),LENGTH=5,ATTRB=(ASKIP,BRT)
+*
+*----------------------------------------------------------------------*
+* LIGNE 20 : MESSAGE                                                   *
+*----------------------------------------------------------------------*
+MSGRTR   DFHMDF POS=(20,2),LENGTH=79,ATTRB=(ASKIP,BRT)
+*
+*----------------------------------------------------------------------*
+* LIGNE 22 : PF KEYS                                                  *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(22,2),LENGTH=50,ATTRB=(ASKIP,NORM),              X
+               INITIAL='PF3=MENU  PF7=PAGE PREC.  PF8=PAGE SUIV.'
+*
+*----------------------------------------------------------------------*
+* LIGNE 23 : SESSION + PAGINATION                                     *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(23,2),LENGTH=10,ATTRB=(ASKIP,NORM),              X
+               INITIAL='OPERATEUR:'
+OPENAM   DFHMDF POS=(23,13),LENGTH=10,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(23,24),LENGTH=9,ATTRB=(ASKIP,NORM),              X
+               INITIAL='TERMINAL:'
+TERNAM   DFHMDF POS=(23,34),LENGTH=10,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(23,80),LENGTH=7,ATTRB=(ASKIP,NORM),              X
+               INITIAL='PAGE :'
+PAGCUR   DFHMDF POS=(23,88),LENGTH=4,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(23,93),LENGTH=1,ATTRB=(ASKIP,NORM),INITIAL='/'
+PAGTOT   DFHMDF POS=(23,95),LENGTH=4,ATTRB=(ASKIP,NORM)
+*
+         DFHMSD TYPE=FINAL
+         END

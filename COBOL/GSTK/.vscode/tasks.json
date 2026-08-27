@@ -1,0 +1,331 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+
+    {
+      "label": "COBOL: Compile current file",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "source '${workspaceFolder}/setup_cobol_env.sh' && mkdir -p '${workspaceFolder}/bin' && \"$COBC\" -std=ibm -x -I '${workspaceFolder}/GSTK' -I '${workspaceFolder}/CRM' -o '${workspaceFolder}/bin/${fileBasenameNoExtension}' '${file}' && echo 'OK: ${fileBasenameNoExtension}'"
+      ],
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": {
+        "owner": "cobol",
+        "fileLocation": ["absolute"],
+        "pattern": {
+          "regexp": "^(.+):(\\d+):\\s+(error|warning):\\s+(.+)$",
+          "file": 1, "line": 2, "severity": 3, "message": 4
+        }
+      }
+    },
+
+    {
+      "label": "COBOL: Compile current file (debug)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "source '${workspaceFolder}/setup_cobol_env.sh' && mkdir -p '${workspaceFolder}/bin' && \"$COBC\" -std=ibm -x -g -fdebugging-line -I '${workspaceFolder}/GSTK' -I '${workspaceFolder}/CRM' -o '${workspaceFolder}/bin/${fileBasenameNoExtension}' '${file}' && echo 'OK (debug): ${fileBasenameNoExtension}'"
+      ],
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": {
+        "owner": "cobol",
+        "fileLocation": ["absolute"],
+        "pattern": {
+          "regexp": "^(.+):(\\d+):\\s+(error|warning):\\s+(.+)$",
+          "file": 1, "line": 2, "severity": 3, "message": 4
+        }
+      }
+    },
+
+    {
+      "label": "COBOL: Syntax check current file",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "source '${workspaceFolder}/setup_cobol_env.sh' && \"$COBC\" -std=ibm -fsyntax-only -I '${workspaceFolder}/GSTK' -I '${workspaceFolder}/CRM' '${file}' && echo 'Syntax OK'"
+      ],
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": {
+        "owner": "cobol",
+        "fileLocation": ["absolute"],
+        "pattern": {
+          "regexp": "^(.+):(\\d+):\\s+(error|warning):\\s+(.+)$",
+          "file": 1, "line": 2, "severity": 3, "message": 4
+        }
+      }
+    },
+
+    {
+      "label": "COBOL: Compile all GSTK",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "source '${workspaceFolder}/setup_cobol_env.sh' && mkdir -p '${workspaceFolder}/bin' && shopt -s nullglob && ok=0; fail=0; for f in '${workspaceFolder}'/GSTK/*.cbl '${workspaceFolder}'/GSTK/*.CBL '${workspaceFolder}'/GSTK/*.cob '${workspaceFolder}'/GSTK/*.COB; do out=$(basename \"${f%.*}\"); if \"$COBC\" -std=ibm -x -I '${workspaceFolder}/GSTK' -I '${workspaceFolder}/CRM' -o '${workspaceFolder}/bin/'\"$out\" \"$f\"; then echo \"OK: $out\"; ((ok++)); else ((fail++)); fi; done; echo \"Done — $ok compiled, $fail failed\""
+      ],
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "COBOL: Compile all CRM",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "source '${workspaceFolder}/setup_cobol_env.sh' && mkdir -p '${workspaceFolder}/bin' && shopt -s nullglob && ok=0; fail=0; for f in '${workspaceFolder}'/CRM/*.cbl '${workspaceFolder}'/CRM/*.CBL '${workspaceFolder}'/CRM/*.cob '${workspaceFolder}'/CRM/*.COB '${workspaceFolder}'/CRM/*.SCO; do out=$(basename \"${f%.*}\"); if \"$COBC\" -std=ibm -x -I '${workspaceFolder}/GSTK' -I '${workspaceFolder}/CRM' -o '${workspaceFolder}/bin/'\"$out\" \"$f\"; then echo \"OK: $out\"; ((ok++)); else ((fail++)); fi; done; echo \"Done — $ok compiled, $fail failed\""
+      ],
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "DB: Create GSTK schema (PostgreSQL)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "createdb gstk 2>/dev/null || true && psql -d gstk -f '${workspaceFolder}/GSTK/BASE de donnée.sql' && echo 'Schema applied to gstk database'"
+      ],
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "TK5: Connect terminal (c3270)",
+      "type": "shell",
+      "command": "c3270",
+      "args": ["localhost:3270"],
+      "group": "none",
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "GSTK: Syntax check all (local)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/04_cobc_check.sh'"],
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "GSTK: Test SQL (PostgreSQL)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/05_test_sql.sh'"],
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "GSTK: Setup PostgreSQL",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/03_pg_setup.sh'"],
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "GSTK: Reset PostgreSQL",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/03_pg_setup.sh' --reset"],
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "MVS: Upload all sources",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/01_upload.sh'"],
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "MVS: Upload current file",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "prog=$(basename '${fileBasenameNoExtension}') && bash '${workspaceFolder}/GSTK/scripts/mvs/01_upload.sh' \"$prog\""
+      ],
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "MVS: Assemble BMS mapsets",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/02_submit.sh' bms"],
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "MVS: Compile COBOL programs",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/02_submit.sh' cobol"],
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "MVS: Incremental build",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/06_build.sh'"],
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "MVS: Full rebuild",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/06_build.sh' --full"],
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "CICS: Install definitions (CEDA)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/03_cics.sh' install"],
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "CICS: NEWCOPY all programs",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/03_cics.sh' newcopy"],
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "CICS: Check program status",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/03_cics.sh' status"],
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "CICS: Run tests (automated)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/08_test_cics.sh' all"],
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "CICS: Smoke test (G000 + G001)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/08_test_cics.sh' smoke"],
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "CI/CD: Full pipeline",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/09_ci.sh'"],
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "CI/CD: Local only (no MVS)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/09_ci.sh' --no-mvs"],
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "CI/CD: Last report",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "cat '${workspaceFolder}/GSTK/scripts/mvs/.reports/latest.txt' 2>/dev/null || echo 'No report yet — run CI/CD pipeline first'"],
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": false },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "MVS: Watch syslog (live)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/herc.sh' watch"],
+      "group": "none",
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "MVS: Show recent spool",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/herc.sh' spool"],
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "MVS: Hot-reload watch (fswatch)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/07_watch.sh'"],
+      "group": "none",
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    }
+
+  ]
+}

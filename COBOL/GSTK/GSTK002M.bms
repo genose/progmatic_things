@@ -1,0 +1,312 @@
+         TITLE 'GSTK002M - MAPSET ENTREE MARCHANDISE'
+*======================================================================*
+* MAPSET  : GSTK002M                                                   *
+* MAP     : GSTK002                                                    *
+* ECRAN   : SAISIE BON D ENTREE MARCHANDISE                           *
+* TAILLE  : 24 x 132  (3270 Model 5)                                  *
+* TRANS   : G002                                                       *
+*======================================================================*
+GSTK002M DFHMSD TYPE=&SYSPARM,                                         X
+               LANG=COBOL,                                             X
+               MODE=INOUT,                                             X
+               TIOAPFX=YES
+*
+GSTK002  DFHMDI SIZE=(24,132),                                         X
+               LINE=1,                                                 X
+               COLUMN=1
+*
+*----------------------------------------------------------------------*
+* LIGNE 2 : TITRE + DATE/HEURE                                        *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(2,2),                                             X
+               LENGTH=32,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL='GSTK002 - ENTREE MARCHANDISE'
+DATHR    DFHMDF POS=(2,111),                                           X
+               LENGTH=19,                                              X
+               ATTRB=(ASKIP,NORM)
+*
+*----------------------------------------------------------------------*
+* LIGNE 3 : SEPARATEUR                                                 *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(3,2),                                             X
+               LENGTH=128,                                             X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='--------------------------------------X
+---------------------------------------------------------------------'
+*
+*----------------------------------------------------------------------*
+* LIGNE 4 : SAISIE CODE ARTICLE + DESIGNATION                         *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(4,2),                                             X
+               LENGTH=15,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='CODE ARTICLE : ['
+ARTCOD   DFHMDF POS=(4,18),                                            X
+               LENGTH=10,                                              X
+               ATTRB=(UNPROT,NORM,BRT)
+         DFHMDF POS=(4,29),                                            X
+               LENGTH=16,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='] DESIGNATION: '
+ARTDES   DFHMDF POS=(4,46),                                            X
+               LENGTH=30,                                              X
+               ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(4,77),                                            X
+               LENGTH=10,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=' STATUT : '
+ARTSTA   DFHMDF POS=(4,88),                                            X
+               LENGTH=10,                                              X
+               ATTRB=(ASKIP,BRT)
+*
+*----------------------------------------------------------------------*
+* LIGNE 5 : CATEGORIE / EMPLACEMENT / FOURNISSEUR HABITUEL            *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(5,2),                                             X
+               LENGTH=13,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='CATEGORIE  : '
+ARTCAT   DFHMDF POS=(5,15),                                            X
+               LENGTH=15,                                              X
+               ATTRB=(ASKIP,NORM)
+         DFHMDF POS=(5,31),                                            X
+               LENGTH=14,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=' EMPLACEMENT: '
+ARTEMP   DFHMDF POS=(5,46),                                            X
+               LENGTH=15,                                              X
+               ATTRB=(ASKIP,NORM)
+         DFHMDF POS=(5,62),                                            X
+               LENGTH=17,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=' FOURNISSEUR H: '
+ARTFRN   DFHMDF POS=(5,80),                                            X
+               LENGTH=10,                                              X
+               ATTRB=(ASKIP,NORM)
+*
+*----------------------------------------------------------------------*
+* LIGNE 6 : NIVEAUX DE STOCK ACTUELS                                  *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(6,2),                                             X
+               LENGTH=17,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='STOCK ACTUEL   : '
+ARTSTK   DFHMDF POS=(6,19),                                            X
+               LENGTH=10,                                              X
+               ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(6,30),                                            X
+               LENGTH=11,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='  MIN. : '
+ARTMIN   DFHMDF POS=(6,42),                                            X
+               LENGTH=8,                                               X
+               ATTRB=(ASKIP,NORM)
+         DFHMDF POS=(6,51),                                            X
+               LENGTH=11,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='  MAX. : '
+ARTMAX   DFHMDF POS=(6,63),                                            X
+               LENGTH=8,                                               X
+               ATTRB=(ASKIP,NORM)
+         DFHMDF POS=(6,72),                                            X
+               LENGTH=16,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='  PRIX ACHAT : '
+ARTPUA   DFHMDF POS=(6,89),                                            X
+               LENGTH=10,                                              X
+               ATTRB=(ASKIP,NORM)
+         DFHMDF POS=(6,100),                                           X
+               LENGTH=3,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='EUR'
+*
+*----------------------------------------------------------------------*
+* LIGNE 7 : SEPARATEUR SAISIE                                         *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(7,2),                                             X
+               LENGTH=23,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL='=== SAISIE MOUVEMENT ==='
+*
+*----------------------------------------------------------------------*
+* LIGNE 8 : QUANTITE ENTREE                                           *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(8,2),                                             X
+               LENGTH=20,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='QUANTITE ENTREE    : ['
+QTEENT   DFHMDF POS=(8,23),                                            X
+               LENGTH=10,                                              X
+               ATTRB=(UNPROT,NUM,BRT)
+         DFHMDF POS=(8,34),                                            X
+               LENGTH=1,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 9 : PRIX ACHAT UNITAIRE                                       *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(9,2),                                             X
+               LENGTH=20,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='PRIX ACHAT UNIT.   : ['
+PRIACH   DFHMDF POS=(9,23),                                            X
+               LENGTH=12,                                              X
+               ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(9,36),                                            X
+               LENGTH=4,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='] '
+*
+*----------------------------------------------------------------------*
+* LIGNE 10 : NUMERO BON ENTREE                                        *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(10,2),                                            X
+               LENGTH=20,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='N. BON ENTREE      : ['
+NUMBON   DFHMDF POS=(10,23),                                           X
+               LENGTH=12,                                              X
+               ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(10,36),                                           X
+               LENGTH=1,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 11 : NUMERO LOT                                               *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(11,2),                                            X
+               LENGTH=20,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='N. LOT             : ['
+NUMLOT   DFHMDF POS=(11,23),                                           X
+               LENGTH=30,                                              X
+               ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(11,54),                                           X
+               LENGTH=1,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 12 : FOURNISSEUR                                              *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(12,2),                                            X
+               LENGTH=20,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='FOURNISSEUR        : ['
+NOMFRN   DFHMDF POS=(12,23),                                           X
+               LENGTH=40,                                              X
+               ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(12,64),                                           X
+               LENGTH=1,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 13 : REFERENCE FOURNISSEUR                                    *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(13,2),                                            X
+               LENGTH=20,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='REFERENCE FRN.     : ['
+REFFRN   DFHMDF POS=(13,23),                                           X
+               LENGTH=30,                                              X
+               ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(13,54),                                           X
+               LENGTH=1,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 14 : NUMERO COMMANDE                                          *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(14,2),                                            X
+               LENGTH=20,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='N. COMMANDE        : ['
+NUMCMD   DFHMDF POS=(14,23),                                           X
+               LENGTH=20,                                              X
+               ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(14,44),                                           X
+               LENGTH=1,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 15 : COMMENTAIRE                                              *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(15,2),                                            X
+               LENGTH=20,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='COMMENTAIRE        : ['
+COMMNT   DFHMDF POS=(15,23),                                           X
+               LENGTH=80,                                              X
+               ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(15,104),                                          X
+               LENGTH=1,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 17 : MONTANT CALCULE                                          *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(17,2),                                            X
+               LENGTH=20,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='MONTANT HT         : '
+MNTHTE   DFHMDF POS=(17,23),                                           X
+               LENGTH=15,                                              X
+               ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(17,39),                                           X
+               LENGTH=3,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='EUR'
+         DFHMDF POS=(17,50),                                           X
+               LENGTH=30,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='(QUANTITE x PRIX ACHAT UNIT.)'
+*
+*----------------------------------------------------------------------*
+* LIGNE 19 : INDICATEUR VALIDATION                                    *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(19,2),                                            X
+               LENGTH=20,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='ETAT               : '
+ETATMVT  DFHMDF POS=(19,23),                                           X
+               LENGTH=20,                                              X
+               ATTRB=(ASKIP,BRT)
+*
+*----------------------------------------------------------------------*
+* LIGNE 20 : ZONE MESSAGE RETOUR                                      *
+*----------------------------------------------------------------------*
+MSGRTR   DFHMDF POS=(20,2),                                            X
+               LENGTH=79,                                              X
+               ATTRB=(ASKIP,BRT)
+*
+*----------------------------------------------------------------------*
+* LIGNE 22 : TOUCHES DE FONCTION                                      *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(22,2),                                            X
+               LENGTH=70,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='PF3=MENU  PF5=RECHERCHER  PF6=VALIDER ENTX
+REE  PF12=ANNULER  ENT=MONTANT'
+*
+*----------------------------------------------------------------------*
+* LIGNE 23 : INFORMATIONS SESSION                                     *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(23,2),LENGTH=10,ATTRB=(ASKIP,NORM),              X
+               INITIAL='OPERATEUR:'
+OPENAM   DFHMDF POS=(23,13),LENGTH=10,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(23,24),LENGTH=9,ATTRB=(ASKIP,NORM),              X
+               INITIAL='TERMINAL:'
+TERNAM   DFHMDF POS=(23,34),LENGTH=10,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(23,45),LENGTH=8,ATTRB=(ASKIP,NORM),              X
+               INITIAL='SESSION:'
+SESNAM   DFHMDF POS=(23,54),LENGTH=25,ATTRB=(ASKIP,NORM)
+*
+         DFHMSD TYPE=FINAL
+         END

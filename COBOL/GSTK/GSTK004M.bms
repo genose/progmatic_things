@@ -1,0 +1,173 @@
+         TITLE 'GSTK004M - MAPSET CREATION MODIFICATION ARTICLE'
+*======================================================================*
+* MAPSET  : GSTK004M                                                   *
+* MAP     : GSTK004                                                    *
+* ECRAN   : CREATION / MODIFICATION ARTICLE                           *
+* TAILLE  : 24 x 132  (3270 Model 5)                                  *
+* TRANS   : G004                                                       *
+*======================================================================*
+GSTK004M DFHMSD TYPE=&SYSPARM,                                         X
+               LANG=COBOL,                                             X
+               MODE=INOUT,                                             X
+               TIOAPFX=YES
+*
+GSTK004  DFHMDI SIZE=(24,132),                                         X
+               LINE=1,                                                 X
+               COLUMN=1
+*
+*----------------------------------------------------------------------*
+* LIGNE 2 : TITRE + DATE/HEURE                                        *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(2,2),LENGTH=40,ATTRB=(ASKIP,BRT),                X
+               INITIAL='GSTK004 - CREATION / MODIFICATION ARTICLE'
+DATHR    DFHMDF POS=(2,111),LENGTH=19,ATTRB=(ASKIP,NORM)
+*
+*----------------------------------------------------------------------*
+* LIGNE 3 : SEPARATEUR + INDICATEUR DE MODE                          *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(3,2),LENGTH=55,ATTRB=(ASKIP,NORM),               X
+               INITIAL='-----------------------------------------------X
+--------'
+MODIND   DFHMDF POS=(3,70),LENGTH=25,ATTRB=(ASKIP,BRT)
+*
+*----------------------------------------------------------------------*
+* LIGNE 4 : CODE ARTICLE + STATUT                                     *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(4,2),LENGTH=8,ATTRB=(ASKIP,NORM),                X
+               INITIAL='CODE   ['
+ARTCOD   DFHMDF POS=(4,10),LENGTH=10,ATTRB=(UNPROT,NORM,BRT)
+         DFHMDF POS=(4,21),LENGTH=10,ATTRB=(ASKIP,NORM),              X
+               INITIAL='] STATUT ['
+ARTSTA   DFHMDF POS=(4,31),LENGTH=10,ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(4,42),LENGTH=44,ATTRB=(ASKIP,NORM),              X
+               INITIAL='] (ACTIF/INACTIF/ARCHIVE)'
+*
+*----------------------------------------------------------------------*
+* LIGNE 5 : DESIGNATION                                               *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(5,2),LENGTH=14,ATTRB=(ASKIP,NORM),               X
+               INITIAL='DESIGNATION  ['
+ARTDES   DFHMDF POS=(5,16),LENGTH=50,ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(5,67),LENGTH=1,ATTRB=(ASKIP,NORM),INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 6 : DESCRIPTION LONGUE                                        *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(6,2),LENGTH=14,ATTRB=(ASKIP,NORM),               X
+               INITIAL='DESCRIPTION  ['
+ARTDSC   DFHMDF POS=(6,16),LENGTH=80,ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(6,97),LENGTH=1,ATTRB=(ASKIP,NORM),INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 7 : CATEGORIE / SOUS-CAT / UNITE                             *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(7,2),LENGTH=11,ATTRB=(ASKIP,NORM),               X
+               INITIAL='CATEGORIE  ['
+ARTCAT   DFHMDF POS=(7,13),LENGTH=15,ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(7,29),LENGTH=11,ATTRB=(ASKIP,NORM),              X
+               INITIAL='] SOUS-CAT ['
+ARTSCT   DFHMDF POS=(7,40),LENGTH=15,ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(7,56),LENGTH=8,ATTRB=(ASKIP,NORM),               X
+               INITIAL='] UNITE['
+ARTUNI   DFHMDF POS=(7,64),LENGTH=10,ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(7,75),LENGTH=1,ATTRB=(ASKIP,NORM),INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 8 : EMPLACEMENT / CODE FRN / CODE BARRE                      *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(8,2),LENGTH=7,ATTRB=(ASKIP,NORM),                X
+               INITIAL='EMPL.  ['
+ARTEMP   DFHMDF POS=(8,9),LENGTH=15,ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(8,25),LENGTH=10,ATTRB=(ASKIP,NORM),              X
+               INITIAL='] FRN CODE['
+ARTFRN   DFHMDF POS=(8,35),LENGTH=10,ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(8,46),LENGTH=12,ATTRB=(ASKIP,NORM),              X
+               INITIAL='] CODE BARRE['
+ARTCDB   DFHMDF POS=(8,58),LENGTH=13,ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(8,72),LENGTH=1,ATTRB=(ASKIP,NORM),INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 9 : STOCKS (STK ACTUEL DISPLAY ONLY / QTE MIN / QTE MAX)     *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(9,2),LENGTH=13,ATTRB=(ASKIP,NORM),               X
+               INITIAL='STK ACTUEL : '
+ARTSTK   DFHMDF POS=(9,15),LENGTH=12,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(9,28),LENGTH=10,ATTRB=(ASKIP,NORM),              X
+               INITIAL='  QTE MIN ['
+ARTQMN   DFHMDF POS=(9,38),LENGTH=10,ATTRB=(UNPROT,NUM,NORM)
+         DFHMDF POS=(9,49),LENGTH=10,ATTRB=(ASKIP,NORM),              X
+               INITIAL='] QTE MAX ['
+ARTQMX   DFHMDF POS=(9,59),LENGTH=10,ATTRB=(UNPROT,NUM,NORM)
+         DFHMDF POS=(9,70),LENGTH=1,ATTRB=(ASKIP,NORM),INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 10 : PRIX ACHAT / PRIX VENTE / TVA                           *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(10,2),LENGTH=12,ATTRB=(ASKIP,NORM),              X
+               INITIAL='PRIX ACHAT  ['
+ARTPAC   DFHMDF POS=(10,14),LENGTH=12,ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(10,27),LENGTH=13,ATTRB=(ASKIP,NORM),             X
+               INITIAL='] PRIX VENTE['
+ARTPVT   DFHMDF POS=(10,40),LENGTH=12,ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(10,53),LENGTH=7,ATTRB=(ASKIP,NORM),              X
+               INITIAL='] TVA % ['
+ARTTVA   DFHMDF POS=(10,61),LENGTH=6,ATTRB=(UNPROT,NUM,NORM)
+         DFHMDF POS=(10,68),LENGTH=1,ATTRB=(ASKIP,NORM),INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 11 : DELAI APPRO                                              *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(11,2),LENGTH=14,ATTRB=(ASKIP,NORM),              X
+               INITIAL='DELAI APPRO  ['
+ARTDLV   DFHMDF POS=(11,16),LENGTH=4,ATTRB=(UNPROT,NUM,NORM)
+         DFHMDF POS=(11,21),LENGTH=6,ATTRB=(ASKIP,NORM),              X
+               INITIAL='] JOUR'
+*
+*----------------------------------------------------------------------*
+* LIGNE 13 : VALEUR STOCK CALCULEE                                    *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(13,2),LENGTH=20,ATTRB=(ASKIP,NORM),              X
+               INITIAL='VALEUR STOCK ACT.  : '
+STKVLR   DFHMDF POS=(13,23),LENGTH=15,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(13,39),LENGTH=3,ATTRB=(ASKIP,NORM),INITIAL='EUR'
+*
+*----------------------------------------------------------------------*
+* LIGNE 14 : DATES ARTICLE (DATE CREATION / DATE MAJ)                *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(14,2),LENGTH=14,ATTRB=(ASKIP,NORM),              X
+               INITIAL='DATE CREATION: '
+ARTDTC   DFHMDF POS=(14,16),LENGTH=10,ATTRB=(ASKIP,NORM)
+         DFHMDF POS=(14,27),LENGTH=12,ATTRB=(ASKIP,NORM),             X
+               INITIAL='  DATE MAJ : '
+ARTDTM   DFHMDF POS=(14,40),LENGTH=10,ATTRB=(ASKIP,NORM)
+         DFHMDF POS=(14,51),LENGTH=14,ATTRB=(ASKIP,NORM),             X
+               INITIAL='  OPERATEUR: '
+ARTOPE   DFHMDF POS=(14,65),LENGTH=10,ATTRB=(ASKIP,NORM)
+*
+*----------------------------------------------------------------------*
+* LIGNE 20 : MESSAGE RETOUR                                           *
+*----------------------------------------------------------------------*
+MSGRTR   DFHMDF POS=(20,2),LENGTH=79,ATTRB=(ASKIP,BRT)
+*
+*----------------------------------------------------------------------*
+* LIGNE 22 : TOUCHES DE FONCTION                                      *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(22,2),LENGTH=80,ATTRB=(ASKIP,NORM),              X
+               INITIAL='PF3=MENU  PF5=CHARGER  PF6=ENREGISTRER  PF9X
+=ARCHIVER  PF12=ANNULER'
+*
+*----------------------------------------------------------------------*
+* LIGNE 23 : SESSION                                                  *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(23,2),LENGTH=10,ATTRB=(ASKIP,NORM),              X
+               INITIAL='OPERATEUR:'
+OPENAM   DFHMDF POS=(23,13),LENGTH=10,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(23,24),LENGTH=9,ATTRB=(ASKIP,NORM),              X
+               INITIAL='TERMINAL:'
+TERNAM   DFHMDF POS=(23,34),LENGTH=10,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(23,45),LENGTH=8,ATTRB=(ASKIP,NORM),              X
+               INITIAL='SESSION:'
+SESNAM   DFHMDF POS=(23,54),LENGTH=25,ATTRB=(ASKIP,NORM)
+*
+         DFHMSD TYPE=FINAL
+         END

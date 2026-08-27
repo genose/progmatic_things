@@ -1,0 +1,198 @@
+         TITLE 'GSTK000M - MAPSET MENU PRINCIPAL'
+*======================================================================*
+* MAPSET  : GSTK000M                                                   *
+* MAP     : GSTK000                                                    *
+* ECRAN   : MENU PRINCIPAL + TABLEAU DE BORD KPI                      *
+* TAILLE  : 24 x 132  (3270 Model 5)                                  *
+* TRANS   : G000                                                       *
+*======================================================================*
+GSTK000M DFHMSD TYPE=&SYSPARM,                                         X
+               LANG=COBOL,                                             X
+               MODE=INOUT,                                             X
+               TIOAPFX=YES
+*
+GSTK000  DFHMDI SIZE=(24,132),                                         X
+               LINE=1,                                                 X
+               COLUMN=1
+*
+*----------------------------------------------------------------------*
+* LIGNE 2 : TITRE PRINCIPAL + DATE/HEURE                              *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(2,35),                                            X
+               LENGTH=42,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL='* SYSTEME DE GESTION DE STOCK *'
+DATHR    DFHMDF POS=(2,111),                                           X
+               LENGTH=19,                                              X
+               ATTRB=(ASKIP,NORM)
+*
+*----------------------------------------------------------------------*
+* LIGNE 3 : SOUS-TITRE ENVIRONNEMENT                                  *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(3,24),                                            X
+               LENGTH=63,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='IBM MAINFRAME . CICS/COBOL V2.4 . REGION: PROD01 . LPAR: SYS1'
+*
+*----------------------------------------------------------------------*
+* LIGNE 5 : TITRE MENU                                                *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(5,53),                                            X
+               LENGTH=21,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL='=== MENU PRINCIPAL ==='
+*
+*----------------------------------------------------------------------*
+* LIGNE 7 : EN-TETES DES DEUX COLONNES                               *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(7,4),                                             X
+               LENGTH=19,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL='>> GESTION ARTICLES'
+         DFHMDF POS=(7,72),                                            X
+               LENGTH=28,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL='>> RAPPORTS & ADMINISTRATION'
+*
+*----------------------------------------------------------------------*
+* LIGNES 9-12 : OPTIONS DU MENU                                       *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(9,6),                                             X
+               LENGTH=21,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='1. CONSULTATION STOCK'
+         DFHMDF POS=(9,72),                                            X
+               LENGTH=17,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='5. RAPPORTS STOCK'
+*
+         DFHMDF POS=(10,6),                                            X
+               LENGTH=21,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='2. ENTREE MARCHANDISE'
+         DFHMDF POS=(10,72),                                           X
+               LENGTH=25,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='6. ALERTES STOCK CRITIQUE'
+*
+         DFHMDF POS=(11,6),                                            X
+               LENGTH=21,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='3. SORTIE MARCHANDISE'
+         DFHMDF POS=(11,72),                                           X
+               LENGTH=24,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='7. HISTORIQUE MOUVEMENTS'
+*
+         DFHMDF POS=(12,6),                                            X
+               LENGTH=34,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='4. CREATION / MODIFICATION ARTICLE'
+         DFHMDF POS=(12,72),                                           X
+               LENGTH=17,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL='0. FIN DE SESSION'
+*
+*----------------------------------------------------------------------*
+* LIGNE 14 : SAISIE DU CHOIX                                          *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(14,54),                                           X
+               LENGTH=15,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='VOTRE CHOIX : ['
+CHOIX    DFHMDF POS=(14,70),                                           X
+               LENGTH=1,                                               X
+               ATTRB=(UNPROT,NUM,BRT)
+         DFHMDF POS=(14,72),                                           X
+               LENGTH=1,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNES 16-18 : TABLEAU DE BORD KPI                                  *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(16,2),                                            X
+               LENGTH=16,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL='TABLEAU DE BORD '
+*
+         DFHMDF POS=(17,4),                                            X
+               LENGTH=17,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='ARTICLES ACTIFS :'
+ARTCNT   DFHMDF POS=(17,22),                                           X
+               LENGTH=5,                                               X
+               ATTRB=(ASKIP,BRT)
+*
+         DFHMDF POS=(17,36),                                           X
+               LENGTH=15,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='VALEUR TOTALE :'
+STKVLR   DFHMDF POS=(17,52),                                           X
+               LENGTH=15,                                              X
+               ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(17,68),                                           X
+               LENGTH=3,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='EUR'
+*
+         DFHMDF POS=(18,4),                                            X
+               LENGTH=19,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='ALERTES CRITIQUES :'
+ALTCNT   DFHMDF POS=(18,24),                                           X
+               LENGTH=4,                                               X
+               ATTRB=(ASKIP,BRT)
+*
+         DFHMDF POS=(18,36),                                           X
+               LENGTH=13,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='MVTS DU JOUR:'
+MVTCNT   DFHMDF POS=(18,50),                                           X
+               LENGTH=5,                                               X
+               ATTRB=(ASKIP,BRT)
+*
+*----------------------------------------------------------------------*
+* LIGNE 20 : ZONE MESSAGE RETOUR (erreur / info)                      *
+*----------------------------------------------------------------------*
+MSGRTR   DFHMDF POS=(20,2),                                            X
+               LENGTH=79,                                              X
+               ATTRB=(ASKIP,BRT)
+*
+*----------------------------------------------------------------------*
+* LIGNE 22 : TOUCHES DE FONCTION                                      *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(22,2),                                            X
+               LENGTH=50,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='PF1=AIDE  PF2=FIN  PF7=HAUT  PF8=BAS  PF12=ANNUL'
+*
+*----------------------------------------------------------------------*
+* LIGNE 23 : INFORMATIONS SESSION                                     *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(23,2),                                            X
+               LENGTH=10,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='OPERATEUR:'
+OPENAM   DFHMDF POS=(23,13),                                           X
+               LENGTH=10,                                              X
+               ATTRB=(ASKIP,BRT)
+*
+         DFHMDF POS=(23,24),                                           X
+               LENGTH=9,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='TERMINAL:'
+TERNAM   DFHMDF POS=(23,34),                                           X
+               LENGTH=10,                                              X
+               ATTRB=(ASKIP,BRT)
+*
+         DFHMDF POS=(23,45),                                           X
+               LENGTH=8,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='SESSION:'
+SESNAM   DFHMDF POS=(23,54),                                           X
+               LENGTH=25,                                              X
+               ATTRB=(ASKIP,NORM)
+*
+         DFHMSD TYPE=FINAL
+         END

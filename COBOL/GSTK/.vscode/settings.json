@@ -1,0 +1,58 @@
+{
+  // ── Broadcom COBOL Language Support (Code4z) ──────────────────────────────
+  // Copybook resolution: project dirs searched before system dirs
+  "cobol-lsp.cpy.copybooks.local.paths.user": [
+    "GSTK",
+    "CRM"
+  ],
+  // SQL backend for embedded SQL recognition (DB2 syntax)
+  "cobol-lsp.target.sql.backend": "DB2",
+  // Reduce noise in output
+  "cobol-lsp.logging.level.root": "ERROR",
+
+  // ── File associations ─────────────────────────────────────────────────────
+  "files.associations": {
+    "*.cbl": "COBOL",
+    "*.CBL": "COBOL",
+    "*.cob": "COBOL",
+    "*.COB": "COBOL",
+    "*.cpy": "COBOL",
+    "*.CPY": "COBOL",
+    "*.SCO": "COBOL",
+    "*.jcl": "JCL",
+    "*.JCL": "JCL",
+    "*.sql": "sql"
+  },
+
+  // ── COBOL editor rules ────────────────────────────────────────────────────
+  // Classic COBOL columns: 1-6 seq, 7 indicator, 8-11 area A, 12-72 area B
+  "[COBOL]": {
+    "editor.rulers": [6, 7, 11, 72, 80],
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.wordWrap": "off",
+    "editor.detectIndentation": false
+  },
+  "[JCL]": {
+    "editor.rulers": [72, 80],
+    "editor.wordWrap": "off"
+  },
+
+  // ── GnuCOBOL debug extension (olegkunitsyn.gnucobol-debug) ───────────────
+  "gnucobolDebug.gdbPath": "/usr/local/bin/gdb",
+  "gnucobolDebug.cobcPath": "/opt/local/bin/cobc",
+
+  // ── Search / file explorer ────────────────────────────────────────────────
+  "search.exclude": {
+    "**/bin/**": true,
+    "**/*.o": true
+  },
+  "files.exclude": {
+    "**/*.o": true
+  },
+
+  // ── Zowe Explorer ─────────────────────────────────────────────────────────
+  // TK5 (MVS 3.8j) has no z/OSMF — add a profile here if school z/OS available
+  // "zowe.defaultProfile": { "zosmf": "myprofile" }
+  "zowe.files.logsFolder.path": "${workspaceFolder}/.zowe/logs"
+}

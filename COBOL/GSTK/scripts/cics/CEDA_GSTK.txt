@@ -1,0 +1,140 @@
+*=============================================================*
+* DEFINITIONS CICS - GROUPE GSTK                             *
+* Interface : CEDA (CICS Explorer ou ISPF CICS)              *
+*                                                             *
+* Ordre d'exécution :                                        *
+*   1. CEDA DEF MAPSET (chaque mapset BMS)                   *
+*   2. CEDA DEF PROGRAM (chaque programme COBOL)             *
+*   3. CEDA DEF TRANSACTION (chaque code trans)              *
+*   4. CEDA INSTALL GROUP(GSTK)                              *
+*   5. CEMT SET PROG(GSTKxxx) NEW  (après recompilation)     *
+*=============================================================*
+
+
+*-------------------------------------------------------------*
+* 1. MAPSETS BMS
+*-------------------------------------------------------------*
+CEDA DEF MAPSET(GSTK000M) GROUP(GSTK) RESIDENT(NO)
+CEDA DEF MAPSET(GSTK001M) GROUP(GSTK) RESIDENT(NO)
+CEDA DEF MAPSET(GSTK002M) GROUP(GSTK) RESIDENT(NO)
+CEDA DEF MAPSET(GSTK003M) GROUP(GSTK) RESIDENT(NO)
+CEDA DEF MAPSET(GSTK004M) GROUP(GSTK) RESIDENT(NO)
+CEDA DEF MAPSET(GSTK005M) GROUP(GSTK) RESIDENT(NO)
+CEDA DEF MAPSET(GSTK006M) GROUP(GSTK) RESIDENT(NO)
+CEDA DEF MAPSET(GSTK007M) GROUP(GSTK) RESIDENT(NO)
+
+*-------------------------------------------------------------*
+* 2. PROGRAMMES COBOL
+*-------------------------------------------------------------*
+CEDA DEF PROGRAM(GSTK000) GROUP(GSTK)
+         LANGUAGE(COBOL)
+         RELOAD(NO)
+         RESIDENT(NO)
+         USAGE(NORMAL)
+         EXECKEY(USER)
+         CONCURRENCY(QUASIRENT)
+
+CEDA DEF PROGRAM(GSTK001) GROUP(GSTK)
+         LANGUAGE(COBOL) RELOAD(NO) RESIDENT(NO)
+         USAGE(NORMAL) EXECKEY(USER) CONCURRENCY(QUASIRENT)
+
+CEDA DEF PROGRAM(GSTK002) GROUP(GSTK)
+         LANGUAGE(COBOL) RELOAD(NO) RESIDENT(NO)
+         USAGE(NORMAL) EXECKEY(USER) CONCURRENCY(QUASIRENT)
+
+CEDA DEF PROGRAM(GSTK003) GROUP(GSTK)
+         LANGUAGE(COBOL) RELOAD(NO) RESIDENT(NO)
+         USAGE(NORMAL) EXECKEY(USER) CONCURRENCY(QUASIRENT)
+
+CEDA DEF PROGRAM(GSTK004) GROUP(GSTK)
+         LANGUAGE(COBOL) RELOAD(NO) RESIDENT(NO)
+         USAGE(NORMAL) EXECKEY(USER) CONCURRENCY(QUASIRENT)
+
+CEDA DEF PROGRAM(GSTK005) GROUP(GSTK)
+         LANGUAGE(COBOL) RELOAD(NO) RESIDENT(NO)
+         USAGE(NORMAL) EXECKEY(USER) CONCURRENCY(QUASIRENT)
+
+CEDA DEF PROGRAM(GSTK006) GROUP(GSTK)
+         LANGUAGE(COBOL) RELOAD(NO) RESIDENT(NO)
+         USAGE(NORMAL) EXECKEY(USER) CONCURRENCY(QUASIRENT)
+
+CEDA DEF PROGRAM(GSTK007) GROUP(GSTK)
+         LANGUAGE(COBOL) RELOAD(NO) RESIDENT(NO)
+         USAGE(NORMAL) EXECKEY(USER) CONCURRENCY(QUASIRENT)
+
+*-------------------------------------------------------------*
+* 3. TRANSACTIONS (codes 4 caractères = codes trans CICS)
+*-------------------------------------------------------------*
+CEDA DEF TRANSACTION(G000) GROUP(GSTK)
+         PROGRAM(GSTK000)
+         PROFILE(DFHCICST)
+         STATUS(ENABLED)
+         TASKDATAKEY(USER)
+         CMDSEC(NO)
+         RESSEC(NO)
+
+CEDA DEF TRANSACTION(G001) GROUP(GSTK)
+         PROGRAM(GSTK001) PROFILE(DFHCICST) STATUS(ENABLED)
+         TASKDATAKEY(USER)
+
+CEDA DEF TRANSACTION(G002) GROUP(GSTK)
+         PROGRAM(GSTK002) PROFILE(DFHCICST) STATUS(ENABLED)
+         TASKDATAKEY(USER)
+
+CEDA DEF TRANSACTION(G003) GROUP(GSTK)
+         PROGRAM(GSTK003) PROFILE(DFHCICST) STATUS(ENABLED)
+         TASKDATAKEY(USER)
+
+CEDA DEF TRANSACTION(G004) GROUP(GSTK)
+         PROGRAM(GSTK004) PROFILE(DFHCICST) STATUS(ENABLED)
+         TASKDATAKEY(USER)
+
+CEDA DEF TRANSACTION(G005) GROUP(GSTK)
+         PROGRAM(GSTK005) PROFILE(DFHCICST) STATUS(ENABLED)
+         TASKDATAKEY(USER)
+
+CEDA DEF TRANSACTION(G006) GROUP(GSTK)
+         PROGRAM(GSTK006) PROFILE(DFHCICST) STATUS(ENABLED)
+         TASKDATAKEY(USER)
+
+CEDA DEF TRANSACTION(G007) GROUP(GSTK)
+         PROGRAM(GSTK007) PROFILE(DFHCICST) STATUS(ENABLED)
+         TASKDATAKEY(USER)
+
+*-------------------------------------------------------------*
+* 4. INSTALLATION DU GROUPE
+*-------------------------------------------------------------*
+CEDA INSTALL GROUP(GSTK)
+
+*-------------------------------------------------------------*
+* 5. APRES RECOMPILATION : recharger un programme sans restart
+*    (CEMT en ligne ou via ISPF option CICS)
+*-------------------------------------------------------------*
+CEMT SET PROGRAM(GSTK000) NEWCOPY
+CEMT SET PROGRAM(GSTK001) NEWCOPY
+CEMT SET PROGRAM(GSTK002) NEWCOPY
+CEMT SET PROGRAM(GSTK003) NEWCOPY
+CEMT SET PROGRAM(GSTK004) NEWCOPY
+CEMT SET PROGRAM(GSTK005) NEWCOPY
+CEMT SET PROGRAM(GSTK006) NEWCOPY
+CEMT SET PROGRAM(GSTK007) NEWCOPY
+
+*-------------------------------------------------------------*
+* 6. DIAGNOSTIC RAPIDE (si une trans ne fonctionne pas)
+*-------------------------------------------------------------*
+* Vérifier le statut d'un programme :
+*   CEMT INQ PROG(GSTK007)
+*
+* Codes erreur courants dans le message CICS :
+*   PGMIDERR   → programme non défini ou non trouvé en LOADLIB
+*   MAPFAIL    → mapset non trouvé ou non assemblé
+*   LENGERR    → COMMAREA longueur incorrecte
+*   NOTOPEN    → fichier/connexion DB2 non ouverte
+*
+* Vérifier la connexion DB2 :
+*   CEMT INQ DB2CONN
+*
+* Consulter le log CICS (CEMF ou MSGUSR) :
+*   CEMT INQ TASK       → tâches en cours
+*   CEDF GSTK007        → mode débogage pas-à-pas (trace EXEC CICS)
+*=============================================================*

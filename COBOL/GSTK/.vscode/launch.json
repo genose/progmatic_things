@@ -1,0 +1,35 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+
+    {
+      "name": "Run COBOL (lldb)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/${fileBasenameNoExtension}",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "preLaunchTask": "COBOL: Compile current file"
+    },
+
+    {
+      "name": "Debug COBOL (gdb + GnuCOBOL)",
+      "type": "gdb",
+      "request": "launch",
+      "target": "${workspaceFolder}/bin/${fileBasenameNoExtension}",
+      "cwd": "${workspaceFolder}",
+      "gdbpath": "/usr/local/bin/gdb",
+      "cobcpath": "/opt/local/bin/cobc",
+      "cobcargs": ["-std=ibm", "-x", "-g", "-fdebugging-line",
+                   "-I", "${workspaceFolder}/GSTK",
+                   "-I", "${workspaceFolder}/CRM"],
+      "verbose": false,
+      "preLaunchTask": "COBOL: Compile current file (debug)"
+    }
+
+  ]
+}

@@ -1,0 +1,339 @@
+         TITLE 'GSTK001M - MAPSET CONSULTATION STOCK'
+*======================================================================*
+* MAPSET  : GSTK001M                                                   *
+* MAP     : GSTK001                                                    *
+* ECRAN   : CONSULTATION STOCK - LISTE AVEC FILTRES ET BARRE ASCII    *
+* TAILLE  : 24 x 132  (3270 Model 5)                                  *
+* TRANS   : G001                                                       *
+*----------------------------------------------------------------------*
+* COLONNES DONNEES (position attribut → debut donnees) :              *
+*   SEL(1→2) LN(3→4) AC(7→8) DS(18→19) CT(43→44) QT(53→54)          *
+*   MN(59→60) MX(64→65) PU(70→71) VL(79→80) GR(90→91)               *
+*   ST(111→112) EM(120→121)                                           *
+*======================================================================*
+GSTK001M DFHMSD TYPE=&SYSPARM,                                         X
+               LANG=COBOL,                                             X
+               MODE=INOUT,                                             X
+               TIOAPFX=YES
+*
+GSTK001  DFHMDI SIZE=(24,132),                                         X
+               LINE=1,                                                 X
+               COLUMN=1
+*
+*----------------------------------------------------------------------*
+* LIGNE 3 : TITRE + DATE/HEURE                                        *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(3,2),                                             X
+               LENGTH=30,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL='GSTK001 - CONSULTATION STOCK'
+DATHR    DFHMDF POS=(3,111),                                           X
+               LENGTH=19,                                              X
+               ATTRB=(ASKIP,NORM)
+*
+*----------------------------------------------------------------------*
+* LIGNE 4 : FILTRES DE RECHERCHE                                      *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(4,1),                                             X
+               LENGTH=11,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='CODE ART ['
+FILCO    DFHMDF POS=(4,13),                                            X
+               LENGTH=10,                                              X
+               ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(4,24),                                            X
+               LENGTH=11,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='] LIBELLE ['
+FILLB    DFHMDF POS=(4,36),                                            X
+               LENGTH=20,                                              X
+               ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(4,57),                                            X
+               LENGTH=9,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='] CATEG ['
+FILCA    DFHMDF POS=(4,67),                                            X
+               LENGTH=15,                                              X
+               ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(4,83),                                            X
+               LENGTH=10,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='] STATUT ['
+FILST    DFHMDF POS=(4,94),                                            X
+               LENGTH=10,                                              X
+               ATTRB=(UNPROT,NORM)
+         DFHMDF POS=(4,105),                                           X
+               LENGTH=1,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=']'
+*
+*----------------------------------------------------------------------*
+* LIGNE 6 : EN-TETES COLONNES                                         *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(6,1),                                             X
+               LENGTH=3,                                               X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL='SEL'
+         DFHMDF POS=(6,3),                                             X
+               LENGTH=4,                                               X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL=' NO.'
+         DFHMDF POS=(6,7),                                             X
+               LENGTH=11,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL=' CODE ART.'
+         DFHMDF POS=(6,18),                                            X
+               LENGTH=25,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL=' DESIGNATION'
+         DFHMDF POS=(6,43),                                            X
+               LENGTH=10,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL=' CATEG.'
+         DFHMDF POS=(6,53),                                            X
+               LENGTH=6,                                               X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL=' QTE'
+         DFHMDF POS=(6,59),                                            X
+               LENGTH=5,                                               X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL=' MIN'
+         DFHMDF POS=(6,64),                                            X
+               LENGTH=6,                                               X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL=' MAX'
+         DFHMDF POS=(6,70),                                            X
+               LENGTH=9,                                               X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL=' PRIX U.'
+         DFHMDF POS=(6,79),                                            X
+               LENGTH=11,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL=' VALEUR'
+         DFHMDF POS=(6,90),                                            X
+               LENGTH=21,                                              X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL=' GRAPHIQUE'
+         DFHMDF POS=(6,111),                                           X
+               LENGTH=9,                                               X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL=' STATUT'
+         DFHMDF POS=(6,120),                                           X
+               LENGTH=8,                                               X
+               ATTRB=(ASKIP,BRT),                                      X
+               INITIAL=' EMPL.'
+*
+*----------------------------------------------------------------------*
+* LIGNES 7-16 : 10 LIGNES DE DONNEES ARTICLES                        *
+*----------------------------------------------------------------------*
+*-- LIGNE 01 (row 7)
+SEL01    DFHMDF POS=(7,1),LENGTH=1,ATTRB=(UNPROT,NORM)
+LN01     DFHMDF POS=(7,3),LENGTH=3,ATTRB=(ASKIP,NORM)
+AC01     DFHMDF POS=(7,7),LENGTH=10,ATTRB=(ASKIP,BRT)
+DS01     DFHMDF POS=(7,18),LENGTH=24,ATTRB=(ASKIP,NORM)
+CT01     DFHMDF POS=(7,43),LENGTH=9,ATTRB=(ASKIP,NORM)
+QT01     DFHMDF POS=(7,53),LENGTH=5,ATTRB=(ASKIP,BRT)
+MN01     DFHMDF POS=(7,59),LENGTH=4,ATTRB=(ASKIP,NORM)
+MX01     DFHMDF POS=(7,64),LENGTH=5,ATTRB=(ASKIP,NORM)
+PU01     DFHMDF POS=(7,70),LENGTH=8,ATTRB=(ASKIP,NORM)
+VL01     DFHMDF POS=(7,79),LENGTH=10,ATTRB=(ASKIP,NORM)
+GR01     DFHMDF POS=(7,90),LENGTH=20,ATTRB=(ASKIP,NORM)
+ST01     DFHMDF POS=(7,111),LENGTH=8,ATTRB=(ASKIP,BRT)
+EM01     DFHMDF POS=(7,120),LENGTH=8,ATTRB=(ASKIP,NORM)
+*-- LIGNE 02 (row 8)
+SEL02    DFHMDF POS=(8,1),LENGTH=1,ATTRB=(UNPROT,NORM)
+LN02     DFHMDF POS=(8,3),LENGTH=3,ATTRB=(ASKIP,NORM)
+AC02     DFHMDF POS=(8,7),LENGTH=10,ATTRB=(ASKIP,BRT)
+DS02     DFHMDF POS=(8,18),LENGTH=24,ATTRB=(ASKIP,NORM)
+CT02     DFHMDF POS=(8,43),LENGTH=9,ATTRB=(ASKIP,NORM)
+QT02     DFHMDF POS=(8,53),LENGTH=5,ATTRB=(ASKIP,BRT)
+MN02     DFHMDF POS=(8,59),LENGTH=4,ATTRB=(ASKIP,NORM)
+MX02     DFHMDF POS=(8,64),LENGTH=5,ATTRB=(ASKIP,NORM)
+PU02     DFHMDF POS=(8,70),LENGTH=8,ATTRB=(ASKIP,NORM)
+VL02     DFHMDF POS=(8,79),LENGTH=10,ATTRB=(ASKIP,NORM)
+GR02     DFHMDF POS=(8,90),LENGTH=20,ATTRB=(ASKIP,NORM)
+ST02     DFHMDF POS=(8,111),LENGTH=8,ATTRB=(ASKIP,BRT)
+EM02     DFHMDF POS=(8,120),LENGTH=8,ATTRB=(ASKIP,NORM)
+*-- LIGNE 03 (row 9)
+SEL03    DFHMDF POS=(9,1),LENGTH=1,ATTRB=(UNPROT,NORM)
+LN03     DFHMDF POS=(9,3),LENGTH=3,ATTRB=(ASKIP,NORM)
+AC03     DFHMDF POS=(9,7),LENGTH=10,ATTRB=(ASKIP,BRT)
+DS03     DFHMDF POS=(9,18),LENGTH=24,ATTRB=(ASKIP,NORM)
+CT03     DFHMDF POS=(9,43),LENGTH=9,ATTRB=(ASKIP,NORM)
+QT03     DFHMDF POS=(9,53),LENGTH=5,ATTRB=(ASKIP,BRT)
+MN03     DFHMDF POS=(9,59),LENGTH=4,ATTRB=(ASKIP,NORM)
+MX03     DFHMDF POS=(9,64),LENGTH=5,ATTRB=(ASKIP,NORM)
+PU03     DFHMDF POS=(9,70),LENGTH=8,ATTRB=(ASKIP,NORM)
+VL03     DFHMDF POS=(9,79),LENGTH=10,ATTRB=(ASKIP,NORM)
+GR03     DFHMDF POS=(9,90),LENGTH=20,ATTRB=(ASKIP,NORM)
+ST03     DFHMDF POS=(9,111),LENGTH=8,ATTRB=(ASKIP,BRT)
+EM03     DFHMDF POS=(9,120),LENGTH=8,ATTRB=(ASKIP,NORM)
+*-- LIGNE 04 (row 10)
+SEL04    DFHMDF POS=(10,1),LENGTH=1,ATTRB=(UNPROT,NORM)
+LN04     DFHMDF POS=(10,3),LENGTH=3,ATTRB=(ASKIP,NORM)
+AC04     DFHMDF POS=(10,7),LENGTH=10,ATTRB=(ASKIP,BRT)
+DS04     DFHMDF POS=(10,18),LENGTH=24,ATTRB=(ASKIP,NORM)
+CT04     DFHMDF POS=(10,43),LENGTH=9,ATTRB=(ASKIP,NORM)
+QT04     DFHMDF POS=(10,53),LENGTH=5,ATTRB=(ASKIP,BRT)
+MN04     DFHMDF POS=(10,59),LENGTH=4,ATTRB=(ASKIP,NORM)
+MX04     DFHMDF POS=(10,64),LENGTH=5,ATTRB=(ASKIP,NORM)
+PU04     DFHMDF POS=(10,70),LENGTH=8,ATTRB=(ASKIP,NORM)
+VL04     DFHMDF POS=(10,79),LENGTH=10,ATTRB=(ASKIP,NORM)
+GR04     DFHMDF POS=(10,90),LENGTH=20,ATTRB=(ASKIP,NORM)
+ST04     DFHMDF POS=(10,111),LENGTH=8,ATTRB=(ASKIP,BRT)
+EM04     DFHMDF POS=(10,120),LENGTH=8,ATTRB=(ASKIP,NORM)
+*-- LIGNE 05 (row 11)
+SEL05    DFHMDF POS=(11,1),LENGTH=1,ATTRB=(UNPROT,NORM)
+LN05     DFHMDF POS=(11,3),LENGTH=3,ATTRB=(ASKIP,NORM)
+AC05     DFHMDF POS=(11,7),LENGTH=10,ATTRB=(ASKIP,BRT)
+DS05     DFHMDF POS=(11,18),LENGTH=24,ATTRB=(ASKIP,NORM)
+CT05     DFHMDF POS=(11,43),LENGTH=9,ATTRB=(ASKIP,NORM)
+QT05     DFHMDF POS=(11,53),LENGTH=5,ATTRB=(ASKIP,BRT)
+MN05     DFHMDF POS=(11,59),LENGTH=4,ATTRB=(ASKIP,NORM)
+MX05     DFHMDF POS=(11,64),LENGTH=5,ATTRB=(ASKIP,NORM)
+PU05     DFHMDF POS=(11,70),LENGTH=8,ATTRB=(ASKIP,NORM)
+VL05     DFHMDF POS=(11,79),LENGTH=10,ATTRB=(ASKIP,NORM)
+GR05     DFHMDF POS=(11,90),LENGTH=20,ATTRB=(ASKIP,NORM)
+ST05     DFHMDF POS=(11,111),LENGTH=8,ATTRB=(ASKIP,BRT)
+EM05     DFHMDF POS=(11,120),LENGTH=8,ATTRB=(ASKIP,NORM)
+*-- LIGNE 06 (row 12)
+SEL06    DFHMDF POS=(12,1),LENGTH=1,ATTRB=(UNPROT,NORM)
+LN06     DFHMDF POS=(12,3),LENGTH=3,ATTRB=(ASKIP,NORM)
+AC06     DFHMDF POS=(12,7),LENGTH=10,ATTRB=(ASKIP,BRT)
+DS06     DFHMDF POS=(12,18),LENGTH=24,ATTRB=(ASKIP,NORM)
+CT06     DFHMDF POS=(12,43),LENGTH=9,ATTRB=(ASKIP,NORM)
+QT06     DFHMDF POS=(12,53),LENGTH=5,ATTRB=(ASKIP,BRT)
+MN06     DFHMDF POS=(12,59),LENGTH=4,ATTRB=(ASKIP,NORM)
+MX06     DFHMDF POS=(12,64),LENGTH=5,ATTRB=(ASKIP,NORM)
+PU06     DFHMDF POS=(12,70),LENGTH=8,ATTRB=(ASKIP,NORM)
+VL06     DFHMDF POS=(12,79),LENGTH=10,ATTRB=(ASKIP,NORM)
+GR06     DFHMDF POS=(12,90),LENGTH=20,ATTRB=(ASKIP,NORM)
+ST06     DFHMDF POS=(12,111),LENGTH=8,ATTRB=(ASKIP,BRT)
+EM06     DFHMDF POS=(12,120),LENGTH=8,ATTRB=(ASKIP,NORM)
+*-- LIGNE 07 (row 13)
+SEL07    DFHMDF POS=(13,1),LENGTH=1,ATTRB=(UNPROT,NORM)
+LN07     DFHMDF POS=(13,3),LENGTH=3,ATTRB=(ASKIP,NORM)
+AC07     DFHMDF POS=(13,7),LENGTH=10,ATTRB=(ASKIP,BRT)
+DS07     DFHMDF POS=(13,18),LENGTH=24,ATTRB=(ASKIP,NORM)
+CT07     DFHMDF POS=(13,43),LENGTH=9,ATTRB=(ASKIP,NORM)
+QT07     DFHMDF POS=(13,53),LENGTH=5,ATTRB=(ASKIP,BRT)
+MN07     DFHMDF POS=(13,59),LENGTH=4,ATTRB=(ASKIP,NORM)
+MX07     DFHMDF POS=(13,64),LENGTH=5,ATTRB=(ASKIP,NORM)
+PU07     DFHMDF POS=(13,70),LENGTH=8,ATTRB=(ASKIP,NORM)
+VL07     DFHMDF POS=(13,79),LENGTH=10,ATTRB=(ASKIP,NORM)
+GR07     DFHMDF POS=(13,90),LENGTH=20,ATTRB=(ASKIP,NORM)
+ST07     DFHMDF POS=(13,111),LENGTH=8,ATTRB=(ASKIP,BRT)
+EM07     DFHMDF POS=(13,120),LENGTH=8,ATTRB=(ASKIP,NORM)
+*-- LIGNE 08 (row 14)
+SEL08    DFHMDF POS=(14,1),LENGTH=1,ATTRB=(UNPROT,NORM)
+LN08     DFHMDF POS=(14,3),LENGTH=3,ATTRB=(ASKIP,NORM)
+AC08     DFHMDF POS=(14,7),LENGTH=10,ATTRB=(ASKIP,BRT)
+DS08     DFHMDF POS=(14,18),LENGTH=24,ATTRB=(ASKIP,NORM)
+CT08     DFHMDF POS=(14,43),LENGTH=9,ATTRB=(ASKIP,NORM)
+QT08     DFHMDF POS=(14,53),LENGTH=5,ATTRB=(ASKIP,BRT)
+MN08     DFHMDF POS=(14,59),LENGTH=4,ATTRB=(ASKIP,NORM)
+MX08     DFHMDF POS=(14,64),LENGTH=5,ATTRB=(ASKIP,NORM)
+PU08     DFHMDF POS=(14,70),LENGTH=8,ATTRB=(ASKIP,NORM)
+VL08     DFHMDF POS=(14,79),LENGTH=10,ATTRB=(ASKIP,NORM)
+GR08     DFHMDF POS=(14,90),LENGTH=20,ATTRB=(ASKIP,NORM)
+ST08     DFHMDF POS=(14,111),LENGTH=8,ATTRB=(ASKIP,BRT)
+EM08     DFHMDF POS=(14,120),LENGTH=8,ATTRB=(ASKIP,NORM)
+*-- LIGNE 09 (row 15)
+SEL09    DFHMDF POS=(15,1),LENGTH=1,ATTRB=(UNPROT,NORM)
+LN09     DFHMDF POS=(15,3),LENGTH=3,ATTRB=(ASKIP,NORM)
+AC09     DFHMDF POS=(15,7),LENGTH=10,ATTRB=(ASKIP,BRT)
+DS09     DFHMDF POS=(15,18),LENGTH=24,ATTRB=(ASKIP,NORM)
+CT09     DFHMDF POS=(15,43),LENGTH=9,ATTRB=(ASKIP,NORM)
+QT09     DFHMDF POS=(15,53),LENGTH=5,ATTRB=(ASKIP,BRT)
+MN09     DFHMDF POS=(15,59),LENGTH=4,ATTRB=(ASKIP,NORM)
+MX09     DFHMDF POS=(15,64),LENGTH=5,ATTRB=(ASKIP,NORM)
+PU09     DFHMDF POS=(15,70),LENGTH=8,ATTRB=(ASKIP,NORM)
+VL09     DFHMDF POS=(15,79),LENGTH=10,ATTRB=(ASKIP,NORM)
+GR09     DFHMDF POS=(15,90),LENGTH=20,ATTRB=(ASKIP,NORM)
+ST09     DFHMDF POS=(15,111),LENGTH=8,ATTRB=(ASKIP,BRT)
+EM09     DFHMDF POS=(15,120),LENGTH=8,ATTRB=(ASKIP,NORM)
+*-- LIGNE 10 (row 16)
+SEL10    DFHMDF POS=(16,1),LENGTH=1,ATTRB=(UNPROT,NORM)
+LN10     DFHMDF POS=(16,3),LENGTH=3,ATTRB=(ASKIP,NORM)
+AC10     DFHMDF POS=(16,7),LENGTH=10,ATTRB=(ASKIP,BRT)
+DS10     DFHMDF POS=(16,18),LENGTH=24,ATTRB=(ASKIP,NORM)
+CT10     DFHMDF POS=(16,43),LENGTH=9,ATTRB=(ASKIP,NORM)
+QT10     DFHMDF POS=(16,53),LENGTH=5,ATTRB=(ASKIP,BRT)
+MN10     DFHMDF POS=(16,59),LENGTH=4,ATTRB=(ASKIP,NORM)
+MX10     DFHMDF POS=(16,64),LENGTH=5,ATTRB=(ASKIP,NORM)
+PU10     DFHMDF POS=(16,70),LENGTH=8,ATTRB=(ASKIP,NORM)
+VL10     DFHMDF POS=(16,79),LENGTH=10,ATTRB=(ASKIP,NORM)
+GR10     DFHMDF POS=(16,90),LENGTH=20,ATTRB=(ASKIP,NORM)
+ST10     DFHMDF POS=(16,111),LENGTH=8,ATTRB=(ASKIP,BRT)
+EM10     DFHMDF POS=(16,120),LENGTH=8,ATTRB=(ASKIP,NORM)
+*
+*----------------------------------------------------------------------*
+* LIGNE 18 : TOTAUX                                                    *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(18,2),                                            X
+               LENGTH=8,                                               X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='TOTAL : '
+TOTCNT   DFHMDF POS=(18,11),                                           X
+               LENGTH=5,                                               X
+               ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(18,17),                                           X
+               LENGTH=10,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=' ARTICLES  '
+TOTVLR   DFHMDF POS=(18,28),                                           X
+               LENGTH=15,                                              X
+               ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(18,44),                                           X
+               LENGTH=10,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=' EUR    /!\'
+TOTALT   DFHMDF POS=(18,55),                                           X
+               LENGTH=4,                                               X
+               ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(18,60),                                           X
+               LENGTH=16,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL=' SOUS SEUIL MIN.'
+*
+*----------------------------------------------------------------------*
+* LIGNE 20 : ZONE MESSAGE                                              *
+*----------------------------------------------------------------------*
+MSGRTR   DFHMDF POS=(20,2),                                            X
+               LENGTH=79,                                              X
+               ATTRB=(ASKIP,BRT)
+*
+*----------------------------------------------------------------------*
+* LIGNE 22 : TOUCHES PF                                                *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(22,2),                                            X
+               LENGTH=65,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='PF3=MENU PF5=ENTREE PF6=SORTIE PF7=< PF8=> PF9=NOUV PF12=RESET'
+         DFHMDF POS=(22,90),                                           X
+               LENGTH=30,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='ENT=SELECTIONNER  PF5=RAFRAICHIR'
+*
+*----------------------------------------------------------------------*
+* LIGNE 23 : SESSION                                                   *
+*----------------------------------------------------------------------*
+         DFHMDF POS=(23,2),                                            X
+               LENGTH=10,                                              X
+               ATTRB=(ASKIP,NORM),                                     X
+               INITIAL='OPERATEUR:'
+OPENAM   DFHMDF POS=(23,13),LENGTH=10,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(23,24),LENGTH=9,ATTRB=(ASKIP,NORM),              X
+               INITIAL='TERMINAL:'
+TERNAM   DFHMDF POS=(23,34),LENGTH=10,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(23,45),LENGTH=8,ATTRB=(ASKIP,NORM),              X
+               INITIAL='SESSION:'
+SESNAM   DFHMDF POS=(23,54),LENGTH=25,ATTRB=(ASKIP,NORM)
+         DFHMDF POS=(23,80),LENGTH=7,ATTRB=(ASKIP,NORM),              X
+               INITIAL='PAGE :'
+PAGCUR   DFHMDF POS=(23,88),LENGTH=4,ATTRB=(ASKIP,BRT)
+         DFHMDF POS=(23,93),LENGTH=1,ATTRB=(ASKIP,NORM),INITIAL='/'
+PAGTOT   DFHMDF POS=(23,95),LENGTH=4,ATTRB=(ASKIP,NORM)
+*
+         DFHMSD TYPE=FINAL
+         END

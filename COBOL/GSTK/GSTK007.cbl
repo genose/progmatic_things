@@ -20,6 +20,7 @@
       *----------------------------------------------------------------*
            COPY GSTK007M.
            COPY GSTKCOMM.
+           COPY DFHAID.
 
       *----------------------------------------------------------------*
       * SQLCA
@@ -157,6 +158,7 @@
       * 1000-PREMIERE-ENTREE                                           *
       *================================================================*
        1000-PREMIERE-ENTREE.
+           INITIALIZE GSTK-COMMAREA.
            EXEC CICS SEND MAP(C-MAP)
                MAPSET(C-MAPSET)
                MAPONLY ERASE
@@ -435,7 +437,7 @@
 
       *    Opérateur et terminal
            MOVE CA-OPERATEUR      TO OPENAMO IN GSTK007O
-           EXEC CICS ASSIGN TERMINAL(TERNAMO IN GSTK007O) END-EXEC
+           MOVE EIBTRMID TO TERNAMO IN GSTK007O
 
       *    Pagination
            MOVE W-PAGE-CUR        TO W-PAG-EDIT
@@ -708,7 +710,7 @@
            EXEC CICS SEND MAP(C-MAP)
                MAPSET(C-MAPSET)
                FROM(GSTK007O)
-               DATAONLY ERASE
+               ERASE CURSOR
            END-EXEC
 
            EXEC CICS RETURN

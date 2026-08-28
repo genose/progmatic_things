@@ -122,7 +122,7 @@
        COPY GSTK002M.
        COPY DFHAID.
        COPY DFHBMSCA.
-       COPY GSTKCPY.
+       COPY GSTKCOMM.
 
       *================================================================*
        LINKAGE SECTION.
@@ -168,6 +168,10 @@
                RESP(W-RESP) RESP2(W-RESP2)
            END-EXEC.
            IF W-RESP = DFHRESP(MAPFAIL)
+               IF CA-ART-CODE-SELEC NOT = SPACES
+                   MOVE CA-ART-CODE-SELEC TO W-ART-CODE
+                   PERFORM 3000-RECHERCHER-ARTICLE
+               END-IF
                PERFORM 5000-AFFICHER-ECRAN
                GO TO 2000-FIN
            END-IF.

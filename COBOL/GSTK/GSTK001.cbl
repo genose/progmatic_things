@@ -154,7 +154,7 @@
        COPY GSTK001M.
        COPY DFHAID.
        COPY DFHBMSCA.
-       COPY GSTKCPY.
+       COPY GSTKCOMM.
 
       *================================================================*
        LINKAGE SECTION.

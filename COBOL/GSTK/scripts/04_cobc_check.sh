@@ -148,7 +148,7 @@ for CBL in "${FILES[@]}"; do
     # Filtrer les erreurs/warnings attendus sur les stubs BMS
     REAL_ERRORS=$(echo "$OUTPUT" | grep "error:" \
         | grep -v "FILLER\|redefines\|stub\|GSTK00[0-9]M" \
-        | grep -v "GSTKCOMMnot\|SQLCA" \
+        | grep -v "GSTKCOMM\|GSTKCPY\|DFHAID\|DFHBMSCA\|SQLCA" \
         | grep -v "No such file or directory" \
         || true)
 

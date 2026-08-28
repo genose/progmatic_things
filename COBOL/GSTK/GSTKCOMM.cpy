@@ -1,1 +1,0 @@
-/private/tmp/volatile_hd/COBOL/GSTK/Copybook.cbl

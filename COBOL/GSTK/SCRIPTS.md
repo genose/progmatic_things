@@ -71,6 +71,18 @@ Flags utilisés : `-std=ibm -fsyntax-only -fno-cics -fno-sql -W`
 
 Les warnings sur `EXEC CICS` et `EXEC SQL` sont normaux (pas de runtime CICS local).
 
+**Copybooks gérés automatiquement :**
+
+- `GSTKCOMM.cpy` — créé comme symlink → `Copybook.cbl` avant la compilation
+- `GSTK000M.cpy` … `GSTK007M.cpy` — stubs vides générés (les vrais sont générés par MVS Assembler)
+- `DFHAID.cpy`, `DFHBMSCA.cpy` — stubs vides (constants CICS, fournis par le runtime)
+
+**Erreurs filtrées (attendues, non bloquantes) :**
+
+- `GSTKCOMM`, `GSTKCPY`, `DFHAID`, `DFHBMSCA`, `SQLCA` — copybooks externes CICS/DB2
+- `FILLER`, `redefines`, `stub`, `GSTK00[0-9]M` — warnings liés aux stubs BMS
+- `No such file or directory` — copybook non trouvé localement (résolu par les stubs)
+
 ---
 
 ### `05_test_sql.sh` — Tests SQL unitaires

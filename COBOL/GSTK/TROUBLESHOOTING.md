@@ -34,7 +34,7 @@ bash scripts/mvs/03_cics.sh newcopy
 
 ---
 
-### `MAPFAIL`
+### `MAPFAIL` — Mapset absent
 
 ```
 TRANSACTION ABENDED. CONDITION: MAPFAIL
@@ -50,6 +50,32 @@ bash scripts/mvs/03_cics.sh newcopy      # recharger
 Puis dans x3270 :
 ```
 CEMT INQ MAPSET(GSTK007M)
+```
+
+---
+
+### Écran vide au premier affichage après XCTL
+
+**Symptôme :** Un programme reçoit un `EXEC CICS XCTL` depuis GSTK001 avec un article
+sélectionné, mais l'écran s'affiche vide — le code article et les champs ne sont pas remplis.
+
+**Cause :** Le gestionnaire `MAPFAIL` dans `2000-RETOUR-TRANSACTION` ne lit pas
+`CA-ART-CODE-SELEC` de la COMMAREA avant d'appeler `5000-AFFICHER-ECRAN`.
+
+Quand un programme est XCTLé avec COMMAREA (EIBCALEN = 263), il entre dans
+`2000-RETOUR-TRANSACTION` et fait immédiatement `RECEIVE MAP` — MAPFAIL est normal
+car la map de **ce** programme n'a jamais été envoyée au terminal.
+
+**Corriger dans le handler MAPFAIL :**
+```cobol
+IF W-RESP = DFHRESP(MAPFAIL)
+    IF CA-ART-CODE-SELEC NOT = SPACES
+        MOVE CA-ART-CODE-SELEC TO W-ART-CODE
+        PERFORM 3000-RECHERCHER-ARTICLE
+    END-IF
+    PERFORM 5000-AFFICHER-ECRAN
+    GO TO 2000-FIN
+END-IF.
 ```
 
 ---
@@ -134,6 +160,24 @@ Vérifier que `W-PAGE-CUR` est incrémenté/décrémenté *avant* l'appel à `40
 ---
 
 ## Erreurs de compilation COBOL
+
+### `COBOL: COPY member not found — GSTKCOMM` (compilateur MVS)
+
+**Cause :** Le programme utilise `COPY GSTKCPY.` (ancien nom) alors que le member MVS
+s'appelle `GSTKCOMM` dans `HLQ.GSTK.COPYLIB`.
+
+**Corriger :** Tous les programmes doivent utiliser `COPY GSTKCOMM.` (pas `COPY GSTKCPY.`).
+Vérifier localement :
+```bash
+grep -rn "COPY GSTKCPY" GSTK/*.cbl
+```
+Résultat attendu : aucune correspondance.
+
+**Note :** Localement, `GSTKCOMM.cpy` n'existe pas comme fichier fixe — il est créé
+automatiquement comme lien symbolique vers `Copybook.cbl` par `scripts/04_cobc_check.sh`
+à l'exécution. Ne pas committer ce fichier.
+
+---
 
 ### `COBOL: DECLARE CURSOR not at start of PROCEDURE DIVISION`
 

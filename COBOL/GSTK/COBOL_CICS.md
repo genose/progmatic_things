@@ -20,6 +20,7 @@ WORKING-STORAGE SECTION.
 
     COPY GSTKxxxM.                   ← map input/output (BMS généré)
     COPY GSTKCOMM.                   ← COMMAREA + enregistrements partagés
+    COPY DFHAID.                     ← constantes touches PF (obligatoire si EVALUATE EIBAID)
 
     EXEC SQL INCLUDE SQLCA END-EXEC. ← SQL Communication Area
 
@@ -57,6 +58,7 @@ PROCEDURE DIVISION.
 
 ```cobol
 1000-PREMIERE-ENTREE.
+    INITIALIZE GSTK-COMMAREA.        ← éviter une COMMAREA non initialisée au premier RETURN
     EXEC CICS SEND MAP(C-MAP)
         MAPSET(C-MAPSET)
         MAPONLY ERASE         ← effacer l'écran, envoyer seulement la map statique
@@ -108,8 +110,11 @@ PROCEDURE DIVISION.
     EXEC CICS SEND MAP(C-MAP)
         MAPSET(C-MAPSET)
         FROM(GSTKxxxO)
-        DATAONLY ERASE              ← envoyer seulement les données (pas les labels)
+        DATAONLY CURSOR             ← mettre à jour les données + positionner le curseur
     END-EXEC
+*   Variante si premier affichage ou écran complet nécessaire :
+*   ERASE CURSOR                   ← effacer + redessiner l'écran entier + curseur
+*   NB : DATAONLY et ERASE sont mutuellement exclusifs — ne pas combiner
 
     EXEC CICS RETURN
         TRANSID(C-TRANS)
@@ -117,6 +122,38 @@ PROCEDURE DIVISION.
         LENGTH(263)
     END-EXEC.
 ```
+
+---
+
+## Pattern MAPFAIL sur XCTL entrant
+
+Quand un programme est appelé par `EXEC CICS XCTL` avec une COMMAREA (EIBCALEN = 263),
+il entre dans `2000-RETOUR-TRANSACTION` et tente immédiatement `RECEIVE MAP`.
+La map n'ayant jamais été envoyée au terminal par ce programme, **MAPFAIL est normal**.
+
+Le gestionnaire MAPFAIL doit donc initialiser l'écran à partir de `CA-ART-CODE-SELEC` :
+
+```cobol
+2000-RETOUR-TRANSACTION.
+    MOVE DFHCOMMAREA TO GSTK-COMMAREA
+    EXEC CICS RECEIVE MAP(C-MAP) MAPSET(C-MAPSET)
+        INTO(GSTKxxxI)
+        RESP(W-RESP) RESP2(W-RESP2)
+    END-EXEC.
+    IF W-RESP = DFHRESP(MAPFAIL)
+*       XCTL entrant ou touche CLEAR : charger l'article passé en COMMAREA
+        IF CA-ART-CODE-SELEC NOT = SPACES
+            MOVE CA-ART-CODE-SELEC TO W-ART-CODE
+            PERFORM 3000-RECHERCHER-ARTICLE   ← ou 3000-CHARGER-ARTICLE
+        END-IF
+        PERFORM 5000-AFFICHER-ECRAN
+        GO TO 2000-FIN
+    END-IF.
+```
+
+**Erreur à éviter :** un MAPFAIL qui ne fait que `PERFORM 5000-AFFICHER-ECRAN` sans
+charger l'article affiche un écran vide même quand le programme appelant a sélectionné
+un article via `CA-ART-CODE-SELEC`.
 
 ---
 
@@ -345,6 +382,19 @@ Un champ retourné avec `L > 0` signifie que l'opérateur l'a modifié.
 Toujours vérifier `IF FIELDxxxL IN GSTKxxxI > ZERO` avant de traiter la valeur.
 
 Les champs UNPROT non modifiés par l'opérateur retournent `L = 0` même s'ils contiennent une valeur affichée. C'est pourquoi les filtres sont sauvegardés en COMMAREA FILLER et restaurés en début de tâche.
+
+---
+
+## Récupérer l'ID terminal
+
+```cobol
+*   Correct : EIBTRMID contient l'ID terminal courant (4 chars, fourni par CICS)
+    MOVE EIBTRMID TO TERNAMO IN GSTKxxxO.
+
+*   Incorrect — TERMINAL n'est pas une option valide de EXEC CICS ASSIGN :
+*   EXEC CICS ASSIGN TERMINAL(TERNAMO IN GSTKxxxO) END-EXEC.  ← INVREQ/LENGERR
+*   L'option correcte serait TERMID(ws-var) (variable de travail 4 chars), pas un champ BMS.
+```
 
 ---
 

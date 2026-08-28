@@ -67,65 +67,30 @@ parse_syslog_jobs() {
 
 # ============================================================
 # Accéder à SDSF via s3270 et capturer la liste des jobs
+#
+# NOTE : SDSF n'est PAS disponible sur MVS 3.8j / TK5.
+# Utiliser parse_syslog_jobs ou parse_compile_rc à la place.
 # ============================================================
 sdsf_list_jobs() {
-    local jobfilter="${1:-GSTK*}"
-    echo -e "${CYAN}=== Jobs SDSF (filtre: $jobfilter) ===${NC}"
-
-    s3270_start || return 1
-    s3270_login
-
-    # Naviguer vers SDSF
-    s3270_cmd "String(\"SDSF\")" >/dev/null
-    s3270_cmd "Enter()" 30 >/dev/null
-    sleep 2
-
-    # Filtrer les jobs
-    s3270_cmd "String(\"ST ${jobfilter}\")" >/dev/null
-    s3270_cmd "Enter()" 10 >/dev/null
-    sleep 2
-
-    s3270_screen | grep -v "^[[:space:]]*$"
-    s3270_stop
+    echo -e "${RED}SDSF non disponible sur MVS 3.8j (TK5).${NC}"
+    echo "Utiliser à la place :"
+    echo "  bash 10_spool_reader.sh recent       # syslog Hercules"
+    echo "  bash 10_spool_reader.sh --rc GSTK*   # return codes"
+    return 1
 }
 
 # ============================================================
 # Accéder à SDSF et lire le listing d'un job spécifique
+#
+# NOTE : SDSF n'est PAS disponible sur MVS 3.8j / TK5.
+# Utiliser parse_compile_rc + syslog Hercules à la place.
 # ============================================================
 sdsf_read_job() {
-    local jobname="${1:-GSTKCOMP}"
-    local ddname="${2:-JESMSGLG}"
-    local outfile="${SPOOL_CACHE}/${jobname}_${ddname}_$(date +%H%M%S).txt"
-
-    echo -e "${CYAN}=== Lecture spool : $jobname / $ddname ===${NC}"
-
-    s3270_start || return 1
-    s3270_login
-
-    # Naviguer vers SDSF → filtre job
-    s3270_cmd "String(\"SDSF\")" >/dev/null
-    s3270_cmd "Enter()" 30 >/dev/null
-    sleep 2
-
-    s3270_cmd "String(\"ST ${jobname}\")" >/dev/null
-    s3270_cmd "Enter()" 10 >/dev/null
-    sleep 2
-
-    # Sélectionner le job (touche S)
-    s3270_cmd "String(\"S\")" >/dev/null
-    s3270_cmd "Tab()" 5 >/dev/null || true
-    s3270_cmd "Enter()" 10 >/dev/null
-    sleep 2
-
-    local screen
-    screen=$(s3270_screen)
-    s3270_stop
-
-    echo "$screen" | tee "$outfile"
-    echo ""
-    echo -e "${CYAN}Sauvegardé : $outfile${NC}"
-
-    analyze_spool_output "$outfile"
+    echo -e "${RED}SDSF non disponible sur MVS 3.8j (TK5).${NC}"
+    echo "Utiliser à la place :"
+    echo "  bash 10_spool_reader.sh --rc ${1:-GSTKCOMP}"
+    echo "  bash 10_spool_reader.sh --errors"
+    return 1
 }
 
 # ============================================================
@@ -138,9 +103,11 @@ analyze_spool_output() {
     echo ""
     echo -e "${CYAN}=== Analyse listing ===${NC}"
 
+    # Préfixe erreurs : IKF = OS/VS COBOL (MVS 3.8j/TK5), format IKFxxxxI-E
+    # Si COBOL II installé sur TK5, utiliser IEL à la place de IKF.
     local errors warnings mnotes abends rc_lines
-    errors=$(grep -c "^.*IGYOP.*E " "$file" 2>/dev/null || echo 0)
-    warnings=$(grep -c "^.*IGYOP.*W " "$file" 2>/dev/null || echo 0)
+    errors=$(grep -cE "IKF[0-9].*-E" "$file" 2>/dev/null || echo 0)
+    warnings=$(grep -cE "IKF[0-9].*-W" "$file" 2>/dev/null || echo 0)
     mnotes=$(grep -c "MNOTE" "$file" 2>/dev/null || echo 0)
     abends=$(grep -c "ABEND\|S0C[0-9]" "$file" 2>/dev/null || echo 0)
     rc_lines=$(grep -E "RC=|RETURN CODE=" "$file" 2>/dev/null || echo "")
@@ -193,7 +160,7 @@ show_errors_only() {
     echo -e "${CYAN}=== Erreurs et Warnings MVS récents ===${NC}"
     curl -s "${HERC_URL}/cgi-bin/tasks/syslog?numlines=300" \
         | sed 's/<[^>]*>//g' \
-        | grep -iE "ABEND|ERROR|S0C[0-9]|JCL ERR|IGYOP.*[EW] |IEF45[0-9]|IEF35[0-9]" \
+        | grep -iE "ABEND|ERROR|S0C[0-9]|JCL ERR|IKF[0-9].*-[EW]|IEF45[2-9]|IEF35[0-9]" \
         | grep -v "^[[:space:]]*$" \
         | tail -30 \
         | while IFS= read -r line; do

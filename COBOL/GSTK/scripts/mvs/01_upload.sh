@@ -130,7 +130,7 @@ wait_upload_job() {
             | sed 's/<[^>]*>//g' 2>/dev/null || true)
         if echo "$sl" | grep -qi "HASP395.*${jobname}\|HASP396.*${jobname}"; then
             echo " terminé (${elapsed}s)"
-            if echo "$sl" | grep -qi "HASP396.*${jobname}\|IEF453I.*${jobname}\|ABEND.*${jobname}"; then
+            if echo "$sl" | grep -qi "IEF452I.*${jobname}\|IEF453I.*${jobname}\|ABEND.*${jobname}"; then
                 fail "${jobname} terminé en erreur — vérifier le spool"
                 return 1
             fi

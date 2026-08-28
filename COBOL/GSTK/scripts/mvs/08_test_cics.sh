@@ -37,12 +37,18 @@ _CICS_SESSION=0
 ensure_cics_session() {
     if [[ $_CICS_SESSION -eq 0 ]]; then
         s3270_start || { echo "ERROR: s3270 ne démarre pas" >&2; exit 1; }
-        # Passer le banner Hercules → écran VTAM (CICS ou TSO)
-        sleep 2
-        s3270_cmd "Reset()" 5 >/dev/null 2>&1 || true
-        sleep 1
-        s3270_cmd "Clear()" 60 >/dev/null 2>&1 || true
-        sleep 3
+        s3270_login
+
+        echo "  Démarrage KICKS via CLIST..." >&2
+        s3270_cmd "String(\"EXEC 'KICKS.KICKSSYS.V1R5M0.CLIST(KICKS)'\")" 5 >/dev/null
+        s3270_cmd "Enter()" 60 >/dev/null 2>&1 || true
+        sleep 10
+
+        local scr
+        scr=$(s3270_cmd "Ascii()" 10 2>/dev/null || true)
+        if ! echo "$scr" | grep -qiE "KICKS|CICS"; then
+            echo "WARNING: KICKS ne semble pas actif" >&2
+        fi
         _CICS_SESSION=1
     fi
 }

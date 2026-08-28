@@ -30,18 +30,27 @@ info() { echo -e "${CYAN}ℹ${NC}  $*"; }
 trap 's3270_stop' EXIT
 
 # ============================================================
-# Se connecter à un terminal CICS (pas TSO)
-# TK5 : après Reset+Clear, le terminal VTAM est en mode CICS.
-# Si le terminal atterrit en TSO, ajuster la séquence.
+# Se connecter à KICKS depuis TSO
+#
+# KICKS n'est pas une application VTAM autonome — il démarre
+# depuis TSO via CLIST. Séquence :
+#   1. s3270_login  → TSO READY
+#   2. EXEC 'KICKS.KICKSSYS.V1R5M0.CLIST(KICKS)' → KICKS actif
 # ============================================================
 cics_connect() {
     s3270_start || { echo "ERROR: impossible de démarrer s3270" >&2; exit 1; }
-    # Passer le banner Hercules → écran VTAM (CICS ou TSO selon config)
-    sleep 2
-    s3270_cmd "Reset()" 5 >/dev/null 2>&1 || true
-    sleep 1
-    s3270_cmd "Clear()" 60 >/dev/null 2>&1 || true
-    sleep 3   # attendre que VTAM présente l'écran CICS
+    s3270_login
+
+    info "Démarrage KICKS via CLIST..."
+    s3270_cmd "String(\"EXEC 'KICKS.KICKSSYS.V1R5M0.CLIST(KICKS)'\")" 5 >/dev/null
+    s3270_cmd "Enter()" 60 >/dev/null 2>&1 || true
+    sleep 10
+
+    local scr
+    scr=$(s3270_cmd "Ascii()" 10 2>/dev/null || true)
+    if ! echo "$scr" | grep -qiE "KICKS|CICS"; then
+        echo "WARNING: KICKS ne semble pas actif — vérifier l'installation" >&2
+    fi
 }
 
 # ============================================================

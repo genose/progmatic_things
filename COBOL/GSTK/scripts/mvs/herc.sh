@@ -57,26 +57,21 @@ herc_cmd() {
         | tail -8
 }
 
-# ---- Commande MVS opérateur via s3270 (console MVS) ----
-# Depuis TSO, on navigue vers SDSF pour accéder à la console opérateur.
+# ---- Commande MVS opérateur via console HTTP Hercules ----
+# Hercules transmet la commande au système MVS quand elle est
+# préfixée par '/'. Pas besoin de SDSF (non disponible sur TK5).
+# Exemples :
+#   bash herc.sh mvs '$D A'    → /$D A  (JES2 : jobs actifs)
+#   bash herc.sh mvs 'D A,L'   → /D A,L (MVS : display long)
 mvs_cmd() {
     local cmd="$1"
-    echo -e "${CYAN}[MVS via s3270] ${cmd}${NC}"
-
-    s3270_start || return 1
-    s3270_login
-
-    # Naviguer vers SDSF console opérateur (=5.DA = Display Active)
-    s3270_cmd "String(\"SDSF\")" >/dev/null
-    s3270_cmd "Enter()" 30 >/dev/null
-    sleep 2
-
-    s3270_cmd "String(\"=5.DA\")" >/dev/null
-    s3270_cmd "Enter()" 10 >/dev/null
-    sleep 2
-
-    s3270_screen | grep -v "^[[:space:]]*$" | head -24
-    s3270_stop
+    echo -e "${CYAN}[MVS] /${cmd}${NC}"
+    curl -s -X POST "${HERC_URL}/cgi-bin/tasks/syslog" \
+         --data-urlencode "command=/${cmd}" \
+         --data "norefresh=1" --data "msgcount=10" \
+        | strip_html \
+        | grep -v "^Command:\|^Only show\|^Refresh\|^Interval" \
+        | tail -10
 }
 
 # ---- Extraire les N dernières lignes de la spool JES2 ----

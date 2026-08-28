@@ -103,22 +103,10 @@ ERRORS=0
 if [[ -n "\$CHANGED_CBL" ]]; then
     echo ""
     echo "  Vérification COBOL (\$(echo "\$CHANGED_CBL" | wc -l | tr -d ' ') fichiers)..."
-    COBC="\${COBC:-/opt/local/bin/cobc}"
-    [[ ! -x "\$COBC" ]] && COBC="\$(command -v cobc 2>/dev/null)" || true
-
-    for cbl in \$CHANGED_CBL; do
-        prog=\$(basename "\$cbl" .cbl)
-        printf "    %-12s ... " "\$prog"
-        if "\$COBC" -std=ibm -fsyntax-only -fno-cics -fno-sql \
-               -I "\${GSTK_DIR}/GSTK" "\${GSTK_DIR}/\${cbl}" 2>/dev/null; then
-            echo "OK"
-        else
-            echo "ERREUR"
-            "\$COBC" -std=ibm -fsyntax-only -fno-cics -fno-sql \
-                -I "\${GSTK_DIR}/GSTK" "\${GSTK_DIR}/\${cbl}" 2>&1 | grep "error:" | head -5 | sed 's/^/      /'
-            (( ERRORS++ ))
-        fi
-    done
+    # Utiliser 04_cobc_check.sh qui gère le prétraitement EXEC SQL/CICS
+    if ! bash "\${SCRIPTS}/04_cobc_check.sh" 2>&1 | grep -v "^Compilateur\|^Copybooks\|^===\|^$"; then
+        (( ERRORS++ ))
+    fi
 fi
 
 # 2. Test SQL rapide si des .cbl ont changé (requêtes de base)

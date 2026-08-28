@@ -153,7 +153,7 @@ if [[ $NO_MVS -eq 0 ]]; then
     log "$spool_output"
 
     # Chercher ABEND ou JCL ERROR dans le spool récent
-    if echo "$spool_output" | grep -qiE "ABEND|JCL ERROR|IEF450I|IEF352I"; then
+    if echo "$spool_output" | grep -qiE "ABEND|JCL ERROR|IEF452I|IEF453I"; then
         fail "ABEND ou JCL ERROR détecté dans le spool"
         STEP_RESULTS[spool]="FAIL"
         CI_STATUS="FAILED"

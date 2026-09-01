@@ -3,7 +3,7 @@
   "tasks": [
 
     // ──────────────────────────────────────────────────────────────────────────
-    // COBOL local — GnuCOBOL (MacPorts)
+    // COBOL local — GnuCOBOL (macOS / Linux / Windows)
     // ──────────────────────────────────────────────────────────────────────────
     {
       "label": "COBOL: Compile current file",
@@ -20,7 +20,7 @@
         "command": "powershell",
         "args": [
           "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command",
-          "$ErrorActionPreference='Stop'; $ws='${workspaceFolder}'; $bin=Join-Path $ws 'bin'; if (!(Test-Path $bin)) { New-Item -ItemType Directory -Path $bin | Out-Null }; $cobc=(Get-Command cobc -ErrorAction SilentlyContinue); if (-not $cobc) { throw 'cobc not found. Install GnuCOBOL.' }; & $cobc.Source -x -o (Join-Path $bin '${fileBasenameNoExtension}.exe') '${file}'"
+          "$ws='${workspaceFolder}'; $bin=Join-Path $ws 'bin'; if (!(Test-Path $bin)) { New-Item -ItemType Directory -Path $bin | Out-Null }; $cobc=Get-Command cobc -ErrorAction Stop; & $cobc.Source -x -o (Join-Path $bin '${fileBasenameNoExtension}.exe') '${file}'"
         ]
       },
       "group": { "kind": "build", "isDefault": true },
@@ -39,13 +39,21 @@
       "options": {
         "env": { "WORKSPACE_FOLDER": "${workspaceFolder}" }
       },
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command",
+          "$ws='${workspaceFolder}'; $bin=Join-Path $ws 'bin'; if (!(Test-Path $bin)) { New-Item -ItemType Directory -Path $bin | Out-Null }; $cobc=Get-Command cobc -ErrorAction Stop; Get-ChildItem $ws -Include *.cbl,*.CBL -File | ForEach-Object { & $cobc.Source -x -o (Join-Path $bin ($_.BaseName + '.exe')) $_.FullName }"
+        ]
+      },
       "group": "build",
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     },
 
     // ──────────────────────────────────────────────────────────────────────────
-    // GSTK local — vérification syntaxe + SQL
+    // GSTK local — syntaxe + SQL
+    // Windows : via WSL bash (scripts POSIX)
     // ──────────────────────────────────────────────────────────────────────────
     {
       "label": "GSTK: Syntax check (GnuCOBOL)",
@@ -58,6 +66,13 @@
       "options": {
         "cwd": "${workspaceFolder}/GSTK",
         "env": { "WORKSPACE_FOLDER": "${workspaceFolder}" }
+      },
+      "windows": {
+        "command": "wsl",
+        "args": [
+          "bash", "-lc",
+          "source '$(wslpath '${workspaceFolder}')/setup_cobol_env.sh' && bash '$(wslpath '${workspaceFolder}')/GSTK/scripts/04_cobc_check.sh'"
+        ]
       },
       "group": "test",
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
@@ -76,6 +91,13 @@
         "cwd": "${workspaceFolder}/GSTK",
         "env": { "WORKSPACE_FOLDER": "${workspaceFolder}" }
       },
+      "windows": {
+        "command": "wsl",
+        "args": [
+          "bash", "-lc",
+          "source '$(wslpath '${workspaceFolder}')/setup_cobol_env.sh' && bash '$(wslpath '${workspaceFolder}')/GSTK/scripts/05_test_sql.sh'"
+        ]
+      },
       "group": "test",
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
@@ -93,22 +115,31 @@
         "cwd": "${workspaceFolder}/GSTK",
         "env": { "WORKSPACE_FOLDER": "${workspaceFolder}" }
       },
+      "windows": {
+        "command": "wsl",
+        "args": [
+          "bash", "-lc",
+          "bash '$(wslpath '${workspaceFolder}')/GSTK/scripts/03_pg_setup.sh'"
+        ]
+      },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     },
 
     // ──────────────────────────────────────────────────────────────────────────
-    // GSTK MVS / TK5 — déploiement
+    // GSTK MVS / TK5 — déploiement (Docker + s3270)
+    // Windows : WSL obligatoire (s3270, nc, etc.)
     // ──────────────────────────────────────────────────────────────────────────
     {
       "label": "GSTK: Upload sources → MVS",
       "type": "shell",
       "command": "bash",
-      "args": [
-        "-lc",
-        "bash '${workspaceFolder}/GSTK/scripts/mvs/01_upload.sh'"
-      ],
+      "args": [ "-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/01_upload.sh'" ],
       "options": { "cwd": "${workspaceFolder}/GSTK" },
+      "windows": {
+        "command": "wsl",
+        "args": [ "bash", "-lc", "bash '$(wslpath '${workspaceFolder}')/GSTK/scripts/mvs/01_upload.sh'" ]
+      },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     },
@@ -117,11 +148,12 @@
       "label": "GSTK: Assemble BMS (MVS)",
       "type": "shell",
       "command": "bash",
-      "args": [
-        "-lc",
-        "bash '${workspaceFolder}/GSTK/scripts/mvs/02_submit.sh' bms"
-      ],
+      "args": [ "-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/02_submit.sh' bms" ],
       "options": { "cwd": "${workspaceFolder}/GSTK" },
+      "windows": {
+        "command": "wsl",
+        "args": [ "bash", "-lc", "bash '$(wslpath '${workspaceFolder}')/GSTK/scripts/mvs/02_submit.sh' bms" ]
+      },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     },
@@ -130,11 +162,12 @@
       "label": "GSTK: Compile COBOL (MVS)",
       "type": "shell",
       "command": "bash",
-      "args": [
-        "-lc",
-        "bash '${workspaceFolder}/GSTK/scripts/mvs/02_submit.sh' cobol"
-      ],
+      "args": [ "-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/02_submit.sh' cobol" ],
       "options": { "cwd": "${workspaceFolder}/GSTK" },
+      "windows": {
+        "command": "wsl",
+        "args": [ "bash", "-lc", "bash '$(wslpath '${workspaceFolder}')/GSTK/scripts/mvs/02_submit.sh' cobol" ]
+      },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     },
@@ -143,11 +176,12 @@
       "label": "GSTK: CICS install (KICKS)",
       "type": "shell",
       "command": "bash",
-      "args": [
-        "-lc",
-        "bash '${workspaceFolder}/GSTK/scripts/mvs/03_cics.sh' install"
-      ],
+      "args": [ "-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/03_cics.sh' install" ],
       "options": { "cwd": "${workspaceFolder}/GSTK" },
+      "windows": {
+        "command": "wsl",
+        "args": [ "bash", "-lc", "bash '$(wslpath '${workspaceFolder}')/GSTK/scripts/mvs/03_cics.sh' install" ]
+      },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     },
@@ -156,11 +190,12 @@
       "label": "GSTK: CICS newcopy (rechargement)",
       "type": "shell",
       "command": "bash",
-      "args": [
-        "-lc",
-        "bash '${workspaceFolder}/GSTK/scripts/mvs/03_cics.sh' newcopy"
-      ],
+      "args": [ "-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/03_cics.sh' newcopy" ],
       "options": { "cwd": "${workspaceFolder}/GSTK" },
+      "windows": {
+        "command": "wsl",
+        "args": [ "bash", "-lc", "bash '$(wslpath '${workspaceFolder}')/GSTK/scripts/mvs/03_cics.sh' newcopy" ]
+      },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     },
@@ -169,11 +204,12 @@
       "label": "GSTK: Build incrémental (MVS)",
       "type": "shell",
       "command": "bash",
-      "args": [
-        "-lc",
-        "bash '${workspaceFolder}/GSTK/scripts/mvs/06_build.sh'"
-      ],
+      "args": [ "-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/06_build.sh'" ],
       "options": { "cwd": "${workspaceFolder}/GSTK" },
+      "windows": {
+        "command": "wsl",
+        "args": [ "bash", "-lc", "bash '$(wslpath '${workspaceFolder}')/GSTK/scripts/mvs/06_build.sh'" ]
+      },
       "presentation": { "reveal": "always", "panel": "shared", "clear": false },
       "problemMatcher": []
     },
@@ -182,11 +218,12 @@
       "label": "GSTK: Watch → hot reload MVS",
       "type": "shell",
       "command": "bash",
-      "args": [
-        "-lc",
-        "bash '${workspaceFolder}/GSTK/scripts/mvs/07_watch.sh'"
-      ],
+      "args": [ "-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/07_watch.sh'" ],
       "options": { "cwd": "${workspaceFolder}/GSTK" },
+      "windows": {
+        "command": "wsl",
+        "args": [ "bash", "-lc", "bash '$(wslpath '${workspaceFolder}')/GSTK/scripts/mvs/07_watch.sh'" ]
+      },
       "isBackground": true,
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
       "problemMatcher": []
@@ -204,6 +241,13 @@
         "cwd": "${workspaceFolder}/GSTK",
         "env": { "WORKSPACE_FOLDER": "${workspaceFolder}" }
       },
+      "windows": {
+        "command": "wsl",
+        "args": [
+          "bash", "-lc",
+          "source '$(wslpath '${workspaceFolder}')/setup_cobol_env.sh' && bash '$(wslpath '${workspaceFolder}')/GSTK/scripts/mvs/09_ci.sh'"
+        ]
+      },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     },
@@ -212,11 +256,12 @@
       "label": "GSTK: Lire spool JES2",
       "type": "shell",
       "command": "bash",
-      "args": [
-        "-lc",
-        "bash '${workspaceFolder}/GSTK/scripts/mvs/10_spool_reader.sh'"
-      ],
+      "args": [ "-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/10_spool_reader.sh'" ],
       "options": { "cwd": "${workspaceFolder}/GSTK" },
+      "windows": {
+        "command": "wsl",
+        "args": [ "bash", "-lc", "bash '$(wslpath '${workspaceFolder}')/GSTK/scripts/mvs/10_spool_reader.sh'" ]
+      },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     },
@@ -225,11 +270,12 @@
       "label": "GSTK: Syslog Hercules (30 lignes)",
       "type": "shell",
       "command": "bash",
-      "args": [
-        "-lc",
-        "bash '${workspaceFolder}/GSTK/scripts/mvs/herc.sh' log 30"
-      ],
+      "args": [ "-lc", "bash '${workspaceFolder}/GSTK/scripts/mvs/herc.sh' log 30" ],
       "options": { "cwd": "${workspaceFolder}/GSTK" },
+      "windows": {
+        "command": "wsl",
+        "args": [ "bash", "-lc", "bash '$(wslpath '${workspaceFolder}')/GSTK/scripts/mvs/herc.sh' log 30" ]
+      },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     }

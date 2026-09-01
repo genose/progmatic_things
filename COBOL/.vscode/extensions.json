@@ -1,0 +1,27 @@
+{
+  "recommendations": [
+
+    // ── COBOL ──────────────────────────────────────────────────────────────────
+    "bitlang.cobol",                          // Syntaxe, snippets, navigation COBOL
+    "broadcomMFD.cobol-language-support",     // COBOL Language Support (Broadcom/Che) — copybooks, outline
+
+    // ── TN3270 ─────────────────────────────────────────────────────────────────
+    "zbillpereira.vscode-tn3270",             // TN3270 Terminal Emulator — connexion directe TK5/Hercules port 3270
+
+    // ── JCL / ASM ──────────────────────────────────────────────────────────────
+    "broadcomMFD.jcl-language-support",       // Coloration JCL (*.jcl)
+    "IBM.ibm-assembler",                      // Coloration HLASM / BMS (*.bms, *.asm)
+
+    // ── Shell / scripts MVS ────────────────────────────────────────────────────
+    "timonwong.shellcheck",                   // Lint scripts bash (01_upload.sh, herc.sh…)
+    "foxundermoon.shell-format",              // Formatage bash
+
+    // ── Débogage C/COBOL compilé ──────────────────────────────────────────────
+    "ms-vscode.cpptools",                     // cppdbg/lldb — requis par launch.json
+
+    // ── SQL / PostgreSQL (tests locaux DB2) ────────────────────────────────────
+    "mtxr.sqltools",                          // SQLTools — requêtes PostgreSQL depuis VS Code
+    "mtxr.sqltools-driver-pg"                 // Driver PostgreSQL pour SQLTools
+
+  ]
+}

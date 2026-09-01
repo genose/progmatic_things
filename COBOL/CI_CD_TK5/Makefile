@@ -1,7 +1,8 @@
 # ============================================================
-# Makefile GSTK — Dev + CI/CD pipeline pour MVS TK5
+# Makefile CI/CD TK5 — Pipeline GSTK pour MVS TK5 / KICKS
+# Lancer depuis COBOL/CI_CD_TK5/
 # ============================================================
-# Targets locaux (Mac) :
+# Targets locaux :
 #   make check      → syntaxe COBOL + tests SQL PostgreSQL
 #   make pg-reset   → recréer la base PostgreSQL de zéro
 #
@@ -23,27 +24,30 @@
 #   make spool      → activité JES2 récente
 # ============================================================
 
-SCRIPTS    := scripts
-MVS        := $(SCRIPTS)/mvs
-SHELL      := /usr/bin/env bash
+# Scripts locaux GSTK (PostgreSQL, syntaxe COBOL)
+GSTK_SCRIPTS := ../GSTK/scripts
+# Scripts MVS/TK5 (dans CI_CD_TK5/)
+MVS          := mvs
+SHELL        := /usr/bin/env bash
 
-.PHONY: check pg-reset upload bms cobol deploy build test ci watch log status spool clean help
+.PHONY: check pg-reset pg-setup upload upload-one bms cobol deploy build \
+        test test-one ci inc watch log status spool spool-read install-all clean help
 
-# ---- Local ----
+# ---- Local ---------------------------------------------------------------
 check:
 	@echo "=== [1/2] Syntaxe COBOL ==="
-	@bash $(SCRIPTS)/04_cobc_check.sh
+	@bash $(GSTK_SCRIPTS)/04_cobc_check.sh
 	@echo ""
 	@echo "=== [2/2] Tests SQL ==="
-	@bash $(SCRIPTS)/05_test_sql.sh
+	@bash $(GSTK_SCRIPTS)/05_test_sql.sh
 
 pg-reset:
-	@bash $(SCRIPTS)/03_pg_setup.sh --reset
+	@bash $(GSTK_SCRIPTS)/03_pg_setup.sh --reset
 
 pg-setup:
-	@bash $(SCRIPTS)/03_pg_setup.sh
+	@bash $(GSTK_SCRIPTS)/03_pg_setup.sh
 
-# ---- MVS TK5 ----
+# ---- MVS TK5 -------------------------------------------------------------
 upload:
 	@bash $(MVS)/01_upload.sh all
 
@@ -62,26 +66,26 @@ deploy:
 build: upload bms cobol deploy
 	@echo "=== Build complet terminé ==="
 
-# ---- Tests CICS ----
+# ---- Tests CICS ----------------------------------------------------------
 test:
 	@bash $(MVS)/08_test_cics.sh all
 
 test-one:
 	@bash $(MVS)/08_test_cics.sh trans $(TRANS)
 
-# ---- Pipeline CI/CD ----
+# ---- Pipeline CI/CD -------------------------------------------------------
 ci:
 	@bash $(MVS)/09_ci.sh
 
-# ---- Build incrémental (détecte les fichiers modifiés) ----
+# ---- Build incrémental (détecte les fichiers modifiés) -------------------
 inc:
 	@bash $(MVS)/06_build.sh
 
-# ---- Surveillance fichiers ----
+# ---- Surveillance fichiers ------------------------------------------------
 watch:
 	@bash $(MVS)/07_watch.sh
 
-# ---- Utilitaires ----
+# ---- Utilitaires ----------------------------------------------------------
 log:
 	@bash $(MVS)/herc.sh watch
 
@@ -96,15 +100,15 @@ spool:
 spool-read:
 	@bash $(MVS)/10_spool_reader.sh $(JOB)
 
-# ---- Première installation complète ----
+# ---- Première installation complète --------------------------------------
 install-all:
 	@echo "=== Installation complète GSTK sur MVS TK5 ==="
 	@echo ""
 	@echo "Étape 1/6 : Setup PostgreSQL local"
-	@bash $(SCRIPTS)/03_pg_setup.sh
+	@bash $(GSTK_SCRIPTS)/03_pg_setup.sh
 	@echo ""
 	@echo "Étape 2/6 : Vérification syntaxe COBOL"
-	@bash $(SCRIPTS)/04_cobc_check.sh
+	@bash $(GSTK_SCRIPTS)/04_cobc_check.sh
 	@echo ""
 	@echo "Étape 3/6 : Allocation des datasets MVS (1ère fois)"
 	@bash $(MVS)/02_submit.sh alloc
@@ -123,7 +127,7 @@ install-all:
 	@echo "Taper G000 dans x3270 pour démarrer."
 
 clean:
-	@rm -f scripts/mvs/.checksums 2>/dev/null || true
+	@rm -f mvs/.checksums mvs/.build.log 2>/dev/null || true
 	@echo "Checksums nettoyés (prochain build = upload complet)"
 
 help:

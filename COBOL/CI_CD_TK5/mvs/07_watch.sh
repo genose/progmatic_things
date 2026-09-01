@@ -12,9 +12,10 @@
 # ============================================================
 set -euo pipefail
 
-GSTK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+GSTK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../GSTK" && pwd)"
 MVS_DIR="$(dirname "${BASH_SOURCE[0]}")"
 SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+GSTK_SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../GSTK/scripts" && pwd)"
 
 FSWATCH="${FSWATCH:-/opt/local/bin/fswatch}"
 [[ ! -x "$FSWATCH" ]] && FSWATCH="$(command -v fswatch 2>/dev/null)" || true
@@ -65,7 +66,7 @@ on_change() {
 
     # Étape 1 : vérification syntaxe locale (rapide)
     echo -e "${CYAN}[1/3] Vérification syntaxe COBOL...${NC}"
-    if bash "$SCRIPTS_DIR/04_cobc_check.sh" "$filename" 2>&1; then
+    if bash "$GSTK_SCRIPTS_DIR/04_cobc_check.sh" "$filename" 2>&1; then
         echo -e "${GREEN}✓ Syntaxe OK${NC}"
     else
         echo -e "\033[0;31m✗ Erreurs syntaxe — build annulé\033[0m"

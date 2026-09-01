@@ -12,7 +12,7 @@
 # ============================================================
 set -euo pipefail
 
-GSTK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+GSTK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../GSTK" && pwd)"
 SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MVS_DIR="$(dirname "${BASH_SOURCE[0]}")"
 CHECKSUM_FILE="${MVS_DIR}/.checksums"

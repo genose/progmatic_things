@@ -23,7 +23,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-GSTK_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+GSTK_DIR="$(cd "${SCRIPT_DIR}/../../GSTK" && pwd)"
 
 source "${SCRIPT_DIR}/s3270_lib.sh"
 
@@ -469,8 +469,8 @@ DYNAMNBR=64                                                     SEQFLD 20
 phase8_jcl() {
     step "Phase 8 : Mise à jour JCL GSTK pour KICKS"
 
-    local bms_jcl="${GSTK_DIR}/scripts/jcl/GSTKBMS.jcl"
-    local comp_jcl="${GSTK_DIR}/scripts/jcl/GSTKCOMP.jcl"
+    local bms_jcl="${SCRIPT_DIR}/../jcl/GSTKBMS.jcl"
+    local comp_jcl="${SCRIPT_DIR}/../jcl/GSTKCOMP.jcl"
 
     # --- GSTKBMS.jcl : remplacer &CICSHLQ..SDFHMAC par KICKS.KICKSSYS.V1R5M0.KICTMAC ---
     # SDFHMAC = macro lib CICS ; KICTMAC = macro lib KICKS (remplacement direct)

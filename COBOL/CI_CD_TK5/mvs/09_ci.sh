@@ -22,6 +22,7 @@ set -euo pipefail
 
 MVS_DIR="$(dirname "${BASH_SOURCE[0]}")"
 SCRIPTS_DIR="$(cd "${MVS_DIR}/.." && pwd)"
+GSTK_SCRIPTS_DIR="$(cd "${MVS_DIR}/../../GSTK/scripts" && pwd)"
 CI_LOG="${MVS_DIR}/.ci_history.log"
 REPORT_DIR="${MVS_DIR}/.reports"
 mkdir -p "$REPORT_DIR"
@@ -85,7 +86,7 @@ declare -A STEP_RESULTS
 step "1/5" "Vérification syntaxe COBOL"
 timer_start
 
-if bash "$SCRIPTS_DIR/04_cobc_check.sh" 2>&1 | tee -a "$REPORT"; then
+if bash "$GSTK_SCRIPTS_DIR/04_cobc_check.sh" 2>&1 | tee -a "$REPORT"; then
     ok "Syntaxe COBOL valide"
     STEP_RESULTS[syntax]="PASS"
 else
@@ -107,7 +108,7 @@ timer_end
 step "2/5" "Tests SQL PostgreSQL"
 timer_start
 
-if bash "$SCRIPTS_DIR/05_test_sql.sh" 2>&1 | tee -a "$REPORT"; then
+if bash "$GSTK_SCRIPTS_DIR/05_test_sql.sh" 2>&1 | tee -a "$REPORT"; then
     ok "Toutes les requêtes SQL passent"
     STEP_RESULTS[sql]="PASS"
 else

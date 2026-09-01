@@ -40,10 +40,10 @@
 
 
 
-        <primefaces.version>7.0.RC3</primefaces.version>
+        <primefaces.version>8.0.26-LTS</primefaces.version>
         <poi.version>4.1.0</poi.version>
         <itext.version>2.1.7</itext.version>
-        <log4.version>2.12.1</log4.version>
+        <log4.version>2.12.4</log4.version>
         <mysql.version>8.0.17</mysql.version>
         <mssql.version>7.4.1.jre12</mssql.version>
         <jersey.version>2.29.1</jersey.version>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20190722</version>
+            <version>20231013</version>
         </dependency>
         <!-- ============ JAVAFX RELATIVES ============= -->
         <dependency>

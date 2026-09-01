@@ -1,19 +1,29 @@
 #!/usr/bin/env bash
-set -euo pipefail
+# ─────────────────────────────────────────────────────────────────────────────
+# COBOL workspace environment — sourced by .vscode/tasks.json
+# ─────────────────────────────────────────────────────────────────────────────
 
-# Prefer Homebrew GnuCOBOL over other installations.
-export PATH="/usr/local/bin:$PATH"
-
-# Force Apple clang to avoid header issues with non-standard clang binaries.
+# ── Compiler (MacPorts GnuCOBOL 3.2) ─────────────────────────────────────────
+export COBC="/opt/local/bin/cobc"
 export COB_CC="/usr/bin/clang"
-export COBC="/usr/local/bin/cobc"
 
-if ! command -v "$COBC" >/dev/null 2>&1; then
-  echo "Error: cobc not found at $COBC"
-  echo "Install with: brew install gnucobol"
-  exit 1
-fi
+# ── GnuCOBOL runtime paths ────────────────────────────────────────────────────
+export COB_CONFIG_DIR="/opt/local/share/gnucobol/config"
+export COB_COPY_DIR="/opt/local/share/gnucobol/copy"
 
-echo "COBOL environment ready"
-echo "cobc: $($COBC -V | head -n 1)"
-echo "COB_CC: $COB_CC"
+# ── Project copybook search path (colon-separated) ───────────────────────────
+WS="${WORKSPACE_FOLDER:-$(pwd)}"
+export COB_COPY_DIR="${WS}/GSTK:${WS}/CRM:${COB_COPY_DIR}"
+
+# ── Standard library paths (MacPorts) ────────────────────────────────────────
+export COB_CFLAGS="-I/opt/local/include"
+export COB_LDFLAGS="-L/opt/local/lib"
+
+# ── PostgreSQL (DB2 substitute for local SQL dev) ─────────────────────────────
+export PGHOST="localhost"
+export PGPORT="5432"
+export PGDATABASE="gstk"
+export PGUSER="$(whoami)"
+
+# ── Debugger ──────────────────────────────────────────────────────────────────
+export GDB="/usr/local/bin/gdb"

@@ -23,7 +23,7 @@ Ce guide couvre :
 ```bash
 source ./setup_cobol_env.sh
 mkdir -p ./bin
-/usr/local/bin/cobc -x -o ./bin/COBOL_22 ./COBOL_22.cbl
+"$COBC" -x -o ./bin/COBOL_22 ./COBOL_22.cbl
 ./bin/COBOL_22
 ```
 
@@ -32,7 +32,7 @@ mkdir -p ./bin
 ```bash
 source ./setup_cobol_env.sh
 mkdir -p ./bin
-/usr/local/bin/cobc -x -o ./bin/cobol_8 ./cobol_8.cbl
+"$COBC" -x -o ./bin/cobol_8 ./cobol_8.cbl
 ./bin/cobol_8
 ```
 

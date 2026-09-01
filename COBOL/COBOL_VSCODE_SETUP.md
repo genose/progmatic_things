@@ -27,11 +27,19 @@ This document describes how to build and run COBOL programs from VS Code in this
 
 ## 2) Install GnuCOBOL per OS
 
-### macOS
+### macOS (MacPorts — recommandé)
+
+```bash
+sudo port install gnucobol
+```
+
+ou avec Homebrew :
 
 ```bash
 brew install gnucobol
 ```
+
+> Les chemins ci-dessous supposent **MacPorts** (`/opt/local`). Avec Homebrew, remplacer par `/usr/local`.
 
 ### Linux
 
@@ -80,21 +88,21 @@ If `cobc` is not found, fix your PATH or reinstall GnuCOBOL.
 
 ## 4) Environment bootstrap used by this repository
 
-The script `setup_cobol_env.sh` is currently optimized for macOS toolchain stability:
+Le script `setup_cobol_env.sh` configure l'environnement pour **MacPorts GnuCOBOL 3.2** sur macOS :
 
-- Prefers Homebrew binary location in PATH.
-- Sets `COBC=/usr/local/bin/cobc`.
-- Forces `COB_CC=/usr/bin/clang`.
+- `COBC=/opt/local/bin/cobc`
+- `COB_CC=/usr/bin/clang` — force Apple clang (évite les erreurs de headers avec des clang non-système)
+- `COB_CONFIG_DIR`, `COB_COPY_DIR` — chemins runtime MacPorts + copybooks projet (GSTK, CRM)
+- `COB_CFLAGS/COB_LDFLAGS` — headers/libs MacPorts
+- Variables PostgreSQL (`PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`) pour les tests SQL locaux
 
-Use it before manual builds:
+À sourcer avant tout build manuel :
 
 ```bash
 source ./setup_cobol_env.sh
 ```
 
-Why this exists:
-
-On some macOS setups, `cobc` may pick a non-system `clang` and fail on standard headers. Forcing `/usr/bin/clang` avoids that.
+> Avec Homebrew, remplacer `/opt/local` par `/usr/local` dans le script.
 
 ## 5) Bootstrap script for quick setup
 

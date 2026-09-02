@@ -7,7 +7,7 @@
       * DESCRIPTION: Fusion de deux tableaux tries dans un troisieme   *
       *----------------------------------------------------------------*
       * GROUPE     : arrays                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. TABLEAU-FUSION.
@@ -101,7 +101,7 @@
             DISPLAY "**** AFFICHAGE DES VALEURS FUSIONNEES ****".
             PERFORM VARYING WS-INDEX-FUSION FROM 1 BY 1
                  UNTIL WS-INDEX-FUSION > WS-INDEX-OCCUR-FUSION
-                 DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX-FUSION ": "
+                 DISPLAY "Valeur de l'AlAment " WS-INDEX-FUSION ": "
                   WS-VALEUR-FUSION(WS-INDEX-FUSION)
             END-PERFORM
 

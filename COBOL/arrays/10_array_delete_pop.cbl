@@ -7,7 +7,7 @@
       * DESCRIPTION: Suppression et extraction d element par index (pop)
       *----------------------------------------------------------------*
       * GROUPE     : arrays                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. TABLEAU-POP.
@@ -50,7 +50,7 @@
                   WS-INDEX ": "
                 ACCEPT WS-READ-TMP
                 MOVE WS-READ-TMP TO WS-VALEUR(WS-INDEX)
-                DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX ": "
+                DISPLAY "Valeur de l'AlAment " WS-INDEX ": "
                  WS-VALEUR(WS-INDEX)
 
            END-PERFORM
@@ -69,7 +69,7 @@
 
        60000-SAISIE-INDEX-TO-DELETE.
             DISPLAY "*********** SAISIE DE L'INDEX A DELETE **********".
-            DISPLAY "Saisir l'index Ã¯Â¿Â½  supprimer : "
+            DISPLAY "Saisir l'index AA  supprimer : "
             ACCEPT WS-INDEX-TO-DELETE
             GOBACK.
 

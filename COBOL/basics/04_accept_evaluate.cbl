@@ -7,7 +7,7 @@
       * DESCRIPTION: ACCEPT + EVALUATE : retraite par age et genre     *
       *----------------------------------------------------------------*
       * GROUPE     : basics                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
         PROGRAM-ID. ACCPTST.

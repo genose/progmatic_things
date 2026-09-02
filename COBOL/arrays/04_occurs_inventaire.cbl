@@ -7,7 +7,7 @@
       * DESCRIPTION: OCCURS + affichage formate d un inventaire produits
       *----------------------------------------------------------------*
       * GROUPE     : arrays                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. INVENTAIRE.
@@ -43,7 +43,7 @@
                 DISPLAY "*********** RESULTAT ***************".
                 DISPLAY "Produit: " PROD-NOM
                 " ID: " PROD-ID
-                " QuantitÃÂ©: " PROD-QUANTITE.
+                " QuantitA: " PROD-QUANTITE.
 
             END-PERFORM
             DISPLAY "************************************".

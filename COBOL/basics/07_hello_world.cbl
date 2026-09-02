@@ -4,10 +4,10 @@
       * DATE       : 2026-09-02                                        *
       * VERSION    : 1.0                                               *
       *----------------------------------------------------------------*
-      * DESCRIPTION: Hello world minimal â premier programme COBOL     *
+      * DESCRIPTION: Hello world minimal - premier programme COBOL     *
       *----------------------------------------------------------------*
       * GROUPE     : basics                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. HELLO-WORLD.

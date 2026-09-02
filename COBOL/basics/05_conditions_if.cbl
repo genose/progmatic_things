@@ -4,10 +4,10 @@
       * DATE       : 2026-09-02                                        *
       * VERSION    : 1.0                                               *
       *----------------------------------------------------------------*
-      * DESCRIPTION: IF/ELSE imbriques â conditions selon genre et age *
+      * DESCRIPTION: IF/ELSE imbriques - conditions selon genre et age *
       *----------------------------------------------------------------*
       * GROUPE     : basics                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. CONDITIONS-IF.
@@ -21,9 +21,9 @@
        PROCEDURE DIVISION.
       *	   SET HOMME TO TRUE
            IF FEMME
-               DISPLAY 'Vous Ãªtes une femme'
+               DISPLAY 'Vous tes une femme'
            ELSE IF HOMME
-               DISPLAY 'Vous Ãªtes un homme'
+               DISPLAY 'Vous tes un homme'
            ELSE
                DISPLAY 'NE SAIS PAS '
            END-IF.

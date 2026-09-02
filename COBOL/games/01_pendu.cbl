@@ -4,10 +4,10 @@
       * DATE       : 2026-09-02                                        *
       * VERSION    : 1.0                                               *
       *----------------------------------------------------------------*
-      * DESCRIPTION: Jeu du pendu interactif â ACCEPT, tableaux, boucles
+      * DESCRIPTION: Jeu du pendu interactif - ACCEPT, tableaux, boucles
       *----------------------------------------------------------------*
       * GROUPE     : games                                             *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. JEU-DU-PENDU-COBOL.

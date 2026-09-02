@@ -4,10 +4,10 @@
       * DATE       : 2026-09-02                                        *
       * VERSION    : 1.0                                               *
       *----------------------------------------------------------------*
-      * DESCRIPTION: DISPLAY simple â affichage de messages formates   *
+      * DESCRIPTION: DISPLAY simple - affichage de messages formates   *
       *----------------------------------------------------------------*
       * GROUPE     : basics                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. HELLO-DISPLAY.

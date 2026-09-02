@@ -7,7 +7,7 @@
       * DESCRIPTION: COMPUTE : calcul arithmetique, remise commerciale *
       *----------------------------------------------------------------*
       * GROUPE     : basics                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. ARITHMETIQUE.

@@ -7,7 +7,7 @@
       * DESCRIPTION: OCCURS imbriques 3 niveaux : classes, eleves, notes
       *----------------------------------------------------------------*
       * GROUPE     : arrays                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. CLASSES-NOTES.

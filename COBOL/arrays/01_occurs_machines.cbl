@@ -4,10 +4,10 @@
       * DATE       : 2026-09-02                                        *
       * VERSION    : 1.0                                               *
       *----------------------------------------------------------------*
-      * DESCRIPTION: OCCURS 5 TIMES + PERFORM VARYING â tableau machines
+      * DESCRIPTION: OCCURS 5 TIMES + PERFORM VARYING - tableau machines
       *----------------------------------------------------------------*
       * GROUPE     : arrays                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. MACHINE.

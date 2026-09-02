@@ -7,7 +7,7 @@
       * DESCRIPTION: Recherche dans tableau avec SEARCH / INDEXED BY   *
       *----------------------------------------------------------------*
       * GROUPE     : arrays                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. TABLEAU-SEARCH.
@@ -50,15 +50,15 @@
             END-PERFORM
             DISPLAY "*********** RESULTAT DE LA RECHERCHE **********".
             IF WS-VALEUR-TROUVEE
-                DISPLAY "Valeur trouvÃÂ©e Ã  l'index: "
+                DISPLAY "Valeur trouvAe   l'index: "
                 WS-VALEUR-TROUVEE-INDEX
             ELSE
-                DISPLAY "Valeur non trouvÃÂ©e dans le tableau."
+                DISPLAY "Valeur non trouvAe dans le tableau."
             END-IF
             DISPLAY "*********** AFFICHAGE DES VALEURS ***********".
             PERFORM VARYING WS-INDEX FROM 1 BY 1
                   UNTIL WS-INDEX > LENGTH OF WS-TABLEAU-ENTIERS
-                 DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX ": "
+                 DISPLAY "Valeur de l'AlAment " WS-INDEX ": "
                   WS-VALEUR(WS-INDEX)
             END-PERFORM
 

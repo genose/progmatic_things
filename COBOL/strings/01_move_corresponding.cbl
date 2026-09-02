@@ -7,7 +7,7 @@
       * DESCRIPTION: MOVE CORRESPONDING entre groupes de donnees       *
       *----------------------------------------------------------------*
       * GROUPE     : strings                                           *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. MOVE-CORRESP.

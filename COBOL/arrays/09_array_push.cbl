@@ -7,7 +7,7 @@
       * DESCRIPTION: Push : ajout dynamique en fin de tableau          *
       *----------------------------------------------------------------*
       * GROUPE     : arrays                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. TABLEAU-PUSH.
@@ -38,7 +38,7 @@
                  UNTIL WS-INDEX-PUSH > WS-INDEX-OCCUR-PUSH
                  COMPUTE WS-INDEX-TMP-PUSH = WS-INDEX-PUSH * 5
                  MOVE WS-INDEX-TMP-PUSH to WS-VALEUR-PUSH(WS-INDEX-PUSH)
-                 DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX-PUSH ": "
+                 DISPLAY "Valeur de l'AlAment " WS-INDEX-PUSH ": "
                   WS-VALEUR-PUSH(WS-INDEX-PUSH)
            END-PERFORM
 
@@ -71,10 +71,10 @@
 
            END-PERFORM
            DISPLAY "*********** PUSH DE LA VALEUR **********".
-           DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX-PUSH ": "
+           DISPLAY "Valeur de l'AlAment " WS-INDEX-PUSH ": "
                   WS-VALEUR-TMP-LAST-PUSH
            MOVE WS-VALEUR-TMP-LAST-PUSH TO WS-VALEUR-PUSH(1)
-           DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment 1: "
+           DISPLAY "Valeur de l'AlAment 1: "
                   WS-VALEUR-PUSH(1)
 
 
@@ -82,7 +82,7 @@
            DISPLAY "*********** AFFICHAGE DES VALEURS ***********".
            PERFORM VARYING WS-INDEX-PUSH FROM 1 BY 1
                  UNTIL WS-INDEX-PUSH > WS-INDEX-OCCUR-PUSH
-                 DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX-PUSH ": "
+                 DISPLAY "Valeur de l'AlAment " WS-INDEX-PUSH ": "
                   WS-VALEUR-PUSH(WS-INDEX-PUSH)
            END-PERFORM
 

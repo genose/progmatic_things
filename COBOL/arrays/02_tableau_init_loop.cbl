@@ -7,7 +7,7 @@
       * DESCRIPTION: Initialisation et parcours de tableau PERFORM     *
       *----------------------------------------------------------------*
       * GROUPE     : arrays                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. TABLEAU-INIT.
@@ -28,7 +28,7 @@
       * ** a. Affichez une Invite demandant a l'utilisateur
       * ** d'entrer une valeur a Inserer dans le tableau.
       * ** D. Lisez la valeur salsie par l'utilisateur
-      * ** et stockez-la dans Ã¯Â¿Â½  l'indice
+      * ** et stockez-la dans AA  l'indice
             PERFORM VARYING WS-INDEX FROM 1 BY 1 UNTIL WS-INDEX > 5
            DISPLAY "Entrez une valeur pour l'element " WITH NO ADVANCING
            DISPLAY WS-INDEX ": " WITH NO ADVANCING

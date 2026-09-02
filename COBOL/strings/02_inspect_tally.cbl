@@ -4,10 +4,10 @@
       * DATE       : 2026-09-02                                        *
       * VERSION    : 1.0                                               *
       *----------------------------------------------------------------*
-      * DESCRIPTION: INSPECT TALLYING : comptage d occurrences         *
+      * DESCRIPTION: INSPECT TALLYING : comptage d occurrences de car. *
       *----------------------------------------------------------------*
       * GROUPE     : strings                                           *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. INSPECT-TALLY.

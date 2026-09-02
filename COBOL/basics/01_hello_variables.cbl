@@ -7,7 +7,7 @@
       * DESCRIPTION: Variables numeriques/alphanumeriques et DISPLAY   *
       *----------------------------------------------------------------*
       * GROUPE     : basics                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. HELLO-VARS.

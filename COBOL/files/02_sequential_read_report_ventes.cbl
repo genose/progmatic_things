@@ -4,10 +4,10 @@
       * DATE       : 2026-09-02                                        *
       * VERSION    : 1.0                                               *
       *----------------------------------------------------------------*
-      * DESCRIPTION: Rapport de ventes â VENTES-LOGIQUE.dat            *
+      * DESCRIPTION: Rapport de ventes - VENTES-LOGIQUE.dat            *
       *----------------------------------------------------------------*
       * GROUPE     : files                                             *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. RAPPORT-VENTES.

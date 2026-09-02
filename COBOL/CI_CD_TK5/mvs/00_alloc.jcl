@@ -51,7 +51,7 @@
 //             DCB=(RECFM=FB,LRECL=80,BLKSIZE=3120,DSORG=PO)
 //*
 //*-------------------------------------------------------------*
-//* LOADLIB : load modules compilés (U)
+//* LOADLIB : load modules compiles (U)
 //*-------------------------------------------------------------*
 //ALLOCLOD EXEC PGM=IEFBR14
 //GSTKLOD  DD DSN=&HLQ..GSTK.LOADLIB,

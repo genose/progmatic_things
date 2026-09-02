@@ -7,7 +7,7 @@
       * DESCRIPTION: Comptage d occurrences dans un tableau avec COMPUTE
       *----------------------------------------------------------------*
       * GROUPE     : arrays                                            *
-      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      * COMPILEUR  : GnuCOBOL - cobc -x                                *
       *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. TABLEAU-ENTIER.
@@ -37,7 +37,7 @@
             DISPLAY "*********** AFFICHAGE DES VALEURS ***********".
             PERFORM VARYING WS-INDEX FROM 1 BY 1
                   UNTIL WS-INDEX > 10
-                 DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX ": "
+                 DISPLAY "Valeur de l'AlAment " WS-INDEX ": "
                   WS-VALEUR(WS-INDEX)
             END-PERFORM
             STOP RUN.

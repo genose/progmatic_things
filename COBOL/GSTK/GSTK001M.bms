@@ -6,10 +6,10 @@
 * TAILLE  : 24 x 132  (3270 Model 5)                                  *
 * TRANS   : G001                                                       *
 *----------------------------------------------------------------------*
-* COLONNES DONNEES (position attribut → debut donnees) :              *
-*   SEL(1→2) LN(3→4) AC(7→8) DS(18→19) CT(43→44) QT(53→54)          *
-*   MN(59→60) MX(64→65) PU(70→71) VL(79→80) GR(90→91)               *
-*   ST(111→112) EM(120→121)                                           *
+* COLONNES DONNEES (position attribut -> debut donnees) :              *
+*   SEL(1->2) LN(3->4) AC(7->8) DS(18->19) CT(43->44) QT(53->54)          *
+*   MN(59->60) MX(64->65) PU(70->71) VL(79->80) GR(90->91)               *
+*   ST(111->112) EM(120->121)                                           *
 *======================================================================*
 GSTK001M DFHMSD TYPE=&SYSPARM,                                         X
                LANG=COBOL,                                             X

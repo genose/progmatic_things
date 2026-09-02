@@ -2,12 +2,12 @@
 * DEFINITIONS CICS - GROUPE GSTK                             *
 * Interface : CEDA (CICS Explorer ou ISPF CICS)              *
 *                                                             *
-* Ordre d'exécution :                                        *
+* Ordre d'execution :                                        *
 *   1. CEDA DEF MAPSET (chaque mapset BMS)                   *
 *   2. CEDA DEF PROGRAM (chaque programme COBOL)             *
 *   3. CEDA DEF TRANSACTION (chaque code trans)              *
 *   4. CEDA INSTALL GROUP(GSTK)                              *
-*   5. CEMT SET PROG(GSTKxxx) NEW  (après recompilation)     *
+*   5. CEMT SET PROG(GSTKxxx) NEW  (apres recompilation)     *
 *=============================================================*
 
 
@@ -63,7 +63,7 @@ CEDA DEF PROGRAM(GSTK007) GROUP(GSTK)
          USAGE(NORMAL) EXECKEY(USER) CONCURRENCY(QUASIRENT)
 
 *-------------------------------------------------------------*
-* 3. TRANSACTIONS (codes 4 caractères = codes trans CICS)
+* 3. TRANSACTIONS (codes 4 caracteres = codes trans CICS)
 *-------------------------------------------------------------*
 CEDA DEF TRANSACTION(G000) GROUP(GSTK)
          PROGRAM(GSTK000)
@@ -122,19 +122,19 @@ CEMT SET PROGRAM(GSTK007) NEWCOPY
 *-------------------------------------------------------------*
 * 6. DIAGNOSTIC RAPIDE (si une trans ne fonctionne pas)
 *-------------------------------------------------------------*
-* Vérifier le statut d'un programme :
+* Verifier le statut d'un programme :
 *   CEMT INQ PROG(GSTK007)
 *
 * Codes erreur courants dans le message CICS :
-*   PGMIDERR   → programme non défini ou non trouvé en LOADLIB
-*   MAPFAIL    → mapset non trouvé ou non assemblé
-*   LENGERR    → COMMAREA longueur incorrecte
-*   NOTOPEN    → fichier/connexion DB2 non ouverte
+*   PGMIDERR   -> programme non defini ou non trouve en LOADLIB
+*   MAPFAIL    -> mapset non trouve ou non assemble
+*   LENGERR    -> COMMAREA longueur incorrecte
+*   NOTOPEN    -> fichier/connexion DB2 non ouverte
 *
-* Vérifier la connexion DB2 :
+* Verifier la connexion DB2 :
 *   CEMT INQ DB2CONN
 *
 * Consulter le log CICS (CEMF ou MSGUSR) :
-*   CEMT INQ TASK       → tâches en cours
-*   CEDF GSTK007        → mode débogage pas-à-pas (trace EXEC CICS)
+*   CEMT INQ TASK       -> taches en cours
+*   CEDF GSTK007        -> mode debogage pas-a-pas (trace EXEC CICS)
 *=============================================================*

@@ -107,7 +107,7 @@
            05  WS-DATE            PIC X(10).
            05  WS-TIME            PIC X(8).
 
-      *    Zones d'édition numérique
+      *    Zones d'edition numerique
        01  W-EDIT.
            05  W-QTE-EDIT         PIC -ZZZZ9.
            05  W-MHT-EDIT         PIC -ZZZ.ZZZ.ZZ9,99.
@@ -194,7 +194,7 @@
                INTO(GSTK007I)
            END-EXEC
 
-      *    Mettre à jour filtres si l'opérateur a saisi quelque chose
+      *    Mettre a jour filtres si l'operateur a saisi quelque chose
            IF FILCOL IN GSTK007I > ZERO
                MOVE SPACES TO W-FIL-CODE
                MOVE FILCOI IN GSTK007I TO W-FIL-CODE(1:10)
@@ -223,7 +223,7 @@
                    PERFORM 5000-AFFICHER-ECRAN
 
                WHEN DFHPF7
-      *            Page précédente
+      *            Page precedente
                    IF W-PAGE-CUR > 1
                        SUBTRACT 1 FROM W-PAGE-CUR
                    ELSE
@@ -257,7 +257,7 @@
                    PERFORM 5000-AFFICHER-ECRAN
 
                WHEN OTHER
-      *            ENTER ou autre : afficher résultats courants
+      *            ENTER ou autre : afficher resultats courants
                    PERFORM 3000-COMPTER
                    PERFORM 4000-REQUETE-MOUVEMENTS
                    MOVE SPACES TO MSGRTRO IN GSTK007O
@@ -322,7 +322,7 @@
                       INTO HV-MVT-TYPE
            END-IF
 
-      *    Date début : DD/MM/YYYY -> YYYY-MM-DD (format DB2)
+      *    Date debut : DD/MM/YYYY -> YYYY-MM-DD (format DB2)
            IF W-FIL-DATE-DEB = SPACES
                MOVE ' ' TO HV-DATE-DEB
            ELSE
@@ -369,7 +369,7 @@
                GO TO 4000-EXIT
            END-IF
 
-      *    Sauter les lignes des pages précédentes
+      *    Sauter les lignes des pages precedentes
            COMPUTE W-SKIP = (W-PAGE-CUR - 1) * 10
            MOVE 'Y' TO W-FETCH-OK
 
@@ -423,7 +423,7 @@
       * 5000-AFFICHER-ECRAN                                            *
       *================================================================*
        5000-AFFICHER-ECRAN.
-      *    Date/heure système
+      *    Date/heure systeme
            EXEC CICS ASKTIME ABSTIME(WS-ABSTIME) END-EXEC
            EXEC CICS FORMATTIME
                ABSTIME(WS-ABSTIME)
@@ -443,7 +443,7 @@
            MOVE W-FIL-DATE-FIN    TO FILDFO  IN GSTK007O
            MOVE W-FIL-TYPE(1:10)  TO FILTPO  IN GSTK007O
 
-      *    Opérateur et terminal
+      *    Operateur et terminal
            MOVE CA-OPERATEUR      TO OPENAMO IN GSTK007O
            MOVE EIBTRMID TO TERNAMO IN GSTK007O
 
@@ -453,7 +453,7 @@
            MOVE W-PAGE-TOT        TO W-PAG-EDIT
            MOVE W-PAG-EDIT        TO PAGTOTO IN GSTK007O
 
-      *    Totaux période
+      *    Totaux periode
            MOVE W-NB-MVT          TO W-CNT-EDIT
            MOVE W-CNT-EDIT        TO TOTCNTO IN GSTK007O
            MOVE HV-TOT-MNT        TO W-MNT-EDIT

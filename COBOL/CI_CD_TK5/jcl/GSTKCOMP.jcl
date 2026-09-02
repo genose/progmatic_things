@@ -5,12 +5,12 @@
 //*=============================================================*
 //* JOB : GSTKCOMP - COMPILATION CICS/COBOL + LINK EDIT GSTK   *
 //*                                                             *
-//* Chaîne : SOURCE → TRANSLATOR CICS → COBOL → LINK EDIT      *
+//* Chaine : SOURCE -> TRANSLATOR CICS -> COBOL -> LINK EDIT      *
 //*                                                             *
 //* ADAPTER :                                                   *
 //*   HLQ     = votre HLQ (ex: HERC01)                         *
-//*   CICSHLQ  = HLQ bibliothèques CICS                        *
-//*   DB2HLQ   = HLQ bibliothèques DB2                         *
+//*   CICSHLQ  = HLQ bibliotheques CICS                        *
+//*   DB2HLQ   = HLQ bibliotheques DB2                         *
 //*   COBHLQ   = HLQ compilateur COBOL                         *
 //*=============================================================*
 //*
@@ -19,12 +19,12 @@
 //         SET DB2HLQ=DB2
 //         SET COBHLQ=IGY
 //*
-//* PROCLIB avec la procédure catalogue DFHEITALC (CICS+COBOL+DB2)
+//* PROCLIB avec la procedure catalogue DFHEITALC (CICS+COBOL+DB2)
 //* ou DFHITCL (CICS+COBOL sans DB2)
 //* Sur TK5 : adapter selon les procs disponibles dans SYS1.PROCLIB
 //*
 //*-------------------------------------------------------------*
-//* EXEMPLE : GSTK000 - MENU (pas de SQL → procédure plus simple)
+//* EXEMPLE : GSTK000 - MENU (pas de SQL -> procedure plus simple)
 //*-------------------------------------------------------------*
 //G000TRAN EXEC DFHITCL,
 //             PARM.TRN='',
@@ -39,7 +39,7 @@
 //             DD DSN=SYS1.COBLIB,DISP=SHR
 //*
 //*-------------------------------------------------------------*
-//* GSTK001 à GSTK007 : avec DB2 → procédure DFHEITALC
+//* GSTK001 a GSTK007 : avec DB2 -> procedure DFHEITALC
 //* (CICS Translator + COBOL + DB2 Precompiler + Link Edit)
 //*-------------------------------------------------------------*
 //G001COMP EXEC DFHEITALC,

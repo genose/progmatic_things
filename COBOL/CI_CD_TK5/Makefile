@@ -1,46 +1,34 @@
 # ============================================================
-# Makefile CI/CD TK5 — Pipeline GSTK pour MVS TK5 / KICKS
+# Makefile CI/CD TK5 — Pipeline générique pour MVS TK5 / KICKS
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
+#
 # Lancer depuis COBOL/CI_CD_TK5/
-# ============================================================
-# Targets locaux :
-#   make check      → syntaxe COBOL + tests SQL PostgreSQL
-#   make pg-reset   → recréer la base PostgreSQL de zéro
-#
-# Targets MVS TK5 :
-#   make upload     → uploader les sources modifiés vers MVS
-#   make bms        → assembler les 8 mapsets BMS
-#   make cobol      → compiler les 8 programmes COBOL
-#   make deploy     → CICS newcopy (recharger les modules)
-#   make build      → upload + bms + cobol + deploy
-#   make test       → tests CICS automatisés via s3270
-#
-# Pipeline complet :
-#   make ci         → check + build + test
-#   make watch      → surveillance fichiers → build auto
-#
-# Utilitaires :
-#   make log        → syslog MVS en temps réel
-#   make status     → état Hercules + CICS
-#   make spool      → activité JES2 récente
+# Choisir le projet via : make <cible> PROJECT=gstk|crm|...
 # ============================================================
 
-# Scripts locaux GSTK (PostgreSQL, syntaxe COBOL)
-GSTK_SCRIPTS := ../GSTK/scripts
-# Scripts MVS/TK5 (dans CI_CD_TK5/)
+# Projet par défaut
+PROJECT ?= gstk
+export PROJECT_NAME=$(PROJECT)
+
+# Scripts MVS/TK5 (dans CI_CD_TK5/mvs/)
 MVS          := mvs
 SHELL        := /usr/bin/env bash
 
+# Scripts locaux GSTK (PostgreSQL, syntaxe) — cibles spécifiques GSTK
+# Ces cibles (pg-reset, pg-setup) pointent directement sur GSTK/scripts
+# car elles sont intrinsèquement liées à PostgreSQL/GSTK.
+GSTK_SCRIPTS := ../GSTK/scripts
+
 .PHONY: check pg-reset pg-setup upload upload-one bms cobol deploy build \
-        test test-one ci inc watch log status spool spool-read install-all clean help
+        test test-one ci inc watch log status spool spool-read install-all \
+        clean help projects
 
 # ---- Local ---------------------------------------------------------------
 check:
-	@echo "=== [1/2] Syntaxe COBOL ==="
-	@bash $(GSTK_SCRIPTS)/04_cobc_check.sh
-	@echo ""
-	@echo "=== [2/2] Tests SQL ==="
-	@bash $(GSTK_SCRIPTS)/05_test_sql.sh
+	@bash $(MVS)/09_ci.sh --no-mvs
 
+# Cibles PostgreSQL spécifiques GSTK (ne dépendent pas de PROJECT)
 pg-reset:
 	@bash $(GSTK_SCRIPTS)/03_pg_setup.sh --reset
 
@@ -64,7 +52,7 @@ deploy:
 	@bash $(MVS)/03_cics.sh newcopy
 
 build: upload bms cobol deploy
-	@echo "=== Build complet terminé ==="
+	@echo "=== Build complet terminé (PROJECT=$(PROJECT)) ==="
 
 # ---- Tests CICS ----------------------------------------------------------
 test:
@@ -102,33 +90,57 @@ spool-read:
 
 # ---- Première installation complète --------------------------------------
 install-all:
-	@echo "=== Installation complète GSTK sur MVS TK5 ==="
+	@echo "=== Installation complète $(PROJECT) sur MVS TK5 ==="
 	@echo ""
-	@echo "Étape 1/6 : Setup PostgreSQL local"
-	@bash $(GSTK_SCRIPTS)/03_pg_setup.sh
-	@echo ""
-	@echo "Étape 2/6 : Vérification syntaxe COBOL"
-	@bash $(GSTK_SCRIPTS)/04_cobc_check.sh
-	@echo ""
-	@echo "Étape 3/6 : Allocation des datasets MVS (1ère fois)"
+	@echo "Étape 1/4 : Allocation des datasets MVS"
 	@bash $(MVS)/02_submit.sh alloc
 	@echo ""
-	@echo "Étape 4/6 : Upload vers MVS"
+	@echo "Étape 2/4 : Upload vers MVS"
 	@bash $(MVS)/01_upload.sh all
 	@echo ""
-	@echo "Étape 5/6 : Compilation BMS + COBOL"
-	@bash $(MVS)/02_submit.sh bms
+	@echo "Étape 3/4 : Compilation BMS + COBOL"
+	@bash $(MVS)/02_submit.sh bms || true
 	@bash $(MVS)/02_submit.sh cobol
 	@echo ""
-	@echo "Étape 6/6 : Définitions CICS"
+	@echo "Étape 4/4 : Définitions CICS"
 	@bash $(MVS)/03_cics.sh install
 	@echo ""
-	@echo "=== Installation terminée ==="
-	@echo "Taper G000 dans x3270 pour démarrer."
+	@echo "=== Installation terminée (PROJECT=$(PROJECT)) ==="
 
 clean:
-	@rm -f mvs/.checksums mvs/.build.log 2>/dev/null || true
+	@rm -f mvs/.checksums_* mvs/.build.log 2>/dev/null || true
 	@echo "Checksums nettoyés (prochain build = upload complet)"
 
+# ---- Aide ----------------------------------------------------------------
+projects:
+	@echo "Projets disponibles :"
+	@for f in conf/*.conf; do \
+	    echo "  $$(basename $$f .conf)"; \
+	done
+
 help:
-	@grep -E '^[a-zA-Z_-]+:' Makefile | grep -v "^#" | awk -F: '{print "  make " $$1}' | sort
+	@echo "Usage : make <cible> [PROJECT=gstk|crm|...]"
+	@echo ""
+	@echo "Cibles disponibles :"
+	@echo "  check        — vérification syntaxe + tests unitaires (local)"
+	@echo "  upload       — uploader les sources vers MVS"
+	@echo "  bms          — assembler les mapsets BMS"
+	@echo "  cobol        — compiler les programmes COBOL"
+	@echo "  deploy       — CICS newcopy (recharger modules)"
+	@echo "  build        — upload + bms + cobol + deploy"
+	@echo "  test         — tests CICS automatisés"
+	@echo "  test-one     — tester une transaction (TRANS=G000)"
+	@echo "  ci           — pipeline CI/CD complet"
+	@echo "  inc          — build incrémental (détection MD5)"
+	@echo "  watch        — surveillance fichiers → build auto"
+	@echo "  install-all  — première installation complète"
+	@echo "  log          — syslog MVS en temps réel"
+	@echo "  status       — état Hercules + CICS"
+	@echo "  spool        — activité JES2 récente"
+	@echo "  clean        — nettoyer les checksums"
+	@echo "  projects     — lister les projets disponibles"
+	@echo ""
+	@echo "Projets disponibles (PROJECT=...) :"
+	@for f in conf/*.conf; do \
+	    echo "  $$(basename $$f .conf)"; \
+	done

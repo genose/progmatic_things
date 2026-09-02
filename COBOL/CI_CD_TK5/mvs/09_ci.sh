@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# 09_ci.sh — Pipeline CI/CD complet GSTK
+# 09_ci.sh — Pipeline CI/CD complet (générique)
 # Auteur   : Sebastien Cotillard
 # Date     : 2026-09-02
 #
@@ -9,28 +9,32 @@
 #
 # Étapes :
 #   1. Vérification syntaxe COBOL (local, GnuCOBOL)
-#   2. Tests SQL PostgreSQL (local)
+#   2. Tests unitaires (CHECK_UNIT_CMD — mvn test, SQL, etc.)
 #   3. Build incrémental MVS (upload + compile + newcopy)
-#   4. Tests CICS automatisés (s3270)
-#   5. Rapport final
+#   4. Vérification spool JES2
+#   5. Tests CICS automatisés (s3270) — skip si HAS_CICS=0
 #
 # Usage :
-#   bash scripts/mvs/09_ci.sh              # pipeline complet
-#   bash scripts/mvs/09_ci.sh --no-mvs    # local seulement (check + sql)
-#   bash scripts/mvs/09_ci.sh --no-test   # build sans tests CICS
-#   bash scripts/mvs/09_ci.sh --fast      # smoke test uniquement
+#   bash mvs/09_ci.sh              # pipeline complet
+#   bash mvs/09_ci.sh --no-mvs    # local seulement (check + unit)
+#   bash mvs/09_ci.sh --no-test   # build sans tests CICS
+#   bash mvs/09_ci.sh --fast      # smoke test uniquement
+#
+# Configuration projet via PROJECT_NAME (défaut: gstk) :
+#   PROJECT_NAME=crm bash mvs/09_ci.sh --no-mvs
 # ============================================================
 set -euo pipefail
 
-MVS_DIR="$(dirname "${BASH_SOURCE[0]}")"
-SCRIPTS_DIR="$(cd "${MVS_DIR}/.." && pwd)"
-GSTK_SCRIPTS_DIR="$(cd "${MVS_DIR}/../../GSTK/scripts" && pwd)"
+CI_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${CI_DIR}/lib/project.sh"
+
+MVS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CI_LOG="${MVS_DIR}/.ci_history.log"
 REPORT_DIR="${MVS_DIR}/.reports"
 mkdir -p "$REPORT_DIR"
 
 TS=$(date '+%Y%m%d_%H%M%S')
-REPORT="${REPORT_DIR}/ci_${TS}.txt"
+REPORT="${REPORT_DIR}/ci_${PROJECT_NAME}_${TS}.txt"
 
 # Flags
 NO_MVS=0; NO_TEST=0; FAST=0
@@ -73,12 +77,13 @@ timer_end() {
 # ============================================================
 {
     echo "════════════════════════════════════════════════════"
-    echo " GSTK CI/CD RAPPORT — ${TS//_/ }"
-    echo " Git  : $(git -C "$(cd "$MVS_DIR/../.."; pwd)" log --oneline -1 2>/dev/null || echo 'N/A')"
+    echo " ${PROJECT_LABEL} CI/CD RAPPORT — ${TS//_/ }"
+    echo " Git  : $(git -C "${PROJECT_DIR}" log --oneline -1 2>/dev/null || echo 'N/A')"
     echo " Host : $(hostname)"
     echo "════════════════════════════════════════════════════"
 } | tee "$REPORT"
 
+HERC_URL="${HERC_URL:-http://localhost:8038}"
 CI_STATUS="OK"
 declare -A STEP_RESULTS
 
@@ -88,37 +93,47 @@ declare -A STEP_RESULTS
 step "1/5" "Vérification syntaxe COBOL"
 timer_start
 
-if bash "$GSTK_SCRIPTS_DIR/04_cobc_check.sh" 2>&1 | tee -a "$REPORT"; then
-    ok "Syntaxe COBOL valide"
-    STEP_RESULTS[syntax]="PASS"
-else
-    fail "Erreurs de syntaxe COBOL détectées"
-    STEP_RESULTS[syntax]="FAIL"
-    CI_STATUS="FAILED"
-    if [[ $NO_MVS -eq 0 ]]; then
-        fail "Arrêt — corriger les erreurs de syntaxe avant de déployer"
-        log ""
-        echo "CI: ABORTED (syntax)" >> "$CI_LOG"
-        exit 1
+if [[ -n "${CHECK_COBOL_CMD:-}" ]]; then
+    if eval "${CHECK_COBOL_CMD}" 2>&1 | tee -a "$REPORT"; then
+        ok "Syntaxe COBOL valide"
+        STEP_RESULTS[syntax]="PASS"
+    else
+        fail "Erreurs de syntaxe COBOL détectées"
+        STEP_RESULTS[syntax]="FAIL"
+        CI_STATUS="FAILED"
+        if [[ $NO_MVS -eq 0 ]]; then
+            fail "Arrêt — corriger les erreurs de syntaxe avant de déployer"
+            log ""
+            echo "CI: ABORTED (syntax) | ${PROJECT_NAME}" >> "$CI_LOG"
+            exit 1
+        fi
     fi
+else
+    skip "CHECK_COBOL_CMD non défini pour ${PROJECT_LABEL}"
+    STEP_RESULTS[syntax]="SKIP"
 fi
 timer_end
 
 # ============================================================
-# ÉTAPE 2 : Tests SQL PostgreSQL
+# ÉTAPE 2 : Tests unitaires
 # ============================================================
-step "2/5" "Tests SQL PostgreSQL"
+step "2/5" "Tests unitaires"
 timer_start
 
-if bash "$GSTK_SCRIPTS_DIR/05_test_sql.sh" 2>&1 | tee -a "$REPORT"; then
-    ok "Toutes les requêtes SQL passent"
-    STEP_RESULTS[sql]="PASS"
+if [[ -n "${CHECK_UNIT_CMD:-}" ]]; then
+    if eval "${CHECK_UNIT_CMD}" 2>&1 | tee -a "$REPORT"; then
+        ok "Tests unitaires OK"
+        STEP_RESULTS[unit]="PASS"
+    else
+        rc=$?
+        fail "Tests unitaires échoués (rc=$rc)"
+        STEP_RESULTS[unit]="FAIL"
+        CI_STATUS="FAILED"
+        warn "Des tests unitaires échoués peuvent causer des erreurs en production"
+    fi
 else
-    rc=$?
-    fail "Certaines requêtes SQL ont échoué (rc=$rc)"
-    STEP_RESULTS[sql]="FAIL"
-    CI_STATUS="FAILED"
-    warn "Les requêtes SQL échouées pourraient causer des SQLCODE non-zéro en CICS"
+    skip "CHECK_UNIT_CMD non défini pour ${PROJECT_LABEL}"
+    STEP_RESULTS[unit]="SKIP"
 fi
 timer_end
 
@@ -133,14 +148,28 @@ else
     step "3/5" "Build incrémental MVS TK5"
     timer_start
 
-    if bash "$MVS_DIR/06_build.sh" 2>&1 | tee -a "$REPORT"; then
+    build_ok=0
+    if [[ -n "${MVS_UPLOAD_CMD:-}" || -n "${MVS_COMPILE_CMD:-}" ]]; then
+        # Déléguer aux scripts du projet
+        if [[ -n "${MVS_UPLOAD_CMD:-}" ]]; then
+            eval "${MVS_UPLOAD_CMD}" 2>&1 | tee -a "$REPORT" && true || build_ok=$?
+        fi
+        if [[ $build_ok -eq 0 && -n "${MVS_COMPILE_CMD:-}" ]]; then
+            eval "${MVS_COMPILE_CMD}" 2>&1 | tee -a "$REPORT" && true || build_ok=$?
+        fi
+    else
+        # Build générique via 06_build.sh
+        bash "${MVS_DIR}/06_build.sh" 2>&1 | tee -a "$REPORT" && true || build_ok=$?
+    fi
+
+    if [[ $build_ok -eq 0 ]]; then
         ok "Build MVS réussi"
         STEP_RESULTS[build]="PASS"
     else
         fail "Build MVS échoué"
         STEP_RESULTS[build]="FAIL"
         CI_STATUS="FAILED"
-        warn "Vérifier le syslog : bash scripts/mvs/herc.sh spool"
+        warn "Vérifier le syslog : bash mvs/herc.sh spool"
     fi
     timer_end
 fi
@@ -152,7 +181,7 @@ if [[ $NO_MVS -eq 0 ]]; then
     step "4/5" "Vérification spool JES2"
     timer_start
 
-    spool_output=$(bash "$MVS_DIR/herc.sh" spool 2>/dev/null || true)
+    spool_output=$(bash "${MVS_DIR}/herc.sh" spool 2>/dev/null || true)
     log "$spool_output"
 
     # Chercher ABEND ou JCL ERROR dans le spool récent
@@ -172,9 +201,13 @@ else
 fi
 
 # ============================================================
-# ÉTAPE 5 : Tests CICS automatisés
+# ÉTAPE 5 : Tests CICS automatisés (skip si HAS_CICS=0)
 # ============================================================
-if [[ $NO_TEST -eq 1 ]] || [[ $NO_MVS -eq 1 ]]; then
+if [[ "${HAS_CICS}" == "0" ]]; then
+    step "5/5" "Tests CICS"
+    skip "Projet ${PROJECT_LABEL} : pas de CICS"
+    STEP_RESULTS[cics]="SKIP"
+elif [[ $NO_TEST -eq 1 ]] || [[ $NO_MVS -eq 1 ]]; then
     step "5/5" "Tests CICS"
     skip "Ignoré (--no-test ou --no-mvs)"
     STEP_RESULTS[cics]="SKIP"
@@ -185,7 +218,7 @@ else
     test_mode="all"
     [[ $FAST -eq 1 ]] && test_mode="smoke"
 
-    if bash "$MVS_DIR/08_test_cics.sh" "$test_mode" 2>&1 | tee -a "$REPORT"; then
+    if bash "${MVS_DIR}/08_test_cics.sh" "$test_mode" 2>&1 | tee -a "$REPORT"; then
         ok "Tests CICS : tous passent"
         STEP_RESULTS[cics]="PASS"
     else
@@ -199,21 +232,19 @@ fi
 # ============================================================
 # RAPPORT FINAL
 # ============================================================
-TOTAL_DURATION=$(( $(date +%s) - $(stat -f %B "$REPORT" 2>/dev/null || echo $(date +%s)) ))
-
 {
     echo ""
     echo "════════════════════════════════════════════════════"
-    echo " RÉSUMÉ CI/CD"
+    echo " RÉSUMÉ CI/CD — ${PROJECT_LABEL}"
     echo "────────────────────────────────────────────────────"
-    for step in syntax sql build spool cics; do
-        status="${STEP_RESULTS[$step]:-SKIP}"
+    for s in syntax unit build spool cics; do
+        status="${STEP_RESULTS[$s]:-SKIP}"
         case "$status" in
             PASS) icon="✓" ;;
             FAIL) icon="✗" ;;
             *)    icon="-" ;;
         esac
-        printf "  %s  %-10s : %s\n" "$icon" "$step" "$status"
+        printf "  %s  %-10s : %s\n" "$icon" "$s" "$status"
     done
     echo "────────────────────────────────────────────────────"
     printf "  Statut global   : %s\n" "$CI_STATUS"
@@ -222,10 +253,10 @@ TOTAL_DURATION=$(( $(date +%s) - $(stat -f %B "$REPORT" 2>/dev/null || echo $(da
 } | tee -a "$REPORT"
 
 # ---- Historique des builds ----
-echo "$(date '+%Y-%m-%d %H:%M:%S') | $CI_STATUS | syntax:${STEP_RESULTS[syntax]:-?} sql:${STEP_RESULTS[sql]:-?} build:${STEP_RESULTS[build]:-?} cics:${STEP_RESULTS[cics]:-?}" \
+echo "$(date '+%Y-%m-%d %H:%M:%S') | ${PROJECT_NAME} | $CI_STATUS | syntax:${STEP_RESULTS[syntax]:-?} unit:${STEP_RESULTS[unit]:-?} build:${STEP_RESULTS[build]:-?} cics:${STEP_RESULTS[cics]:-?}" \
     >> "$CI_LOG"
 
 # ---- Lien vers le dernier rapport ----
-ln -sf "$REPORT" "${REPORT_DIR}/latest.txt"
+ln -sf "$REPORT" "${REPORT_DIR}/latest_${PROJECT_NAME}.txt"
 
 [[ "$CI_STATUS" == "OK" ]] && exit 0 || exit 1

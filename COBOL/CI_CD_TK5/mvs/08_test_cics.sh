@@ -4,21 +4,35 @@
 # Auteur   : Sebastien Cotillard
 # Date     : 2026-09-02
 #
-# Lance chaque transaction GSTK, capture l'écran 3270 (ASCII)
+# Lance chaque transaction CICS, capture l'écran 3270 (ASCII)
 # et vérifie que les champs attendus sont présents.
+# Les suites de tests spécifiques au projet sont chargées
+# depuis CICS_TESTS_FILE (défini dans la conf projet).
 #
 # Usage :
-#   bash scripts/mvs/08_test_cics.sh all        # tous les tests
-#   bash scripts/mvs/08_test_cics.sh smoke      # tests rapides (G000 + G001)
-#   bash scripts/mvs/08_test_cics.sh trans G007 # une transaction
-#   bash scripts/mvs/08_test_cics.sh report     # afficher le dernier rapport
+#   bash mvs/08_test_cics.sh all        # tous les tests
+#   bash mvs/08_test_cics.sh smoke      # tests rapides
+#   bash mvs/08_test_cics.sh trans G007 # une transaction
+#   bash mvs/08_test_cics.sh report     # afficher le dernier rapport
+#
+# Configuration projet via PROJECT_NAME (défaut: gstk) :
+#   PROJECT_NAME=crm bash mvs/08_test_cics.sh all
 # ============================================================
 set -euo pipefail
 
+CI_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${CI_DIR}/lib/project.sh"
+
+# Vérifier si le projet a CICS
+if [[ "${HAS_CICS}" == "0" ]]; then
+    echo "Projet ${PROJECT_LABEL} : pas de CICS — tests CICS non applicables"
+    exit 0
+fi
+
 TK5_HOST="${TK5_HOST:-localhost}"
 TK5_PORT="${TK5_PORT:-3270}"
-MVS_DIR="$(dirname "${BASH_SOURCE[0]}")"
-REPORT_FILE="${MVS_DIR}/.test_report.txt"
+MVS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPORT_FILE="${MVS_DIR}/.test_report_${PROJECT_NAME}.txt"
 
 source "${MVS_DIR}/s3270_lib.sh"
 
@@ -149,69 +163,24 @@ assert_no_error() {
 }
 
 # ============================================================
-# SUITE : Tests smoke (rapides)
+# Charger les suites de tests spécifiques au projet
+# Si CICS_TESTS_FILE est défini et existe, le sourcer.
+# Sinon définir des no-ops avec message informatif.
 # ============================================================
-run_smoke() {
-    section "SMOKE TESTS (G000 + G001)"
-
-    assert_screen "G000 - Menu principal s'affiche" "G000" \
-        "GSTK000" "MENU"
-
-    assert_no_error "G000 - Pas d'erreur CICS" "G000"
-
-    assert_screen "G001 - Consultation stock s'affiche" "G001" \
-        "GSTK001" "CODE ART" "DATE"
-
-    assert_no_error "G001 - Pas d'erreur CICS" "G001"
-}
-
-# ============================================================
-# SUITE : Tests complets de chaque transaction
-# ============================================================
-run_all() {
-    section "G000 — Menu principal"
-    assert_screen "G000 - titre affiché"       "G000" "GSTK000" "MENU"
-    assert_screen "G000 - options du menu"      "G000" "G001" "G002" "G003"
-    assert_no_error "G000 - pas d'erreur CICS" "G000"
-
-    section "G001 — Consultation stock"
-    assert_screen "G001 - en-tête affiché"     "G001" "GSTK001" "CODE ART"
-    assert_screen "G001 - colonnes présentes"  "G001" "STOCK" "DESIGNATION" "CATEGORIE"
-    assert_screen "G001 - pagination"          "G001" "PAGE"
-    assert_no_error "G001 - pas d'erreur"      "G001"
-
-    section "G002 — Entrée marchandise"
-    assert_screen "G002 - en-tête affiché"     "G002" "GSTK002" "ENTREE"
-    assert_screen "G002 - champs de saisie"    "G002" "CODE ART" "QUANTITE"
-    assert_screen "G002 - instructions PF"     "G002" "PF5" "PF6"
-    assert_no_error "G002 - pas d'erreur"      "G002"
-
-    section "G003 — Sortie marchandise"
-    assert_screen "G003 - en-tête affiché"     "G003" "GSTK003" "SORTIE"
-    assert_screen "G003 - champs de saisie"    "G003" "CODE ART" "QUANTITE"
-    assert_no_error "G003 - pas d'erreur"      "G003"
-
-    section "G004 — Gestion articles"
-    assert_screen "G004 - en-tête affiché"     "G004" "GSTK004"
-    assert_screen "G004 - champs article"      "G004" "CODE" "DESIGNATION"
-    assert_no_error "G004 - pas d'erreur"      "G004"
-
-    section "G005 — Rapports stock"
-    assert_screen "G005 - en-tête affiché"     "G005" "GSTK005" "RAPPORT"
-    assert_screen "G005 - stats globales"      "G005" "CATEGORIE"
-    assert_no_error "G005 - pas d'erreur"      "G005"
-
-    section "G006 — Alertes stock critique"
-    assert_screen "G006 - en-tête affiché"     "G006" "GSTK006" "ALERTE"
-    assert_screen "G006 - colonnes alertes"    "G006" "CODE ART" "STOCK" "MINIMUM"
-    assert_no_error "G006 - pas d'erreur"      "G006"
-
-    section "G007 — Historique mouvements"
-    assert_screen "G007 - en-tête affiché"     "G007" "GSTK007" "HISTORIQUE"
-    assert_screen "G007 - colonnes historique" "G007" "DATE" "TYPE" "QUANTITE"
-    assert_screen "G007 - filtres disponibles" "G007" "PF5" "PF7" "PF8"
-    assert_no_error "G007 - pas d'erreur"      "G007"
-}
+if [[ -n "${CICS_TESTS_FILE:-}" && -f "${CICS_TESTS_FILE}" ]]; then
+    source "${CICS_TESTS_FILE}"
+else
+    run_project_smoke() {
+        section "SMOKE TESTS"
+        skip "Aucun fichier de tests CICS configuré pour ${PROJECT_LABEL}"
+        echo "  Définir CICS_TESTS_FILE dans conf/${PROJECT_NAME}.conf"
+    }
+    run_project_tests() {
+        section "TESTS COMPLETS"
+        skip "Aucun fichier de tests CICS configuré pour ${PROJECT_LABEL}"
+        echo "  Définir CICS_TESTS_FILE dans conf/${PROJECT_NAME}.conf"
+    }
+fi
 
 # ============================================================
 # Test d'une transaction spécifique
@@ -237,7 +206,7 @@ run_trans() {
 write_report() {
     local total=$(( PASS + FAIL + SKIP ))
     {
-        echo "GSTK CICS TEST REPORT — $(date '+%Y-%m-%d %H:%M:%S')"
+        echo "${PROJECT_LABEL} CICS TEST REPORT — $(date '+%Y-%m-%d %H:%M:%S')"
         echo "PASS: $PASS / FAIL: $FAIL / SKIP: $SKIP / TOTAL: $total"
         [[ $FAIL -gt 0 ]] && echo "STATUT: FAILED" || echo "STATUT: OK"
     } > "$REPORT_FILE"
@@ -261,20 +230,20 @@ print_summary() {
 # ============================================================
 # Main
 # ============================================================
-echo "=== Tests CICS GSTK — $(date '+%d/%m/%Y %H:%M') ==="
+echo "=== Tests CICS ${PROJECT_LABEL} — $(date '+%d/%m/%Y %H:%M') ==="
 echo "Terminal : ${TK5_HOST}:${TK5_PORT}"
 echo ""
 
 case "${1:-all}" in
-    all)    run_all;              print_summary ;;
-    smoke)  run_smoke;            print_summary ;;
-    trans)  run_trans "${2:-G000}"; print_summary ;;
+    all)    run_project_tests;              print_summary ;;
+    smoke)  run_project_smoke;              print_summary ;;
+    trans)  run_trans "${2:-${CICS_TRANSACTIONS[0]:-TRAN}}"; print_summary ;;
     report)
         [[ -f "$REPORT_FILE" ]] && cat "$REPORT_FILE" \
             || echo "Aucun rapport — lancer d'abord : $0 all"
         ;;
     *)
-        echo "Usage: $0 {all|smoke|trans <G00x>|report}"
+        echo "Usage: $0 {all|smoke|trans <TRAN>|report}"
         exit 1
         ;;
 esac

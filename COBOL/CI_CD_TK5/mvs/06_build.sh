@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# 06_build.sh — Build incrémental GSTK sur MVS TK5
+# 06_build.sh — Build incrémental sur MVS TK5 (générique)
 # Auteur   : Sebastien Cotillard
 # Date     : 2026-09-02
 #
@@ -8,16 +8,20 @@
 # N'uploade et ne recompile que ce qui a changé.
 #
 # Usage :
-#   bash scripts/mvs/06_build.sh          # build incrémental
-#   bash scripts/mvs/06_build.sh --full   # forcer full rebuild
-#   bash scripts/mvs/06_build.sh --dry    # voir ce qui changerait
+#   bash mvs/06_build.sh          # build incrémental
+#   bash mvs/06_build.sh --full   # forcer full rebuild
+#   bash mvs/06_build.sh --dry    # voir ce qui changerait
+#
+# Configuration projet via PROJECT_NAME (défaut: gstk) :
+#   PROJECT_NAME=crm bash mvs/06_build.sh
 # ============================================================
 set -euo pipefail
 
-GSTK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../GSTK" && pwd)"
-SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-MVS_DIR="$(dirname "${BASH_SOURCE[0]}")"
-CHECKSUM_FILE="${MVS_DIR}/.checksums"
+CI_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${CI_DIR}/lib/project.sh"
+
+MVS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CHECKSUM_FILE="${MVS_DIR}/.checksums_${PROJECT_NAME}"
 BUILD_LOG="${MVS_DIR}/.build.log"
 
 TK5_HOST="${TK5_HOST:-localhost}"
@@ -79,19 +83,48 @@ save_checksums() {
 CBL_CHANGED=()
 BMS_CHANGED=()
 
+_track_file() {
+    local f="$1"
+    [[ -f "$f" ]] || return
+    local chk; chk=$(file_md5 "$f")
+    NEW_CHECKSUMS["$f"]="$chk"
+    if [[ $FORCE -eq 1 ]] || [[ "${OLD_CHECKSUMS[$f]:-}" != "$chk" ]]; then
+        CBL_CHANGED+=("$f")
+    fi
+}
+
 detect_changes() {
     load_checksums
 
-    for f in "$GSTK_DIR"/GSTK00*.cbl "$GSTK_DIR/Copybook.cbl"; do
-        [[ -f "$f" ]] || continue
-        local chk; chk=$(file_md5 "$f")
-        NEW_CHECKSUMS["$f"]="$chk"
-        if [[ $FORCE -eq 1 ]] || [[ "${OLD_CHECKSUMS[$f]:-}" != "$chk" ]]; then
-            CBL_CHANGED+=("$f")
-        fi
+    # Sources COBOL : via pattern ou liste explicite
+    if [[ -n "${CBL_PATTERN}" ]]; then
+        for f in "${PROJECT_DIR}"/${CBL_PATTERN}; do
+            _track_file "$f"
+        done
+    fi
+    local pair
+    for pair in "${CBL_FILES[@]+"${CBL_FILES[@]}"}"; do
+        _track_file "${PROJECT_DIR}/${pair%%:*}"
     done
 
-    for f in "$GSTK_DIR"/GSTK00*M.bms; do
+    # Copybooks
+    for pair in "${COPYBOOK_FILES[@]+"${COPYBOOK_FILES[@]}"}"; do
+        _track_file "${PROJECT_DIR}/${pair%%:*}"
+    done
+
+    # BMS
+    if [[ -n "${BMS_PATTERN}" ]]; then
+        for f in "${PROJECT_DIR}"/${BMS_PATTERN}; do
+            [[ -f "$f" ]] || continue
+            local chk; chk=$(file_md5 "$f")
+            NEW_CHECKSUMS["$f"]="$chk"
+            if [[ $FORCE -eq 1 ]] || [[ "${OLD_CHECKSUMS[$f]:-}" != "$chk" ]]; then
+                BMS_CHANGED+=("$f")
+            fi
+        done
+    fi
+    for pair in "${BMS_FILES[@]+"${BMS_FILES[@]}"}"; do
+        local f="${PROJECT_DIR}/${pair%%:*}"
         [[ -f "$f" ]] || continue
         local chk; chk=$(file_md5 "$f")
         NEW_CHECKSUMS["$f"]="$chk"
@@ -99,6 +132,39 @@ detect_changes() {
             BMS_CHANGED+=("$f")
         fi
     done
+}
+
+# ============================================================
+# Résoudre le membre MVS pour un fichier COBOL
+# Priorité : COPYBOOK_FILES → CBL_FILES → CBL_PATTERN (stem 8c)
+# Retourne également le dataset cible (SOURCE ou COPYLIB)
+# ============================================================
+_resolve_cbl_member() {
+    local filepath="$1"
+    local base; base=$(basename "$filepath")
+
+    # Chercher dans COPYBOOK_FILES
+    local cpair
+    for cpair in "${COPYBOOK_FILES[@]+"${COPYBOOK_FILES[@]}"}"; do
+        if [[ "${PROJECT_DIR}/${cpair%%:*}" == "$filepath" ]]; then
+            echo "COPYLIB:${cpair##*:}"
+            return
+        fi
+    done
+
+    # Chercher dans CBL_FILES
+    local pair
+    for pair in "${CBL_FILES[@]+"${CBL_FILES[@]}"}"; do
+        if [[ "${PROJECT_DIR}/${pair%%:*}" == "$filepath" ]]; then
+            echo "SOURCE:${pair##*:}"
+            return
+        fi
+    done
+
+    # Fallback : stem limité à 8 chars en majuscule (CBL_PATTERN)
+    local stem="${base%.*}"
+    local member; member=$(printf '%s' "${stem:0:8}" | tr '[:lower:]' '[:upper:]')
+    echo "SOURCE:${member}"
 }
 
 # ============================================================
@@ -143,7 +209,7 @@ submit_and_wait() {
     s3270_start || { fail "s3270 ne démarre pas"; return 1; }
     s3270_login
 
-    s3270_cmd "String(\"SUBMIT '${HLQ}.GSTK.JCL(${member})'\")" >/dev/null
+    s3270_cmd "String(\"SUBMIT '${HLQ}.${APP_SUFFIX}.JCL(${member})'\")" >/dev/null
     s3270_cmd "Enter()" 30 >/dev/null
     sleep 3
 
@@ -176,7 +242,7 @@ submit_and_wait() {
 # ============================================================
 # Main
 # ============================================================
-echo "=== Build incrémental GSTK — $(date '+%d/%m/%Y %H:%M:%S') ==="
+echo "=== Build incrémental ${PROJECT_LABEL} — $(date '+%d/%m/%Y %H:%M:%S') ==="
 [[ $FORCE -eq 1 ]] && echo -e "${YELLOW}Mode FULL rebuild${NC}"
 [[ $DRY -eq 1 ]]   && echo -e "${YELLOW}Mode DRY-RUN (aucun changement réel)${NC}"
 echo ""
@@ -198,20 +264,34 @@ echo ""
 echo "--- Upload vers MVS ---"
 for f in "${BMS_CHANGED[@]:-}"; do
     [[ -z "${f:-}" ]] && continue
-    base=$(basename "$f" .bms)
-    printf "  %-15s → %s.GSTK.BMS(%s) ... " "$base" "$HLQ" "$base"
-    upload_one "$f" "${HLQ}.GSTK.BMS(${base})" && ok "OK" || fail "ERREUR"
+    # Résoudre membre BMS
+    local_member=""
+    local pair
+    for pair in "${BMS_FILES[@]+"${BMS_FILES[@]}"}"; do
+        if [[ "${PROJECT_DIR}/${pair%%:*}" == "$f" ]]; then
+            local_member="${pair##*:}"
+            break
+        fi
+    done
+    if [[ -z "$local_member" ]]; then
+        local base; base=$(basename "$f" .bms)
+        local_member=$(printf '%s' "${base:0:8}" | tr '[:lower:]' '[:upper:]')
+    fi
+    printf "  %-15s → %s.%s.BMS(%s) ... " "$(basename "$f")" "$HLQ" "$APP_SUFFIX" "$local_member"
+    upload_one "$f" "${HLQ}.${APP_SUFFIX}.BMS(${local_member})" && ok "OK" || fail "ERREUR"
 done
 
 for f in "${CBL_CHANGED[@]:-}"; do
     [[ -z "${f:-}" ]] && continue
-    base=$(basename "$f" .cbl)
-    if [[ "$base" == "Copybook" ]]; then
-        printf "  %-15s → %s.GSTK.COPYLIB(GSTKCOMM) ... " "GSTKCOMM" "$HLQ"
-        upload_one "$f" "${HLQ}.GSTK.COPYLIB(GSTKCOMM)" && ok "OK" || fail "ERREUR"
+    local resolved; resolved=$(_resolve_cbl_member "$f")
+    local ds_type="${resolved%%:*}"
+    local member="${resolved##*:}"
+    if [[ "$ds_type" == "COPYLIB" ]]; then
+        printf "  %-15s → %s.%s.COPYLIB(%s) ... " "$(basename "$f")" "$HLQ" "$APP_SUFFIX" "$member"
+        upload_one "$f" "${HLQ}.${APP_SUFFIX}.COPYLIB(${member})" && ok "OK" || fail "ERREUR"
     else
-        printf "  %-15s → %s.GSTK.SOURCE(%s) ... " "$base" "$HLQ" "$base"
-        upload_one "$f" "${HLQ}.GSTK.SOURCE(${base})" && ok "OK" || fail "ERREUR"
+        printf "  %-15s → %s.%s.SOURCE(%s) ... " "$(basename "$f")" "$HLQ" "$APP_SUFFIX" "$member"
+        upload_one "$f" "${HLQ}.${APP_SUFFIX}.SOURCE(${member})" && ok "OK" || fail "ERREUR"
     fi
 done
 
@@ -219,34 +299,48 @@ done
 echo ""
 
 # ---- Assemblage BMS si des BMS ont changé ----
-if [[ ${#BMS_CHANGED[@]} -gt 0 ]]; then
+if [[ ${#BMS_CHANGED[@]} -gt 0 && -n "${JCL_BMS_MEMBER:-}" ]]; then
     echo "--- Assemblage BMS ---"
-    submit_and_wait "GSTKBMS" "GSTKBMS" 180 && ok "BMS assemblés" || { fail "Assemblage BMS"; exit 1; }
+    submit_and_wait "${JCL_BMS_MEMBER}" "${JCL_BMS_JOBNAME}" 180 \
+        && ok "BMS assemblés" || { fail "Assemblage BMS"; exit 1; }
     echo ""
 fi
 
 # ---- Compilation COBOL si des .cbl ont changé ----
 if [[ ${#CBL_CHANGED[@]} -gt 0 ]]; then
-    echo "--- Compilation COBOL/CICS ---"
-    submit_and_wait "GSTKCOMP" "GSTKCOMP" 300 && ok "Programmes compilés" || { fail "Compilation COBOL"; exit 1; }
+    echo "--- Compilation COBOL ---"
+    if [[ -n "${MVS_COMPILE_CMD:-}" ]]; then
+        if [[ $DRY -eq 1 ]]; then
+            changed "DRY: ${MVS_COMPILE_CMD}"
+        else
+            eval "${MVS_COMPILE_CMD}" && ok "Programmes compilés" || { fail "Compilation COBOL"; exit 1; }
+        fi
+    elif [[ -n "${JCL_COMP_MEMBER:-}" ]]; then
+        submit_and_wait "${JCL_COMP_MEMBER}" "${JCL_COMP_JOBNAME}" 300 \
+            && ok "Programmes compilés" || { fail "Compilation COBOL"; exit 1; }
+    fi
     echo ""
 fi
 
-# ---- CICS newcopy ----
-echo "--- CICS newcopy ---"
-if [[ $DRY -eq 0 ]]; then
-    bash "${MVS_DIR}/03_cics.sh" newcopy && ok "Modules rechargés dans CICS"
-else
-    changed "DRY: bash 03_cics.sh newcopy"
+# ---- CICS newcopy (seulement si HAS_CICS=1) ----
+if [[ "${HAS_CICS}" == "1" ]]; then
+    echo "--- CICS newcopy ---"
+    if [[ $DRY -eq 0 ]]; then
+        bash "${MVS_DIR}/03_cics.sh" newcopy && ok "Modules rechargés dans CICS"
+    else
+        changed "DRY: bash mvs/03_cics.sh newcopy"
+    fi
+    echo ""
 fi
-echo ""
 
 # ---- Sauvegarder les checksums (build réussi) ----
 [[ $DRY -eq 0 ]] && save_checksums
 
 # ---- Log du build ----
-echo "$(date '+%Y-%m-%d %H:%M:%S') | BUILD OK | CBL:${#CBL_CHANGED[@]} BMS:${#BMS_CHANGED[@]}" >> "$BUILD_LOG"
+echo "$(date '+%Y-%m-%d %H:%M:%S') | ${PROJECT_NAME} | BUILD OK | CBL:${#CBL_CHANGED[@]} BMS:${#BMS_CHANGED[@]}" >> "$BUILD_LOG"
 
 echo -e "${GREEN}✓ Build terminé${NC} — $(date '+%H:%M:%S')"
 echo "  Prochain build détectera uniquement les nouveaux changements."
-echo "  Taper G000 dans x3270 pour tester."
+if [[ "${HAS_CICS}" == "1" && ${#CICS_TRANSACTIONS[@]} -gt 0 ]]; then
+    echo "  Taper ${CICS_TRANSACTIONS[0]} dans x3270 pour tester."
+fi

@@ -5,17 +5,29 @@
 # Date     : 2026-09-02
 #
 # Automatise la saisie des commandes CEDA dans CICS :
-#   - MAPSET (x8), PROGRAM (x8), TRANSACTION (x8)
-#   - CEDA INSTALL GROUP(GSTK)
+#   - MAPSET, PROGRAM, TRANSACTION (depuis la conf projet)
+#   - CEDA INSTALL GROUP(...)
 #   - CEMT SET PROG NEWCOPY (après recompilation)
 #
 # Usage :
-#   bash scripts/mvs/03_cics.sh install    # première installation
-#   bash scripts/mvs/03_cics.sh newcopy    # recharger après recompilation
-#   bash scripts/mvs/03_cics.sh status     # vérifier les programmes
-#   bash scripts/mvs/03_cics.sh trans G007 # tester une transaction
+#   bash mvs/03_cics.sh install    # première installation
+#   bash mvs/03_cics.sh newcopy    # recharger après recompilation
+#   bash mvs/03_cics.sh status     # vérifier les programmes
+#   bash mvs/03_cics.sh trans G007 # tester une transaction
+#
+# Configuration projet via PROJECT_NAME (défaut: gstk) :
+#   PROJECT_NAME=crm bash mvs/03_cics.sh install
 # ============================================================
 set -euo pipefail
+
+CI_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${CI_DIR}/lib/project.sh"
+
+# Vérifier si le projet a CICS
+if [[ "${HAS_CICS}" == "0" ]]; then
+    echo "Projet ${PROJECT_LABEL} : pas de CICS configuré — skip"
+    exit 0
+fi
 
 TK5_HOST="${TK5_HOST:-localhost}"
 TK5_PORT="${TK5_PORT:-3270}"
@@ -71,29 +83,32 @@ cics_send() {
 # Installation complète : MAPSET + PROGRAM + TRANSACTION
 # ============================================================
 cics_install() {
-    info "Installation groupe GSTK dans CICS..."
+    info "Installation groupe ${CICS_GROUP} dans CICS..."
     cics_connect
 
     # MAPSETS BMS
-    for m in GSTK000M GSTK001M GSTK002M GSTK003M \
-              GSTK004M GSTK005M GSTK006M GSTK007M; do
-        cics_send "CEDA DEF MAPSET(${m}) GROUP(GSTK) RESIDENT(NO)"
+    local m
+    for m in "${CICS_MAPSETS[@]+"${CICS_MAPSETS[@]}"}"; do
+        cics_send "CEDA DEF MAPSET(${m}) GROUP(${CICS_GROUP}) RESIDENT(NO)"
     done
 
     # PROGRAMMES COBOL
-    for p in GSTK000 GSTK001 GSTK002 GSTK003 \
-              GSTK004 GSTK005 GSTK006 GSTK007; do
-        cics_send "CEDA DEF PROGRAM(${p}) GROUP(GSTK) LANGUAGE(COBOL)"
+    local p
+    for p in "${CICS_PROGRAMS[@]+"${CICS_PROGRAMS[@]}"}"; do
+        cics_send "CEDA DEF PROGRAM(${p}) GROUP(${CICS_GROUP}) LANGUAGE(COBOL)"
     done
 
     # TRANSACTIONS
-    for n in 000 001 002 003 004 005 006 007; do
-        cics_send "CEDA DEF TRANS(G${n}) GROUP(GSTK) PROGRAM(GSTK${n})"
+    local t prog_idx=0
+    for t in "${CICS_TRANSACTIONS[@]+"${CICS_TRANSACTIONS[@]}"}"; do
+        local prog="${CICS_PROGRAMS[$prog_idx]:-${t}}"
+        cics_send "CEDA DEF TRANS(${t}) GROUP(${CICS_GROUP}) PROGRAM(${prog})"
+        prog_idx=$(( prog_idx + 1 ))
     done
 
     # INSTALLER LE GROUPE
     s3270_cmd "Clear()" 5 >/dev/null 2>&1 || true
-    s3270_cmd "String(\"CEDA INSTALL GROUP(GSTK)\")" >/dev/null
+    s3270_cmd "String(\"CEDA INSTALL GROUP(${CICS_GROUP})\")" >/dev/null
     s3270_cmd "Enter()" 30 >/dev/null
     sleep 2
 
@@ -106,19 +121,19 @@ cics_install() {
     ok "Commandes CEDA envoyées."
     echo ""
     echo "Vérifier dans x3270 :"
-    echo "  CEMT INQ PROG(GSTK*)    → doit montrer 8 programmes EN(ENABLED)"
-    echo "  CEMT INQ TRAN(G*)       → doit montrer 8 transactions EN(ENABLED)"
+    echo "  CEMT INQ PROG(${CICS_GROUP}*)    → doit montrer les programmes EN(ENABLED)"
+    echo "  CEMT INQ TRAN(*)                 → doit montrer les transactions EN(ENABLED)"
 }
 
 # ============================================================
 # NEWCOPY : recharger les modules après recompilation
 # ============================================================
 cics_newcopy() {
-    info "NEWCOPY de tous les programmes GSTK..."
+    info "NEWCOPY de tous les programmes ${CICS_GROUP}..."
     cics_connect
 
-    for p in GSTK000 GSTK001 GSTK002 GSTK003 \
-              GSTK004 GSTK005 GSTK006 GSTK007; do
+    local p
+    for p in "${CICS_PROGRAMS[@]+"${CICS_PROGRAMS[@]}"}"; do
         cics_send "CEMT SET PROG(${p}) NEWCOPY" 10
     done
 
@@ -134,11 +149,11 @@ cics_newcopy() {
 # Vérifier le statut des programmes CICS
 # ============================================================
 cics_status() {
-    info "Statut programmes GSTK dans CICS..."
+    info "Statut programmes ${CICS_GROUP} dans CICS..."
     cics_connect
 
     s3270_cmd "Clear()" 5 >/dev/null 2>&1 || true
-    s3270_cmd "String(\"CEMT INQ PROG(GSTK*)\")" >/dev/null
+    s3270_cmd "String(\"CEMT INQ PROG(${CICS_GROUP}*)\")" >/dev/null
     s3270_cmd "Enter()" 10 >/dev/null
     sleep 2
 
@@ -150,7 +165,7 @@ cics_status() {
 # Lancer une transaction CICS (test rapide)
 # ============================================================
 cics_trans() {
-    local trans="${1:-G000}"
+    local trans="${1:-${CICS_TRANSACTIONS[0]:-TRAN}}"
     info "Lancement de la transaction $trans..."
     cics_connect
 
@@ -166,8 +181,9 @@ cics_trans() {
 # ============================================================
 # Main
 # ============================================================
-echo "=== Pilotage CICS GSTK via s3270 ==="
+echo "=== Pilotage CICS ${PROJECT_LABEL} via s3270 ==="
 echo "Terminal : ${TK5_HOST}:${TK5_PORT}"
+echo "Groupe   : ${CICS_GROUP}"
 echo ""
 
 case "${1:-help}" in
@@ -181,15 +197,17 @@ case "${1:-help}" in
         cics_status
         ;;
     trans)
-        cics_trans "${2:-G000}"
+        cics_trans "${2:-${CICS_TRANSACTIONS[0]:-TRAN}}"
         ;;
     *)
-        echo "Usage: $0 {install|newcopy|status|trans <G00x>}"
+        echo "Usage: $0 {install|newcopy|status|trans <TRAN>}"
         echo ""
         echo "Ordre recommandé :"
         echo "  1. $0 install          # définir MAPSET/PROGRAM/TRANS + INSTALL"
-        echo "  2. $0 status           # vérifier que les 8 pgms sont ENABLED"
-        echo "  3. $0 trans G000       # tester le menu principal"
+        echo "  2. $0 status           # vérifier que les pgms sont ENABLED"
+        if [[ ${#CICS_TRANSACTIONS[@]} -gt 0 ]]; then
+            echo "  3. $0 trans ${CICS_TRANSACTIONS[0]}  # tester la première transaction"
+        fi
         echo ""
         echo "Après chaque recompilation :"
         echo "  $0 newcopy             # recharger les modules sans restart CICS"

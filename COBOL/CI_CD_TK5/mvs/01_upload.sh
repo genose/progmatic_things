@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# 01_upload.sh — Upload des sources GSTK vers MVS
+# 01_upload.sh — Upload des sources vers MVS (générique)
 # Auteur   : Sebastien Cotillard
 # Date     : 2026-09-02
 #
@@ -11,17 +11,20 @@
 # Fallback : IND$FILE via TN3270/s3270 (--indffile)
 #
 # Usage :
-#   bash scripts/mvs/01_upload.sh            # tout uploader
-#   bash scripts/mvs/01_upload.sh --bms      # BMS seulement
-#   bash scripts/mvs/01_upload.sh --jcl      # JCL seulement
-#   bash scripts/mvs/01_upload.sh --cbl      # COBOL seulement
-#   bash scripts/mvs/01_upload.sh --indffile # mode IND$FILE
+#   bash mvs/01_upload.sh            # tout uploader
+#   bash mvs/01_upload.sh --bms      # BMS seulement
+#   bash mvs/01_upload.sh --jcl      # JCL seulement
+#   bash mvs/01_upload.sh --cbl      # COBOL seulement
+#   bash mvs/01_upload.sh --indffile # mode IND$FILE
+#
+# Configuration projet via PROJECT_NAME (défaut: gstk) :
+#   PROJECT_NAME=crm bash mvs/01_upload.sh
 # ============================================================
 set -euo pipefail
 
-GSTK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../GSTK" && pwd)"
-SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-MVS_DIR="$(dirname "${BASH_SOURCE[0]}")"
+CI_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${CI_DIR}/lib/project.sh"
+source "${CI_DIR}/mvs/s3270_lib.sh"
 
 TK5_HOST="${TK5_HOST:-localhost}"
 TK5_PORT="${TK5_PORT:-3270}"
@@ -32,7 +35,7 @@ HERC_URL="${HERC_URL:-http://localhost:8038}"
 _DOCKER_CONTAINER="${DOCKER_CONTAINER:-mvs-tk5}"
 _CARDREADER_PORT="${CARDREADER_PORT:-3505}"
 
-source "${MVS_DIR}/s3270_lib.sh"
+MVS_DIR="$(dirname "${BASH_SOURCE[0]}")"
 
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
 ok()   { echo -e "  ${GREEN}✓${NC} $*"; }
@@ -71,12 +74,12 @@ cardreader_iebupdte() {
 
     # Générer le JCL et l'envoyer directement au lecteur de cartes
     {
-        printf '//%s JOB ,'"'"'GSTK UPLOAD'"'"',CLASS=A,MSGCLASS=A,\n' "${jname}"
-        printf '//             MSGLEVEL=(1,1),NOTIFY=%s,\n'             "${TSO_USER}"
-        printf '//             USER=%s,PASSWORD=%s\n'                   "${TSO_USER}" "${TSO_PASS}"
+        printf '//%s JOB ,'"'"'UPLOAD'"'"',CLASS=A,MSGCLASS=A,\n' "${jname}"
+        printf '//             MSGLEVEL=(1,1),NOTIFY=%s,\n'        "${TSO_USER}"
+        printf '//             USER=%s,PASSWORD=%s\n'               "${TSO_USER}" "${TSO_PASS}"
         printf '//STEP1   EXEC PGM=IEBUPDTE,PARM=NEW\n'
         printf '//SYSPRINT DD SYSOUT=A\n'
-        printf '//SYSUT2   DD DSN=%s,DISP=OLD\n'                       "${target_ds}"
+        printf '//SYSUT2   DD DSN=%s,DISP=OLD\n'                   "${target_ds}"
         printf '//SYSIN    DD DATA,DLM=ZZ\n'
 
         local pair localfile membername
@@ -145,44 +148,103 @@ wait_upload_job() {
 }
 
 # ============================================================
+# Construire les paires "fichier_local:MEMBRE" pour les sources COBOL
+# Depuis CBL_FILES (liste explicite) ou CBL_PATTERN (glob)
+# ============================================================
+_build_cbl_pairs() {
+    local -n _pairs_ref="$1"
+
+    # Copybooks en premier
+    local cpair
+    for cpair in "${COPYBOOK_FILES[@]+"${COPYBOOK_FILES[@]}"}"; do
+        local cfile="${cpair%%:*}"
+        local cmember="${cpair##*:}"
+        _pairs_ref+=("${PROJECT_DIR}/${cfile}:${cmember}")
+    done
+
+    # Sources COBOL
+    if [[ -n "${CBL_PATTERN}" ]]; then
+        for f in "${PROJECT_DIR}"/${CBL_PATTERN}; do
+            [[ -f "$f" ]] || continue
+            local base; base=$(basename "$f")
+            local ext="${base##*.}"
+            local stem="${base%.*}"
+            local member; member=$(printf '%s' "${stem:0:8}" | tr '[:lower:]' '[:upper:]')
+            _pairs_ref+=("${f}:${member}")
+        done
+    elif [[ ${#CBL_FILES[@]} -gt 0 ]]; then
+        local pair
+        for pair in "${CBL_FILES[@]}"; do
+            local lf="${pair%%:*}"
+            local mb="${pair##*:}"
+            _pairs_ref+=("${PROJECT_DIR}/${lf}:${mb}")
+        done
+    fi
+}
+
+# ============================================================
 # Groupes d'upload — mode lecteur de cartes
 # ============================================================
 upload_sources_cr() {
     echo "--- Sources COBOL (lecteur de cartes) ---"
-    local pairs=("${GSTK_DIR}/Copybook.cbl:GSTKCOMM")
-    for f in "${GSTK_DIR}"/GSTK00*.cbl; do
-        pairs+=("${f}:$(basename "$f" .cbl)")
-    done
-    cardreader_iebupdte "GSTKUSR" "${HLQ}.GSTK.SOURCE" "${pairs[@]}" \
-        && wait_upload_job "GSTKUSR" 120
+    local pairs=()
+    _build_cbl_pairs pairs
+    [[ ${#pairs[@]} -eq 0 ]] && { warn "Aucune source COBOL à uploader"; return 0; }
+    cardreader_iebupdte "${JCL_UPLOAD_CBL_JOBNAME}" "${HLQ}.${APP_SUFFIX}.SOURCE" "${pairs[@]}" \
+        && wait_upload_job "${JCL_UPLOAD_CBL_JOBNAME}" 120
 }
 
 upload_bms_cr() {
+    if [[ -z "${BMS_PATTERN}" && ${#BMS_FILES[@]} -eq 0 ]]; then
+        info "Pas de BMS configurés pour ${PROJECT_LABEL} — skip"
+        return 0
+    fi
     echo "--- BMS Mapsets (lecteur de cartes) ---"
     local pairs=()
-    for f in "${GSTK_DIR}"/GSTK00*M.bms; do
-        pairs+=("${f}:$(basename "$f" .bms)")
-    done
-    cardreader_iebupdte "GSTKUBM" "${HLQ}.GSTK.BMS" "${pairs[@]}" \
-        && wait_upload_job "GSTKUBM" 120
+    if [[ -n "${BMS_PATTERN}" ]]; then
+        for f in "${PROJECT_DIR}"/${BMS_PATTERN}; do
+            [[ -f "$f" ]] || continue
+            local base; base=$(basename "$f" .bms)
+            pairs+=("${f}:${base}")
+        done
+    else
+        local pair
+        for pair in "${BMS_FILES[@]}"; do
+            pairs+=("${PROJECT_DIR}/${pair%%:*}:${pair##*:}")
+        done
+    fi
+    [[ ${#pairs[@]} -eq 0 ]] && { warn "Aucun BMS trouvé"; return 0; }
+    cardreader_iebupdte "${JCL_UPLOAD_BMS_JOBNAME}" "${HLQ}.${APP_SUFFIX}.BMS" "${pairs[@]}" \
+        && wait_upload_job "${JCL_UPLOAD_BMS_JOBNAME}" 120
 }
 
 upload_copybook_cr() {
+    if [[ ${#COPYBOOK_FILES[@]} -eq 0 ]]; then
+        info "Pas de copybooks configurés pour ${PROJECT_LABEL} — skip"
+        return 0
+    fi
     echo "--- Copybook (lecteur de cartes) ---"
-    cardreader_iebupdte "GSTKUCP" "${HLQ}.GSTK.COPYLIB" \
-        "${GSTK_DIR}/Copybook.cbl:GSTKCOMM" \
-        && wait_upload_job "GSTKUCP" 60
+    local pairs=()
+    local cpair
+    for cpair in "${COPYBOOK_FILES[@]}"; do
+        pairs+=("${PROJECT_DIR}/${cpair%%:*}:${cpair##*:}")
+    done
+    cardreader_iebupdte "${JCL_UPLOAD_CPY_JOBNAME}" "${HLQ}.${APP_SUFFIX}.COPYLIB" "${pairs[@]}" \
+        && wait_upload_job "${JCL_UPLOAD_CPY_JOBNAME}" 60
 }
 
 upload_jcl_cr() {
     echo "--- JCL (lecteur de cartes) ---"
-    local pairs=(
-        "${SCRIPTS_DIR}/jcl/GSTKBMS.jcl:GSTKBMS"
-        "${SCRIPTS_DIR}/jcl/GSTKCOMP.jcl:GSTKCOMP"
-        "${MVS_DIR}/00_alloc.jcl:GSTKALLC"
-    )
-    cardreader_iebupdte "GSTKUJC" "${HLQ}.GSTK.JCL" "${pairs[@]}" \
-        && wait_upload_job "GSTKUJC" 60
+    local pairs=()
+    [[ -n "${JCL_ALLOC_FILE:-}" && -f "${JCL_ALLOC_FILE}" ]] \
+        && pairs+=("${JCL_ALLOC_FILE}:${JCL_ALLOC_JOBNAME}")
+    [[ -n "${JCL_BMS_FILE:-}"   && -f "${JCL_BMS_FILE}"   ]] \
+        && pairs+=("${JCL_BMS_FILE}:${JCL_BMS_MEMBER}")
+    [[ -n "${JCL_COMP_FILE:-}"  && -f "${JCL_COMP_FILE}"  ]] \
+        && pairs+=("${JCL_COMP_FILE}:${JCL_COMP_MEMBER}")
+    [[ ${#pairs[@]} -eq 0 ]] && { warn "Aucun JCL local trouvé — skip"; return 0; }
+    cardreader_iebupdte "${JCL_UPLOAD_JCL_JOBNAME}" "${HLQ}.${APP_SUFFIX}.JCL" "${pairs[@]}" \
+        && wait_upload_job "${JCL_UPLOAD_JCL_JOBNAME}" 60
 }
 
 # ============================================================
@@ -214,30 +276,70 @@ transfer_file() {
 
 upload_sources_indf() {
     echo "--- Sources COBOL (IND\$FILE) ---"
-    transfer_file "${GSTK_DIR}/Copybook.cbl" "${HLQ}.GSTK.COPYLIB(GSTKCOMM)"
-    for f in "${GSTK_DIR}"/GSTK00*.cbl; do
-        transfer_file "$f" "${HLQ}.GSTK.SOURCE($(basename "$f" .cbl))"
+    local cpair
+    for cpair in "${COPYBOOK_FILES[@]+"${COPYBOOK_FILES[@]}"}"; do
+        local lf="${cpair%%:*}"; local mb="${cpair##*:}"
+        transfer_file "${PROJECT_DIR}/${lf}" "${HLQ}.${APP_SUFFIX}.COPYLIB(${mb})"
     done
+    if [[ -n "${CBL_PATTERN}" ]]; then
+        for f in "${PROJECT_DIR}"/${CBL_PATTERN}; do
+            [[ -f "$f" ]] || continue
+            local base; base=$(basename "$f")
+            local stem="${base%.*}"
+            local member; member=$(printf '%s' "${stem:0:8}" | tr '[:lower:]' '[:upper:]')
+            transfer_file "$f" "${HLQ}.${APP_SUFFIX}.SOURCE(${member})"
+        done
+    else
+        local pair
+        for pair in "${CBL_FILES[@]+"${CBL_FILES[@]}"}"; do
+            transfer_file "${PROJECT_DIR}/${pair%%:*}" "${HLQ}.${APP_SUFFIX}.SOURCE(${pair##*:})"
+        done
+    fi
 }
+
 upload_bms_indf() {
+    if [[ -z "${BMS_PATTERN}" && ${#BMS_FILES[@]} -eq 0 ]]; then
+        info "Pas de BMS configurés — skip"
+        return 0
+    fi
     echo "--- BMS Mapsets (IND\$FILE) ---"
-    for f in "${GSTK_DIR}"/GSTK00*M.bms; do
-        transfer_file "$f" "${HLQ}.GSTK.BMS($(basename "$f" .bms))"
-    done
+    if [[ -n "${BMS_PATTERN}" ]]; then
+        for f in "${PROJECT_DIR}"/${BMS_PATTERN}; do
+            [[ -f "$f" ]] || continue
+            local base; base=$(basename "$f" .bms)
+            transfer_file "$f" "${HLQ}.${APP_SUFFIX}.BMS(${base})"
+        done
+    else
+        local pair
+        for pair in "${BMS_FILES[@]}"; do
+            transfer_file "${PROJECT_DIR}/${pair%%:*}" "${HLQ}.${APP_SUFFIX}.BMS(${pair##*:})"
+        done
+    fi
 }
+
 upload_jcl_indf() {
     echo "--- JCL (IND\$FILE) ---"
-    transfer_file "${SCRIPTS_DIR}/jcl/GSTKBMS.jcl"  "${HLQ}.GSTK.JCL(GSTKBMS)"
-    transfer_file "${SCRIPTS_DIR}/jcl/GSTKCOMP.jcl" "${HLQ}.GSTK.JCL(GSTKCOMP)"
-    transfer_file "${MVS_DIR}/00_alloc.jcl"          "${HLQ}.GSTK.JCL(GSTKALLC)"
+    [[ -n "${JCL_BMS_FILE:-}"  && -f "${JCL_BMS_FILE}"  ]] \
+        && transfer_file "${JCL_BMS_FILE}"  "${HLQ}.${APP_SUFFIX}.JCL(${JCL_BMS_MEMBER})"
+    [[ -n "${JCL_COMP_FILE:-}" && -f "${JCL_COMP_FILE}" ]] \
+        && transfer_file "${JCL_COMP_FILE}" "${HLQ}.${APP_SUFFIX}.JCL(${JCL_COMP_MEMBER})"
+    [[ -n "${JCL_ALLOC_FILE:-}" && -f "${JCL_ALLOC_FILE}" ]] \
+        && transfer_file "${JCL_ALLOC_FILE}" "${HLQ}.${APP_SUFFIX}.JCL(${JCL_ALLOC_JOBNAME})"
 }
 
 # ============================================================
 # Main
 # ============================================================
-echo "=== Upload GSTK → MVS TK5 ==="
+echo "=== Upload ${PROJECT_LABEL} → MVS TK5 ==="
 echo "HLQ : ${HLQ}  /  User : ${TSO_USER}"
 echo ""
+
+# Si MVS_UPLOAD_CMD défini, déléguer entièrement
+if [[ -n "${MVS_UPLOAD_CMD:-}" ]]; then
+    info "Délégation upload : ${MVS_UPLOAD_CMD}"
+    eval "${MVS_UPLOAD_CMD}" "$@"
+    exit $?
+fi
 
 MODE="cardreader"
 POSITIONAL=()
@@ -255,7 +357,7 @@ if [[ "$MODE" == "indffile" ]]; then
     [[ -x "${S3270:-}" ]] || { echo "${RED}s3270 introuvable${NC}"; exit 1; }
     nc -z "$TK5_HOST" "$TK5_PORT" 2>/dev/null || { echo "${RED}TK5 non joignable${NC}"; exit 1; }
     case "$ACTION" in
-        all)  upload_sources_indf; upload_bms_indf; upload_jcl_indf ;;
+        all)   upload_sources_indf; upload_bms_indf; upload_jcl_indf ;;
         --bms) upload_bms_indf ;;
         --jcl) upload_jcl_indf ;;
         --cbl) upload_sources_indf ;;

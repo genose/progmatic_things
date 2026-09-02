@@ -10,7 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>D05_VERIF_CRM + T10_MAJ_DTLIVR_BDCRM — migration Java 8</name>
+    <name>CRM — migration Java 8 : D05_VERIF_CRM, T10_MAJ_DTLIVR_BDCRM, D02_EXTCDE_CRMCSP1, D05_INTCDEFAC_CRM_V2</name>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -65,6 +65,33 @@
                                 </manifest>
                             </archive>
                             <finalName>t10-maj-dtlivr-bdcrm</finalName>
+                        </configuration>
+                    </execution>
+                    <!-- JAR quaternaire = D05_INTCDEFAC -->
+                    <execution>
+                        <id>d05-intcdefac</id>
+                        <phase>package</phase>
+                        <goals><goal>jar</goal></goals>
+                        <configuration>
+                            <finalName>d05-intcdefac-crm-v2</finalName>
+                            <archive>
+                                <manifest>
+                                    <mainClass>com.example.crm.d05intcde.main.D05IntcdefacMain</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+                    <!-- JAR tertiaire = D02 -->
+                    <execution>
+                        <id>d02-extcde-crmcsp1</id>
+                        <goals><goal>jar</goal></goals>
+                        <configuration>
+                            <classifier>d02-extcde-crmcsp1</classifier>
+                            <archive>
+                                <manifest>
+                                    <mainClass>com.example.crm.d02.main.D02Main</mainClass>
+                                </manifest>
+                            </archive>
                         </configuration>
                     </execution>
                 </executions>

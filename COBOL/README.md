@@ -100,4 +100,4 @@ Voir [COBOL_VSCODE_SETUP.md](./COBOL_VSCODE_SETUP.md) — macOS / Linux / Window
 ## Projets mainframe
 
 - [GSTK/README.md](./GSTK/README.md) — Gestion de stock CICS/COBOL, MVS TK5
-- [CRM/README.md](./CRM/README.md) — Migration COBOL → Java 8 TDD
+- [CRM/README.md](./CRM/README.md) — Migration COBOL → Java 8 TDD (4 programmes : D05_VERIF, T10_MAJ_DTLIVR, D02_EXTCDE, D05_INTCDEFAC)

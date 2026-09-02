@@ -9,12 +9,19 @@ Ce dossier contient les sources COBOL OpenVMS du périmètre **CRM/EXTRANET**, l
 ## Contenu du dossier
 
 | Fichier / Dossier | Type | Rôle |
-|-------------------|------|------|
+| ----------------- | ---- | ---- |
 | `D05_VERIF_CRM.SCO` | Source COBOL | Vérification synchro commandes DEPOT/CRM |
 | `T10_MAJ_DTLIVR_BDCRM.COB` | Source COBOL | Mise à jour date de livraison dans BD_CRM |
-| `ANALYSE_D05_VERIF_CRM.md` | Analyse technique | Analyse détaillée D05, comportements, TDD |
+| `D02_EXTCDE_CRMCSP1.COB` | Source COBOL | Generation fichiers confirmation expedition CSP |
+| `D05_INTCDEFAC_CRM_V2.SCO` | Source COBOL | Integration UPSERT CDEFAC → BD_CRM.S.CDE_FAC |
+| `ANALYSE_D05_VERIF_CRM.md` | Analyse technique | Analyse détaillée D05_VERIF, comportements, TDD |
 | `ANALYSE_T10_MAJ_DTLIVR_BDCRM.md` | Analyse technique | Analyse détaillée T10, comportements, TDD |
-| `crm-java/` | Projet Maven Java 8 | Migration TDD des deux programmes |
+| `ANALYSE_D02_EXTCDE_CRMCSP1.md` | Analyse technique | Analyse détaillée D02, format 197 chars, TDD |
+| `ANALYSE_D05_INTCDEFAC_CRM_V2.md` | Analyse technique | Analyse détaillée D05_INTCDEFAC, UPSERT, TDD |
+| `COBOL_VERS_JAVA8_TDD.md` | Guide migration | Stratégie TDD et architecture pour la migration |
+| `crm-java/` | Projet Maven Java 8 | Migration TDD des quatre programmes |
+| `Makefile` | CI/CD | `make test` / `make ci` / `make ci-mvs` |
+| `scripts/` | CI/CD | Scripts syntaxe COBOL + pipeline TK5 |
 
 ---
 
@@ -39,14 +46,14 @@ P-MAJ     PIC X        — 'O' = effectuer les mises à jour
 ### Bases de données
 
 | Alias | Base | Table |
-|-------|------|-------|
+| ----- | ---- | ----- |
 | D | BD_DEPOT | D.CDE |
 | S | BD_CRM | S.CDE_FAC |
 
 ### Règles métier critiques
 
 | Code | Règle |
-|------|-------|
+| ---- | ----- |
 | B-D05-03 | FAT(DEPOT)≡FAP(CRM) et GLT(DEPOT)≡GLP(CRM) sont des statuts **équivalents** (pas des anomalies) |
 | B-D05-04 | Clé UPDATE = `(CODLAB, NUMCDE, NUMRAL)` — **CODDEP absent** du WHERE |
 | B-D05-05 | UPDATE : `STATCRM←''`, `FLAG_CRM←'O'`, STATUT inchangé |
@@ -81,13 +88,13 @@ Aucun paramètre explicite. Le programme est autonome (lit tous les fichiers pr�
 ### Base de données
 
 | Alias | Base | Table |
-|-------|------|-------|
+| ----- | ---- | ----- |
 | E | BD_CRM | E.CDE_FAC |
 
 ### Format fichier d'entrée (MAJBDSTAT*.DAT)
 
 | Champ | Description |
-|-------|-------------|
+| ----- | ----------- |
 | `MAJBD-CODDEP` | Code dépôt (4 chars) |
 | `MAJBD-CODLAB` | Code laboratoire (4 chars) |
 | `MAJBD-NUMCDE` | Numéro commande (7 chiffres) |
@@ -97,7 +104,7 @@ Aucun paramètre explicite. Le programme est autonome (lit tous les fichiers pr�
 ### Règles métier critiques
 
 | Code | Règle |
-|------|-------|
+| ---- | ----- |
 | B-T10-01 | `MAJBD-DATLIV` est déjà en format VMS ASCII — passé directement à `SYS$BINTIM` |
 | B-T10-03 | `CODDEP="FO"` → remplacé par `"MO"` **avant** toute requête SQL |
 | B-T10-05 | Recherche et MAJ 9994 : `CODDEP='CO'` **hardcodé** |
@@ -230,7 +237,7 @@ crm-java/src/test/java/com/example/crm/
 ### Couverture des comportements critiques
 
 | Comportement | Testé dans |
-|-------------|-----------|
+| ------------ | ---------- |
 | FAT≡FAP, GLT≡GLP | `StatutEquivalenceTest` |
 | Absent de CRM = NOK | `VerifCrmServiceTest.commandeAbsenteDeCrm_estDiscordante` |
 | Clé UPDATE sans CODDEP | `VerifCrmServiceTest.updateN_utilise_codlab_numcde_numral_sansCODDEP` |

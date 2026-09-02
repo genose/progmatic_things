@@ -1,0 +1,2303 @@
+-- RMU/EXTRACT for Oracle Rdb V7.4-130                   31-MAR-2025 14:18:14.03
+--
+--                           Database Definition File
+--
+-- Source Database Name: DSA7:[BASECRM]DBCRM.RDB;1
+--------------------------------------------------------------------------------
+set verify;
+set language ENGLISH;
+set default date format 'SQL92';
+set quoting rules 'SQL92';
+set date format DATE 001, TIME 001;
+attach 'filename DSA7:[BASECRM]DBCRM.RDB';
+
+-- RMU/EXTRACT for Oracle Rdb V7.4-130                   31-MAR-2025 14:18:14.03
+--
+--                              Table Definitions
+--
+--------------------------------------------------------------------------------
+create table CLICONTACT (
+    CLICSP CLICSP,
+    EMAIL EMAIL,
+    TELEP TELEP30,
+    QUALITE COGES1,
+    NOM NOM
+        comment is 
+          'Nom',
+    PRENOM PRENOM
+        comment is 
+          'Prenom',
+    TELEC TELEP30
+        comment is 
+          'Telecopie',
+    DATCRE "DATE"
+        comment is 
+          'Date de creation',
+    DATMAJ "DATE"
+        comment is 
+          'Date de mise a jour',
+    CODOPE CODRSP
+        comment is 
+          'Code operateur',
+    NOCONTACT NOCONTACT
+        comment is 
+          'N° de contact',
+    ACTIVITE FONCTION
+        comment is 
+          'Activité')
+    comment is 
+      'Fiche client';
+ 
+create table CLI (
+    CODGRP CODGRP
+        comment is 
+          'regroupement laboratoire',
+    RAISOC RAISOC
+        comment is 
+          'raison sociale',
+    NOM NOM
+        comment is 
+          'nom client',
+    ADRES1 ADRESS
+        comment is 
+          'adresse 1',
+    ADRES2 ADRESS
+        comment is 
+          'adresse 2',
+    VILLE LOC50
+        comment is 
+          'ville',
+    DEPART DEPART
+        comment is 
+          'departement',
+    CPOST CP20
+        comment is 
+          'code postal',
+    TELEP TELEP30
+        comment is 
+          'telephone',
+    TELEX TELEX
+        comment is 
+          'telex',
+    TELEC TELEP30
+        comment is 
+          ' telecopie',
+    GENCLI GENCLI
+        comment is 
+          'genre client',
+    CLIPAY QTENT
+        comment is 
+          ' code client payeur',
+    TYPCLI COGES2
+        comment is 
+          ' type client payeur',
+    CLIFAC QTENT
+        comment is 
+          ' client facture',
+    NOMDES NOM
+        comment is 
+          ' service destinataire',
+    NOMRSP NOM
+        comment is 
+          ' nom pharmacien responsable',
+    NUMORD COGES6
+        comment is 
+          ' numero d ordre section D',
+    TVA CBOOL
+        comment is 
+          ' soumission TVA',
+    DATCRE "DATE"
+        comment is 
+          ' date creation',
+    DATMAJ "DATE"
+        comment is 
+          'Date de maj du champ deprgl',
+    CODOPE CODRSP
+        comment is 
+          ' code operateur',
+    GESRAL CBOOL
+        comment is 
+          'acceptation RAL',
+    CLICSP QTENT
+        comment is 
+          'code client CSP',
+    CLICIP CLICIP
+        comment is 
+          'code CIP client',
+    CODMES CODMES
+        comment is 
+          'code message',
+    ARROND CBOOL
+        comment is 
+          'arrondi autorise (O/N)',
+    CONTRAINT CONTRAINT200
+        comment is 
+          'contrainte',
+    CLIANN CLIANN
+        comment is 
+          'client annule (O/N)',
+    CIPPDV CIPPDV
+        comment is 
+          'code point de vente CIP GERS',
+    UGA COGES3,
+    SIRET SIRET,
+    PAYS PAYS,
+    TRISTR VOITRI
+        default ' ',
+    TOUSTR VOITRI
+        default ' ',
+    TYPACT COGES1
+        default ''
+        comment is 
+          'Type action',
+    ANCCSP CLICSP
+        default 0
+        comment is 
+          'Ancien code client CSP',
+    UGA746 UGA746,
+    DATMAJRENSCLI "DATE"
+        comment is 
+          'Date de maj des champs adres1 adres2 ville cpost,telep telec email',
+    EMAIL EMAIL
+        comment is 
+          'Adresse email',
+    CPEXP CPEXP,
+    VILLEXP VILLEXP,
+    TVAINTRA TVAINTRA,
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date derniere Mise a jour automatique',
+    ADELI ADELI
+        comment is 
+          'Identifiant du médecin',
+    POUGERS POUGERS
+        comment is 
+          'Pourcentage GERS',
+    EDIROBOT EDIROBOT
+        comment is 
+          'N° robot edipharm',
+    INDCLILIV INDCLILIV
+        comment is 
+          'Indicateur client livré O/N',
+    INDCLIFAC INDCLIFAC
+        comment is 
+          'Indicateur client facturé O/N',
+    INDCLIPAY INDCLIPAY
+        comment is 
+          'Indicateur client payeur O/N',
+    CLIUNI CLIUNI
+        comment is 
+          'Code client unique',
+    INDCLIUNI INDCLIUNI
+        comment is 
+          'Indicateur client unique (O/N)',
+    APE COGES5
+        comment is 
+          'CODE APE',
+    CODGLN CODGLN
+        comment is 
+          'Code Lieu Fonction (EAN)',
+    DECIFAC DECIFAC
+        comment is 
+          'Nb de decimales sur facture',
+    CLIRGP QTENT
+        comment is 
+          'Client regroupement',
+    ADELI9 ADELI9
+        comment is 
+          'Identifiant du médecin',
+    LANGUE COGES3
+        comment is 
+          'code langue utlise/document',
+    CODRPPS CODRPPS
+        comment is 
+          'Code Repertoire des professionnels de sante',
+    "SPECIAL" "SPECIAL"
+        comment is 
+          'Spécialité du client',
+    WEBSITE WEBSITE
+        comment is 
+          'Site web du client',
+    MOBILE MOBILE
+        comment is 
+          'Numéro téléphone mobile',
+    NUMAGR NUMAGR
+        comment is 
+          'N° agrement',
+    DATAGR "DATE"
+        comment is 
+          'Date de fin agrement',
+    FLAGMAIL
+        CHAR (1),
+    CLIEXP FLAG_ON
+        comment is 
+          'Client EXPORT',
+    CODSEREDIFAC CODSEREDIFAC
+        comment is 
+          'Code service pour Genre H/S/F',
+    RFIDCOLIS RFIDCOLIS
+        comment is 
+          'Gestion colis avec RFID',
+    ENVOIBEX
+        CHAR (1)
+        default 'N'
+        comment is 
+          'envoi automatique de BEX pour ce client',
+    ENVOIFAC
+        CHAR (1)
+        default 'N'
+        comment is 
+          'envoi automatique de Facture pour ce client',
+    LEGALACC
+        CHAR (1)
+        default 'N'
+        comment is 
+          'le client accepte les conditions d utilisation legaal du site',
+    CLIPUB CLIPUB
+        comment is 
+          'Client existant dans AGEPUBLIC',
+    ADECOMANSM ADECOMANSM
+        comment is 
+          'Client avec n° de série à dé-commissionner en sortie vis-à-vis ANSM',
+    CODEDITRTCDE DOSEXP
+        comment is 
+          'Code EDI de lunite de traitement de la commande',
+    CODEDIGESTIONCDE DOSEXP
+        comment is 
+          'Code EDI de la gestion de la commande',
+    CODEDIBUREAUCOMPTABLE DOSEXP
+        comment is 
+          'Code EDI du bureau comptable',
+    CODEDIIMPUTNAVARRE DOSEXP
+        comment is 
+          'Code dimputation comptable de la Navarre')
+    comment is 
+      'Client';
+ 
+create table ART (
+    CODLAB CODLAB
+        comment is 
+          'code laboratoire',
+    CODART CODART
+        comment is 
+          'code article CSP',
+    ARTCIP CLICIP
+        comment is 
+          ' code article CIP',
+    CODFAM CODFAM
+        comment is 
+          'code famille article',
+    CODSSF CODSSF
+        comment is 
+          'code sous famille article',
+    LIBELL LIBELL35
+        comment is 
+          'libelle',
+    NOMABR NOMABR
+        comment is 
+          'nom article abrege',
+    PDSUV POIDS
+        comment is 
+          ' poids de l''unite de vente',
+    PDSUNI POIDS
+        comment is 
+          ' poids de l''unité',
+    NBUNUV QTENT
+        comment is 
+          ' nbre d''unites par unite de vente',
+    NBUVCS QTENT
+        comment is 
+          ' nbre d''UV par colis standard',
+    MAXREA QTENT
+        comment is 
+          ' seuil maxi de reappro.',
+    MINICD QTENT
+        comment is 
+          ' qté mini à commander',
+    COULVI COGES1
+        comment is 
+          ' couleur vignette',
+    TYPSTK COGES1
+        comment is 
+          ' type stockage',
+    TYPPAL COGES1
+        comment is 
+          ' type de palette',
+    ALEPER NOMBRE
+        comment is 
+          ' alerte date péremption (nbre de mois)',
+    DURVIE NOMBRE
+        comment is 
+          ' duree de vie (en mois)',
+    PRIPUB PRIXX
+        comment is 
+          ' prix public',
+    PRIRI PRIXX
+        comment is 
+          ' prix de revient industriel',
+    GESLOT COGES1
+        comment is 
+          ' gestion des lots',
+    ARTORD CBOOL
+        comment is 
+          ' article a ordonnance',
+    SUIPRI CBOOL
+        comment is 
+          ' suivi des prix',
+    TRANSA CBOOL
+        comment is 
+          ' transmission article',
+    AMM CBOOL
+        comment is 
+          ' article avec AMM',
+    VIGSS CBOOL
+        comment is 
+          ' article a vignette',
+    ALEPRI CBOOL
+        comment is 
+          ' alerte prix',
+    PEREMP CBOOL
+        comment is 
+          ' peremptibilite',
+    INVENT CBOOL
+        comment is 
+          ' article en inventaire',
+    ANNLOG CBOOL
+        comment is 
+          ' annulation logique',
+    DATCRE "DATE"
+        comment is 
+          ' date creation',
+    DATMAJ "DATE"
+        comment is 
+          ' date derniere maj',
+    CODOPE CODRSP
+        comment is 
+          ' code operateur',
+    MULTIP NOMBRE
+        comment is 
+          'multiple de x a servir',
+    QTESER COGES1
+        comment is 
+          'type de qte a servir (vente,gratuit,...)',
+    GESRAL CBOOL
+        comment is 
+          'gestion des RAL',
+    ETIQUE CBOOL
+        comment is 
+          'a etiquetter',
+    TYPTAR COGES2
+        comment is 
+          'type de tarification',
+    BLOART CBOOL
+        comment is 
+          'article bloque (O/N)',
+    DTANCP "DATE"
+        comment is 
+          'Date de commercialisation pour limitation échantillon',
+    NUMINV QTENT
+        comment is 
+          'numero inventaire',
+    VALDEC CBOOL
+        comment is 
+          'valeur declare',
+    CODMES CODMES
+        comment is 
+          'code message',
+    ARROND CBOOL
+        comment is 
+          'arrondi autorise (O/N)',
+    NBUVPA QTENT
+        comment is 
+          'nombre d unites ventes par palette',
+    LONGUE PRIX
+        comment is 
+          ' longueur en cm',
+    LARGEU PRIX
+        comment is 
+          ' largeur en cm',
+    HAUTEU PRIX
+        comment is 
+          ' hauteur en cm',
+    CONTEN PRIX
+        comment is 
+          ' contenance en l',
+    VOLART VOLUME
+        comment is 
+          ' volume  en cm3',
+    VOLALC PRIX
+        comment is 
+          ' % alcool/litre',
+    URGENT COGES1
+        comment is 
+          ' critere d''urgence',
+    DANGER COGES1
+        comment is 
+          ' pdt dangereux',
+    INCCA1 COGES2
+        comment is 
+          ' emballage non accepte',
+    INCCA2 COGES2
+        comment is 
+          ' emballage non accepte',
+    TRGERS COGES1,
+    CLAREA COGES2
+        comment is 
+          ' classe de reappro',
+    PDSSTD VOLUME
+        comment is 
+          ' poids colis standard',
+    LOTFAB LOTFAB
+        comment is 
+          ' lot de fabrication en cours de preparation',
+    LOTSTD LOTFAB
+        comment is 
+          ' lot de fabrication en cours de preparation',
+    UNITE COGES2
+        comment is 
+          ' unite de mesure',
+    NBUVRE QTENT
+        comment is 
+          ' nombre d''unite pour reappro',
+    VOLSTD VOLUME
+        comment is 
+          ' volume du colis standard',
+    FARDEAU QTENT
+        comment is 
+          ' fardelage pour precolisage pas arrondi en saisie cde',
+    CODBAR COGES1
+        comment is 
+          ' article avec code barre pour poste de controle 100%',
+    SSLABO CODLAB
+        comment is 
+          ' sous laboratoire de facturation',
+    EAN COGES13
+        comment is 
+          ' CODE EAN',
+    ARTLAB ARTLAB40
+        comment is 
+          'code article laboratoire',
+    QTERUP CHIFFRE9
+        comment is 
+          ' Quantite en rupture',
+    DATEXT "DATE"
+        comment is 
+          ' Date extraction',
+    DOUANE DOUANE
+        comment is 
+          'code douane pour commande export',
+    ARTCBA ARTCBA
+        comment is 
+          'code article sur code barre',
+    BLOCDE COGES1
+        comment is 
+          '0 pas de rejet 1 rejet ligne sasn bloque cde 2 rejet ligne + commande'
+    ,
+    PCB PCB
+        comment is 
+          'unite consolidation par combien',
+    LIVTOT LIVTOT
+        comment is 
+          'rejet commande si article en rupture',
+    PRESENTOIR PRESENTOIR
+        comment is 
+          'presentoir',
+    COEFSTAT COEFSTAT,
+    CODUCD CODUCD
+        default ' '
+        comment is 
+          'unité par decomposition detail',
+    CODDCI DCI
+        default ' '
+        comment is 
+          'denomination commune internationnale',
+    TYPUCD COGES3
+        default ' '
+        comment is 
+          'type ucd ampoule AMP,comprimes CPS',
+    TRIBLC NOMBRE
+        default 0
+        comment is 
+          'ordre d apparition des articles sur bon de commande',
+    QTEMAX QTENT
+        default 0
+        comment is 
+          'quantite maximun obligatoire /saisie cde portable',
+    QTEMAXSAI QTENT
+        default 0
+        comment is 
+          'quantite maximum autorise par ligne de cde pour un saisonnier',
+    QTEMIN QTENT
+        comment is 
+          'quantite minimun obligatoire /saisie cde portable',
+    QTEMINSAI QTENT
+        comment is 
+          'quantite minimun saisonnier obligatoire/saisie cde portable',
+    QTEMINGRT QTENT
+        comment is 
+          'quantite minimun gratuite obligatoire/saisie cde portable',
+    QTEMAXGRT QTENT
+        comment is 
+          'quantite maximun gratuite obligatoire/saisie cde portable',
+    GAMTAR GAMTAR
+        comment is 
+          'gamme tarifaire',
+    LIBLAB LIBLAB
+        comment is 
+          'libelle produit pour laboratoire (specifi UCB)',
+    CODSSS CODSSS
+        default ''
+        comment is 
+          'code sous-sous famille',
+    MULDZ QTENT
+        comment is 
+          'multiplicateur DZ',
+    NEWGAMTAR GAMTAR
+        default '',
+    OLDGAMTAR GAMTAR
+        default '',
+    NEWACTCOM ACTCOM
+        default '',
+    ACTCOM ACTCOM
+        default '',
+    OLDACTCOM ACTCOM
+        default '',
+    DATNEWGAM "DATE",
+    DATOLDGAM "DATE",
+    PORTABLE COGES1
+        default '',
+    MARCHEPC COGES1
+        default '',
+    NOMLAB NOM
+        default '',
+    LIBCODFAM LIBELLE,
+    LIBSSF LIBELLE,
+    LIBSSS LIBELLE,
+    CODDEP CODDEP
+        comment is 
+          'Code dépôt',
+    CDE9998 CDE9998
+        comment is 
+          'Critère présentation articles sur laboratoire 9998 en saisie de commande'
+    ,
+    HOSPITALIS HOSPITALIS
+        comment is 
+          'Produit présent dans catalogue Hospitalis',
+    BLOFAC BLOFAC
+        comment is 
+          'Blocage facturation',
+    LABSTK CODLAB
+        comment is 
+          'Laboratoire de prélèvement stock',
+    MAILAB CODLAB,
+    NOMART LIBELL,
+    EAN14 EAN14
+        comment is 
+          'Code EAN14',
+    CIPGERSAO ARTCIP
+        comment is 
+          'Code CIP AO/GERS',
+    INTERF INTERF
+        comment is 
+          'Blocage interface',
+    CLASSIF CLASSIF
+        comment is 
+          'domaine de classification du produit',
+    CODUCD13 CODUCD13
+        comment is 
+          'Code UCD sur 13 caractères',
+    CIPGERSAO13 COGES13
+        comment is 
+          'Code CIP AO/GERS 13',
+    CTLLOTART COGES1
+        comment is 
+          'Contrôle lot article',
+    DURSTAB DURSTAB
+        comment is 
+          'Nombre de jours avant stabilisation des produits',
+    CTLTAOH CTLTAO2
+        comment is 
+          'Contrôle existence tarif AO / genre H (hôpital)',
+    CTLTAOS CTLTAO2
+        comment is 
+          'Contrôle existence tarif AO / genre S (clinique)',
+    ARTREMP CODART
+        comment is 
+          'Code article de remplacement définitif',
+    ARTREMPSTK CODART
+        comment is 
+          'Code article de remplacement si rupture de stock',
+    CODEEE CODEEE
+        comment is 
+          'Catégorie ECO TAXE',
+    CABETIPICK CABETIPICK
+        comment is 
+          'CAB lot sur etiquette reappro picking',
+    BLORETVTEPHIE BLORETVTEPHIE
+        comment is 
+          'Blocage retour produit en qualité 1 pour genre pharmacie',
+    LOTDTLFIXE ANNLOG
+        comment is 
+          'Lot détail fixe non modifiable',
+    GESNUMSERIE GESNUMSERIE
+        comment is 
+          'Gestion des numéros de séries en sortie obligatoire O/N',
+    AGRCOLLEC AGRCOLLEC
+        comment is 
+          'Agrément collectivité O/N',
+    DATAGRCOLLECT "DATE"
+        comment is 
+          'Date agrément collectivité',
+    CTLDATAREC CTLDATAREC
+        comment is 
+          'Controle datamatrix obligatoire en reception',
+    IPCE IPCE
+        comment is 
+          'Code IPCE',
+    MDG1 MDG
+        comment is 
+          'Mention danger 1',
+    MDG2 MDG
+        comment is 
+          'Mention danger 2',
+    MDG3 MDG
+        comment is 
+          'Mention danger 3',
+    MDG4 MDG
+        comment is 
+          'Mention danger 4',
+    MDG5 MDG
+        comment is 
+          'Mention danger 5',
+    MDG6 MDG
+        comment is 
+          'Mention danger 6',
+    MDG7 MDG
+        comment is 
+          'Mention danger 7',
+    MDG8 MDG
+        comment is 
+          'Mention danger 8',
+    DENSITE DENSITE
+        comment is 
+          'Densité de produit',
+    MESRUP MESRUP
+        comment is 
+          'Message rupture',
+    FLAG_RUP FLAG_RUP
+        default 'N'
+        comment is 
+          'flag indiquant rupture sur site web',
+    CATALOGPHARMAML CATALOGPHARMAML
+        comment is 
+          'Flag indiquant envoi dans catalogue PharmaML',
+    GAMGMS GAMTAR
+        comment is 
+          'Gamme tarifaire GMS',
+    MESALS MESALS
+        comment is 
+          'Libellé message ALS',
+    CLASSEABC CLASSEABC
+        comment is 
+          'Classe de l article',
+    ADECOMANSM ADECOMANSM
+        comment is 
+          'Article avec n° de série à dé-commissionner en sortie vis-à-vis ANSM'
+    ,
+    MDG9 MDG
+        comment is 
+          'Mention danger 9',
+    IMPBEX IMPFAC
+        comment is 
+          'impression ligne sur le BEX  N =pas d impression',
+    IMPFACTURE IMPFAC
+        comment is 
+          'impression ligne sur a facture N = pas d impression',
+    HORGABROBOT HORGABROBOT
+        comment is 
+          'produit hors gabarit robot => depaletisation manuel',
+    IDCODART IDNUM
+        comment is 
+          'Identifiant numérique unique par produit',
+    PRESTMOIS FLAG_ON
+        comment is 
+          'prestation mensuelle O/N',
+    PRESTAN FLAG_ON
+        comment is 
+          'prestation annuelle O/N',
+    MOISFAC COGES2
+        comment is 
+          'mois de facturation',
+    TYPSTKCOL TYPSTKCOL
+        comment is 
+          'type de stockage colisage',
+    EDIPML INTEDI
+        comment is 
+          'Autorisation intégration EDI PharmaML',
+    EDIGRO INTEDI
+        comment is 
+          'Autorisation intégration EDI Grossiste',
+    EDIHOP INTEDI
+        comment is 
+          'Autorisation intégration EDI Hopital',
+    EDIEXP INTEDI
+        comment is 
+          'Autorisation intégration EDI Export',
+    PREPAGTP PREPAGTP
+        comment is 
+          'Preparation article dans système Goods to person',
+    AGREGATSN FLAG_O_N_P
+        comment is 
+          'agregation colis complet',
+    CHECKLOTSN001 FLAG_ON
+        comment is 
+          'contrôle SN en réception',
+    NBUCCHECKLOTSN QTENT
+        comment is 
+          'nombre d uc à checker en réception',
+    CRITRETOUR COGES5
+        comment is 
+          'Critère retour',
+    CRITFACT COGES5
+        comment is 
+          'Critère de facturation commettant',
+    CODDECHET CODDECHET
+        comment is 
+          'Code déchet',
+    TYPDES TYPDES
+        comment is 
+          'Type de destruction',
+    DISMED DISMED
+        comment is 
+          'Dispositif médical',
+    CLASDM CLASDM
+        comment is 
+          'Classification dispositif médical',
+    DATFINCERTIF "DATE"
+        comment is 
+          'Date fin de validité certificat CE',
+    PERVIS PERVIS
+        comment is 
+          'Péremption visible sur le produit',
+    VOLFARDPLEIN VOLUME
+        comment is 
+          'Volume du fardeau plein',
+    CROSSDOCK CROSSDOCK
+        comment is 
+          'Article crossdock ou preparation homogène',
+    CLAREASTD COGES2
+        comment is 
+          'Classe reappro standard (typcol=S et prpcol=D)',
+    ARTSAP ARTSAP
+        comment is 
+          'Code article SAP ou ERP labo',
+    CODENDS NOMABR
+        comment is 
+          'Code National Drug System',
+    LIBLONG LIBLONG
+        comment is 
+          'Libellé long du produit',
+    NOPRPSTD NOPRPSTD
+        comment is 
+          'Option de suppression preparation standard O pas de preparation au std si'
+        / ' ART/CCL a O',
+    CLASCOLIS CLASCOLIS
+        comment is 
+          'Séparation colis/classe pour précolisage',
+    NBPRISELIG NBPRISELIG
+        comment is 
+          'nombre de prise picking par ligne pour hors GTP',
+    CATPRODUIT CATPRODUIT
+        comment is 
+          'Catalogue - Catalog number',
+    SWATANU SWATANU
+        comment is 
+          'Barcode coupon to disable',
+    ETATDG ETATDG
+        comment is 
+          'Etat de la matière dangereuse liquid/Solide/Gaz',
+    ERGODEPAL ERGODEPAL
+        comment is 
+          'Passage Ergodepal',
+    PREPAD5 PREPAD5
+        comment is 
+          'Preparation article dépôt 5 MO',
+    POSCAR FLAG_ON
+        comment is 
+          'Lancement Mission GTP (A Plat / Debout)',
+    DRYICE FLAG_ON
+        comment is 
+          'article necessitant de la dry ice',
+    ORIPREF
+        CHAR (1)
+        default ''
+        comment is 
+          'Origine preferentielle UE , vide/O/N',
+    CTRLCOL
+        CHAR (1)
+        default 'N'
+        comment is 
+          'Contrôle obligatoire du colis')
+    comment is 
+      'Articles';
+ 
+create table APPEL (
+    NOAPPEL NOAPPEL,
+    DATDEB "DATE",
+    DATFIN "DATE",
+    STATUT COGES3
+        comment is 
+          'APV ouverture APV, BAC transfert back office, CLO cloture',
+    CODMES CODMES,
+    MOTIF1 MOTIF_3,
+    SOUSMOTIF MOTIF_6,
+    CODLAB CODLAB,
+    CLIMAT COGES2
+        comment is 
+          'CC contact cordial, CN contact neutre, CD contact difficile',
+    CODOPE COGES3,
+    CLICSP CLICSP
+        comment is 
+          'Code client CSP',
+    CLILAB CLILAB22
+        comment is 
+          'Code client laboratoire',
+    NOAPV NOAPV
+        comment is 
+          'Numero APV',
+    NUMEXP NUMEXP
+        comment is 
+          'Numéro d expédition',
+    NOFACTURE NOFACTURE
+        comment is 
+          'Numero de facture',
+    DURAPPEL DURAPPEL
+        comment is 
+          'Duree appel mm/ss',
+    NOCONTACT NOCONTACT
+        comment is 
+          'N° de contact',
+    FAXMAIL FAXMAIL
+        comment is 
+          'F pour Fax M pour Mail',
+    CODOPEMAJ COGES3,
+    DATMAJ "DATE"
+        comment is 
+          'Date de dernière modification',
+    IDZENDESK IDZENDESK
+        comment is 
+          'N° de Ticket Zendesk')
+    comment is 
+      'Fiche appel';
+ 
+create table TMP_DATEBO (
+    CODDEP CODDEP,
+    CHAMPS
+        CHAR (20),
+    DATCLOJOU COGES8,
+    BASE COGES10);
+ 
+create table CDE_FAC (
+    CODDEP CODDEP
+        comment is 
+          'code depot',
+    CODLAB CODLAB
+        comment is 
+          'code laboratoire',
+    SSLABO CODLAB
+        comment is 
+          'code sous laboratoire',
+    NUMCDE QTENT
+        comment is 
+          'numero de commande CSP',
+    NUMRAL NOMBRE
+        comment is 
+          'numero de reste a livrer CSP',
+    MOYRGL MOYRGL
+        comment is 
+          'moyen de reglement',
+    DELRGL DELRGL
+        comment is 
+          'delai de reglement',
+    CODREP CODREP
+        comment is 
+          'code representant',
+    DATCDE "DATE"
+        comment is 
+          'date commande',
+    DATEBL "DATE"
+        comment is 
+          'date edition BL',
+    ESCOMP NEW_TAUX
+        comment is 
+          'pourcentage d escompte',
+    FRGEST1 MONTANT
+        comment is 
+          'frais de gestion',
+    FLAGCDE COGES1
+        comment is 
+          'Commande en cours',
+    FLAGLIV COGES1
+        comment is 
+          'Commande livrée',
+    FLAGFAC COGES1
+        comment is 
+          'Commande facturée',
+    FLAGBLO COGES1
+        comment is 
+          'Commande bloquée',
+    FLAGSUP COGES1
+        comment is 
+          'Commande supprimée',
+    MOTIFSUP COGES3
+        comment is 
+          'Motif commande supprimée',
+    FLAGDIF COGES1
+        comment is 
+          'Commande différée',
+    FLAGRAL COGES1
+        comment is 
+          'Commande en reliquat',
+    FLAGSTD COGES1
+        comment is 
+          'ligne standard',
+    FLAGDET COGES1
+        comment is 
+          'Ligne détail',
+    GENCLI GENCLI
+        comment is 
+          'genre client',
+    LIBGENCLI LIBELLE
+        comment is 
+          'Libellé genre client',
+    CLILAB CLILAB22
+        comment is 
+          'code client laboratoire',
+    FLAGOCC COGES1
+        comment is 
+          'client occasionnel (O/N)',
+    CLICSP QTENT
+        comment is 
+          'code client livre CSP',
+    NOMLIV NOM
+        comment is 
+          'nom  du client livre',
+    RAISOCL RAISOC
+        comment is 
+          'raison sociale du client livre',
+    ADR1L ADRESS
+        comment is 
+          'adresse1 du client livre',
+    ADR2L ADRESS
+        comment is 
+          'adresse2 du client livre',
+    VILLEL VILLE
+        comment is 
+          'ville  du client livre',
+    DEPARL DEPART
+        comment is 
+          'departement du client livre',
+    CPOSTL CPOST
+        comment is 
+          'code postal client livre',
+    UGA COGES3
+        comment is 
+          'code uga509',
+    UGA746 COGES5
+        comment is 
+          'code uga746',
+    CLIFAC QTENT
+        comment is 
+          'client CSP facture',
+    NOMFAC NOM
+        comment is 
+          'nom  du client facture',
+    RAISOCF RAISOC
+        comment is 
+          'raison sociale du facture',
+    ADR1F ADRESS
+        comment is 
+          'adresse1 du client facture',
+    ADR2F ADRESS
+        comment is 
+          'adresse2 du client facture',
+    VILLEF VILLE
+        comment is 
+          'ville  du client facture',
+    DEPARF DEPART
+        comment is 
+          'departement du client facture',
+    CPOSTF CPOST
+        comment is 
+          'code postal client facture',
+    CLIPAY QTENT
+        comment is 
+          'code client payeur CSP',
+    NOMPAY NOM
+        comment is 
+          'nom  du client payeur',
+    RAISPAY RAISOC
+        comment is 
+          'raison sociale du client payeur',
+    CLIGRP QTENT
+        comment is 
+          'code client groupé CSP',
+    NOMGRP NOM
+        comment is 
+          'nom  du client groupé',
+    RAISGRP RAISOC
+        comment is 
+          'raison sociale du client groupé',
+    TYPNFA COGES2
+        comment is 
+          'type de facture',
+    QUANTA COGES1
+        comment is 
+          'dernier chiffre annee',
+    MOISFA COGES2
+        comment is 
+          'mois',
+    CPTFAC QTENT
+        comment is 
+          'n° de facture',
+    DATFAC "DATE"
+        comment is 
+          'date facture',
+    CODREPN CODREP,
+    CODREPR CODREP,
+    REGFAC COGES1,
+    NOMREPN NOM
+        comment is 
+          'Nom Directeur national',
+    NOMREPR NOM
+        comment is 
+          'Nom Directeur régional',
+    NOMREP NOM
+        comment is 
+          'Nom Représentant',
+    FLAGENCOURS COGES1
+        comment is 
+          'Flag des commandes encours',
+    STATENCOURS STATUT,
+    REMISEE REMISE,
+    MTHTARE
+        BIGINT (2),
+    DATSAI "DATE",
+    MONTBRUTCDE
+        BIGINT (2),
+    MONTREM1CDE
+        BIGINT (4),
+    MONTREM2CDE
+        BIGINT (4),
+    MONTREM3CDE
+        BIGINT (4),
+    MTHTCDE
+        BIGINT (2),
+    MTHTARECDE
+        BIGINT (2),
+    MTREMICDE
+        BIGINT (4),
+    CIPPDV CIPPDV
+        comment is 
+          'Code point de vente CIP GERS',
+    ANNEEFAC COGES4
+        comment is 
+          'Année de facturation',
+    MOISFAC COGES2
+        comment is 
+          'Mois de facturation',
+    ANNEEBL COGES4
+        comment is 
+          'Année du bordereau de livraison',
+    MOISBL COGES2
+        comment is 
+          'Mois du bordereau de livraison',
+    ANNEECDE COGES4
+        comment is 
+          'Année de la commande',
+    MOISCDE COGES2
+        comment is 
+          'Mois de la commande',
+    GENCLIFAC GENCLI
+        comment is 
+          'Genre client facturé',
+    DATECH "DATE"
+        comment is 
+          'Date d échéance',
+    TRIMESTRECDE COGES1
+        comment is 
+          'Trimestre date cde',
+    TRIMESTREBL COGES1
+        comment is 
+          'Trimestre date bl',
+    TRIMESTREFAC COGES1
+        comment is 
+          'Trimestre date fac',
+    LIBGENCLIFAC LIBELLE,
+    CODREPC CODREP,
+    NOMREPC COGES80,
+    DTLIVS "DATE"
+        comment is 
+          'Date souhaitée de préparation de la commande',
+    POIDS
+        INTEGER (4)
+        comment is 
+          'Poids total de la commande',
+    CDELAB CDELAB
+        comment is 
+          'Numéro de commande laboratoire',
+    REFCDE REFCDE
+        comment is 
+          'Référence commande',
+    LIBPAYS LIBEL80
+        comment is 
+          'Libellé du pays',
+    DOSEXP DOSEXP
+        comment is 
+          'Numéro dossier export',
+    VOLSTD CHIFFRE9
+        comment is 
+          'Volume colis standard',
+    VOLDTL CHIFFRE9
+        comment is 
+          'Volume colis détail',
+    DTLIVR "DATE"
+        comment is 
+          'Date livraison réelle',
+    PROMOS PROMOS
+        comment is 
+          'Code promo prévente',
+    NBPAL NOMBRE
+        default 0,
+    NBCOLIS NBCOLIS,
+    FLAGEXP FLAGEXP
+        comment is 
+          'Commande expédiée',
+    MTTTC MONTANT
+        comment is 
+          'Montant total TTC',
+    CODSTR CODSTR
+        comment is 
+          'Code sous-traitant de préparation',
+    CDEINI CDELAB
+        comment is 
+          'Numero de commande initiale')
+    comment is 
+      'Entête commande facture';
+ 
+create table AGEPUBLIC (
+    USERNA USERNA30
+        comment is 
+          'Identidiant unique',
+    MDPMDP MDPMDP
+        comment is 
+          'Mot de passe',
+    RAISOC RAISOC
+        comment is 
+          'Raison sociale',
+    NOM NOM
+        comment is 
+          'Nom',
+    PRENOM NOM
+        comment is 
+          'Prénom',
+    ADRES1 ADRESS
+        comment is 
+          'Adresse 1',
+    ADRES2 ADRESS
+        comment is 
+          'Adresse 2',
+    CPOST CPOSTLAB
+        comment is 
+          'Code postal',
+    VILLE VILLE
+        comment is 
+          'Ville',
+    PAYS PAYS
+        comment is 
+          'Pays',
+    LANGUE LANGUE
+        comment is 
+          'Code langue utilise/document',
+    EMAILDEST EMAILDEST
+        comment is 
+          'Adresse mail',
+    MOBILE MOBILE
+        comment is 
+          'Mobile phone',
+    GENCLI GENCLI
+        comment is 
+          'Genre client',
+    PROFIL PROFIL
+        comment is 
+          'Type accès ETP/CSP',
+    CERTIFICAT CERTIFICAT
+        comment is 
+          'N° certification authentification',
+    CODCRE CODCRE
+        comment is 
+          'Code création',
+    DATCRE "DATE"
+        comment is 
+          'Date création',
+    STATUT STATUT
+        comment is 
+          'Statut, DEM demande créée, CRE création avec certificat'
+        / 'VAL validé et actif, ANN annulation',
+    CODFIN CODFIN
+        comment is 
+          'Code opérateur annulation',
+    DATFIN "DATE"
+        comment is 
+          'Date annulation',
+    CODVAL CODVAL
+        comment is 
+          'Code opérateur validation',
+    DATVAL "DATE"
+        comment is 
+          'Date validation accès',
+    CODMES CODMES
+        comment is 
+          'Message associé',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date derniere Mise a jour automatique',
+    CIPPDV CIPPDV
+        comment is 
+          'Code CIPPDV',
+    CLICSP CLICSP
+        comment is 
+          'Code client CSP',
+    CLILAB CLILAB21
+        comment is 
+          'Code client laboratoire',
+    MDPCER MDPMDP
+        comment is 
+          'Mot de passe du certificat',
+    SAISIECDE SAISIECDE
+        comment is 
+          'Autorisation saisie commande sur site extranet public',
+    ENVOIBEX
+        CHAR (1)
+        default 'N'
+        comment is 
+          'envoi automatique de BEX pour ce client',
+    ENVOIFAC
+        CHAR (1)
+        default 'N'
+        comment is 
+          'envoi automatique de Facture pour ce client',
+    LEGALACC
+        CHAR (1)
+        default 'N'
+        comment is 
+          'le client accepte les conditions d utilisation legel du site',
+    DATENVOIBEX
+        DATE VMS
+        comment is 
+          'date validation envoi automatique de BEX pour ce client',
+    DALEGALACC
+        DATE VMS
+        comment is 
+          'date acceptation mention site    pour ce client',
+    DATENVOIFAC
+        DATE VMS
+        comment is 
+          'date validation envoi automatique de facture pour ce client',
+    TYPSAISIECDE TYPSAISIECDE
+        comment is 
+          'Type de saisie de commande (0 sans contingentement 1 avec contingentement'
+        / ' obligatoire 2 contingentement optionnel)',
+    CLIFAC CLICSP
+        comment is 
+          'Code client facturé',
+    EMAILDESTBEX EMAILDEST
+        comment is 
+          'Adresse mail pour envoi BEX',
+    EMAILDESTFAC EMAILDEST
+        comment is 
+          'Adresse mail pour envoi FAC',
+    CONSOLEACCESS FLAG_ON
+        comment is 
+          'Acces Console O/N')
+    comment is 
+      'Table agents WEB Public';
+ 
+create table AGEPUBLICLABCLI (
+    USERNA USERNA30
+        comment is 
+          'Identidiant unique',
+    CODLAB CODLAB
+        comment is 
+          'Code laboratoire',
+    CIPPDV CIPPDV
+        comment is 
+          'Code CIPPDV',
+    CLICSP CLICSP
+        comment is 
+          'Code client CSP',
+    CLILAB CLILAB21
+        comment is 
+          'Code client laboratoire',
+    CODCRE CODCRE
+        comment is 
+          'Code création',
+    DATCRE "DATE"
+        comment is 
+          'Date création',
+    ANNLOG ANNLOG
+        comment is 
+          'Annulé',
+    CODFIN CODFIN
+        comment is 
+          'Code opérateur annulation',
+    DATFIN "DATE"
+        comment is 
+          'Date annulation',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date derniere Mise a jour automatique')
+    comment is 
+      'Table agents CLILAB WEB Public';
+ 
+create table AGEPUBLICTRACE (
+    USERNA USERNA30
+        comment is 
+          'Identidiant unique',
+    MDPMDP MDPMDP
+        comment is 
+          'Mot de passe',
+    RAISOC RAISOC
+        comment is 
+          'Raison sociale',
+    NOM NOM
+        comment is 
+          'Nom',
+    PRENOM NOM
+        comment is 
+          'Prénom',
+    ADRES1 ADRESS
+        comment is 
+          'Adresse 1',
+    ADRES2 ADRESS
+        comment is 
+          'Adresse 2',
+    CPOST CPOSTLAB
+        comment is 
+          'Code postal',
+    VILLE VILLE
+        comment is 
+          'Ville',
+    PAYS PAYS
+        comment is 
+          'Pays',
+    LANGUE LANGUE
+        comment is 
+          'Code langue utilise/document',
+    EMAILDEST EMAILDEST
+        comment is 
+          'Adresse mail',
+    MOBILE MOBILE
+        comment is 
+          'Mobile phone',
+    GENCLI GENCLI
+        comment is 
+          'Genre client',
+    PROFIL PROFIL
+        comment is 
+          'Type accès ETP/CSP',
+    CERTIFICAT CERTIFICAT
+        comment is 
+          'N° certification authentification',
+    CODCRE CODCRE
+        comment is 
+          'Code création',
+    DATCRE "DATE"
+        comment is 
+          'Date création',
+    STATUT STATUT
+        comment is 
+          'Statut, DEM demande créée, CRE création avec certificat'
+        / 'VAL validé et actif, ANN annulation',
+    CODFIN CODFIN
+        comment is 
+          'Code opérateur annulation',
+    DATFIN "DATE"
+        comment is 
+          'Date annulation',
+    CODVAL CODVAL
+        comment is 
+          'Code opérateur validation',
+    DATVAL "DATE"
+        comment is 
+          'Date validation accès',
+    CODMES CODMES
+        comment is 
+          'Message associé',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date derniere Mise a jour automatique',
+    DERNMAJORI "DATE"
+        comment is 
+          'Dernmaj de la table d origine',
+    DERNUTI VILLE
+        comment is 
+          'Dernier Utilisateur',
+    DERNACTION COGES1
+        comment is 
+          'I(Insert) U(Update) D(Delete)',
+    CIPPDV CIPPDV
+        comment is 
+          'Code CIPPDV',
+    CLICSP CLICSP
+        comment is 
+          'Code client CSP',
+    CLILAB CLILAB21
+        comment is 
+          'Code client laboratoire',
+    MDPCER MDPMDP
+        comment is 
+          'Mot de passe du certificat',
+    TYPSAISIECDE TYPSAISIECDE
+        comment is 
+          'Type de saisie de commande (0 sans contingentement 1 avec contingentement'
+        / ' obligatoire 2 contingentement optionnel)',
+    SAISIECDE SAISIECDE
+        comment is 
+          'Autorisation saisie commande sur site extranet public',
+    DATENVOIFAC "DATE"
+        comment is 
+          'date validation envoi automatique de facture pour ce client',
+    CLIFAC CLICSP
+        comment is 
+          'Code client facturé',
+    ENVOIBEX
+        CHAR (1)
+        default 'N'
+        comment is 
+          'envoi automatique de BEX pour ce client',
+    ENVOIFAC
+        CHAR (1)
+        default 'N'
+        comment is 
+          'envoi automatique de Facture pour ce client',
+    LEGALACC
+        CHAR (1)
+        default 'N'
+        comment is 
+          'le client accepte les conditions d utilisation legel du site',
+    EMAILDESTBEX EMAILDEST
+        comment is 
+          'Adresse mail pour envoi BEX',
+    EMAILDESTFAC EMAILDEST
+        comment is 
+          'Adresse mail pour envoi FAC',
+    DATENVOIBEX "DATE"
+        comment is 
+          'date validation envoi automatique de BEX pour ce client',
+    DALEGALACC "DATE"
+        comment is 
+          'date acceptation mention site    pour ce client',
+    CONSOLEACCESS FLAG_ON
+        comment is 
+          'Acces Console O/N')
+    comment is 
+      'Table trace de AGEPUBLIC';
+ 
+create table AGEPUBLICLABCLITRACE (
+    USERNA USERNA30
+        comment is 
+          'Identidiant unique',
+    CODLAB CODLAB
+        comment is 
+          'Code laboratoire',
+    CIPPDV CIPPDV
+        comment is 
+          'Code CIPPDV',
+    CLICSP CLICSP
+        comment is 
+          'Code client CSP',
+    CLILAB CLILAB21
+        comment is 
+          'Code client laboratoire',
+    CODCRE CODCRE
+        comment is 
+          'Code création',
+    DATCRE "DATE"
+        comment is 
+          'Date création',
+    ANNLOG ANNLOG
+        comment is 
+          'Annulé',
+    CODFIN CODFIN
+        comment is 
+          'Code opérateur annulation',
+    DATFIN "DATE"
+        comment is 
+          'Date annulation',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date derniere Mise a jour automatique',
+    DERNMAJORI "DATE"
+        comment is 
+          'Dernmaj de la table d origine',
+    DERNUTI VILLE
+        comment is 
+          'Dernier Utilisateur',
+    DERNACTION COGES1
+        comment is 
+          'I(Insert) U(Update) D(Delete)')
+    comment is 
+      'Table trace de AGEPUBLICLABCLI';
+ 
+create table "TAB" (
+    FONCT FONCT100
+        comment is 
+          'fonction',
+    DATCRE "DATE"
+        comment is 
+          'date de creation',
+    DATMAJ "DATE"
+        comment is 
+          'date de mise a jour',
+    CODOPE CODRSP
+        comment is 
+          'code operateur',
+    CHAMPS COGES6
+        comment is 
+          'nom du champs',
+    ARGUM ARGUM
+        comment is 
+          'argumemnt',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date derniere Mise a jour automatique',
+    CHAMPSBIS COGES8,
+    FONCTEN FONCT100
+        comment is 
+          'English version',
+    TRADOBLIG TRADOBLIG
+        comment is 
+          'A traduire O/N')
+    comment is 
+      ' tables de libelles';
+ 
+create table PAR (
+    CODENT COGES3
+        comment is 
+          'entite',
+    FONCT FONCT
+        comment is 
+          ' fonction',
+    DATCRE "DATE",
+    DATMAJ "DATE",
+    CODOPE CODRSP
+        comment is 
+          'code operateur',
+    CHAMPS COGES6
+        comment is 
+          'nom du champs parametre',
+    ARGUM ARGUM
+        comment is 
+          'argument',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date derniere Mise a jour automatique',
+    FONCTEN FONCT
+        comment is 
+          'English version',
+    TRADOBLIG TRADOBLIG
+        comment is 
+          'A traduire O/N')
+    comment is 
+      ' parametres';
+ 
+create table MES (
+    FREQUE COGES1
+        comment is 
+          ' code frequence',
+    TYPDOC COGES3
+        comment is 
+          'type de document',
+    DATCRE "DATE",
+    DATMAJ "DATE",
+    CODOPE CODRSP
+        comment is 
+          'code operateur',
+    "COMMENT" "COMMENT"
+        comment is 
+          'libelle message',
+    CODENT COGES3
+        comment is 
+          'code entree message',
+    CODMES CODMES
+        comment is 
+          'code du message',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date derniere Mise a jour automatique',
+    NUMLIG NOMBRE
+        comment is 
+          'Numéro de ligne',
+    LANGUE LANGUE
+        comment is 
+          'Code langue utilise/document')
+    comment is 
+      ' messages';
+ 
+create table LAB (
+    CODLAB CODLAB,
+    NOM NOM,
+    CODDEP CODDEP
+        comment is 
+          'Code depot',
+    NOMABR NOMABR
+        comment is 
+          'nom abrege',
+    MAILAB CODLAB
+        comment is 
+          'Laboratoire maitre pour gestion par sous labo',
+    ANNLAB ANNLOG
+        comment is 
+          'Annulation logique');
+ 
+create table REC (
+    CODDEP CODDEP
+        comment is 
+          ' code depot',
+    CODLAB CODLAB
+        comment is 
+          'code laboratoire',
+    NOMSTR NOMSTR
+        comment is 
+          'Nom du sous traitant',
+    NOAPV NOAPV,
+    CODECLI CODECLI,
+    NORT NORT,
+    HEURE HEURE,
+    NOMENR CODAGE,
+    NOMDEM NOM,
+    IDTDEM IDTDEM,
+    TELDEM TELEPH,
+    MDRECEPT MDRECEPT,
+    NBCOLIS NBCOLIS,
+    NBPAL NBPAL,
+    POIDS POIDS_2
+        comment is 
+          'Poids de l expédition',
+    REFEXP REFEXP,
+    MOTIF MOTIF60,
+    LIBELLE LIBEL1400
+        comment is 
+          'Libellé réclamation',
+    NBCOLISR NBCOLIS,
+    NBPALR NBPAL,
+    POIDSR POIDS_2
+        comment is 
+          'Poids de l expédition sur lequel porte la réclamation',
+    RESVERIF RESVERIF,
+    DATREM DAT,
+    DATELIVA DAT,
+    DATELIV DAT,
+    IMPRECL "IDENT",
+    NOMENQ NOM,
+    ACCORD FLAG_O_N,
+    DATEREP DAT,
+    HEUREREP HEURE,
+    MDREP MDREP,
+    DEMRT COGES1,
+    DTDEMRT DAT,
+    HRDEMRT HEURE,
+    DTRECRT DAT,
+    HRRECRT HEURE,
+    NBREL NBREL,
+    DDERNREL DAT,
+    DTE DAT,
+    RESERV FLAG_O_N,
+    CODSTR CODSTR,
+    CODEDEST CODEDEST,
+    MOTIFREC "IDENT",
+    NOPOSTE NOPOSTE,
+    LIB DESCRLIB,
+    DTECAS DAT,
+    CODRESP CODAGE,
+    COUT COUT,
+    DATIMP DAT,
+    STALIT "IDENT",
+    LITLAB LITLAB
+        default ''
+        comment is 
+          'No litige laboratoire',
+    ACCREC FLAG_O_N
+        default 'N'
+        comment is 
+          'Accuse reception reclamation (O/N)',
+    DTRECCLI DTRECCLI
+        comment is 
+          'Date de la reclamation client',
+    DT1REL "DATE"
+        comment is 
+          'Date Relance 1',
+    DT2REL "DATE"
+        comment is 
+          'Date Relance 2',
+    DT3REL "DATE"
+        comment is 
+          'Date Relance 3',
+    DT4REL "DATE"
+        comment is 
+          'Date Relance 4',
+    OPERTE CODOPE
+        comment is 
+          'Demandeur RTE',
+    MOTIFRTE MOTIFRTE
+        comment is 
+          'Motif fin RTE',
+    DTMODIF "DATE"
+        comment is 
+          'Date modif réclamation',
+    COURRIER COURRIER
+        comment is 
+          'C=Clôture, A=Avisé',
+    REGAVO REGFAC
+        default ''
+        comment is 
+          'Numero avoir de regularisation',
+    REGBLC REGBLC
+        default ''
+        comment is 
+          'Numero BLC de regularisation',
+    TRLABO TRLABO
+        default ''
+        comment is 
+          'dossier transmis au labo <O>',
+    MESCLO MESCLO
+        default ''
+        comment is 
+          'message du courrier de cloture',
+    LIBART LIBART
+        default ''
+        comment is 
+          'Libelle article',
+    REFCLIMOD REFCLI
+        comment is 
+          'Référence client sur modèle',
+    REFARTMOD REFART
+        comment is 
+          'Référence article sur modèle',
+    CODDEMMOD CODDEM
+        comment is 
+          'Demandeur du modèle',
+    CODSTRLIT CODSTR
+        comment is 
+          'Code sous-traitant responsable du litige',
+    NOFACLIT NOFAC
+        comment is 
+          'N° facture litige du labo',
+    DATFACLIT "DATE"
+        comment is 
+          'Date facture litige du labo',
+    SOLUTION SOLUTION
+        comment is 
+          'Solution la plus avantageuse prix/poids pour fac litige',
+    DATDEMMOD "DATE"
+        comment is 
+          'Date demande modèle',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date derniere Mise a jour automatique',
+    DOSSCLOT CLOTUR
+        comment is 
+          'Dossier clôturé (O/N)',
+    DTFACLIT "DATE"
+        comment is 
+          'Date d ouverture du dossier en facturation litige',
+    PRIXR PRIXR
+        comment is 
+          'Prix total sur lequel porte la réclamation',
+    NOLITTRA NOLITTRA
+        comment is 
+          'Numéro litige sur SI transport',
+    CODMES CODMES
+        comment is 
+          'Code message',
+    DECASS DECASS
+        comment is 
+          'Déclaration assurance',
+    DATASS "DATE"
+        comment is 
+          'Date déclaration assurance',
+    REMLIV REMLIV
+        comment is 
+          'Remise en livraison ou avoir',
+    COUTAPVCSP COUTAPVCSP
+        comment is 
+          'Charge de l apv pour CSP',
+    IDZENDESK IDZENDESK
+        comment is 
+          'N° de Ticket Zendesk');
+ 
+create table CTLCHARGE (
+    NUMCDE
+        INTEGER,
+    NUMRAL
+        INTEGER,
+    STATUT STATUT,
+    CODDEP CODDEP);
+ 
+create table CCL_STJ (
+    CODLAB CODLAB
+        comment is 
+          'Code laboratoire',
+    CLICSP CLICSP
+        comment is 
+          'Code client CSP',
+    CRISTAT1 CRISTAT
+        comment is 
+          'Critère statistique laboratoire',
+    CRISTAT2 CRISTAT
+        comment is 
+          'Critère statistique laboratoire',
+    CRISTAT3 CRISTAT
+        comment is 
+          'Critère statistique laboratoire',
+    CLIUNI CLIUNI
+        comment is 
+          'Code client unique',
+    CODREP CODREP
+        comment is 
+          'Code representant',
+    QUALITE COGES1
+        comment is 
+          'Qualité',
+    CLILAB CLILAB
+        comment is 
+          'code client labo',
+    CLIGRP CLICSP
+        comment is 
+          'groupement d appartenance du client livre');
+ 
+create table APPELDOC (
+    NOAPPEL NOAPPEL,
+    CLICSP CLICSP
+        comment is 
+          'Code client CSP',
+    TYPDOC TYPDOC
+        comment is 
+          'Type de document BCD/FEB/POD/FAC',
+    DATCRE "DATE"
+        comment is 
+          'Date création',
+    FAXMAIL FAXMAIL
+        comment is 
+          'F pour Fax M pour Mail',
+    TELEC TELEP30
+        comment is 
+          'Telecopie',
+    EMAIL EMAIL
+        comment is 
+          'Adresse email',
+    NUMEXP NUMEXP
+        comment is 
+          'Numéro d expédition',
+    NOFACTURE NOFACTURE
+        comment is 
+          'Numero de facture',
+    GENDOC GENDOC
+        comment is 
+          'Génération document faite O/N',
+    DATGEN "DATE"
+        comment is 
+          'Date génération ou extraction',
+    ENVOI ENVOI
+        comment is 
+          'Transmission faite O/N',
+    DATENV "DATE"
+        comment is 
+          'Date transmission',
+    NOMDOC NOMDOC
+        comment is 
+          'Nom du document',
+    ORIGINE ORIGINE
+        comment is 
+          'Origine de la demande')
+    comment is 
+      'Documents';
+ 
+create table PARWEB (
+    ARGUM
+        CHAR (1))
+    comment is 
+      'Table PARWEB';
+ 
+create table LABO (
+    CODLAB CODLAB,
+    NOM
+        CHAR (50),
+    SITEWEB
+        CHAR (1),
+    SAISIECDE
+        CHAR (1),
+    SITEDISTRI
+        CHAR (2),
+    FACTURATION FACTURATION
+        comment is 
+          'Facturation géré par CSP => accés au bouton facture',
+    SERVICECLIENT SERVICECLIENT
+        comment is 
+          'Service client géré par CSP => accés au bouton réclamation',
+    CODLABTRP CODLAB
+        comment is 
+          'Code labo en transport',
+    TYPNFA TYPNFA
+        comment is 
+          'Type de facture');
+ 
+create table STATSACCESWEB (
+    CLICSP CLICSP
+        comment is 
+          'Code client CSP',
+    DATACT "DATE"
+        comment is 
+          'Date action',
+    USERNA USERNA
+        comment is 
+          'Compte utilisateur',
+    CODACTION CODACTION
+        comment is 
+          'Code action',
+    NUMCDE QTENT
+        comment is 
+          'Numéro de commande CSP',
+    NUMRAL NOMBRE
+        comment is 
+          'Numéro de reste à livrer CSP',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date dernière mise à jour automatique',
+    MAIL EMAIL
+        comment is 
+          'Adresse mail saisie pour envoi du BEX')
+    comment is 
+      'Table enregistrement des actions des accès Web';
+ 
+create table AGE (
+    CODRSP CODRSP,
+    NOM NOM,
+    CODSER COGES3,
+    TYPSER COGES1,
+    MOTPAS COGES3,
+    DATCRE "DATE",
+    DATMAJ "DATE",
+    PRESEN PRIX
+        comment is 
+          ' Pourcentage de temps present',
+    USERNA USERNA,
+    CODLAB CODLAB
+        comment is 
+          'Code laboratoire des pharmaciens habilités',
+    NUMPHA NUMPHA
+        comment is 
+          'Numéro des pharmaciens habilités',
+    EMAIL EMAIL
+        comment is 
+          'Email des pharmaciens habilités',
+    TELEP TELEP30
+        comment is 
+          'telephone',
+    FONCTION FONCTION
+        comment is 
+          'fonction occupe',
+    ANNLOG CBOOL
+        default 'N'
+        comment is 
+          'Annulation Logique',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date derniere Mise a jour automatique',
+    SSDEPO SSDEPO
+        comment is 
+          'sous depot exclusif pour cet utilisateur',
+    DOUANIER DOUANIER
+        comment is 
+          'Habilité douane',
+    MATRICULE MATRICULE
+        comment is 
+          'Code matricule',
+    CODCS CODCS,
+    ANCRSP CODRSP
+        comment is 
+          'Ancien code responsable',
+    SSLABO1 CODLAB
+        comment is 
+          'Sous labo 1',
+    SSLABO2 CODLAB
+        comment is 
+          'Sous labo 2',
+    SSLABO3 CODLAB
+        comment is 
+          'Sous labo 3',
+    CODFON CODFON,
+    CPTCIBLEX CPTCIBLEX
+        comment is 
+          'Compte CIBLEX',
+    RESPSCE RESPSCE
+        comment is 
+          'Chef de service O/N',
+    PRENOM PRENOM
+        comment is 
+          'Prénom',
+    PROPDATA PROPDATA
+        comment is 
+          'Propriétaire de données, T=Titulaire, S=Suppléant',
+    DATARRET "DATE"
+        comment is 
+          'Date arrêt',
+    TYPARRET TYPARRET
+        comment is 
+          'Type arrêt',
+    OLDMATRICULE MATRICULE
+        comment is 
+          'Ancien code matricule',
+    CODDEP CODDEP
+        comment is 
+          'Code depot',
+    SOCIETE SOCIETE
+        comment is 
+          'Société',
+    CSAGENCEPHYSIQUE CODCS
+        comment is 
+          'Code Agence Physique Utilisateur',
+    LANGUE LANGUE2
+        comment is 
+          'Code langue',
+    PROFIL FLAG_ON
+        comment is 
+          'Profil O/N',
+    PASSWORD PASSWORD
+        comment is 
+          'Mot de passe crypté MD5',
+    TYPCPT TYPCPT
+        comment is 
+          'Type de compte (SYM TLO VAL STD RAA WEB)')
+    comment is 
+      ' agents et responsables';
+ 
+create table LCR (
+    CLICSP CLICSP
+        comment is 
+          'Code client payeur',
+    NOLCR NOLCR
+        comment is 
+          'N° de LCR Psoft',
+    MTTTCLCR MTTTCLCR
+        comment is 
+          'Montant TTC LCR',
+    DATLCR "DATE"
+        comment is 
+          'Date échance LCR',
+    NOFAC NOFACTURE
+        comment is 
+          'N° facture',
+    FLAGMES FLAGMES
+        comment is 
+          'O si facture sur autre systéme que FF (O/N)',
+    MTTTCFAC MTTTCFAC
+        comment is 
+          'Montant TTC facture',
+    NOMLAB NOM
+        comment is 
+          'Nom du labo',
+    DATCRE "DATE"
+        comment is 
+          'Date création',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date derniere Mise a jour automatique')
+    comment is 
+      'LCR compta';
+ 
+create table AGEPUBCGV (
+    USERNA USERNA30
+        comment is 
+          'Identidiant unique',
+    CODLAB CODLAB
+        comment is 
+          'Code laboratoire',
+    CGV FLAG_O_N
+        comment is 
+          'CGV accepté O',
+    DATCRE "DATE"
+        comment is 
+          'Date création',
+    DATCGV "DATE"
+        comment is 
+          'Date acceptation CGV',
+    DATANN "DATE"
+        comment is 
+          'Date annulation acceptation CGV',
+    CODFIN CODFIN
+        comment is 
+          'Code opérateur annulation',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date derniere Mise a jour automatique')
+    comment is 
+      'Table agents WEB Public CGV';
+ 
+create table AGEPUBCGVTRACE (
+    USERNA USERNA30
+        comment is 
+          'Identidiant unique',
+    CODLAB CODLAB
+        comment is 
+          'Code laboratoire',
+    CGV FLAG_O_N
+        comment is 
+          'CGV accepté O',
+    DATCRE "DATE"
+        comment is 
+          'Date création',
+    DATCGV "DATE"
+        comment is 
+          'Date acceptation CGV',
+    DATANN "DATE"
+        comment is 
+          'Date annulation acceptation CGV',
+    CODFIN CODFIN
+        comment is 
+          'Code opérateur annulation',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date derniere Mise a jour automatique',
+    DERNMAJORI "DATE"
+        comment is 
+          'Dernmaj de la table d origine',
+    DERNUTI VILLE
+        comment is 
+          'Dernier Utilisateur',
+    DERNACTION COGES1
+        comment is 
+          'I(Insert) U(Update) D(Delete)')
+    comment is 
+      'Table trace de AGEPUBCGV';
+ 
+create table APIAUTH (
+    NOMAPI NOMAPI
+        comment is 
+          'Nom API',
+    CODLAB CODLAB
+        comment is 
+          'code laboratoire',
+    CLIENTID CLIENTID
+        comment is 
+          'Client ID',
+    CLIENTSECRET CLIENTID
+        comment is 
+          'client secret',
+    DATCRE "DATE"
+        comment is 
+          'date de création',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date dernière Mise a jour automatique',
+    COMPTE IDENTIFIANT
+        comment is 
+          'compte API',
+    PASSWORD IDENTIFIANT
+        comment is 
+          'mot de passe')
+    comment is 
+      'API Authentification';
+ 
+create table APITOKEN (
+    CODLAB CODLAB
+        comment is 
+          'code laboratoire',
+    COMPTE IDENTIFIANT
+        comment is 
+          'compte API',
+    TOKEN TOKEN
+        comment is 
+          'token',
+    DATCRE "DATE"
+        comment is 
+          'date de création',
+    DURVAL DURVAL
+        comment is 
+          'Durée de validité token en jours',
+    REFRESHTOKEN REFRESHTOKEN
+        comment is 
+          'refresh token',
+    ANNLOG ANNLOG
+        comment is 
+          'annulation',
+    DATMAJ "DATE"
+        comment is 
+          'date de mise à jour',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date dernière Mise a jour automatique',
+    TYPDURVAL LIBLAB
+        comment is 
+          'type de durée expiration token (MON, DAY, HOU, MIN)')
+    comment is 
+      'API Token';
+ 
+create table STATSAPI (
+    COMPTE IDENTIFIANT
+        comment is 
+          'Nom du compte API utilisé',
+    CODDEP CODDEP
+        comment is 
+          'Code depot',
+    CODLAB CODLAB
+        comment is 
+          'Code laboratoire',
+    ENDPOINT ENDPOINT
+        comment is 
+          'Endpoint API appelé',
+    RETURNCODE RETURNCODE
+        comment is 
+          'Code renvoyé à l utilisateur',
+    DATAPP "DATE"
+        comment is 
+          'Date appel API',
+    CDELAB CDELAB
+        comment is 
+          'Numéro de commande laboratoire',
+    NUMCDE QTENT
+        comment is 
+          'Numéro de commande CSP',
+    NUMRAL NOMBRE
+        comment is 
+          'Numéro de reste à livrer CSP',
+    MAIL EMAIL
+        comment is 
+          'Email pour demande BEX',
+    DERNMAJ
+        automatic as CURRENT_TIMESTAMP
+        comment is 
+          'Date dernière mise à jour automatique')
+    comment is 
+      'Statistiques des appels API';
+ 
+commit work;
+ 
+

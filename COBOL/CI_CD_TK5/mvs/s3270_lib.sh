@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # s3270_lib.sh — Helper library : s3270 en mode -scriptport
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 #
 # Pourquoi scriptport ?  s3270 4.5 exécute Wait(inputfield)
 # implicitement avant tout script stdin.  Le banner Hercules

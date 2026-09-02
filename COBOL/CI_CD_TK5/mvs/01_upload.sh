@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # 01_upload.sh — Upload des sources GSTK vers MVS
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 #
 # Mode par défaut : IEBUPDTE via lecteur de cartes (port 3505)
 #   - Rapide, pas de s3270 requis

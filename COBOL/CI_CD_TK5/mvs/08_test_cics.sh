@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # 08_test_cics.sh — Tests CICS automatisés via s3270
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 #
 # Lance chaque transaction GSTK, capture l'écran 3270 (ASCII)
 # et vérifie que les champs attendus sont présents.

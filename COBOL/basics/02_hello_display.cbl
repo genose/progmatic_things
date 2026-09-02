@@ -1,11 +1,16 @@
-      ******************************************************************
-      * Author:
-      * Date:
-      * Purpose:
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : HELLO-DISPLAY                                     *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: DISPLAY simple â affichage de messages formates   *
+      *----------------------------------------------------------------*
+      * GROUPE     : basics                                            *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. YOUR-PROGRAM-NAME.
+       PROGRAM-ID. HELLO-DISPLAY.
        DATA DIVISION.
        FILE SECTION.
        WORKING-STORAGE SECTION.

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # SETUP POSTGRESQL COMPLET - GSTK
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 # Usage : bash scripts/03_pg_setup.sh [--reset]
 #
 # --reset : supprime la base et recrée depuis zéro

@@ -1,9 +1,14 @@
-      ******************************************************************
-      * Author:
-      * Date:
-      * Purpose:
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : TABLEAU-ENTIER                                    *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: Comptage d occurrences dans un tableau avec COMPUTE
+      *----------------------------------------------------------------*
+      * GROUPE     : arrays                                            *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. TABLEAU-ENTIER.
        DATA DIVISION.
@@ -32,7 +37,7 @@
             DISPLAY "*********** AFFICHAGE DES VALEURS ***********".
             PERFORM VARYING WS-INDEX FROM 1 BY 1
                   UNTIL WS-INDEX > 10
-                 DISPLAY "Valeur de l'élément " WS-INDEX ": "
+                 DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX ": "
                   WS-VALEUR(WS-INDEX)
             END-PERFORM
             STOP RUN.

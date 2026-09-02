@@ -1,3 +1,14 @@
+      *================================================================*
+      * PROGRAMME  : ACCPTST                                           *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: ACCEPT + EVALUATE : retraite par age et genre     *
+      *----------------------------------------------------------------*
+      * GROUPE     : basics                                            *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
         PROGRAM-ID. ACCPTST.
         ENVIRONMENT DIVISION.

@@ -3,7 +3,7 @@
 ![Platform macOS](https://img.shields.io/badge/platform-macOS-black)
 ![GnuCOBOL Ready](https://img.shields.io/badge/GnuCOBOL-ready-success)
 
-Collection de programmes COBOL — exercices pédagogiques et projets mainframe.
+**Auteur :** Sebastien Cotillard — exercices pédagogiques et projets mainframe COBOL.
 
 ## Structure
 

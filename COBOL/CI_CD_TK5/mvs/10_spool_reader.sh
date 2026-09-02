@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # 10_spool_reader.sh — Lecture output JCL depuis MVS via s3270
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 #
 # Accède à la spool JES2 via TSO SDSF pour lire les listings
 # de compilation et détecter les erreurs (RC, ABEND, MNOTE).

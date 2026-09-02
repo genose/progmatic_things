@@ -1,11 +1,16 @@
-      ******************************************************************
-      * Author:
-      * Date:
-      * Purpose:
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : HELLO-VARS                                        *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: Variables numeriques/alphanumeriques et DISPLAY   *
+      *----------------------------------------------------------------*
+      * GROUPE     : basics                                            *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. YOUR-PROGRAM-NAME.
+       PROGRAM-ID. HELLO-VARS.
        DATA DIVISION.
        FILE SECTION.
        WORKING-STORAGE SECTION.

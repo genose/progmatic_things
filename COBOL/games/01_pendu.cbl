@@ -1,9 +1,14 @@
-      ******************************************************************
-      * Author: COTILLARD SEBASTIEN
-      * Date: 2026-06-19
-      * Purpose: JEU DU PENDU
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : JEU-DU-PENDU-COBOL                                *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: Jeu du pendu interactif â ACCEPT, tableaux, boucles
+      *----------------------------------------------------------------*
+      * GROUPE     : games                                             *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. JEU-DU-PENDU-COBOL.
        DATA DIVISION.

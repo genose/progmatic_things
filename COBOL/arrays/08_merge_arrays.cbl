@@ -1,9 +1,14 @@
-      ******************************************************************
-      * Author: COTILLARD SEBASTIEN
-      * Date: 03-07-2026
-      * Purpose: FUSION DE DEUX TABLEAU DANS UN TROISIEME TABLEAU
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : TABLEAU-FUSION                                    *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: Fusion de deux tableaux tries dans un troisieme   *
+      *----------------------------------------------------------------*
+      * GROUPE     : arrays                                            *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. TABLEAU-FUSION.
        DATA DIVISION.
@@ -96,7 +101,7 @@
             DISPLAY "**** AFFICHAGE DES VALEURS FUSIONNEES ****".
             PERFORM VARYING WS-INDEX-FUSION FROM 1 BY 1
                  UNTIL WS-INDEX-FUSION > WS-INDEX-OCCUR-FUSION
-                 DISPLAY "Valeur de l'élément " WS-INDEX-FUSION ": "
+                 DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX-FUSION ": "
                   WS-VALEUR-FUSION(WS-INDEX-FUSION)
             END-PERFORM
 

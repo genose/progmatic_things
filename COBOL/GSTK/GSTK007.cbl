@@ -1,11 +1,19 @@
+      *================================================================*
+      * PROGRAMME  : GSTK007                                         *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                       *
+      * VERSION    : 1.0                                              *
+      *----------------------------------------------------------------*
+      * DESCRIPTION : HISTORIQUE DES MOUVEMENTS DE STOCK             *
+      *   Affiche l'historique des entrees/sorties de stock.          *
+      *   Filtrage par article, date, type de mouvement.              *
+      *----------------------------------------------------------------*
+      * TRANSID    : G007                                             *
+      * MAPSET     : GSTK007M      MAP : GSTK007                     *
+      * COMMAREA   : GSTK-COMMAREA (voir GSTKCOMM)                   *
+      *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. GSTK007.
-      *================================================================*
-      * PROGRAMME : GSTK007                                            *
-      * FONCTION  : HISTORIQUE DES MOUVEMENTS DE STOCK                *
-      * MAPSET    : GSTK007M  MAP : GSTK007                           *
-      * TRANS     : G007                                               *
-      *================================================================*
 
        ENVIRONMENT DIVISION.
        CONFIGURATION SECTION.

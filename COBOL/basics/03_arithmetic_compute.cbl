@@ -1,11 +1,16 @@
-      ******************************************************************
-      * Author:
-      * Date:
-      * Purpose:
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : ARITHMETIQUE                                      *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: COMPUTE : calcul arithmetique, remise commerciale *
+      *----------------------------------------------------------------*
+      * GROUPE     : basics                                            *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. YOUR-PROGRAM-NAME.
+       PROGRAM-ID. ARITHMETIQUE.
        DATA DIVISION.
        FILE SECTION.
        WORKING-STORAGE SECTION.

@@ -1,11 +1,16 @@
-      ******************************************************************
-      * Author: TABLEAU-DELETE
-      * Date:
-      * Purpose:
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : TABLEAU-POP                                       *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: Suppression et extraction d element par index (pop)
+      *----------------------------------------------------------------*
+      * GROUPE     : arrays                                            *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. YOUR-PROGRAM-NAME.
+       PROGRAM-ID. TABLEAU-POP.
        DATA DIVISION.
        FILE SECTION.
        WORKING-STORAGE SECTION.
@@ -45,7 +50,7 @@
                   WS-INDEX ": "
                 ACCEPT WS-READ-TMP
                 MOVE WS-READ-TMP TO WS-VALEUR(WS-INDEX)
-                DISPLAY "Valeur de l'élément " WS-INDEX ": "
+                DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX ": "
                  WS-VALEUR(WS-INDEX)
 
            END-PERFORM
@@ -64,7 +69,7 @@
 
        60000-SAISIE-INDEX-TO-DELETE.
             DISPLAY "*********** SAISIE DE L'INDEX A DELETE **********".
-            DISPLAY "Saisir l'index �  supprimer : "
+            DISPLAY "Saisir l'index Ã¯Â¿Â½  supprimer : "
             ACCEPT WS-INDEX-TO-DELETE
             GOBACK.
 

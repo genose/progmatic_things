@@ -1,5 +1,7 @@
 # CRM — Programmes COBOL et migration Java 8
 
+**Auteur :** Sebastien Cotillard
+
 Ce dossier contient les sources COBOL OpenVMS du périmètre **CRM/EXTRANET**, les analyses techniques associées, et le projet Java 8 TDD issu de la migration.
 
 ---

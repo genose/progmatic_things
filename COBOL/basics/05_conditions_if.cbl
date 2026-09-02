@@ -1,11 +1,16 @@
-      ******************************************************************
-      * Author:
-      * Date:
-      * Purpose:
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : CONDITIONS-IF                                     *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: IF/ELSE imbriques â conditions selon genre et age *
+      *----------------------------------------------------------------*
+      * GROUPE     : basics                                            *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. YOUR-PROGRAM-NAME.
+       PROGRAM-ID. CONDITIONS-IF.
        DATA DIVISION.
        FILE SECTION.
        WORKING-STORAGE SECTION.
@@ -16,9 +21,9 @@
        PROCEDURE DIVISION.
       *	   SET HOMME TO TRUE
            IF FEMME
-               DISPLAY 'Vous �tes une femme'
+               DISPLAY 'Vous Ãªtes une femme'
            ELSE IF HOMME
-               DISPLAY 'Vous �tes un homme'
+               DISPLAY 'Vous Ãªtes un homme'
            ELSE
                DISPLAY 'NE SAIS PAS '
            END-IF.

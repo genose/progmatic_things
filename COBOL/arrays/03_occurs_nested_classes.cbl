@@ -1,11 +1,16 @@
-      ******************************************************************
-      * Author:
-      * Date:
-      * Purpose:
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : CLASSES-NOTES                                     *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: OCCURS imbriques 3 niveaux : classes, eleves, notes
+      *----------------------------------------------------------------*
+      * GROUPE     : arrays                                            *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. YOUR-PROGRAM-NAME.
+       PROGRAM-ID. CLASSES-NOTES.
        DATA DIVISION.
        FILE SECTION.
        WORKING-STORAGE SECTION.

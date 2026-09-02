@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # 03_cics.sh — Définitions CICS via s3270 (CEDA + CEMT)
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 #
 # Automatise la saisie des commandes CEDA dans CICS :
 #   - MAPSET (x8), PROGRAM (x8), TRANSACTION (x8)

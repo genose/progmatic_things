@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # 12_kicks_install.sh — Installation de KICKS sur MVS TK5
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 #
 # KICKS = Kent Integrated CICS Knockout System v1.5.0
 # Remplace CICS sur MVS 3.8j — tourne sous TSO (pas de STC)

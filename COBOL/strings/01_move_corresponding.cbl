@@ -1,11 +1,16 @@
-      ******************************************************************
-      * Author:
-      * Date:
-      * Purpose:
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : MOVE-CORRESP                                      *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: MOVE CORRESPONDING entre groupes de donnees       *
+      *----------------------------------------------------------------*
+      * GROUPE     : strings                                           *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. YOUR-PROGRAM-NAME.
+       PROGRAM-ID. MOVE-CORRESP.
        DATA DIVISION.
        WORKING-STORAGE SECTION.
        01 GROUPE-SOURCE.

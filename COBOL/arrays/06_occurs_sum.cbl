@@ -1,9 +1,14 @@
-      ******************************************************************
-      * Author: COTILLARD SEBASTIEN
-      * Date: 30-06-2026
-      * Purpose:
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : ADDITION-TABLEAU                                  *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: Somme des elements d un tableau avec INDEXED BY   *
+      *----------------------------------------------------------------*
+      * GROUPE     : arrays                                            *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
        PROGRAM-ID. ADDITION-TABLEAU.
        DATA DIVISION.
@@ -35,7 +40,7 @@
                DISPLAY "Valeurs du tableau: "
                PERFORM VARYING WS-INDEX FROM 1 BY 1
                      UNTIL WS-INDEX > WS-INDEX-OCCUR
-                DISPLAY "Valeur de l'élément " WS-INDEX ": "
+                DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX ": "
                   WS-VALEUR(WS-INDEX)
                END-PERFORM
             STOP RUN.

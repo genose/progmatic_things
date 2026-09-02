@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # VERIFICATION SYNTAXE COBOL - GSTK (GnuCOBOL 3.2)
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 # Usage : bash scripts/04_cobc_check.sh [programme]
 #
 # Sans argument : vérifie tous les programmes GSTK00*.cbl

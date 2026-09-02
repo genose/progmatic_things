@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # 11_git_setup.sh — Initialiser git + hooks CI/CD pour GSTK
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 #
 # Configure :
 #   - Dépôt git dans /private/tmp/volatile_hd/COBOL/GSTK

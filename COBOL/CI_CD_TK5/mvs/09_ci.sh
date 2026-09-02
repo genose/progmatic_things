@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # 09_ci.sh — Pipeline CI/CD complet GSTK
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 #
 # Enchaîne toutes les étapes de validation et déploiement.
 # Conçu pour être lancé depuis un hook git ou manuellement.

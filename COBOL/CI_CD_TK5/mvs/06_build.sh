@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # 06_build.sh — Build incrémental GSTK sur MVS TK5
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 #
 # Détecte les fichiers modifiés depuis le dernier build via MD5.
 # N'uploade et ne recompile que ce qui a changé.

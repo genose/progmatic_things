@@ -1,5 +1,7 @@
 # GSTK — Système de Gestion de Stock
 
+**Auteur :** Sebastien Cotillard
+
 Projet CICS/COBOL sur IBM Mainframe (MVS TK5 / z/OS).  
 8 programmes pseudo-conversationnels, 8 mapsets BMS, base DB2.
 

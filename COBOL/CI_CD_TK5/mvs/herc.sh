@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # herc.sh — Pilotage Hercules/MVS TK5
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 #
 # Deux interfaces :
 #   PORT 8038  → Hercules HTTP console (commandes Hercules)

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # 07_watch.sh — Surveillance fichiers → build automatique
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 #
 # Utilise fswatch (MacPorts : /opt/local/bin/fswatch) pour
 # détecter les sauvegardes dans le répertoire GSTK.

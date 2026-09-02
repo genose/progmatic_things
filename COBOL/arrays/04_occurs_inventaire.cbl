@@ -1,11 +1,16 @@
-      ******************************************************************
-      * Author:
-      * Date:
-      * Purpose:
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : INVENTAIRE                                        *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: OCCURS + affichage formate d un inventaire produits
+      *----------------------------------------------------------------*
+      * GROUPE     : arrays                                            *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. YOUR-PROGRAM-NAME.
+       PROGRAM-ID. INVENTAIRE.
        DATA DIVISION.
        FILE SECTION.
        WORKING-STORAGE SECTION.
@@ -38,7 +43,7 @@
                 DISPLAY "*********** RESULTAT ***************".
                 DISPLAY "Produit: " PROD-NOM
                 " ID: " PROD-ID
-                " Quantité: " PROD-QUANTITE.
+                " QuantitÃÂ©: " PROD-QUANTITE.
 
             END-PERFORM
             DISPLAY "************************************".

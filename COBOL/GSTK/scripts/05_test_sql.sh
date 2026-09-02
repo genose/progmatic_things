@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # TESTS SQL - Valider les requêtes GSTK avant déploiement CICS
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 # Usage : bash scripts/05_test_sql.sh
 #
 # Teste les requêtes SQL de chaque programme dans PostgreSQL.

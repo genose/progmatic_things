@@ -1,11 +1,16 @@
-      ******************************************************************
-      * Author: TABLEAU-PUSH
-      * Date:
-      * Purpose:
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : TABLEAU-PUSH                                      *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: Push : ajout dynamique en fin de tableau          *
+      *----------------------------------------------------------------*
+      * GROUPE     : arrays                                            *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. YOUR-PROGRAM-NAME.
+       PROGRAM-ID. TABLEAU-PUSH.
        DATA DIVISION.
        FILE SECTION.
        WORKING-STORAGE SECTION.
@@ -33,7 +38,7 @@
                  UNTIL WS-INDEX-PUSH > WS-INDEX-OCCUR-PUSH
                  COMPUTE WS-INDEX-TMP-PUSH = WS-INDEX-PUSH * 5
                  MOVE WS-INDEX-TMP-PUSH to WS-VALEUR-PUSH(WS-INDEX-PUSH)
-                 DISPLAY "Valeur de l'élément " WS-INDEX-PUSH ": "
+                 DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX-PUSH ": "
                   WS-VALEUR-PUSH(WS-INDEX-PUSH)
            END-PERFORM
 
@@ -66,10 +71,10 @@
 
            END-PERFORM
            DISPLAY "*********** PUSH DE LA VALEUR **********".
-           DISPLAY "Valeur de l'élément " WS-INDEX-PUSH ": "
+           DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX-PUSH ": "
                   WS-VALEUR-TMP-LAST-PUSH
            MOVE WS-VALEUR-TMP-LAST-PUSH TO WS-VALEUR-PUSH(1)
-           DISPLAY "Valeur de l'élément 1: "
+           DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment 1: "
                   WS-VALEUR-PUSH(1)
 
 
@@ -77,7 +82,7 @@
            DISPLAY "*********** AFFICHAGE DES VALEURS ***********".
            PERFORM VARYING WS-INDEX-PUSH FROM 1 BY 1
                  UNTIL WS-INDEX-PUSH > WS-INDEX-OCCUR-PUSH
-                 DISPLAY "Valeur de l'élément " WS-INDEX-PUSH ": "
+                 DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX-PUSH ": "
                   WS-VALEUR-PUSH(WS-INDEX-PUSH)
            END-PERFORM
 

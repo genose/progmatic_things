@@ -1,11 +1,16 @@
-      ******************************************************************
-      * Author: COTILLARD SEBASTIEN
-      * Date: 30-06-2026
-      * Purpose:
-      * Tectonics: cobc
-      ******************************************************************
+      *================================================================*
+      * PROGRAMME  : TABLEAU-SEARCH                                    *
+      * AUTEUR     : Sebastien Cotillard                               *
+      * DATE       : 2026-09-02                                        *
+      * VERSION    : 1.0                                               *
+      *----------------------------------------------------------------*
+      * DESCRIPTION: Recherche dans tableau avec SEARCH / INDEXED BY   *
+      *----------------------------------------------------------------*
+      * GROUPE     : arrays                                            *
+      * COMPILEUR  : GnuCOBOL â cobc -x                                *
+      *================================================================*
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. TABLEAU-ENTIER-SEARCH.
+       PROGRAM-ID. TABLEAU-SEARCH.
        DATA DIVISION.
        FILE SECTION.
        WORKING-STORAGE SECTION.
@@ -45,15 +50,15 @@
             END-PERFORM
             DISPLAY "*********** RESULTAT DE LA RECHERCHE **********".
             IF WS-VALEUR-TROUVEE
-                DISPLAY "Valeur trouvée �  l'index: "
+                DISPLAY "Valeur trouvÃÂ©e Ã  l'index: "
                 WS-VALEUR-TROUVEE-INDEX
             ELSE
-                DISPLAY "Valeur non trouvée dans le tableau."
+                DISPLAY "Valeur non trouvÃÂ©e dans le tableau."
             END-IF
             DISPLAY "*********** AFFICHAGE DES VALEURS ***********".
             PERFORM VARYING WS-INDEX FROM 1 BY 1
                   UNTIL WS-INDEX > LENGTH OF WS-TABLEAU-ENTIERS
-                 DISPLAY "Valeur de l'élément " WS-INDEX ": "
+                 DISPLAY "Valeur de l'ÃÂ©lÃÂ©ment " WS-INDEX ": "
                   WS-VALEUR(WS-INDEX)
             END-PERFORM
 

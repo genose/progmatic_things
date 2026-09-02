@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # 02_submit.sh — Soumission JCL vers MVS via s3270 + suivi
+# Auteur   : Sebastien Cotillard
+# Date     : 2026-09-02
 #
 # Usage :
 #   bash scripts/mvs/02_submit.sh alloc    # allouer datasets (1ère fois)

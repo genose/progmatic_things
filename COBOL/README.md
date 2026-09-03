@@ -34,6 +34,15 @@ Exercices pédagogiques · Projets mainframe COBOL · Migration Java
 
 ---
 
+## Outils
+
+| Outil | Description |
+| ----- | ----------- |
+| [CICS BMS ncurses WYSIWYG editor](https://github.com/genose/genose.org-project20262808-CICS_BMS_ncurses_wysiwyg_editor) | Éditeur d'écrans BMS 3270 en mode terminal (ncurses) |
+| [CI_CD_TK5/](CI_CD_TK5/README.md) | Pipeline CI/CD générique MVS TK5 — macOS / Linux / WSL |
+
+---
+
 ## Mainframe
 
 ### GSTK — Gestion de Stock CICS/COBOL

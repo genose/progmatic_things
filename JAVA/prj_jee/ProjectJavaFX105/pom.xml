@@ -18,7 +18,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20190722</version>
+            <version>20250107</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>

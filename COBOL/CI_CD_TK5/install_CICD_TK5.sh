@@ -356,6 +356,8 @@ create_env() {
     local herc_url;     herc_url="$(_read_var HERC_URL http://localhost:8038)"
     local docker_ctr;   docker_ctr="$(_read_var DOCKER_CONTAINER mvs-tk5)"
     local cobhlq;       cobhlq="$(_read_var COBHLQ IGY)"
+    local cics_backend; cics_backend="$(_read_var CICS_BACKEND auto)"
+    local cics_applid;  cics_applid="$(_read_var CICS_APPLID CICS01)"
 
     # Détecter s3270
     local s3270_path=""
@@ -393,6 +395,15 @@ create_env() {
     cobhlq="$(_prompt     "COBHLQ (compilateur)"   "$cobhlq")"
     s3270_path="$(_prompt "S3270 (chemin binaire)" "$s3270_path")"
 
+    echo ""
+    echo "  Backend CICS (kicks|cicsvs|both|auto) :"
+    info "    kicks  = KICKS v1.5.0 (TSO, CEDA/CEMT)"
+    info "    cicsvs = CICS/VS 1.7  (VTAM STC, tables assemblées)"
+    info "    both   = opérer sur les deux"
+    info "    auto   = détection automatique, préférence KICKS"
+    cics_backend="$(_prompt "CICS_BACKEND"           "$cics_backend")"
+    cics_applid="$( _prompt "CICS_APPLID (CICS/VS)"  "$cics_applid")"
+
     cat > "$ENV_FILE" <<ENVEOF
 # CI_CD_TK5 — Configuration environnement
 # Généré par install_CICD_TK5.sh le $(date '+%Y-%m-%d %H:%M:%S')
@@ -408,10 +419,58 @@ export HERC_URL="${herc_url}"
 export DOCKER_CONTAINER="${docker_ctr}"
 export COBHLQ="${cobhlq}"
 export S3270="${s3270_path}"
+
+# Backend CICS : kicks | cicsvs | both | auto
+# auto = détection automatique (DASD Docker), préférence KICKS si les deux installés
+export CICS_BACKEND="${cics_backend}"
+export CICS_APPLID="${cics_applid}"     # VTAM APPLID région CICS/VS (ignoré si CICS_BACKEND=kicks)
 ENVEOF
 
     ok ".env créé : ${ENV_FILE}"
     info "Sourcer avant utilisation : source CI_CD_TK5/.env"
+}
+
+# ============================================================
+# Détection et sélection du backend CICS
+# ============================================================
+detect_cics_backend() {
+    local docker_ctr="${DOCKER_CONTAINER:-mvs-tk5}"
+    local has_kicks=0 has_cicsvs=0
+
+    # Vérifier seulement si docker tourne
+    if ! docker info &>/dev/null 2>&1; then
+        warn "Docker non disponible — détection CICS ignorée"
+        return
+    fi
+    if ! docker ps --format '{{.Names}}' 2>/dev/null | grep -q "^${docker_ctr}$"; then
+        warn "Container ${docker_ctr} non démarré — détection CICS ignorée"
+        info "  docker start ${docker_ctr}  puis relancer"
+        return
+    fi
+
+    docker exec "$docker_ctr" test -f "/opt/tk5/dasd/kicks0.3350"  2>/dev/null && has_kicks=1  || true
+    docker exec "$docker_ctr" test -f "/opt/tk5/dasd/cics0.3350"   2>/dev/null && has_cicsvs=1 || true
+
+    echo ""
+    if [[ $has_kicks -eq 1 && $has_cicsvs -eq 1 ]]; then
+        ok "KICKS v1.5.0 + CICS/VS 1.7 installés (both)"
+        info "CICS_BACKEND=both → opère sur les deux backends"
+        info "CICS_BACKEND=kicks → préférer KICKS (recommandé)"
+    elif [[ $has_kicks -eq 1 ]]; then
+        ok "KICKS v1.5.0 installé"
+        info "CICS_BACKEND=kicks (défaut)"
+    elif [[ $has_cicsvs -eq 1 ]]; then
+        ok "CICS/VS 1.7 installé"
+        warn "KICKS non installé — fonctionnalités CEDA non disponibles"
+        info "CICS_BACKEND=cicsvs"
+    else
+        warn "Aucun backend CICS installé"
+        echo ""
+        info "Options :"
+        info "  KICKS (recommandé) : bash mvs/12_kicks_install.sh all"
+        info "  CICS/VS 1.7        : bash mvs/13_cicsvs_install.sh all  (avancé, plusieurs jours)"
+        info "  Les deux           : installer KICKS puis CICS/VS"
+    fi
 }
 
 # ============================================================
@@ -519,6 +578,10 @@ check_s3270
 check_watcher
 check_docker
 
+# ---- Backend CICS ----
+hdr "Backend CICS (KICKS / CICS/VS 1.7)"
+detect_cics_backend
+
 # ---- PostgreSQL (optionnel pour GSTK) ----
 hdr "PostgreSQL (optionnel — tests SQL GSTK)"
 if command -v psql &>/dev/null; then
@@ -557,13 +620,20 @@ info "Prochaines étapes :"
 info "  1. Démarrer le container : docker start \${DOCKER_CONTAINER:-mvs-tk5}"
 if [[ ! -f "$ENV_FILE" ]]; then
 info "  2. Configurer l'environnement : bash install_CICD_TK5.sh --env"
+info "     (choisir CICS_BACKEND : kicks | cicsvs | both | auto)"
 info "  3. Sourcer : source CI_CD_TK5/.env"
-info "  4. Installer KICKS (si nécessaire) : bash mvs/12_kicks_install.sh all"
-info "  5. Première installation MVS : make install-all"
+info "  4. Installer le backend CICS choisi :"
+info "     KICKS  : bash mvs/12_kicks_install.sh all"
+info "     CICS/VS: bash mvs/13_cicsvs_install.sh all  (avancé)"
+info "  5. Vérifier le backend : bash mvs/03_cics.sh detect"
+info "  6. Première installation MVS : make install-all"
 else
 info "  2. Sourcer : source CI_CD_TK5/.env"
-info "  3. Installer KICKS (si nécessaire) : bash mvs/12_kicks_install.sh all"
-info "  4. Première installation MVS : make install-all"
+info "  3. Installer le backend CICS (si nécessaire) :"
+info "     KICKS  : bash mvs/12_kicks_install.sh all"
+info "     CICS/VS: bash mvs/13_cicsvs_install.sh all  (avancé)"
+info "  4. Vérifier le backend : bash mvs/03_cics.sh detect"
+info "  5. Première installation MVS : make install-all"
 fi
 echo ""
 

@@ -49,3 +49,12 @@ CICS_MAPSETS=("${CICS_MAPSETS[@]+"${CICS_MAPSETS[@]}"}")
 CICS_PROGRAMS=("${CICS_PROGRAMS[@]+"${CICS_PROGRAMS[@]}"}")
 CICS_TRANSACTIONS=("${CICS_TRANSACTIONS[@]+"${CICS_TRANSACTIONS[@]}"}")
 WATCH_EXTENSIONS=("${WATCH_EXTENSIONS[@]+"${WATCH_EXTENSIONS[@]}"}")
+
+# Backend CICS : kicks | cicsvs | both | auto
+# auto = détection automatique (DASD Docker), préférence KICKS si les deux installés
+CICS_BACKEND="${CICS_BACKEND:-auto}"
+
+# Paramètres région CICS/VS 1.7 (ignorés si CICS_BACKEND=kicks)
+CICS_APPLID="${CICS_APPLID:-CICS01}"       # VTAM APPLID de la région CICS/VS
+CICS_USER="${CICS_USER:-CICSUSER}"         # utilisateur CICS/VS signon (CESN)
+CICS_PASS_CICS="${CICS_PASS_CICS:-CICSUSER}" # mot de passe CICS/VS

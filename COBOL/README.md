@@ -234,4 +234,11 @@ Voir [COBOL_VSCODE_SETUP.md](./COBOL_VSCODE_SETUP.md) — macOS / Linux / Window
 
 ---
 
+## Remerciements
+
+Merci à **Mr Marc Pohoryles** pour l'encadrement pédagogique, l'enthousiasme communicatif
+et la qualité des exercices proposés — du COBOL fondamental jusqu'aux pipelines CI/CD MVS TK5.
+
+---
+
 genose.org · Sebastien Cotillard · progmatic_things

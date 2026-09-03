@@ -15,17 +15,17 @@
 
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <junit.version>4.13.1</junit.version>
+        <junit.version>4.13.2</junit.version>
         <servlet.version>4.0.1</servlet.version>
         <jsf.version>2.2.20</jsf.version>
 
 
 
-        <primefaces.version>7.0.RC3</primefaces.version>
-        <poi.version>4.1.1</poi.version>
+        <primefaces.version>8.0</primefaces.version>
+        <poi.version>5.3.0</poi.version>
         <itext.version>2.1.7</itext.version>
-        <log4.version>2.17.1</log4.version>
-        <mysql.version>8.0.17</mysql.version>
+        <log4.version>2.25.5</log4.version>
+        <mysql.version>9.1.0</mysql.version>
         <mssql.version>7.4.1.jre12</mssql.version>
         <jersey.version>2.29.1</jersey.version>
         <jaxb.version>2.3.1</jaxb.version>
@@ -146,8 +146,8 @@
 
         <!-- Drivers jdbc -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <version>${mysql.version}</version>
         </dependency>
 

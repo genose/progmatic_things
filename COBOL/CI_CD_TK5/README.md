@@ -8,15 +8,17 @@ Pipeline complet de développement COBOL/CICS sur MVS 3.8j émulé par Hercules 
 
 ## Prérequis
 
-| Outil | Usage | Installation |
-| ----- | ----- | ------------ |
-| Docker | Container `mvs-tk5` (Hercules + MVS 3.8j) | `brew install --cask docker` |
-| s3270 | Pilotage terminal 3270 (upload, CICS, tests) | `sudo port install x3270` ou `brew install x3270` |
-| fswatch | Surveillance fichiers pour `make watch` | `sudo port install fswatch` ou `brew install fswatch` |
-| GnuCOBOL | Vérification syntaxe locale | `sudo port install gnu-cobol` |
-| PostgreSQL | Tests SQL locaux (schéma GSTK) | `sudo port install postgresql16-server` |
-| curl | Communication API Hercules (port 8038) | Préinstallé sur macOS |
+| Outil | Usage | macOS | Linux / WSL | Windows |
+| ----- | ----- | ----- | ----------- | ------- |
+| Docker | Container `mvs-tk5` (Hercules + MVS 3.8j) | `brew install --cask docker` | `sudo apt install docker.io` | [Docker Desktop](https://www.docker.com/products/docker-desktop/) |
+| s3270 | Pilotage terminal 3270 (upload, CICS, tests) | `brew install x3270` ou `sudo port install x3270` | `sudo apt install x3270` | WSL → même que Linux |
+| fswatch / inotifywait | Surveillance fichiers pour `make watch` | `brew install fswatch` | `sudo apt install inotify-tools` | WSL → même que Linux |
+| GnuCOBOL | Vérification syntaxe locale | `brew install gnucobol` | `sudo apt install gnucobol` | WSL → même que Linux |
+| PostgreSQL | Tests SQL locaux (schéma GSTK) | `brew install postgresql@16` | `sudo apt install postgresql` | WSL → même que Linux |
+| curl | Communication API Hercules (port 8038) | préinstallé | préinstallé | préinstallé (Win10+) |
 
+> **Windows** : utiliser WSL2 (Ubuntu) et ouvrir le projet dans VS Code via Remote-WSL. Les commandes Linux s'appliquent ensuite sans modification.
+>
 > `s3270` doit être accessible via `$S3270` ou dans `$PATH`.
 > Le container Docker s'appelle `mvs-tk5` par défaut (modifiable via `DOCKER_CONTAINER`).
 
@@ -63,10 +65,14 @@ export HLQ=HERC02               # High Level Qualifier MVS
 export HERC_URL=http://localhost:8038   # API HTTP Hercules (syslog, commandes)
 export DOCKER_CONTAINER=mvs-tk5 # nom du container Docker
 export COBHLQ=IGY               # HLQ compilateur IBM COBOL (IGY.SIGYCOMP)
-export S3270=/opt/local/bin/s3270  # chemin vers s3270
+
+# s3270 — auto-détecté si dans $PATH ; surcharger si nécessaire
+# macOS MacPorts : export S3270=/opt/local/bin/s3270
+# macOS Homebrew : export S3270=/opt/homebrew/bin/s3270
+# Linux / WSL    : export S3270=/usr/bin/s3270   (ou laisser vide si dans $PATH)
 ```
 
-Placer dans un `.env` local ou dans `~/.zshrc` / `~/.bash_profile`.
+Placer dans un `.env` local ou dans `~/.zshrc` / `~/.bash_profile` (macOS/Linux) ou `~/.bashrc` (WSL).
 
 ---
 
@@ -386,9 +392,14 @@ bash mvs/herc.sh log 10
 ### s3270 ne démarre pas
 
 ```bash
-# Vérifier le chemin
+# Vérifier que s3270 est dans le PATH
 which s3270 || echo "non trouvé"
-export S3270=/opt/local/bin/s3270
+
+# Surcharger le chemin si nécessaire (exemples)
+export S3270=/opt/local/bin/s3270      # macOS MacPorts
+export S3270=/opt/homebrew/bin/s3270   # macOS Homebrew
+export S3270=/usr/bin/s3270            # Linux / WSL
+
 # Vérifier que TK5 écoute sur le port 3270
 nc -z localhost 3270 && echo "OK" || echo "TK5 non joignable"
 ```

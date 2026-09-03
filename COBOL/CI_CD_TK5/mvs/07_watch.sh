@@ -4,9 +4,8 @@
 # Auteur   : Sebastien Cotillard
 # Date     : 2026-09-02
 #
-# Utilise fswatch (MacPorts : /opt/local/bin/fswatch) pour
-# détecter les sauvegardes dans le répertoire projet.
-# Déclenche automatiquement 06_build.sh sur chaque modification.
+# macOS  : utilise fswatch (brew install fswatch  ou  sudo port install fswatch)
+# Linux/WSL : utilise inotifywait (sudo apt install inotify-tools)
 #
 # Usage :
 #   bash mvs/07_watch.sh          # surveiller PROJECT_DIR
@@ -22,14 +21,40 @@ source "${CI_DIR}/lib/project.sh"
 
 MVS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-FSWATCH="${FSWATCH:-/opt/local/bin/fswatch}"
-[[ ! -x "$FSWATCH" ]] && FSWATCH="$(command -v fswatch 2>/dev/null)" || true
-[[ ! -x "${FSWATCH:-}" ]] && {
-    echo "fswatch introuvable."
-    echo "Installer : sudo port install fswatch"
-    echo "         ou: brew install fswatch"
+# ---- Détecter le gestionnaire de surveillance selon l'OS ----
+_OS="$(uname -s)"
+WATCHER=""
+FSWATCH=""
+INOTIFYWAIT=""
+
+if [[ "$_OS" == "Darwin" ]]; then
+    for _f in \
+        "${FSWATCH:-}" \
+        /opt/local/bin/fswatch \
+        /opt/homebrew/bin/fswatch \
+        /usr/local/bin/fswatch; do
+        [[ -x "${_f:-}" ]] && { FSWATCH="$_f"; break; }
+    done
+    [[ -z "$FSWATCH" ]] && FSWATCH="$(command -v fswatch 2>/dev/null || true)"
+    [[ -x "${FSWATCH:-}" ]] && WATCHER="fswatch"
+else
+    # Linux / WSL
+    INOTIFYWAIT="$(command -v inotifywait 2>/dev/null || true)"
+    [[ -x "${INOTIFYWAIT:-}" ]] && WATCHER="inotifywait"
+fi
+
+if [[ -z "$WATCHER" ]]; then
+    echo "Aucun gestionnaire de surveillance trouvé." >&2
+    if [[ "$_OS" == "Darwin" ]]; then
+        echo "  macOS : brew install fswatch" >&2
+        echo "       ou: sudo port install fswatch" >&2
+    else
+        echo "  Linux/WSL : sudo apt install inotify-tools   (Debian/Ubuntu)" >&2
+        echo "              sudo dnf install inotify-tools   (Fedora/RHEL)" >&2
+        echo "              sudo pacman -S inotify-tools     (Arch)" >&2
+    fi
     exit 1
-}
+fi
 
 AUTO_TEST="${1:-}"
 DEBOUNCE=2          # secondes entre deux builds (éviter double-trigger)
@@ -132,22 +157,27 @@ echo -e "${CYAN}═════════════════════�
 echo ""
 echo "En attente de modifications..."
 
-# fswatch options :
-#   -r   : récursif
-#   -e   : exclure (scripts/, .git/, etc.)
-#   --event Updated,Created : ignorer les suppressions
-
-"$FSWATCH" \
-    --recursive \
-    --event Updated \
-    --event Created \
-    --exclude "scripts/" \
-    --exclude "\.git" \
-    --exclude "\.build\.log" \
-    --exclude "\.checksums" \
-    --exclude "\.DS_Store" \
-    --latency 1.5 \
-    "$PROJECT_DIR" \
-| while IFS= read -r changed_path; do
+# Lancer la surveillance (fswatch sur macOS, inotifywait sur Linux/WSL)
+if [[ "$WATCHER" == "fswatch" ]]; then
+    "$FSWATCH" \
+        --recursive \
+        --event Updated \
+        --event Created \
+        --exclude "scripts/" \
+        --exclude "\.git" \
+        --exclude "\.build\.log" \
+        --exclude "\.checksums" \
+        --exclude "\.DS_Store" \
+        --latency 1.5 \
+        "$PROJECT_DIR"
+else
+    # inotifywait : -m = monitor mode (infini), --format = une ligne par fichier
+    "$INOTIFYWAIT" \
+        -m -r \
+        -e close_write,create \
+        --format '%w%f' \
+        --exclude '(scripts/|\.git|\.build\.log|\.checksums)' \
+        "$PROJECT_DIR" 2>/dev/null
+fi | while IFS= read -r changed_path; do
     on_change "$changed_path"
 done

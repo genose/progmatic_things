@@ -35,7 +35,8 @@ if [[ -z "${S3270:-}" ]]; then
     for _s3270_c in \
         /usr/local/bin/s3270 \
         /opt/homebrew/bin/s3270 \
-        /opt/local/bin/s3270; do
+        /opt/local/bin/s3270 \
+        /usr/bin/s3270; do
         [[ -x "$_s3270_c" ]] && { S3270="$_s3270_c"; break; }
     done
     if [[ -z "${S3270:-}" ]]; then

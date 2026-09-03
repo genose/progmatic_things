@@ -53,8 +53,12 @@ herc_cmd() {
 # ============================================================
 check_s3270() {
     [[ -x "${S3270:-}" ]] || {
-        echo -e "${RED}s3270 introuvable.${NC} Installer via MacPorts : sudo port install x3270"
-        echo "  ou définir : export S3270=/chemin/vers/s3270"
+        echo -e "${RED}s3270 introuvable.${NC}"
+        case "$(uname -s)" in
+            Darwin) echo "  macOS : brew install x3270  ou  sudo port install x3270" ;;
+            *)      echo "  Linux/WSL : sudo apt install x3270  (Debian/Ubuntu)" ;;
+        esac
+        echo "  Ou définir : export S3270=/chemin/vers/s3270"
         exit 1
     }
     if ! nc -z "$TK5_HOST" "$TK5_PORT" 2>/dev/null; then

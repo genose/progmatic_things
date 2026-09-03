@@ -4,6 +4,36 @@
 
 Pipeline complet de développement COBOL/CICS sur MVS 3.8j émulé par Hercules (container Docker `mvs-tk5`) avec KICKS v1.5.0 comme substitut CICS.
 
+Compatible **macOS / Linux / Windows WSL2**.
+
+---
+
+## Installation rapide
+
+```bash
+# 1. Vérifier les prérequis
+bash CI_CD_TK5/install_CICD_TK5.sh
+
+# 2. Installer les dépendances manquantes automatiquement
+bash CI_CD_TK5/install_CICD_TK5.sh --install
+
+# 3. Créer le fichier de configuration .env (interactif)
+bash CI_CD_TK5/install_CICD_TK5.sh --env
+
+# Tout en une commande (install + .env + make install-all)
+bash CI_CD_TK5/install_CICD_TK5.sh --full
+```
+
+Options du script :
+
+| Option | Action |
+| ------ | ------ |
+| _(aucune)_ | Vérifier les prérequis et afficher l'état |
+| `--install` | Installer les dépendances manquantes via le gestionnaire de paquets |
+| `--env` | Créer / régénérer le fichier `.env` (interactif) |
+| `--full` | `--install` + `--env` + `make install-all` |
+| `--help` | Afficher l'aide |
+
 ---
 
 ## Prérequis
@@ -28,6 +58,8 @@ Pipeline complet de développement COBOL/CICS sur MVS 3.8j émulé par Hercules 
 
 ```
 CI_CD_TK5/
+├── install_CICD_TK5.sh  — Script d'installation cross-platform (macOS/Linux/WSL)
+├── .env                  — Configuration locale (généré par install_CICD_TK5.sh --env)
 ├── Makefile              — Cibles make (make ci, make build, make watch…)
 ├── mvs/
 │   ├── 00_alloc.jcl      — JCL allocation datasets MVS (1ère fois)
@@ -81,6 +113,11 @@ Placer dans un `.env` local ou dans `~/.zshrc` / `~/.bash_profile` (macOS/Linux)
 ### Première installation
 
 ```bash
+# 0. Vérifier / installer les prérequis (macOS/Linux/WSL)
+bash install_CICD_TK5.sh --install
+bash install_CICD_TK5.sh --env     # configurer .env
+source .env
+
 # 1. Démarrer le container MVS TK5
 docker start mvs-tk5
 
@@ -110,7 +147,8 @@ bash mvs/08_test_cics.sh smoke
 
 Ou en une seule commande depuis `CI_CD_TK5/` :
 ```bash
-make install-all
+bash install_CICD_TK5.sh --full
+# équivalent à : --install + --env + make install-all
 ```
 
 ### Cycle de développement quotidien

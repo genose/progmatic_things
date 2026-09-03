@@ -247,7 +247,48 @@ Ensure required input files for the target program are present in the current wo
 
 Confirm `ms-vscode.cpptools` is installed and enabled in the environment where VS Code is running (local host or WSL remote).
 
-## 11) README snippet
+## 11) Pipeline CI/CD MVS TK5 (CI_CD_TK5)
+
+Le pipeline CI_CD_TK5 permet de compiler et tester des programmes COBOL/CICS directement sur MVS 3.8j émulé (Hercules + KICKS). Il fonctionne sur macOS, Linux et Windows WSL2.
+
+### Prérequis supplémentaires
+
+| Outil | macOS | Linux / WSL |
+| ----- | ----- | ----------- |
+| Docker | `brew install --cask docker` | `sudo apt install docker.io` |
+| s3270 | `brew install x3270` | `sudo apt install x3270` |
+| fswatch / inotifywait | `brew install fswatch` | `sudo apt install inotify-tools` |
+
+### Installation
+
+```bash
+# Depuis le dossier COBOL/
+bash CI_CD_TK5/install_CICD_TK5.sh --install   # installe les dépendances
+bash CI_CD_TK5/install_CICD_TK5.sh --env        # génère CI_CD_TK5/.env
+source CI_CD_TK5/.env
+```
+
+### Utilisation
+
+```bash
+cd CI_CD_TK5
+
+# Vérification syntaxe locale (sans MVS)
+make check
+
+# Build incrémental + déploiement CICS
+make build
+
+# Pipeline complet
+make ci
+
+# Changer de projet
+make ci PROJECT=crm
+```
+
+Voir [CI_CD_TK5/README.md](./CI_CD_TK5/README.md) pour la documentation complète.
+
+## 12) README snippet
 
 ```md
 ## COBOL Development Setup

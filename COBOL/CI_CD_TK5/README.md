@@ -321,6 +321,27 @@ Fichier source (ne pas exécuter directement). Fournit les fonctions partagées 
 
 ---
 
+## CICS sur MVS TK5 — Deux approches
+
+Deux environnements CICS sont disponibles pour MVS 3.8j, avec des profils très différents.
+
+### Comparaison KICKS vs CICS/VS 1.7
+
+| Critère | KICKS v1.5.0 | CICS/VS 1.7 |
+| ------- | ------------ | ----------- |
+| **Mode d'exécution** | TSO (pas de STC) | Region VTAM (Started Task) |
+| **Définition ressources** | CEDA / CEMT interactif | Tables assemblées (PCT, PPT, TCT, FCT) |
+| **RDO / CEDA** | Oui | Non (CEDA n'existe qu'à partir de CICS 2.1) |
+| **Difficulté installation** | Moyenne (8 phases, scripts fournis) | Élevée (plusieurs jours, VTAM + assemblage tables) |
+| **Fidélité comportementale** | Partielle (substitut communauté) | 100% IBM d'origine |
+| **Source** | GitHub moshix/kicks | bitsavers.org (images bandes IBM) |
+| **Recommandé pour** | Développement, apprentissage, CI/CD | Environnement de test production authentique |
+| **Script d'installation** | `bash mvs/12_kicks_install.sh all` | `bash mvs/13_cicsvs_install.sh all` |
+
+> **Recommandation :** utiliser **KICKS** pour tout développement courant. CICS/VS 1.7 est une option avancée pour qui veut un comportement CICS strictement authentique.
+
+---
+
 ## Installation KICKS v1.5.0
 
 KICKS (Kent Integrated CICS Knockout System) remplace CICS sur MVS 3.8j. Il tourne sous TSO (pas de STC).
@@ -476,6 +497,66 @@ x3270 localhost:3270
 make clean   # supprimer .checksums
 make build   # full rebuild
 ```
+
+---
+
+## Installation CICS/VS 1.7 (avancé)
+
+> **Avertissement** — Installation complexe, durée estimée : plusieurs jours.
+> Consulter la comparaison [KICKS vs CICS/VS 1.7](#cics-sur-mvs-tk5--deux-approches) avant de continuer.
+
+CICS/VS 1.7 est le CICS IBM d'origine pour MVS 3.8j. Contrairement à KICKS, il tourne comme région VTAM (STC), avec des tables assemblées à la place de CEDA/CEMT.
+
+### Obtenir l'image bande
+
+L'image de distribution CICS/VS 1.7 est disponible sur la communauté hobbyiste MVS :
+
+- **bitsavers.org** — `https://bitsavers.org/bits/IBM/cics/` (images bandes IBM)
+- **Jay Moseley** — `https://www.jaymoseley.com/hercules/` (guide d'installation Hercules)
+- **H390-MVS mailing list** / CBT Tape archives
+
+Placer l'image (format AWS ou HET) ici : `/tmp/cicsvs17.aws`  
+Ou surcharger : `export CICS_TAPE_LOCAL=/chemin/vers/cicsvs17.aws`
+
+### Phases d'installation
+
+```bash
+# Vérifier les prérequis (bande, VTAM, espace DASD)
+bash mvs/13_cicsvs_install.sh check
+
+# Installation complète (8 phases)
+bash mvs/13_cicsvs_install.sh all
+
+# Ou phase par phase
+bash mvs/13_cicsvs_install.sh dasd     # volume DASD CICS0 (0352)
+bash mvs/13_cicsvs_install.sh tape     # restauration bande → DASD
+bash mvs/13_cicsvs_install.sh vtam     # major node VTAM + terminaux
+bash mvs/13_cicsvs_install.sh sit      # assemblage SIT
+bash mvs/13_cicsvs_install.sh tables   # assemblage PCT, PPT, TCT, FCT
+bash mvs/13_cicsvs_install.sh stc      # PROC CICS dans SYS1.PROCLIB
+bash mvs/13_cicsvs_install.sh start    # démarrage région + vérif DFHSI1500
+
+# État de la région
+bash mvs/13_cicsvs_install.sh status
+```
+
+### Variables de configuration
+
+```bash
+export CICS_APPLID=CICS01        # VTAM APPLID de la région (défaut: CICS01)
+export CICS_SYSID=CICS           # identifiant 4 chars (défaut: CICS)
+export CICS_HLQ=CICS17           # HLQ des datasets CICS/VS restaurés
+export CICS_TAPE_LOCAL=/tmp/cicsvs17.aws
+```
+
+### Différence de démarrage vs KICKS
+
+| | KICKS | CICS/VS 1.7 |
+| - | ----- | ----------- |
+| **Démarrer** | `EXEC 'KICKS.KICKSSYS.V1R5M0.CLIST(KICKS)'` (session TSO) | `S CICS01` (console MVS) |
+| **Arrêter** | Fermer la session TSO | `CEMT PERFORM SHUTDOWN` ou `P CICS01` |
+| **Ajouter une transaction** | `CEDA DEF TRANSACTION(...)` interactif | Modifier PCT, réassembler, redémarrer |
+| **Vérifier initialisation** | Messages KICKS dans TSO | `DFHSI1500` dans le syslog MVS |
 
 ---
 

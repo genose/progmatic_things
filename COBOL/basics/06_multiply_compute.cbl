@@ -21,9 +21,7 @@
        MAIN-PROCEDURE.
             DISPLAY "***** TEST MULTIPLY *****"
 
-            COMPUTE NOMBRE-A * NOMBRE-B GIVING NOMBRE-RESULTAT
-
-            END-COMPUTE.
+            COMPUTE NOMBRE-RESULTAT = NOMBRE-A * NOMBRE-B.
 
 
 

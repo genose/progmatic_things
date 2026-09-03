@@ -45,3 +45,9 @@ JAVA/prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_openjfx_j
 JAVA/prj_jee/org_genose_java_implementation/.idea/libraries/Maven__org_openjfx_javafx_base_win_11_0_2.xml
 COBOL/bin/
 COBOL/.DS_Store
+
+# Recursive ignores
+**/.DS_Store
+**/target/
+node_modules/
+.claude/

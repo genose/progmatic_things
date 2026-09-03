@@ -16,7 +16,7 @@
 
            SELECT PAY-FILE
                ASSIGN TO "STUDPAY.DAT"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-PAY-STATUS.
 
@@ -31,7 +31,7 @@
 
            SELECT REPORT-FILE
                ASSIGN TO "REPORT.DAT"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-RPT-STATUS.
 

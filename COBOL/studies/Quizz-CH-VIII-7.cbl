@@ -13,7 +13,7 @@
        FILE-CONTROL.
            SELECT CONTACTS-FILE
                ASSIGN TO "contacts.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-FILE-STATUS.
 

@@ -13,13 +13,13 @@
        FILE-CONTROL.
            SELECT VENTES-IN
                ASSIGN TO "ventes.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-STATUS-IN.
 
            SELECT SYNTHESE-OUT
                ASSIGN TO "ventes_synthese.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-STATUS-OUT.
 

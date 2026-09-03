@@ -13,13 +13,13 @@
        FILE-CONTROL.
            SELECT FACTURES-IN
                ASSIGN TO "factures.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-STATUS-IN.
 
            SELECT FACTURES-OUT
                ASSIGN TO "factures_grandes.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-STATUS-OUT.
 

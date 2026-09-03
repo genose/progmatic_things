@@ -12,7 +12,7 @@
        FILE-CONTROL.
            SELECT EMPLOYES-FILE
                ASSIGN TO "employes.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-FILE-STATUS.
 

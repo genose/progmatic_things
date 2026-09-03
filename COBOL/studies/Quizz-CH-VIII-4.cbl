@@ -13,13 +13,13 @@
        FILE-CONTROL.
            SELECT PRODUITS-IN
                ASSIGN TO "produits.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-STATUS-IN.
 
            SELECT PRODUITS-OUT
                ASSIGN TO "produits_nouveaux.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-STATUS-OUT.
 

@@ -12,7 +12,7 @@
        FILE-CONTROL.
            SELECT TEXTE-FILE
                ASSIGN TO "fichier_test.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-FILE-STATUS.
 

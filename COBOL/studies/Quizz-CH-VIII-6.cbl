@@ -13,19 +13,19 @@
        FILE-CONTROL.
            SELECT CLIENTS-A
                ASSIGN TO "clients_A.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-STATUS-A.
 
            SELECT CLIENTS-B
                ASSIGN TO "clients_B.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-STATUS-B.
 
            SELECT CLIENTS-MERGED
                ASSIGN TO "clients_merged.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-STATUS-OUT.
 

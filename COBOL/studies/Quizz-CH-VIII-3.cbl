@@ -12,13 +12,13 @@
        FILE-CONTROL.
            SELECT CLIENTS-IN
                ASSIGN TO "clients_in.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-STATUS-IN.
 
            SELECT CLIENTS-OUT
                ASSIGN TO "clients_out.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-STATUS-OUT.
 

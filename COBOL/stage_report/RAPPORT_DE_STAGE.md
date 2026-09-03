@@ -19,12 +19,14 @@
    - [D05\_VERIF\_CRM](#41-d05_verif_crm)
    - [T10\_MAJ\_DTLIVR\_BDCRM](#42-t10_maj_dtlivr_bdcrm)
    - [D02\_EXTCDE\_CRMCSP1](#43-d02_extcde_crmcsp1)
+   - [D05\_INTCDEFAC\_CRM\_V2](#44-d05_intcdefac_crm_v2)
 5. [Architecture Java 8 — Ports et Adaptateurs](#5-architecture-java-8--ports-et-adaptateurs)
 6. [Strategie TDD](#6-strategie-tdd)
 7. [Projet GSTK — Systeme CICS/COBOL sur Mainframe MVS](#7-projet-gstk--systeme-cicscobol-sur-mainframe-mvs)
-8. [Competences acquises](#8-competences-acquises)
-9. [Bilan et perspectives](#9-bilan-et-perspectives)
-10. [Annexes](#10-annexes)
+8. [Pipeline CI/CD generique MVS TK5](#8-pipeline-cicd-generique-mvs-tk5)
+9. [Competences acquises](#9-competences-acquises)
+10. [Bilan et perspectives](#10-bilan-et-perspectives)
+11. [Annexes](#11-annexes)
 
 ---
 
@@ -36,11 +38,11 @@ Apprendre le COBOL en partant de zero n'est pas une demarche banale en 2026. C'e
 
 Je remercie en particulier :
 
-- L'equipe pedagogique pour avoir concu un cursus progressif et coherent, des fondamentaux du langage jusqu'aux projets mainframe complets (CICS, BMS, DB2, JCL) ;
+- L'equipe pedagogique pour avoir concu un cursus progressif et coherent, des fondamentaux du langage jusqu'aux projets mainframe complets (CICS, BMS, JCL, Oracle Rdb) ;
 - Les intervenants qui ont partage leur experience du terrain, notamment sur les environnements OpenVMS, MVS et les conventions de developpement industriel en COBOL ;
 - L'encadrement du stage, qui a su proposer un perimetre de travail ambitieux — la migration de vrais programmes de production vers Java 8 — permettant de confronter immediatement les apprentissages theoriques a la realite d'un code legacy en exploitation.
 
-Je souhaite egalement remercier **Claudius CLI** ([claude-code-source-build-community-edition-noAVX-foroldtimer](https://github.com/genose/claude-code-source-build-community-edition-noAVX-foroldtimer)), assistant IA qui a apporte une aide precieuse sur deux axes techniques majeurs : la redaction et la mise au point du pipeline CI/CD MVS (Makefile, scripts de compilation et deploiement CICS, hot-reload), ainsi que la configuration de l'environnement de developpement VSCode pour le COBOL (extensions, schema copybooks, integration GnuCOBOL). Son assistance a permis de gagner un temps considerable sur des taches d'infrastructure complexes, et de se concentrer sur l'essentiel : la logique metier et la qualite du code.
+Je souhaite egalement remercier **Claudius CLI** ([claude-code-source-build-community-edition-noAVX-foroldtimer](https://github.com/genose/claude-code-source-build-community-edition-noAVX-foroldtimer)), assistant IA qui a apporte une aide precieuse sur deux axes techniques majeurs : la redaction et la mise au point du pipeline CI/CD MVS (Makefile, scripts de compilation et deploiement CICS, hot-reload, refactorisation multi-projets), ainsi que la configuration de l'environnement de developpement VSCode pour le COBOL (extensions, schema copybooks, integration GnuCOBOL). Son assistance a permis de gagner un temps considerable sur des taches d'infrastructure complexes, et de se concentrer sur l'essentiel : la logique metier et la qualite du code.
 
 Cette formation m'a ouvert des portes vers un secteur porteur et sous-represente en termes de nouveaux developpeurs, ou la demande de competences COBOL reste forte et durable.
 
@@ -61,15 +63,16 @@ En quelques semaines, la progression a ete significative :
 - **Fichiers** : `SELECT`/`FD`, enregistrements sequentiels a longueur fixe ;
 - **SQL embarque** : curseurs Oracle Rdb, `SQLCODE`, gestion des transactions (`SET TRANSACTION`, `COMMIT`, `ROLLBACK`) ;
 - **CICS** : programmation pseudo-conversationnelle, `COMMAREA`, `EXEC CICS SEND MAP`, `EXEC CICS RETURN` ;
-- **Environnement mainframe** : JCL, BMS, DB2, pipeline CI/CD MVS.
+- **Environnement mainframe** : JCL, BMS, pipeline CI/CD MVS.
 
 Ce parcours a fourni les bases necessaires pour lire, comprendre et analyser des programmes COBOL de production complexes, puis les migrer fidelement vers Java 8.
 
 ### Objectifs du stage
 
 1. **Analyser** le comportement exact de chaque programme COBOL de facon exhaustive, en documentant toutes les regles metier, implicites ou non ;
-2. **Reecrire** ces programmes en Java 8, en garantissant la **parite fonctionnelle et binaire** avec les sources COBOL, par une approche pilotee par les tests (TDD) ;
-3. **Pratiquer** le developpement CICS/COBOL complet sur un environnement mainframe reel (emulateur MVS TK5) via le projet GSTK.
+2. **Reecrire** ces programmes en Java 8, en garantissant la **parite fonctionnelle** avec les sources COBOL, par une approche pilotee par les tests (TDD) ;
+3. **Pratiquer** le developpement CICS/COBOL complet sur un environnement mainframe reel (emulateur MVS TK5) via le projet GSTK ;
+4. **Outiller** le developpement mainframe avec un pipeline CI/CD generique reutilisable sur tout projet du depot.
 
 ---
 
@@ -78,7 +81,7 @@ Ce parcours a fourni les bases necessaires pour lire, comprendre et analyser des
 ### Environnement source (COBOL / OpenVMS)
 
 | Composant | Detail |
-|-----------|--------|
+| --------- | ------ |
 | Langage | COBOL avec SQL embarque (RDB/COBOL) |
 | Systeme d'exploitation | OpenVMS (Digital / HP) |
 | Base de donnees | Oracle Rdb |
@@ -88,19 +91,19 @@ Ce parcours a fourni les bases necessaires pour lire, comprendre et analyser des
 Les bases de donnees principales du perimetre CRM/EXTRANET sont :
 
 | Alias | Base | Usage |
-|-------|------|-------|
-| `D`   | `BD_DEPOT`     | Commandes, articles, clients |
-| `S`   | `BD_CRM`       | Statuts CRM, facturation |
-| `T`   | `BD_TRANSPORT` | Donnees de transport |
-| `P`   | `BD_PDF`       | Documents |
+| ----- | ---- | ----- |
+| `D` | `BD_DEPOT` | Commandes, articles, clients |
+| `S` | `BD_CRM` | Statuts CRM, facturation |
+| `E` | `BD_CRM` | Table E.CDE_FAC (UPSERT CDEFAC) |
+| `T` | `BD_TRANSPORT` | Donnees de transport |
 
 ### Environnement cible (Java 8)
 
 | Composant | Detail |
-|-----------|--------|
+| --------- | ------ |
 | Langage | Java 8 |
 | Build | Maven 3 |
-| Tests | JUnit 4 + Mockito |
+| Tests | JUnit 4 |
 | Architecture | Ports et adaptateurs (hexagonale) |
 | Acces base | JDBC Oracle Rdb |
 
@@ -108,13 +111,18 @@ Les bases de donnees principales du perimetre CRM/EXTRANET sont :
 
 ## 4. Perimetre CRM/EXTRANET — Migration COBOL vers Java 8
 
-Trois programmes COBOL ont ete etudies et migres (ou en cours de migration) :
+Quatre programmes COBOL ont ete etudies et migres :
 
-| Programme | Role | Statut migration |
-|-----------|------|-----------------|
-| `D05_VERIF_CRM`          | Verification synchronisation DEPOT/CRM                     | **Termine** — 23 tests |
-| `T10_MAJ_DTLIVR_BDCRM`   | Mise a jour date de livraison depuis fichiers transport     | **Termine** — 36 tests |
-| `D02_EXTCDE_CRMCSP1`     | Generation fichiers de confirmation d'expedition (CSP)     | **En cours** — analyse complete |
+| Programme | Role | Tests |
+| --------- | ---- | ----- |
+| `D05_VERIF_CRM` | Verification synchronisation DEPOT/CRM | **23 tests** |
+| `T10_MAJ_DTLIVR_BDCRM` | Mise a jour date de livraison depuis fichiers transport | **36 tests** |
+| `D02_EXTCDE_CRMCSP1` | Generation fichiers de confirmation d'expedition (CSP, 197 chars) | **92 tests** |
+| `D05_INTCDEFAC_CRM_V2` | Integration UPSERT CDEFAC vers BD_CRM.S.CDE_FAC | **23 tests** |
+
+**Total : 174 tests — 0 echec.**
+
+---
 
 ### 4.1 D05\_VERIF\_CRM
 
@@ -138,7 +146,7 @@ P-MAJ     PIC X       'O' = effectuer les mises a jour
 #### Regles metier critiques preservees
 
 | Code | Regle |
-|------|-------|
+| ---- | ----- |
 | B-D05-03 | Statuts `FAT` (DEPOT) et `FAP` (CRM) sont **equivalents** — pas une anomalie |
 | B-D05-03 | Statuts `GLT` (DEPOT) et `GLP` (CRM) sont **equivalents** |
 | B-D05-04 | Cle UPDATE = `(CODLAB, NUMCDE, NUMRAL)` — `CODDEP` **absent** du WHERE |
@@ -153,24 +161,20 @@ P-MAJ     PIC X       'O' = effectuer les mises a jour
 
 Batch de mise a jour de la date de livraison (`DTLIVR`) et du flag de livraison (`FLAGLIV='O'`) dans `BD_CRM.E.CDE_FAC`, a partir de fichiers de retour de transport au format `MAJBDSTAT*.DAT`.
 
-#### Decouverte automatique des fichiers
-
-Le programme decouvre les fichiers a traiter via l'appel VMS `LIB$FIND_FILE` sur le pattern `DIRDAT:MAJBDSTAT*.DAT;*`. En Java, cette logique est reimplementee par un scan de repertoire avec filtre sur le prefixe `MAJBDSTAT`.
-
 #### Format des enregistrements d'entree (39 caracteres fixes)
 
 | Champ | Longueur | Description |
-|-------|----------|-------------|
-| `MAJBD-CODDEP` | 4  | Code depot |
-| `MAJBD-CODLAB` | 4  | Code laboratoire |
-| `MAJBD-NUMCDE` | 7  | Numero commande |
-| `MAJBD-NUMRAL` | 1  | Numero ralliement |
+| ----- | -------- | ----------- |
+| `MAJBD-CODDEP` | 4 | Code depot |
+| `MAJBD-CODLAB` | 4 | Code laboratoire |
+| `MAJBD-NUMCDE` | 7 | Numero commande |
+| `MAJBD-NUMRAL` | 1 | Numero ralliement |
 | `MAJBD-DATLIV` | 23 | Date livraison — format VMS ASCII `DD-MON-YYYY HH:MM:SS.CC` |
 
 #### Regles metier critiques preservees
 
 | Code | Regle |
-|------|-------|
+| ---- | ----- |
 | B-T10-03 | `CODDEP="FO"` remplace par `"MO"` **avant** toute requete SQL |
 | B-T10-05 | Recherche et MAJ 9994 : `CODDEP='CO'` **hardcode** |
 | B-T10-07 | `COMMIT` **par enregistrement** (fidelite exacte au COBOL) |
@@ -187,35 +191,44 @@ Quand `CODLAB='3628'`, le programme verifie si une commande miroir existe sous `
 
 #### Role fonctionnel
 
-Batch de generation de fichiers de confirmation d'expedition a largeur fixe (197 caracteres par enregistrement), a destination de deux depots pharmaceutiques (CO et MO). Il extrait les commandes en statut `CRV` (confirmees-recues-validees) depuis `BD_DEPOT`, les enrichit avec les donnees de lignes, d'articles, de clients et de parametres, puis produit les fichiers de transmission.
+Batch de generation de fichiers de confirmation d'expedition a largeur fixe (197 caracteres par enregistrement), a destination de deux depots pharmaceutiques (CO et MO). Il extrait les commandes en statut `CRV` depuis `BD_DEPOT`, les enrichit avec les donnees de lignes, d'articles et de clients, puis produit les fichiers de transmission.
 
-#### Fichiers produits
+#### Structure des enregistrements (197 caracteres)
 
-| Fichier logique  | Nom physique   | Longueur enreg. | Description |
-|------------------|----------------|-----------------|-------------|
-| `FIC-TRANSMITCO` | `RMS_TRANSCO`  | 197 caracteres  | Fichier depot CO |
-| `FIC-TRANSMITMO` | `RMS_TRANSMO`  | 197 caracteres  | Fichier depot MO |
-| `FIC-MAJ`        | `RMS_MAJ`      | 23 caracteres   | Commandes traitees |
-| `FIC-ANOMALIES`  | `RMS_ANO`      | variable        | Anomalies |
+| Position | Longueur | Contenu |
+| -------- | -------- | ------- |
+| 1–7 | 7 | En-tete fixe (code depot, date...) |
+| 8–197 | 190 | Corps variable selon TYPMES (REDEFINES COBOL) |
 
-#### Types d'enregistrements (TYPMES)
+Sept types d'enregistrements (`TYPMES`) correspondent aux sept REDEFINES du COBOL : `DEBCDE`, `REFCDE`, `LINTXT`, `TXTCDE`, `LINCDE`, `FINCDE`, `FINMES`. Chaque variante est implementee en Java par une classe `XxxFormatter` implementant l'interface `TransmissionRecord`.
 
-Le corps de 190 caracteres est structure par REDEFINES COBOL selon le type :
+#### Resultats
 
-| TYPMES   | Signification |
-|----------|---------------|
-| `DEBCDE` | Debut de commande |
-| `LIGCDE` | Ligne de commande |
-| `FINCDE` | Fin de commande |
-| `MESLIB` | Message libelle |
-| `REFCDE` | Reference commande |
+92 tests unitaires couvrant les 7 formateurs, le codec de date VMS, et les cas limites (troncature, padding, separateurs).
 
-#### Modes de selection
+---
 
-- **Mode normal** (`P-CODREP != 'R'`) : curseur `CURCDE` — commandes `CRV` avec `DATPOR IS NULL` ;
-- **Mode reprise** (`P-CODREP = 'R'`) : curseur `CURCDE_R` — commandes `CRV` dont `DATEBL` est comprise entre `P-DATDEB` et `P-DATFIN` (bornes exclues).
+### 4.4 D05\_INTCDEFAC\_CRM\_V2
 
-**Statut :** analyse technique exhaustive complete. Implementation Java 8 en cours.
+#### Role fonctionnel
+
+Batch d'integration (`UPSERT`) du fichier sequentiel `RMS_CDEFAC` (140+ champs par enregistrement) vers la table `BD_CRM.S.CDE_FAC`. Pour chaque enregistrement, le programme verifie si la commande existe deja en CRM et effectue soit une creation (INSERT, 80+ colonnes) soit une mise a jour (UPDATE, 70+ colonnes sans `FLAGSTD`/`FLAGDET`).
+
+#### Regles metier critiques preservees
+
+| Code | Regle |
+| ---- | ----- |
+| B-D05I-01 | `NUMCDE = 0` → skip silencieux |
+| B-D05I-02 | Statut terminal (FAT, GLT, FAP, GLP) → skip, sauf `CODLAB='3010'` avec `CPTFAC > 20 000` |
+| B-D05I-03 | `CODLAB='9994'` → updates conditionnels sur `BD_DEPOT.D.CDE` (FLAGLIV, FLAGFAC, FLAGBLO, FLAGSUP) |
+| B-D05I-04 | `COMMIT` par enregistrement |
+| B-D05I-05 | `DATFAC`/`DATECH` vides → date sentinelle `17-NOV-1858` (epoch zero Oracle Rdb) |
+| B-D05I-06 | UPSERT : SELECT → si NOT FOUND → INSERT, sinon UPDATE |
+| B-D05I-10 | UPDATE ne modifie pas `FLAGSTD` ni `FLAGDET` (presents en INSERT seulement) |
+
+#### Architecture
+
+Reutilise `VmsDateCodec` du module D02 (cross-package dans le meme projet Maven) pour la conversion `DD-MON-YYYY HH:MM:SS.CC` → `java.sql.Timestamp`.
 
 ---
 
@@ -243,10 +256,11 @@ L'architecture retenue pour la migration est le **modele hexagonal** (ports et a
 ### Gestion transactionnelle (fidelite au COBOL)
 
 | Programme | COBOL | Java |
-|-----------|-------|------|
+| --------- | ----- | ---- |
 | D05 | `SET TRANSACTION READ ONLY` → scan → `ROLLBACK` → `SET TRANSACTION READ WRITE` → boucle UPDATE → `COMMIT` unique | Connexion read-only pour le scan ; connexion `rwConn` auto-commit=false ; `commit()` unique apres la boucle |
-| T10 | `SET TRANSACTION READ WRITE` → UPDATE → [UPDATE 9994] → `COMMIT` par enregistrement | `txConn` auto-commit=false ; `commit()` apres chaque enregistrement dans `MajDtlivrService.traiterRecord()` |
-| D02 | `COMMIT` apres chaque commande traitee | A implementer avec la meme granularite |
+| T10 | `SET TRANSACTION READ WRITE` → UPDATE → [UPDATE 9994] → `COMMIT` par enregistrement | `txConn` auto-commit=false ; `commit()` apres chaque enregistrement |
+| D02 | `COMMIT` apres chaque commande traitee | Meme granularite dans le service |
+| D05_INTCDEFAC | `SET TRANSACTION READ WRITE` → UPSERT → `COMMIT` par enregistrement | `commit()` apres chaque enregistrement dans `IntCdeFacService.traiterRecord()` |
 
 ---
 
@@ -254,32 +268,45 @@ L'architecture retenue pour la migration est le **modele hexagonal** (ports et a
 
 L'approche TDD (Test-Driven Development) a ete adoptee pour garantir la parite fonctionnelle avec les programmes COBOL. Chaque regle metier identifiee dans l'analyse est directement traduite en un test unitaire nomme d'apres la regle.
 
-### Resultats des tests (D05 + T10)
+### Resultats des tests (ensemble des 4 programmes)
 
-| Classe de test | Couverture | Nb tests |
-|----------------|------------|----------|
-| `StatutEquivalenceTest`         | Equivalences FAT/FAP, GLT/GLP | 8 |
-| `VerifCrmServiceTest`           | Logique principale D05 | 15 |
-| `MajbdstatFileReaderTest`       | Parsing fichier 39 chars, CR+LF | 7 |
-| `VmsDateParserTest`             | Format `DD-MON-YYYY HH:MM:SS.CC` (12 mois) | 7 |
-| `CascadeLabo3628Test`           | Detection commande miroir 9994 | 7 |
-| `MajDtlivrServiceTest`          | Logique principale T10 | 9 |
-| `DeliveryCodexNormalizerTest`   | Regle FO→MO | 6 |
-| **Total**                       |                        | **59** |
+| Classe de test | Programme | Nb tests |
+| -------------- | --------- | -------- |
+| `StatutEquivalenceTest` | D05 | 8 |
+| `VerifCrmServiceTest` | D05 | 15 |
+| `MajbdstatFileReaderTest` | T10 | 7 |
+| `VmsDateParserTest` | T10 | 7 |
+| `CascadeLabo3628Test` | T10 | 7 |
+| `MajDtlivrServiceTest` | T10 | 9 |
+| `DeliveryCodexNormalizerTest` | T10 | 6 |
+| `VmsDateCodecTest` | D02 | 15 |
+| `FixedFieldTest` | D02 | 12 |
+| `DebcdeFormatterTest` | D02 | 7 |
+| `RefcdeFormatterTest` | D02 | 16 |
+| `LintxtFormatterTest` | D02 | 5 |
+| `TxtcdeFormatterTest` | D02 | 7 |
+| `LincdeFormatterTest` | D02 | 14 |
+| `FincdeFormatterTest` | D02 | 8 |
+| `FinmesFormatterTest` | D02 | 8 |
+| `StatutFilterTest` | D05_INTCDEFAC | 10 |
+| `DateExtractorTest` | D05_INTCDEFAC | 13 |
+| **Total** | | **174** |
 
-**59 tests — 0 echec.**
+**174 tests — 0 echec.**
 
 ### Exemples de cas couverts
 
 | Comportement COBOL | Test Java |
-|-------------------|-----------|
+| ------------------ | --------- |
 | FAT (DEPOT) equivalent a FAP (CRM) | `StatutEquivalenceTest.fat_equivaut_a_fap` |
 | Commande absente de CRM = discordante | `VerifCrmServiceTest.commandeAbsenteDeCrm_estDiscordante` |
-| Cle UPDATE sans CODDEP | `VerifCrmServiceTest.updateN_utilise_codlab_numcde_numral_sansCODDEP` |
 | P-MAJ=false → aucun UPDATE | `VerifCrmServiceTest.majFalse_aucunUpdateEffectue_memeAvecDiscordantes` |
 | Overflow 9 000 entrees → warning | `VerifCrmServiceTest.overflow_9000_commandesNok_flagTableOverflow` |
 | FO→MO avant toute requete SQL | `MajDtlivrServiceTest.coddep_fo_estRemappeEnMo_avantUpdate` |
 | Meme DATBIN pour les deux updates | `MajDtlivrServiceTest.update9994_utilise_memeDatliv_queUpdatePrincipal` |
+| Enregistrement fixe 197 chars (DEBCDE) | `DebcdeFormatterTest` (7 cas) |
+| DATFAC vide → sentinelle 1858-11-17 | `DateExtractorTest.datfac_vide_retourne_sentinelle` |
+| Statut terminal FAT → skip sauf 3010 | `StatutFilterTest.statut_fat_codlab3010_cptfac_eleve_doitTraiter` |
 
 ---
 
@@ -291,45 +318,94 @@ Ce projet a constitue le premier contact pratique avec un environnement mainfram
 
 ### Architecture
 
-8 programmes pseudo-conversationnels CICS/COBOL, chacun avec son mapset BMS, acces DB2 :
+8 programmes pseudo-conversationnels CICS/COBOL, chacun avec son mapset BMS :
 
-| Trans | Programme | Ecran | Acces DB2 |
-|-------|-----------|-------|-----------|
-| G000  | GSTK000   | Menu + KPIs globaux     | SELECT agregats |
-| G001  | GSTK001   | Liste articles + filtres | CURSOR + FETCH  |
-| G002  | GSTK002   | Entree marchandise      | INSERT + UPDATE |
-| G003  | GSTK003   | Sortie marchandise      | INSERT + UPDATE |
-| G004  | GSTK004   | Fiche article (creer/modifier) | INSERT ou UPDATE |
-| G005  | GSTK005   | Rapport par categorie   | CURSOR GROUP BY |
-| G006  | GSTK006   | Alertes stock critique  | CURSOR WHERE    |
-| G007  | GSTK007   | Historique mouvements   | CURSOR + COUNT  |
+| Trans | Programme | Ecran | Acces DB |
+| ----- | --------- | ----- | -------- |
+| G000 | GSTK000 | Menu + KPIs globaux | SELECT agregats |
+| G001 | GSTK001 | Liste articles + filtres | CURSOR + FETCH |
+| G002 | GSTK002 | Entree marchandise | INSERT + UPDATE |
+| G003 | GSTK003 | Sortie marchandise | INSERT + UPDATE |
+| G004 | GSTK004 | Fiche article (creer/modifier) | INSERT ou UPDATE |
+| G005 | GSTK005 | Rapport par categorie | CURSOR GROUP BY |
+| G006 | GSTK006 | Alertes stock critique | CURSOR WHERE |
+| G007 | GSTK007 | Historique mouvements | CURSOR + COUNT |
 
 ### Concepts mainframe decouverts
 
 - **Pseudo-conversationnel CICS** : chaque tache se termine par `EXEC CICS RETURN TRANSID(...) COMMAREA(...)`, la tache suivante recharge la COMMAREA. Ce paradigme, tres different de la programmation evenementielle habituelle, requiert de repenser completement la gestion de l'etat applicatif.
 - **BMS (Basic Mapping Support)** : definition des ecrans 3270 par mapsets, generation automatique des suffixes `I`/`O`/`A`/`L` pour chaque champ.
-- **DB2 COBOL** : curseurs statiques declares en tete de `PROCEDURE DIVISION`, `EXEC CICS SYNCPOINT` pour les commits.
-- **Pagination sans LIMIT/OFFSET** : implementation manuelle par saut des pages precedentes via `FETCH` en boucle — contrainte propre a DB2 COBOL qui oblige a construire sa propre logique de navigation.
-- **Pipeline CI/CD MVS** : scripts de compilation et deploiement automatises (Makefile + scripts shell), hot-reload par surveillance des fichiers `.cbl`/`.bms`.
+- **Pagination sans LIMIT/OFFSET** : implementation manuelle par saut des pages precedentes via `FETCH` en boucle — contrainte propre a COBOL CICS qui oblige a construire sa propre logique de navigation.
 
 ### COMMAREA (263 octets)
 
 Structure partagee entre tous les programmes via le copybook `GSTKCOMM` :
 
 | Champ | Longueur | Usage |
-|-------|----------|-------|
+| ----- | -------- | ----- |
 | `CA-TRAN-RETOUR` | 8 | Transaction d'origine |
-| `CA-OPERATEUR`   | 10 | Code operateur |
-| `CA-SESSION-ID`  | 25 | Identifiant session |
-| `CA-MSG-RETOUR`  | 79 | Message au retour |
+| `CA-OPERATEUR` | 10 | Code operateur |
+| `CA-SESSION-ID` | 25 | Identifiant session |
+| `CA-MSG-RETOUR` | 79 | Message au retour |
 | `CA-ART-CODE-SELEC` | 10 | Article selectionne (G001→G003/G004) |
-| `CA-FILTRE-*`    | 29 | Filtres partages |
+| `CA-FILTRE-*` | 29 | Filtres partages |
 | `CA-PAGE-COURANTE` / `CA-NB-PAGES` | 4+4 | Pagination |
-| FILLER local     | 55 | Usage programme-specifique |
+| FILLER local | 55 | Usage programme-specifique |
 
 ---
 
-## 8. Competences acquises
+## 8. Pipeline CI/CD generique MVS TK5
+
+Un pipeline CI/CD complet a ete developpe dans `CI_CD_TK5/`, initialement pour le projet GSTK, puis refactorise pour fonctionner avec **n'importe quel projet** du depot COBOL.
+
+### Principe
+
+Un systeme de configuration par projet (`conf/${PROJECT_NAME}.conf`) centralise toutes les specificites : patterns de fichiers sources, noms de datasets MVS, jobs JCL, presence ou non de CICS, commandes de validation locale.
+
+```bash
+make ci                  # pipeline GSTK (defaut)
+make ci PROJECT=crm      # pipeline CRM (batch, pas de CICS)
+make projects            # lister les projets disponibles
+```
+
+### Structure
+
+```
+CI_CD_TK5/
+├── conf/
+│   ├── gstk.conf            # config GSTK (8 programmes CICS)
+│   ├── crm.conf             # config CRM (4 programmes batch)
+│   └── gstk_cics_tests.sh  # assertions CICS GSTK
+├── lib/
+│   └── project.sh           # loader generique
+└── mvs/
+    ├── 01_upload.sh    → sources COBOL/BMS via lecteur de cartes ou IND$FILE
+    ├── 02_submit.sh    → soumission JCL (alloc, bms, cobol)
+    ├── 03_cics.sh      → CEDA install/newcopy (skip si HAS_CICS=0)
+    ├── 06_build.sh     → build incremental par MD5
+    ├── 07_watch.sh     → hot-reload sur sauvegarde fichier
+    ├── 08_test_cics.sh → tests CICS automatises via s3270
+    ├── 09_ci.sh        → pipeline 5 etapes
+    └── herc.sh         → pilotage Hercules (syslog, spool, commandes MVS)
+```
+
+### Pipeline CI/CD en 5 etapes (09_ci.sh)
+
+| Etape | Action | Parametrage |
+| ----- | ------ | ----------- |
+| 1 | Verification syntaxe COBOL locale (GnuCOBOL) | `CHECK_COBOL_CMD` dans conf |
+| 2 | Tests unitaires locaux | `CHECK_UNIT_CMD` (SQL pour GSTK, `mvn test` pour CRM) |
+| 3 | Build MVS incremental | `06_build.sh` ou delegation `MVS_UPLOAD_CMD`+`MVS_COMPILE_CMD` |
+| 4 | Verification spool JES2 (ABEND ?) | `herc.sh spool` |
+| 5 | Tests CICS automatises | `08_test_cics.sh` — skippee si `HAS_CICS=0` |
+
+### Integration CRM
+
+Le `crm.conf` delegue l'upload et la compilation aux scripts specifiques du projet CRM (`CRM/scripts/mvs/01_upload.sh`, `02_compile.sh`) deja en place, sans dupliquer la logique. La validation locale utilise `mvn test` (174 tests).
+
+---
+
+## 9. Competences acquises
 
 ### COBOL — un langage appris de zero
 
@@ -341,42 +417,47 @@ Cette position de "nouveau venu" dans le langage a paradoxalement ete un atout p
 
 | Domaine | Niveau acquis |
 | ------- | ------------- |
-| Lecture de COBOL legacy OpenVMS | Analyse autonome de programmes de production |
-| SQL Oracle Rdb embarque | Curseurs, indicateurs NULL, transactions explicites |
-| Java 8 - architecture hexagonale | Ports, adaptateurs, services, injection de dependances |
-| TDD / JUnit 4 | Ecriture tests avant code, couverture exhaustive des regles metier |
+| Lecture de COBOL legacy OpenVMS | Analyse autonome de programmes de production (1 000+ lignes) |
+| SQL Oracle Rdb embarque | Curseurs, indicateurs NULL, transactions explicites, UPSERT |
+| Java 8 — architecture hexagonale | Ports, adaptateurs, services, injection de dependances |
+| TDD / JUnit 4 | Ecriture tests avant code, 174 tests, couverture exhaustive des regles metier |
 | CICS pseudo-conversationnel | COMMAREA, BMS, `RETURN`/`XCTL`, gestion etat session |
-| DB2 COBOL | Curseurs statiques, host variables, `SYNCPOINT` |
 | MVS / JCL | Soumission de jobs, compilation COBOL + BMS, deploiement CICS |
-| CI/CD mainframe | Makefile, scripts shell, hot-reload, pipeline automatise |
-| Git | Commits atomiques, renommage avec historique, branches |
+| CI/CD mainframe generique | Makefile multi-projet, scripts shell, hot-reload, conf par projet |
+| Git | Commits atomiques, renommage avec historique |
 
 ### Methodologiques
 
-- Redaction d'analyses techniques exhaustives servant de reference unique pour la migration (format : > 19 sections par programme, chaque comportement code et tracable)
+- Redaction d'analyses techniques exhaustives servant de reference unique pour la migration (> 12 sections par programme, chaque comportement code et tracable)
 - Principe "parite fonctionnelle avant modernisation" : ne pas refactorer avant d'avoir une suite de tests de caracterisation stable
-- Documentation systematique des regles metier avec codes traceables (`B-D05-03`, `B-T10-07`, etc.) permettant de relier chaque test a la regle COBOL d'origine
+- Documentation systematique des regles metier avec codes traceables (`B-D05-03`, `B-T10-07`, `B-D05I-02`, etc.) permettant de relier chaque test a la regle COBOL d'origine
+- Conception d'outils reutilisables (pipeline CI/CD generique) plutot que de solutions a usage unique
 
 ---
 
-## 9. Bilan et perspectives
+## 10. Bilan et perspectives
 
 ### Realisations
 
-- **D05_VERIF_CRM** : migration Java 8 complete, 23 tests, 0 echec
-- **T10_MAJ_DTLIVR_BDCRM** : migration Java 8 complete, 36 tests, 0 echec
-- **D02_EXTCDE_CRMCSP1** : analyse technique exhaustive (12 sections, format positionnel 197 chars), implementation en cours
-- **GSTK** : 8 programmes CICS/COBOL fonctionnels sur MVS TK5, pipeline CI/CD operationnel
+| Livrable | Detail |
+| -------- | ------ |
+| D05_VERIF_CRM | Migration Java 8 complete — 23 tests, 0 echec |
+| T10_MAJ_DTLIVR_BDCRM | Migration Java 8 complete — 36 tests, 0 echec |
+| D02_EXTCDE_CRMCSP1 | Migration Java 8 complete — 92 tests, 0 echec |
+| D05_INTCDEFAC_CRM_V2 | Migration Java 8 complete — 23 tests, 0 echec |
+| GSTK | 8 programmes CICS/COBOL fonctionnels sur MVS TK5 |
+| CI_CD_TK5 | Pipeline CI/CD generique multi-projets (GSTK + CRM) |
 
-**Total : 59 tests — 0 echec sur les programmes migres.**
+**Total : 174 tests — 0 echec.**
 
 ### Points de difficulte rencontres
 
 1. **Equivalences de statuts non documentees** (FAT/FAP, GLT/GLP) : seule la lecture minutieuse du source COBOL a permis de les identifier. Elles sont critiques pour eviter de generer de fausses anomalies.
 2. **Gestion transactionnelle COBOL → JDBC** : reproduire exactement le comportement COBOL (commit global vs commit par enregistrement) necessite une gestion explicite de `Connection.setAutoCommit(false)`.
-3. **Format de date VMS** (`DD-MON-YYYY HH:MM:SS.CC`) : format non standard, absent des bibliotheques Java. Implemente par parser dedie avec table des 12 mois en anglais abrege (JAN, FEB, MAR...).
-4. **Cascade 3628 → 9994** : comportement implicite, non documente dans les specifications fonctionnelles. Identifie uniquement dans le source COBOL.
-5. **COBOL pseudo-conversationnel CICS** : paradigme tres different de la programmation web ou batch habituelle ; la COMMAREA joue le role d'etat session entre chaque interaction utilisateur.
+3. **Format de date VMS** (`DD-MON-YYYY HH:MM:SS.CC`) : format non standard, absent des bibliotheques Java. Implemente par parser dedie, reutilise entre D02 et D05_INTCDEFAC.
+4. **Cascade 3628 → 9994** (T10) et **traitement 9994** (D05_INTCDEFAC) : comportements implicites, non documentes dans les specifications fonctionnelles. Identifies uniquement dans les sources COBOL.
+5. **Date sentinelle 17-NOV-1858** : epoch zero Oracle Rdb, utilisee comme substitut de NULL pour les dates facultatives. Comportement a reproduire exactement pour eviter les erreurs de conversion.
+6. **Pipeline CI/CD generique** : la refactorisation du pipeline pour le rendre multi-projets a necessite de concevoir un systeme de configuration extensible sans casser la compatibilite GSTK existante.
 
 ### Opportunites ouvertes par la formation
 
@@ -386,21 +467,20 @@ Les debouches concrets a l'issue de cette formation sont multiples :
 
 - **Maintenance et evolution de systemes legacy** : banques, assurances, caisses de retraite, laboratoires pharmaceutiques — tous ces secteurs exploitent encore des millions de lignes de COBOL en production ;
 - **Projets de migration** (comme celui realise durant le stage) : Java, Python, ou microservices cloud, avec besoin de garantir la parite fonctionnelle ;
-- **Consulting specialise** : l'expertise mainframe (MVS, CICS, JCL, DB2) est un profil recherche pour les grands programmes de modernisation ;
-- **Developpement full-stack mainframe** : la combinaison COBOL + Java + TDD est un profil hybride de plus en plus valorise dans les equipes qui maintiennent des systemes critiques tout en les faisant evoluer.
+- **Consulting specialise** : l'expertise mainframe (MVS, CICS, JCL, Oracle Rdb) est un profil recherche pour les grands programmes de modernisation ;
+- **Developpement full-stack mainframe** : la combinaison COBOL + Java + TDD + CI/CD est un profil hybride de plus en plus valorise dans les equipes qui maintiennent des systemes critiques tout en les faisant evoluer.
 
 Cette formation a donc ete bien plus qu'un apprentissage technique : c'est une orientation professionnelle vers un domaine exigeant, stable, et ou la valeur d'un developpeur forme et rigoureux est immediatement reconnue.
 
-### Perspectives a court terme
+### Perspectives
 
-- Finaliser l'implementation Java 8 de D02_EXTCDE_CRMCSP1 en TDD
-- Etendre la couverture aux autres programmes du perimetre CRM/EXTRANET
+- Etendre le pipeline CI/CD a d'autres projets du depot par simple ajout d'un fichier `.conf`
 - Mettre en place des tests d'integration avec une base Oracle Rdb de test
-- Approfondir les competences DB2 et JCL pour un deploiement sur z/OS reel
+- Approfondir les competences JCL pour un deploiement sur z/OS reel
 
 ---
 
-## 10. Annexes
+## 11. Annexes
 
 ### A. Structure du depot de code
 
@@ -411,51 +491,74 @@ COBOL/
 ├── arrays/         Tableaux OCCURS/SEARCH
 ├── files/          Fichiers sequentiels
 ├── games/          Programmes interactifs (Pendu)
+│
 ├── GSTK/           Systeme CICS/COBOL MVS TK5
 │   ├── GSTK000.cbl ... GSTK007.cbl
 │   ├── GSTK000M.bms ... GSTK007M.bms
 │   ├── Copybook.cbl
-│   ├── BASE_DE_DONNEE.sql
 │   └── scripts/
-├── CRM/            Migration COBOL -> Java 8
+│
+├── CRM/            Migration COBOL → Java 8 (4 programmes)
 │   ├── D05_VERIF_CRM.SCO
 │   ├── T10_MAJ_DTLIVR_BDCRM.COB
-│   ├── crm-java/   (projet Maven)
-│   └── ANALYSE_*.md
-├── CI_CD_TK5/      Pipeline CI/CD MVS
+│   ├── D02_EXTCDE_CRMCSP1.COB
+│   ├── D05_INTCDEFAC_CRM_V2.SCO
+│   ├── ANALYSE_*.md
+│   ├── crm-java/   (projet Maven — 174 tests)
+│   │   └── src/.../crm/{d05,t10,d02,d05intcde}/
+│   ├── Makefile
+│   └── scripts/mvs/
+│
+├── CI_CD_TK5/      Pipeline CI/CD MVS generique
+│   ├── Makefile
+│   ├── conf/       gstk.conf, crm.conf
+│   ├── lib/        project.sh (loader)
+│   ├── mvs/        01_upload.sh ... 12_kicks_install.sh
+│   └── jcl/        GSTKBMS.jcl, GSTKCOMP.jcl
+│
 └── stage_report/   Ce rapport
 ```
 
-### B. Commandes de test
+### B. Commandes de test et de CI/CD
 
 ```bash
-# Lancer les 59 tests du projet CRM Java
-cd CRM/crm-java
-mvn test
+# Lancer les 174 tests du projet CRM Java
+cd CRM/crm-java && mvn test
 
-# Verifier la syntaxe COBOL GSTK (GnuCOBOL local)
-bash GSTK/scripts/04_cobc_check.sh
+# Pipeline CI/CD GSTK (syntaxe + SQL + build MVS + tests CICS)
+cd CI_CD_TK5 && make ci
+
+# Pipeline CI/CD CRM (syntaxe COBOL + mvn test + build MVS)
+cd CI_CD_TK5 && make ci PROJECT=crm
+
+# Build incremental (detecte les fichiers modifies)
+cd CI_CD_TK5 && make inc
+
+# Lister les projets disponibles
+cd CI_CD_TK5 && make projects
 
 # Deployer GSTK sur MVS TK5
-bash GSTK/scripts/mvs/02_submit.sh cobol
-bash GSTK/scripts/mvs/03_cics.sh install
+cd CI_CD_TK5 && make build
 ```
 
 ### C. Glossaire
 
 | Terme | Definition |
-|-------|-----------|
+| ----- | ---------- |
 | COBOL | Common Business-Oriented Language — langage de programmation mainframe |
 | CICS | Customer Information Control System — moniteur transactionnel IBM |
 | BMS | Basic Mapping Support — systeme de definition d'ecrans 3270 pour CICS |
-| DB2 | Base de donnees relationnelle IBM pour mainframe |
 | Oracle Rdb | Base de donnees relationnelle Oracle pour OpenVMS |
 | OpenVMS | Systeme d'exploitation Digital/HP pour miniordinateurs VAX/Alpha |
 | MVS | Multiple Virtual Storage — systeme d'exploitation IBM pour mainframe |
 | JCL | Job Control Language — langage de soumission de jobs MVS |
 | TDD | Test-Driven Development — developpement pilote par les tests |
 | COMMAREA | Zone de communication entre programmes CICS (max 32 Ko) |
+| UPSERT | Operation INSERT ou UPDATE selon existence de la ligne (SELECT → INSERT ou UPDATE) |
 | SQLCODE | Code retour SQL (0 = OK, 100 = NOT FOUND, negatif = erreur) |
 | CRV | Statut commande "Confirmee-Recue-Validee" |
 | DATBIN | Representation binaire VMS d'une date/heure (quadword 64 bits) |
+| Sentinelle 1858 | Date `17-NOV-1858` = epoch zero Oracle Rdb, substitut de NULL |
 | Ports & adapters | Architecture hexagonale separant logique metier et infrastructures |
+| HLQ | High Level Qualifier — prefixe des datasets MVS (ex : HERC02) |
+| KICKS | Kent Integrated CICS Knockout System — emulateur CICS pour MVS 3.8j |

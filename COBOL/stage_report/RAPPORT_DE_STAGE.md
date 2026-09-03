@@ -6,7 +6,7 @@
 **Entreprise d'accueil :** *(confidentiel)*  
 **Duree :** *(a completer)*  
 **Tuteur entreprise :** *(a completer)*  
-**Tuteur pedagogique :** *(a completer)*
+**Tuteur pedagogique :** Mr Marc Pohoryles
 
 ---
 
@@ -491,6 +491,8 @@ COBOL/
 ├── arrays/         Tableaux OCCURS/SEARCH
 ├── files/          Fichiers sequentiels
 ├── games/          Programmes interactifs (Pendu)
+├── studies/        Exercices et quizz (CH-VII a CH-X)
+├── studies_2/      Conception GSTK — ecrans PDF, SQL, copybook, sources COBOL
 │
 ├── GSTK/           Systeme CICS/COBOL MVS TK5
 │   ├── GSTK000.cbl ... GSTK007.cbl

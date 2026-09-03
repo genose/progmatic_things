@@ -73,10 +73,10 @@ Migration de 4 programmes batch OpenVMS/COBOL (Oracle Rdb SQL embarqué) vers Ja
 
 | Programme COBOL | Rôle | Tests Java |
 | --------------- | ---- | ---------- |
-| `D05_VERIF_CRM.SCO` | Synchronisation commandes DEPOT ↔ CRM | 29 |
-| `T10_MAJ_DTLIVR_BDCRM.COB` | Mise à jour dates livraison DTLIVR | 11 |
-| `D02_EXTCDE_CRMCSP1.COB` | Génération fichiers confirmation CSP (197 chars) | 75 |
-| `D05_INTCDEFAC_CRM_V2.SCO` | UPSERT CDEFAC → BD_CRM.S.CDE_FAC | 59 |
+| `D05_VERIF_CRM.SCO` | Synchronisation commandes DEPOT ↔ CRM | 23 |
+| `T10_MAJ_DTLIVR_BDCRM.COB` | Mise à jour dates livraison DTLIVR | 36 |
+| `D02_EXTCDE_CRMCSP1.COB` | Génération fichiers confirmation CSP (197 chars) | 92 |
+| `D05_INTCDEFAC_CRM_V2.SCO` | UPSERT CDEFAC → BD_CRM.S.CDE_FAC | 23 |
 
 174 tests · 0 échec · 18 classes de tests · TDD B-codes tracés
 

@@ -43,4 +43,4 @@
                DISPLAY "La moyenne des valeurs est : " WS-AVERAGE
 
             STOP RUN.
-       END PROGRAM YOUR-PROGRAM-NAME.
+       END PROGRAM TABLEAU-INIT.

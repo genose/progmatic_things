@@ -54,4 +54,4 @@
            DATE-PRECEDENTE, ": ", TOTAL-JOUR
            CLOSE FICHIER-VENTES
            STOP RUN.
-       END PROGRAM RapportVentesQuotidiennes.
+       END PROGRAM RAPPORT-VENTES.

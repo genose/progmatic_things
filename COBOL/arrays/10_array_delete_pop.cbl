@@ -95,4 +95,4 @@
            END-PERFORM
            GOBACK.
 
-       END PROGRAM YOUR-PROGRAM-NAME.
+       END PROGRAM TABLEAU-POP.

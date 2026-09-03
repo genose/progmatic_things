@@ -30,4 +30,4 @@
             DISPLAY WS-RESULTAT.
 
             STOP RUN.
-       END PROGRAM YOUR-PROGRAM-NAME.
+       END PROGRAM HELLO-VARS.

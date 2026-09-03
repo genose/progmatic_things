@@ -37,4 +37,4 @@
 
             DISPLAY "Hello world"
             STOP RUN.
-       END PROGRAM YOUR-PROGRAM-NAME.
+       END PROGRAM HELLO-DISPLAY.

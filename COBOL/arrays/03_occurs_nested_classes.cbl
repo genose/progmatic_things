@@ -67,4 +67,4 @@
                  END-PERFORM
            END-PERFORM
             STOP RUN.
-       END PROGRAM YOUR-PROGRAM-NAME.
+       END PROGRAM CLASSES-NOTES.

@@ -41,12 +41,45 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gnucobol
 
-      - name: Compile COBOL_22
+      - name: Compile basics
         run: |
           mkdir -p COBOL/bin
-          cobc -x -o COBOL/bin/COBOL_22 COBOL/COBOL_22.cbl
+          for f in COBOL/basics/*.cbl; do
+            name=$(basename "$f" .cbl)
+            cobc -x -o "COBOL/bin/$name" "$f"
+          done
 
-      - name: Compile cobol_8
+      - name: Compile strings
         run: |
-          mkdir -p COBOL/bin
-          cobc -x -o COBOL/bin/cobol_8 COBOL/cobol_8.cbl
+          for f in COBOL/strings/*.cbl; do
+            name=$(basename "$f" .cbl)
+            cobc -x -o "COBOL/bin/$name" "$f"
+          done
+
+      - name: Compile arrays
+        run: |
+          for f in COBOL/arrays/*.cbl; do
+            name=$(basename "$f" .cbl)
+            cobc -x -o "COBOL/bin/$name" "$f"
+          done
+
+      - name: Compile games
+        run: |
+          for f in COBOL/games/*.cbl; do
+            name=$(basename "$f" .cbl)
+            cobc -x -o "COBOL/bin/$name" "$f"
+          done
+
+      - name: Compile files
+        run: |
+          for f in COBOL/files/*.cbl; do
+            name=$(basename "$f" .cbl)
+            cobc -x -o "COBOL/bin/$name" "$f"
+          done
+
+      - name: Compile studies
+        run: |
+          for f in COBOL/studies/*.cbl; do
+            name=$(basename "$f" .cbl)
+            cobc -x -o "COBOL/bin/$name" "$f"
+          done

@@ -45,6 +45,7 @@ Système complet de gestion de stock sur IBM Mainframe (MVS 3.8j / z/OS).
 - **COMMAREA 263 octets** partagée entre tous les programmes
 - **SQL DB2** — curseurs, pagination, SYNCPOINT
 - **Backend CICS** : KICKS v1.5.0 (défaut) ou CICS/VS 1.7
+- **Éditeur BMS** : [CICS BMS ncurses WYSIWYG editor](https://github.com/genose/genose.org-project20262808-CICS_BMS_ncurses_wysiwyg_editor) — éditeur d'écrans 3270 en mode terminal
 
 ```bash
 # Déploiement depuis CI_CD_TK5/

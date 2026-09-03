@@ -5,19 +5,19 @@
   // Linux          : /usr/bin/cobc
   // Windows (WSL)  : cobc (dans PATH WSL)
   "cobolit.cobc": "cobc",
-
   // ── Copybooks projet ────────────────────────────────────────────────────────
   "cobolit.copybookLocalPath": [
     "${workspaceFolder}/GSTK",
     "${workspaceFolder}/CRM"
   ],
   "cobolit.copybookExtensions": [
-    ".cpy", ".CPY", ".cbl", ".CBL"
+    ".cpy",
+    ".CPY",
+    ".cbl",
+    ".CBL"
   ],
-
   // ── Dialecte IBM — supprime faux positifs sur EXEC CICS / EXEC SQL ─────────
   "cobolit.dialect": "ibm",
-
   // ── Associations de fichiers ────────────────────────────────────────────────
   "files.associations": {
     "*.cbl": "COBOL",
@@ -29,18 +29,24 @@
     "*.jcl": "jcl",
     "*.JCL": "jcl"
   },
-
   // ── Formatage ───────────────────────────────────────────────────────────────
   "[COBOL]": {
     "editor.tabSize": 4,
     "editor.insertSpaces": true,
-    "editor.rulers": [7, 11, 72, 80]
+    "editor.rulers": [
+      7,
+      11,
+      72,
+      80
+    ]
   },
   "[asm]": {
     "editor.tabSize": 8,
-    "editor.rulers": [72, 80]
+    "editor.rulers": [
+      72,
+      80
+    ]
   },
-
   // ── Variables d'environnement terminal ─────────────────────────────────────
   "terminal.integrated.env.osx": {
     "WORKSPACE_FOLDER": "${workspaceFolder}",
@@ -52,5 +58,6 @@
   },
   "terminal.integrated.env.windows": {
     "WORKSPACE_FOLDER": "${workspaceFolder}"
-  }
+  },
+  "java.configuration.updateBuildConfiguration": "interactive"
 }

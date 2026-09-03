@@ -247,7 +247,7 @@ bash mvs/06_build.sh --dry     # afficher ce qui changerait sans agir
 
 ### `07_watch.sh` — Surveillance fichiers
 
-Utilise `fswatch` pour détecter les sauvegardes dans `GSTK/` et déclencher `06_build.sh` automatiquement.
+Utilise `fswatch` (macOS) ou `inotifywait` (Linux/WSL) pour détecter les sauvegardes dans `GSTK/` et déclencher `06_build.sh` automatiquement.
 
 ```bash
 bash mvs/07_watch.sh           # build auto sur modification

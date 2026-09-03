@@ -13,7 +13,7 @@
        FILE-CONTROL.
            SELECT STOCKS-FILE
                ASSIGN TO "stocks.txt"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
                ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS WS-FILE-STATUS.
 

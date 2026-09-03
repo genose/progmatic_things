@@ -11,16 +11,20 @@ Compatible **macOS / Linux / Windows WSL2**.
 ## Installation rapide
 
 ```bash
-# 1. Vérifier les prérequis
+# 1. Vérifier les prérequis + état backend CICS
 bash CI_CD_TK5/install_CICD_TK5.sh
 
-# 2. Installer les dépendances manquantes automatiquement
+# 2. Installer les dépendances système manquantes
 bash CI_CD_TK5/install_CICD_TK5.sh --install
 
 # 3. Créer le fichier de configuration .env (interactif)
 bash CI_CD_TK5/install_CICD_TK5.sh --env
 
-# Tout en une commande (install + .env + make install-all)
+# 4. Installer le backend CICS — assistant interactif
+#    Choisir : KICKS v1.5.0 | CICS/VS 1.7 | les deux
+bash CI_CD_TK5/install_CICD_TK5.sh --cics
+
+# Tout en une commande (deps + .env + cics + make install-all)
 bash CI_CD_TK5/install_CICD_TK5.sh --full
 ```
 
@@ -28,10 +32,11 @@ Options du script :
 
 | Option | Action |
 | ------ | ------ |
-| _(aucune)_ | Vérifier les prérequis et afficher l'état |
-| `--install` | Installer les dépendances manquantes via le gestionnaire de paquets |
-| `--env` | Créer / régénérer le fichier `.env` (interactif) |
-| `--full` | `--install` + `--env` + `make install-all` |
+| _(aucune)_ | Vérifier les prérequis + état backend CICS détecté |
+| `--install` | Installer les dépendances système manquantes (brew/apt/dnf/pacman) |
+| `--env` | Créer / régénérer le fichier `.env` (interactif, inclut `CICS_BACKEND`) |
+| `--cics` | **Assistant installation backend CICS** — choix KICKS / CICS/VS 1.7 / les deux |
+| `--full` | `--install` + `--env` + `--cics` + `make install-all` |
 | `--help` | Afficher l'aide |
 
 ---

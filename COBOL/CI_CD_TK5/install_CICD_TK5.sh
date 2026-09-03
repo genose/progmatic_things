@@ -7,10 +7,12 @@
 # Compatible : macOS / Linux / Windows WSL2
 #
 # Usage :
-#   bash install_CICD_TK5.sh              # vérifier les prérequis
-#   bash install_CICD_TK5.sh --install    # installer les dépendances manquantes
+#   bash install_CICD_TK5.sh              # vérifier les prérequis + état CICS
+#   bash install_CICD_TK5.sh --install    # installer les dépendances système manquantes
 #   bash install_CICD_TK5.sh --env        # créer/éditer le fichier .env
-#   bash install_CICD_TK5.sh --full       # install-deps + .env + make install-all
+#   bash install_CICD_TK5.sh --cics       # assistant installation backend CICS
+#                                         #   (KICKS, CICS/VS 1.7, ou les deux)
+#   bash install_CICD_TK5.sh --full       # --install + --env + --cics + make install-all
 #   bash install_CICD_TK5.sh --help       # afficher cette aide
 # ============================================================
 set -euo pipefail
@@ -35,13 +37,15 @@ ENV_FILE="${SCRIPT_DIR}/.env"
 # ---- Flags ----
 DO_INSTALL=0
 DO_ENV=0
+DO_CICS=0
 DO_FULL=0
 
 for arg in "$@"; do
     case "$arg" in
         --install)      DO_INSTALL=1 ;;
         --env)          DO_ENV=1 ;;
-        --full)         DO_INSTALL=1; DO_ENV=1; DO_FULL=1 ;;
+        --cics)         DO_CICS=1 ;;
+        --full)         DO_INSTALL=1; DO_ENV=1; DO_CICS=1; DO_FULL=1 ;;
         --help|-h)
             sed -n '/#/,/^[^#]/p' "$0" | grep '^#' | sed 's/^# \?//'
             exit 0 ;;
@@ -431,7 +435,201 @@ ENVEOF
 }
 
 # ============================================================
-# Détection et sélection du backend CICS
+# Assistant installation backend CICS
+# Appelé par --cics ou --full, ou depuis detect_cics_backend
+# si rien n'est installé et --install est actif.
+# ============================================================
+install_cics_backend() {
+    local docker_ctr="${DOCKER_CONTAINER:-mvs-tk5}"
+    local has_kicks=0 has_cicsvs=0
+
+    if docker info &>/dev/null 2>&1 && \
+       docker ps --format '{{.Names}}' 2>/dev/null | grep -q "^${docker_ctr}$"; then
+        docker exec "$docker_ctr" test -f "/opt/tk5/dasd/kicks0.3350" 2>/dev/null \
+            && has_kicks=1  || true
+        docker exec "$docker_ctr" test -f "/opt/tk5/dasd/cics0.3350"  2>/dev/null \
+            && has_cicsvs=1 || true
+    fi
+
+    hdr "Assistant installation backend CICS"
+    echo ""
+    echo -e "  Backends déjà installés :"
+    [[ $has_kicks  -eq 1 ]] && ok "KICKS v1.5.0"    || info "KICKS v1.5.0    — non installé"
+    [[ $has_cicsvs -eq 1 ]] && ok "CICS/VS 1.7"     || info "CICS/VS 1.7     — non installé"
+    echo ""
+
+    # ---- Choix interactif ----
+    echo -e "  ${BOLD}Quel backend CICS installer ?${NC}"
+    echo ""
+    echo "    1) KICKS v1.5.0  — recommandé pour le développement"
+    echo "       Tourne sous TSO, CEDA/CEMT interactif, installation ~30 min"
+    echo ""
+    echo "    2) CICS/VS 1.7   — comportement IBM authentique (avancé)"
+    echo "       Tourne comme région VTAM (STC), tables assemblées, plusieurs jours"
+    echo "       Nécessite une image bande depuis bitsavers.org"
+    echo ""
+    echo "    3) Les deux      — KICKS + CICS/VS 1.7"
+    echo ""
+    echo "    0) Ignorer / déjà installé"
+    echo ""
+    local choice
+    printf "  Choix [1/2/3/0] : "
+    read -r choice
+
+    case "$choice" in
+        1)
+            _install_kicks "$has_kicks"
+            ;;
+        2)
+            _install_cicsvs "$has_cicsvs"
+            ;;
+        3)
+            _install_kicks "$has_kicks"
+            echo ""
+            _install_cicsvs "$has_cicsvs"
+            ;;
+        0|"")
+            info "Installation backend ignorée"
+            ;;
+        *)
+            warn "Choix invalide — installation ignorée"
+            ;;
+    esac
+}
+
+# ---- Sous-fonctions d'installation KICKS ----
+_install_kicks() {
+    local already="${1:-0}"
+    local docker_ctr="${DOCKER_CONTAINER:-mvs-tk5}"
+
+    if [[ $already -eq 1 ]]; then
+        ok "KICKS déjà installé — relancer une phase spécifique ?"
+        printf "  Phase à relancer (all/status/entrée vide pour ignorer) : "
+        local phase; read -r phase
+        [[ -z "$phase" ]] && return
+        cd "$SCRIPT_DIR"
+        bash mvs/12_kicks_install.sh "${phase}"
+        return
+    fi
+
+    hdr "Installation KICKS v1.5.0"
+    echo ""
+    info "KICKS va être installé sur le container ${docker_ctr}"
+    info "Durée estimée : 20-40 min (selon la vitesse réseau pour le XMI)"
+    echo ""
+
+    # Vérifier que docker + container sont prêts
+    if ! docker info &>/dev/null 2>&1; then
+        fail "Docker non disponible — démarrer Docker puis relancer"
+        return 1
+    fi
+    if ! docker ps --format '{{.Names}}' 2>/dev/null | grep -q "^${docker_ctr}$"; then
+        fail "Container ${docker_ctr} non démarré"
+        info "  docker start ${docker_ctr}"
+        return 1
+    fi
+
+    # Choix des phases
+    echo "  Phases disponibles :"
+    echo "    all      — installation complète (recommandé)"
+    echo "    dasd     — volume DASD KICKS0 seulement"
+    echo "    status   — vérifier l'état actuel"
+    printf "  Phase(s) [all] : "
+    local phases; read -r phases
+    phases="${phases:-all}"
+
+    echo ""
+    info "Lancement : bash mvs/12_kicks_install.sh ${phases}"
+    echo ""
+    cd "$SCRIPT_DIR"
+    # shellcheck disable=SC2086
+    bash mvs/12_kicks_install.sh ${phases} && \
+        ok "KICKS installé avec succès" || \
+        warn "Installation KICKS terminée avec des avertissements — vérifier le syslog"
+}
+
+# ---- Sous-fonctions d'installation CICS/VS 1.7 ----
+_install_cicsvs() {
+    local already="${1:-0}"
+    local docker_ctr="${DOCKER_CONTAINER:-mvs-tk5}"
+
+    if [[ $already -eq 1 ]]; then
+        ok "CICS/VS 1.7 déjà installé — relancer une phase spécifique ?"
+        printf "  Phase à relancer (all/check/start/entrée vide pour ignorer) : "
+        local phase; read -r phase
+        [[ -z "$phase" ]] && return
+        cd "$SCRIPT_DIR"
+        bash mvs/13_cicsvs_install.sh "${phase}"
+        return
+    fi
+
+    hdr "Installation CICS/VS 1.7 (avancé)"
+    echo ""
+    warn "PROJET AVANCÉ — durée estimée : plusieurs jours"
+    warn "Nécessite une image bande depuis bitsavers.org"
+    echo ""
+    echo "  Documentation :"
+    info "  https://bitsavers.org/bits/IBM/cics/"
+    info "  https://www.jaymoseley.com/hercules/"
+    echo ""
+    printf "  Confirmer l'installation CICS/VS 1.7 ? [o/N] : "
+    local confirm; read -r confirm
+    [[ "${confirm,,}" != "o" && "${confirm,,}" != "y" ]] && {
+        info "Installation CICS/VS annulée"
+        return
+    }
+
+    # Vérifier docker + container
+    if ! docker info &>/dev/null 2>&1; then
+        fail "Docker non disponible — démarrer Docker puis relancer"
+        return 1
+    fi
+    if ! docker ps --format '{{.Names}}' 2>/dev/null | grep -q "^${docker_ctr}$"; then
+        fail "Container ${docker_ctr} non démarré"
+        info "  docker start ${docker_ctr}"
+        return 1
+    fi
+
+    # Vérifier image bande
+    local tape_path="${CICS_TAPE_LOCAL:-/tmp/cicsvs17.aws}"
+    echo ""
+    if [[ -f "$tape_path" ]]; then
+        ok "Image bande trouvée : ${tape_path} ($(du -h "${tape_path}" | cut -f1))"
+    else
+        warn "Image bande absente : ${tape_path}"
+        info "Télécharger depuis bitsavers.org et placer ici : ${tape_path}"
+        info "Ou surcharger : export CICS_TAPE_LOCAL=/chemin/vers/cicsvs17.aws"
+        echo ""
+        printf "  Continuer sans l'image bande (phase check seulement) ? [o/N] : "
+        local nocont; read -r nocont
+        if [[ "${nocont,,}" != "o" && "${nocont,,}" != "y" ]]; then
+            info "Installation CICS/VS annulée — obtenir l'image bande d'abord"
+            return
+        fi
+    fi
+
+    # Choix des phases
+    echo ""
+    echo "  Phases disponibles :"
+    echo "    check    — vérifier prérequis (recommandé en premier)"
+    echo "    all      — installation complète"
+    echo "    dasd     — volume DASD CICS0 seulement"
+    printf "  Phase(s) [check] : "
+    local phases; read -r phases
+    phases="${phases:-check}"
+
+    echo ""
+    info "Lancement : bash mvs/13_cicsvs_install.sh ${phases}"
+    echo ""
+    cd "$SCRIPT_DIR"
+    # shellcheck disable=SC2086
+    bash mvs/13_cicsvs_install.sh ${phases} && \
+        ok "Phase(s) CICS/VS terminée(s)" || \
+        warn "Phase(s) terminée(s) avec des avertissements — voir le syslog"
+}
+
+# ============================================================
+# Détection et sélection du backend CICS (affichage seul)
 # ============================================================
 detect_cics_backend() {
     local docker_ctr="${DOCKER_CONTAINER:-mvs-tk5}"
@@ -467,9 +665,9 @@ detect_cics_backend() {
         warn "Aucun backend CICS installé"
         echo ""
         info "Options :"
-        info "  KICKS (recommandé) : bash mvs/12_kicks_install.sh all"
-        info "  CICS/VS 1.7        : bash mvs/13_cicsvs_install.sh all  (avancé, plusieurs jours)"
-        info "  Les deux           : installer KICKS puis CICS/VS"
+        info "  Assistant interactif : bash install_CICD_TK5.sh --cics"
+        info "  KICKS (recommandé)   : bash mvs/12_kicks_install.sh all"
+        info "  CICS/VS 1.7          : bash mvs/13_cicsvs_install.sh all  (avancé)"
     fi
 }
 
@@ -601,6 +799,11 @@ else
     check_env
 fi
 
+# ---- Installation backend CICS (--cics ou --full) ----
+if [[ $DO_CICS -eq 1 ]]; then
+    install_cics_backend
+fi
+
 # ---- Résumé ----
 hdr "Résumé"
 if [[ ${#MISSING[@]} -eq 0 ]]; then
@@ -619,22 +822,16 @@ echo ""
 info "Prochaines étapes :"
 info "  1. Démarrer le container : docker start \${DOCKER_CONTAINER:-mvs-tk5}"
 if [[ ! -f "$ENV_FILE" ]]; then
-info "  2. Configurer l'environnement : bash install_CICD_TK5.sh --env"
-info "     (choisir CICS_BACKEND : kicks | cicsvs | both | auto)"
-info "  3. Sourcer : source CI_CD_TK5/.env"
-info "  4. Installer le backend CICS choisi :"
-info "     KICKS  : bash mvs/12_kicks_install.sh all"
-info "     CICS/VS: bash mvs/13_cicsvs_install.sh all  (avancé)"
-info "  5. Vérifier le backend : bash mvs/03_cics.sh detect"
-info "  6. Première installation MVS : make install-all"
+info "  2. Configurer + installer le backend CICS en une commande :"
+info "     bash install_CICD_TK5.sh --env --cics"
+info "     (ou --full pour tout : deps + env + cics + make install-all)"
 else
-info "  2. Sourcer : source CI_CD_TK5/.env"
-info "  3. Installer le backend CICS (si nécessaire) :"
-info "     KICKS  : bash mvs/12_kicks_install.sh all"
-info "     CICS/VS: bash mvs/13_cicsvs_install.sh all  (avancé)"
-info "  4. Vérifier le backend : bash mvs/03_cics.sh detect"
-info "  5. Première installation MVS : make install-all"
+info "  2. Installer / vérifier le backend CICS :"
+info "     bash install_CICD_TK5.sh --cics"
 fi
+info "  3. Sourcer : source CI_CD_TK5/.env"
+info "  4. Vérifier le backend actif : bash mvs/03_cics.sh detect"
+info "  5. Première installation MVS : make install-all"
 echo ""
 
 # ---- make install-all ----

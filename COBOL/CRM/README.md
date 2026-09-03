@@ -138,7 +138,7 @@ cd crm-java
 mvn test
 ```
 
-**59 tests — 0 échec.**
+**174 tests — 0 échec** (18 classes : D05_VERIF, T10, D02, D05_INTCDEFAC).
 
 ### Lancer les programmes (sur environnement avec Oracle Rdb JDBC)
 
@@ -154,6 +154,11 @@ java -cp target/d05-verif-crm.jar:lib/rdb-jdbc.jar \
 java -cp target/t10-maj-dtlivr-bdcrm.jar:lib/rdb-jdbc.jar \
      com.example.crm.t10.main.T10Main \
      jdbc:rdb://host/BD_CRM user pass /data/majbdstat
+
+# D02 — génération fichiers confirmation expédition CSP (7 arguments CLI)
+java -cp target/d02-extcde-crmcsp1.jar:lib/rdb-jdbc.jar \
+     com.example.crm.d02.main.D02Main \
+     <arg1> <arg2> <arg3> <arg4> <arg5> <arg6> <arg7>
 ```
 
 ### Structure complète
@@ -162,6 +167,9 @@ java -cp target/t10-maj-dtlivr-bdcrm.jar:lib/rdb-jdbc.jar \
 crm-java/src/main/java/com/example/crm/
 ├── common/
 │   └── DriverManagerDataSource.java      — DataSource minimal (DriverManager)
+├── d02/
+│   └── main/
+│       └── D02Main.java                  — stub point d'entrée (7 args CLI)
 ├── d05/
 │   ├── adapter/jdbc/
 │   │   └── RdbDepotCdeRepository.java    — JDBC Oracle Rdb (BD_DEPOT + BD_CRM)
@@ -176,6 +184,13 @@ crm-java/src/main/java/com/example/crm/
 │   │   └── D05Main.java                  — point d'entrée batch D05
 │   └── port/
 │       └── DepotCdeRepository.java       — port accès BD_DEPOT + BD_CRM
+├── d05intcde/
+│   ├── adapter/
+│   │   ├── file/
+│   │   │   └── CdeFacFileReader.java     — lecteur RMS_CDEFAC séquentiel
+│   │   └── jdbc/
+│   │       ├── RdbCdeFacCrmRepo.java     — JDBC BD_CRM.S.CDE_FAC (selectStatut complet, insert/update stubs)
+│   │       └── RdbBdDepotCdeRepo.java    — JDBC BD_DEPOT.D.CDE (4 updates, CODLAB='9994')
 └── t10/
     ├── adapter/
     │   ├── file/
@@ -196,9 +211,13 @@ crm-java/src/main/java/com/example/crm/
         └── CdeFacRepository.java         — port accès E.CDE_FAC
 
 crm-java/src/test/java/com/example/crm/
+├── d02/
+│   └── (75 tests — règles B-D02-*)
 ├── d05/
 │   ├── application/VerifCrmServiceTest.java         — 15 tests
 │   └── domain/StatutEquivalenceTest.java            —  8 tests
+├── d05intcde/
+│   └── (59 tests — règles B-D05I-01 à B-D05I-11)
 └── t10/
     ├── adapter/
     │   ├── file/MajbdstatFileReaderTest.java         —  7 tests
@@ -251,6 +270,24 @@ crm-java/src/test/java/com/example/crm/
 | Cascade seulement pour codlab=3628 | `MajDtlivrServiceTest.cascade_seulementAppeleePourLabo3628` |
 | Format VMS "DD-MON-YYYY HH:MM:SS.CC" | `VmsDateParserTest` (7 tests dont 12 mois) |
 | Enregistrement fixe 39 chars | `MajbdstatFileReaderTest` (parse, readAll, CR+LF, trop court) |
+
+---
+
+## CI/CD MVS TK5
+
+Les scripts de compilation et déploiement MVS sont délégués au pipeline CI_CD_TK5.
+
+```bash
+# Vérification syntaxe COBOL locale
+make check
+
+# Déploiement MVS + compilation
+PROJECT_NAME=crm make ci
+
+# Backend CICS : non applicable (projets batch, HAS_CICS=0)
+```
+
+Voir [CI_CD_TK5/README.md](../CI_CD_TK5/README.md) pour le pipeline complet.
 
 ---
 

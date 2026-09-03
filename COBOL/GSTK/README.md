@@ -236,4 +236,28 @@ bash scripts/mvs/07_watch.sh
 make ci
 ```
 
+### Pipeline CI_CD_TK5 (recommandé)
+
+Le projet GSTK est intégré dans le pipeline générique CI_CD_TK5 :
+
+```bash
+cd CI_CD_TK5
+
+# Build incrémental (détecte les fichiers modifiés)
+make build
+
+# Pipeline complet (syntaxe + SQL + build + tests CICS)
+make ci
+
+# Sélection du backend CICS (KICKS par défaut pour GSTK)
+CICS_BACKEND=kicks   make ci   # KICKS v1.5.0 (défaut)
+CICS_BACKEND=cicsvs  make ci   # CICS/VS 1.7 (si installé)
+CICS_BACKEND=both    make ci   # les deux backends
+
+# Vérifier le backend actif
+bash mvs/03_cics.sh detect
+```
+
+Voir [CI_CD_TK5/README.md](../CI_CD_TK5/README.md) pour l'installation et la configuration.
+
 Voir [SCRIPTS.md](SCRIPTS.md) pour la documentation complète des scripts.

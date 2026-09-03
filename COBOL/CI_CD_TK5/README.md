@@ -63,26 +63,40 @@ Options du script :
 
 ```
 CI_CD_TK5/
-├── install_CICD_TK5.sh  — Script d'installation cross-platform (macOS/Linux/WSL)
-├── .env                  — Configuration locale (généré par install_CICD_TK5.sh --env)
-├── Makefile              — Cibles make (make ci, make build, make watch…)
-├── mvs/
-│   ├── 00_alloc.jcl      — JCL allocation datasets MVS (1ère fois)
+├── install_CICD_TK5.sh   — Assistant installation cross-platform (macOS/Linux/WSL)
+│                             --install | --env | --cics | --full
+├── .env                  — Configuration locale (généré par --env)
+├── Makefile              — make ci | make build | make watch | make ci PROJECT=crm
+│
+├── conf/                 — Configurations par projet
+│   ├── gstk.conf         — GSTK (CICS_BACKEND=kicks, mapsets, transactions)
+│   ├── crm.conf          — CRM batch (HAS_CICS=0, upload/compile délégués)
+│   └── <projet>.conf     — Ajouter un nouveau projet ici
+│
+├── lib/                  — Bibliothèques partagées
+│   ├── project.sh        — Loader conf projet (PROJECT_NAME → conf/*.conf)
+│   └── cics_detect.sh    — Détection backend CICS (installed/running/resolved)
+│
+├── mvs/                  — Scripts pipeline
 │   ├── 01_upload.sh      — Upload sources COBOL/BMS/JCL vers MVS
 │   ├── 02_submit.sh      — Soumission JCL (alloc, bms, cobol, all)
-│   ├── 03_cics.sh        — Définitions CICS (install, newcopy, status)
+│   ├── 03_cics.sh        — Pilotage CICS : dispatch KICKS ↔ CICS/VS selon backend
+│   │                         install | newcopy | status | trans | detect
 │   ├── 06_build.sh       — Build incrémental par MD5 (upload+compile+newcopy)
-│   ├── 07_watch.sh       — Surveillance fichiers → build automatique (fswatch)
+│   ├── 07_watch.sh       — Surveillance fichiers → build auto (fswatch/inotifywait)
 │   ├── 08_test_cics.sh   — Tests CICS automatisés via s3270
 │   ├── 09_ci.sh          — Pipeline CI/CD complet (5 étapes)
 │   ├── 10_spool_reader.sh — Lecture spool JES2 (listings compilation)
 │   ├── 11_git_setup.sh   — Git hooks pre-commit + post-commit MVS
 │   ├── 12_kicks_install.sh — Installation KICKS v1.5.0 (8 phases)
+│   ├── 13_cicsvs_install.sh — Installation CICS/VS 1.7 (8 phases, avancé)
 │   ├── herc.sh           — Pilotage Hercules (log, spool, mvs, watch)
-│   └── s3270_lib.sh      — Bibliothèque partagée s3270 (login, cmd, screen)
+│   └── s3270_lib.sh      — Bibliothèque s3270 (login, cmd, screen, skip-dead-device)
+│
 ├── jcl/
 │   ├── GSTKBMS.jcl       — Assemblage BMS (ASMA90, 8 mapsets)
 │   └── GSTKCOMP.jcl      — Compilation COBOL/CICS (IGYCRCTL ou KIKCOBCL/KICKS)
+│
 └── cics/
     └── CEDA_GSTK.txt     — Commandes CEDA (MAPSET, PROGRAM, TRANSACTION)
 ```
